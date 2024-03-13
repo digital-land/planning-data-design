@@ -30,9 +30,6 @@
 {%- from 'govuk_frontend_jinja/components/tag/macro.html' import govukTag -%}
 {%- from 'govuk_frontend_jinja/components/textarea/macro.html' import govukTextarea -%}
 {%- from 'govuk_frontend_jinja/components/warning-text/macro.html' import govukWarningText -%}
-{%- from 'partials/components/button-menu/macro.html' import buttonMenu -%}
-{%- from 'partials/components/field/macro.html' import appField -%}
-{%- from 'partials/components/section-nav/macro.html' import appSectionNavigation -%}
 {%- from "digital-land-frontend/components/sub-nav-tabs/macro.jinja" import dlSubNavTabs %}
 
 {% block stylesheets %}
@@ -46,19 +43,16 @@
   <div class="govuk-header__container govuk-width-container">
     <div class="govuk-header__logo">
       <a href="{{ url_for('main.index') }}" class="govuk-header__link govuk-header__link--homepage">
-        DLUHC Datasets
+        DLUHC Planning considerations
       </a>
     </div>
     <div class="govuk-header__content">
-      {# <a href="#" class="govuk-header__link govuk-header__service-name">
-        Dataset manager
-      </a> #}
       <nav aria-label="Menu" class="govuk-header__navigation govuk-header__navigation--end">
         <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide menu" hidden>Menu</button>
         <ul id="navigation" class="govuk-header__navigation-list">
           <li class="govuk-header__navigation-item">
             <a class="govuk-header__link" href="{{ url_for('main.index') }}">
-              Datasets
+              Planning considerations
             </a>
           </li>
           <li class="govuk-header__navigation-item">
