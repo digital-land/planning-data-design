@@ -1,0 +1,4 @@
+# this is just for heroku. to add requirements use
+# requirements/requirements.in or requirements/dev-requirements.in
+
+-r requirements/requirements.txt
