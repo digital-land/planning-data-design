@@ -61,21 +61,21 @@ def register_extensions(app):
     # create the CSP for the app - until then leave commented out
     # talisman.init_app(app, content_security_policy=None)
 
-    if (
-        app.get("AUTHENTICATION_ON") is not None
-        and app.config["AUTHENTICATION_ON"] is True
-    ):
-        oauth.register(
-            name="github",
-            client_id=app.config["GITHUB_CLIENT_ID"],
-            client_secret=app.config["GITHUB_CLIENT_SECRET"],
-            access_token_url="https://github.com/login/oauth/access_token",
-            access_token_params=None,
-            authorize_url="https://github.com/login/oauth/authorize",
-            authorize_params=None,
-            api_base_url="https://api.github.com/",
-            client_kwargs={"scope": "user:email read:org"},
-        )
+    # if (
+    #     app.get("AUTHENTICATION_ON") is not None
+    #     and app.config["AUTHENTICATION_ON"] is True
+    # ):
+    #     oauth.register(
+    #         name="github",
+    #         client_id=app.config["GITHUB_CLIENT_ID"],
+    #         client_secret=app.config["GITHUB_CLIENT_SECRET"],
+    #         access_token_url="https://github.com/login/oauth/access_token",
+    #         access_token_params=None,
+    #         authorize_url="https://github.com/login/oauth/authorize",
+    #         authorize_params=None,
+    #         api_base_url="https://api.github.com/",
+    #         client_kwargs={"scope": "user:email read:org"},
+    #     )
 
     if os.environ.get("SENTRY_DSN") is not None:
         import sentry_sdk
