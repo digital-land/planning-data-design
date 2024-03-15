@@ -16,6 +16,10 @@ class Config:
     SQLALCHEMY_RECORD_QUERIES = False
     DEBUG = False
     AUTHENTICATION_ON = True
+    GOOGLE_PRIVATE_KEY_ID = os.getenv("GOOGLE_PRIVATE_KEY_ID")
+    GOOGLE_PRIVATE_KEY = os.getenv("GOOGLE_PRIVATE_KEY")
+    GOOGLE_CLIENT_EMAIL = os.getenv("GOOGLE_CLIENT_EMAIL")
+    GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
 
 class DevelopmentConfig(Config):

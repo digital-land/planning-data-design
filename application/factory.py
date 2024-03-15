@@ -107,4 +107,6 @@ def register_templates(app):
 
 
 def register_commands(app):
-    pass
+    from application.commands import consider_cli
+
+    app.cli.add_command(consider_cli)

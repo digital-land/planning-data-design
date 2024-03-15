@@ -17,10 +17,16 @@ blinker==1.7.0
     #   flask
     #   flask-debugtoolbar
     #   sentry-sdk
+cachetools==5.3.3
+    # via google-auth
 certifi==2024.2.2
-    # via sentry-sdk
+    # via
+    #   requests
+    #   sentry-sdk
 cffi==1.16.0
     # via cryptography
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via flask
 cryptography==42.0.5
@@ -50,12 +56,22 @@ flask-talisman==1.1.0
     # via -r requirements/requirements.in
 flask-wtf==1.2.1
     # via -r requirements/requirements.in
+google-auth==2.28.2
+    # via
+    #   google-auth-oauthlib
+    #   gspread
+google-auth-oauthlib==1.2.0
+    # via gspread
 govuk-frontend-jinja==3.0.0
     # via digital-land-frontend
 greenlet==3.0.3
     # via sqlalchemy
+gspread==6.0.2
+    # via -r requirements/requirements.in
 gunicorn==21.2.0
     # via -r requirements/requirements.in
+idna==3.6
+    # via requests
 is-safe-url==1.0
     # via -r requirements/requirements.in
 itsdangerous==2.1.2
@@ -77,29 +93,59 @@ markupsafe==2.1.5
     #   sentry-sdk
     #   werkzeug
     #   wtforms
+numpy==1.26.4
+    # via pandas
+oauthlib==3.2.2
+    # via requests-oauthlib
 packaging==23.2
     # via
     #   flask-debugtoolbar
     #   gunicorn
+pandas==2.2.1
+    # via -r requirements/requirements.in
 psycopg2-binary==2.9.9
     # via -r requirements/requirements.in
+pyasn1==0.5.1
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.3.0
+    # via google-auth
 pycparser==2.21
     # via cffi
+python-dateutil==2.9.0.post0
+    # via pandas
 python-dotenv==1.0.1
     # via -r requirements/requirements.in
+pytz==2024.1
+    # via pandas
+requests==2.31.0
+    # via requests-oauthlib
+requests-oauthlib==1.4.0
+    # via google-auth-oauthlib
+rsa==4.9
+    # via google-auth
 sentry-sdk[flask]==1.40.4
     # via -r requirements/requirements.in
+six==1.16.0
+    # via python-dateutil
 sqlalchemy==2.0.26
     # via
     #   alembic
     #   alembic-postgresql-enum
     #   flask-sqlalchemy
+strenum==0.4.15
+    # via gspread
 typing-extensions==4.9.0
     # via
     #   alembic
     #   sqlalchemy
+tzdata==2024.1
+    # via pandas
 urllib3==2.2.0
-    # via sentry-sdk
+    # via
+    #   requests
+    #   sentry-sdk
 validators==0.22.0
     # via digital-land-frontend
 werkzeug==3.0.1

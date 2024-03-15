@@ -13,3 +13,5 @@ gunicorn
 python-dotenv
 alembic-postgresql-enum
 Authlib
+gspread
+pandas

@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Optional
 
 from sqlalchemy import UUID
-from sqlalchemy.dialects.postgresql import ENUM
+from sqlalchemy.dialects.postgresql import ARRAY, ENUM
 from sqlalchemy.orm import Mapped, mapped_column
 
 from application.extensions import db
@@ -20,6 +20,15 @@ class Stage(Enum):
     PREPARED_FOR_PLATFORM = "Prepared for platform"
     ON_THE_PLATFORM = "On the platform"
     ARCHIVED = "Archived"
+
+
+class FrequencyOfUpdates(Enum):
+    DAILY = "Daily"
+    WEEKLY = "Weekly"
+    MONTHLY = "Monthly"
+    QUARTERLY = "Quarterly"
+    ANNUALLY = "Annually"
+    AD_HOC = "Ad hoc"
 
 
 class DateModel(db.Model):
@@ -39,9 +48,17 @@ class Consideration(DateModel):
     )
     name: Mapped[str] = mapped_column(db.Text)
     description: Mapped[Optional[str]] = mapped_column(db.Text)
+    synonyms: Mapped[Optional[list[str]]] = mapped_column(ARRAY(db.Text))
     github_discssion_number: Mapped[Optional[int]] = mapped_column(db.Integer)
     stage: Mapped[Stage] = mapped_column(ENUM(Stage))
-    public: Mapped[bool] = mapped_column(db.Boolean, default=False)
+    public: Mapped[bool] = mapped_column(db.Boolean, default=True)
+
+    expected_number_of_records: Mapped[Optional[int]] = mapped_column(db.Integer)
+    frequency_of_updates: Mapped[Optional[FrequencyOfUpdates]] = mapped_column(
+        ENUM(FrequencyOfUpdates)
+    )
+
+    specification_url: Mapped[Optional[str]] = mapped_column(db.Text)
 
     def __repr__(self):
         return f"<Consideration {self.name}>"
