@@ -43,13 +43,19 @@ def fetch_grid():
     df = df.drop(0)
     df = df.drop(2)
 
-    df.to_csv("_data/planning-concerns-backlog.csv", index=False, header=False)
+    df.to_csv("data/planning-concerns-backlog.csv", index=False, header=False)
 
 
-@consider_cli.command("read-backlog")
-def read_backlog():
+@consider_cli.command("drop-backlog")
+def drop_backlog():
+    db.session.query(Consideration).delete()
+    db.session.commit()
 
-    backlog_file_path = "_data/planning-concerns-backlog.csv"
+
+@consider_cli.command("load-backlog")
+def load_backlog():
+
+    backlog_file_path = "data/planning-concerns-backlog.csv"
 
     if os.path.exists(backlog_file_path):
         with open(backlog_file_path, "r") as file:
