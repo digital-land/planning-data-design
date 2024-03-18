@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Optional
 
 from sqlalchemy import UUID
-from sqlalchemy.dialects.postgresql import ARRAY, ENUM
+from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from application.extensions import db
@@ -59,6 +59,7 @@ class Consideration(DateModel):
     )
     prioritised: Mapped[bool] = mapped_column(db.Boolean, default=False)
     specification_url: Mapped[Optional[str]] = mapped_column(db.Text)
+    useful_links: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"

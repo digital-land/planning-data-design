@@ -89,6 +89,21 @@ def load_backlog():
 
                 github_discssion_number = row["discussion-number"]
 
+                useful_links = []
+                link_columns = [
+                    "National dataset documentation page",
+                    "URL of national dataset",
+                    "Fact sheet url",
+                ]
+                for link in link_columns:
+                    if row[link] != "":
+                        useful_links.append(
+                            {
+                                "link_text": link,
+                                "link_url": row[link],
+                            }
+                        )
+
                 consideration = Consideration()
                 if name:
                     consideration.name = name
@@ -102,6 +117,8 @@ def load_backlog():
                     frequency_of_updates = frequency_of_updates
                 if github_discssion_number:
                     consideration.github_discssion_number = github_discssion_number
+                if useful_links:
+                    consideration.useful_links = useful_links
 
                 db.session.add(consideration)
                 db.session.commit()
