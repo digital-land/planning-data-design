@@ -3,12 +3,55 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <h1 class="govuk-heading-l">DLUHC Planning considerations</h1>
-    <ul>
-      {% for consideration in considerations %}
-        <li>{{ consideration }}</li>
-      {% endfor %}
-    </ul>
+    <h1 class="govuk-heading-xl">DLUHC Planning considerations</h1>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <nav class="app-sub-navigation">
+      <h3 class="govuk-heading-s">Filter by stage</h3>
+      <ul class="app-sub-navigation__section">
+        {% for stage in stages %}
+        <li class="app-sub-navigation__section-item{% if filter == stage[0] %} app-sub-navigation__section-item--current{% endif %}">
+          <a href="{{ baseurl }}/what-we-are-working-on/planning-consideration/{{ stage[1] }}" class="app-sub-navigation__link">{{ stage[0] }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <div class="concerns-list__wrapper">
+
+      <div class="concerns-list__count__wrapper">
+        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ count }}</span> planning considerations</p>
+        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ count }}</span>
+      </div>
+
+      <dl class="govuk-summary-list" data-filter="list">
+        {% for consideration in considerations -%}
+        <div class="govuk-summary-list__row" data-filter="item">
+          <dt class="govuk-summary-list__key" data-filter="match-content">
+            <a href="/planning-consideration/{{ consideration['name']|slugify }}" class="govuk-link govuk-link--text-colour">{{ consideration['name'] }}</a>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% set status_class = "blue" %}
+            <strong class="govuk-tag govuk-tag--{{ status_class }}">
+              {{ consideration['stage'].name }}
+            </strong>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="">
+              Edit (not active)</a>
+          </dd>
+        </div>
+        {%- endfor %}
+
+      </dl>
+    </div>
+
+    <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
+
   </div>
 </div>
 {% endblock content %}
