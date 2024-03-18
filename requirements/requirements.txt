@@ -117,6 +117,8 @@ python-dateutil==2.9.0.post0
     # via pandas
 python-dotenv==1.0.1
     # via -r requirements/requirements.in
+python-slugify==8.0.4
+    # via -r requirements/requirements.in
 pytz==2024.1
     # via pandas
 requests==2.31.0
@@ -136,6 +138,8 @@ sqlalchemy==2.0.26
     #   flask-sqlalchemy
 strenum==0.4.15
     # via gspread
+text-unidecode==1.3
+    # via python-slugify
 typing-extensions==4.9.0
     # via
     #   alembic

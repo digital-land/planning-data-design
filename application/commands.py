@@ -11,6 +11,11 @@ from application.models import Consideration, FrequencyOfUpdates, Stage
 consider_cli = AppGroup("consider")
 
 
+@consider_cli.command("update-backlog")
+def update_backlog():
+    pass
+
+
 @consider_cli.command("fetch-grid")
 def fetch_grid():
 

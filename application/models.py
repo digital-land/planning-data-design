@@ -62,6 +62,7 @@ class Consideration(DateModel):
     specification_url: Mapped[Optional[str]] = mapped_column(db.Text)
     useful_links: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
     legislation: Mapped[Optional[str]] = mapped_column(db.Text)
+    slug: Mapped[Optional[str]] = mapped_column(db.Text)
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"

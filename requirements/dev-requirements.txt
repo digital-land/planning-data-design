@@ -70,7 +70,9 @@ pytest-base-url==2.1.0
 pytest-playwright==0.4.4
     # via -r requirements/dev-requirements.in
 python-slugify==8.0.4
-    # via pytest-playwright
+    # via
+    #   -c requirements/requirements.in
+    #   pytest-playwright
 pyyaml==6.0.1
     # via pre-commit
 requests==2.31.0
