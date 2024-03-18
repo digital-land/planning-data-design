@@ -57,8 +57,8 @@ class Consideration(DateModel):
     frequency_of_updates: Mapped[Optional[FrequencyOfUpdates]] = mapped_column(
         ENUM(FrequencyOfUpdates)
     )
-
+    prioritised: Mapped[bool] = mapped_column(db.Boolean, default=False)
     specification_url: Mapped[Optional[str]] = mapped_column(db.Text)
 
     def __repr__(self):
-        return f"<Consideration {self.name}>"
+        return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"

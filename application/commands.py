@@ -63,6 +63,7 @@ def load_backlog():
 
             for row in reader:
                 name = row["Concern"]
+                description = row["Description"]
                 stage = row["Stage"]
                 synonyms = row["Also called"].split(",") if row["Also called"] else []
                 frequency_of_updates = row["Frequency of data updates"]
@@ -91,6 +92,8 @@ def load_backlog():
                 consideration = Consideration()
                 if name:
                     consideration.name = name
+                if description:
+                    consideration.description = description
                 if stage:
                     consideration.stage = stage
                 if synonyms:
