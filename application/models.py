@@ -58,8 +58,10 @@ class Consideration(DateModel):
         ENUM(FrequencyOfUpdates)
     )
     prioritised: Mapped[bool] = mapped_column(db.Boolean, default=False)
+    schemas: Mapped[Optional[list[str]]] = mapped_column(ARRAY(db.Text))
     specification_url: Mapped[Optional[str]] = mapped_column(db.Text)
     useful_links: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
+    legislation: Mapped[Optional[str]] = mapped_column(db.Text)
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"

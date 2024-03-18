@@ -103,6 +103,7 @@ def load_backlog():
                                 "link_url": row[link],
                             }
                         )
+                legistlation = row["Legislation"]
 
                 consideration = Consideration()
                 if name:
@@ -119,6 +120,8 @@ def load_backlog():
                     consideration.github_discssion_number = github_discssion_number
                 if useful_links:
                     consideration.useful_links = useful_links
+                if legistlation:
+                    consideration.legislation = legistlation
 
                 db.session.add(consideration)
                 db.session.commit()
