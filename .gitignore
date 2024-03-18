@@ -296,3 +296,4 @@ dist
 .flake8
 .isort.cfg
 .python-version
+.vscode
