@@ -14,6 +14,14 @@ Manage planning considerations through standards process
     createdb dluhc-planning-considerations
     make init
 
+## Apply db migrations
+    flask db upgrade
+
+
+## Load grid data
+
+    flask consider load-backlog
+
 ## Run app locally
 
     flask run
