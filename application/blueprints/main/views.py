@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
 from application.forms import ConsiderationForm
-from application.models import Consideration
+from application.models import Consideration, Stage
 
 main = Blueprint("main", __name__)
 
@@ -9,7 +9,7 @@ main = Blueprint("main", __name__)
 @main.route("/")
 def index():
     considerations = Consideration.query.all()
-    return render_template("index.html", considerations=considerations)
+    return render_template("index.html", considerations=considerations, stages=Stage)
 
 
 @main.route("/planning-consideration/<slug>")

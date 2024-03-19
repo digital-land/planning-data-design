@@ -15,10 +15,10 @@
   <div class="govuk-grid-column-one-quarter">
     <nav class="app-sub-navigation">
       <h3 class="govuk-heading-s">Filter by stage</h3>
-      <ul class="app-sub-navigation__section">
+      <ul class="app-sub-navigation__section govuk-list">
         {% for stage in stages %}
         <li class="app-sub-navigation__section-item{% if filter == stage[0] %} app-sub-navigation__section-item--current{% endif %}">
-          <a href="{{ baseurl }}/what-we-are-working-on/planning-consideration/{{ stage[1] }}" class="app-sub-navigation__link">{{ stage[0] }}</a>
+          <a href="#" class="app-sub-navigation__link">{{ stage.value }}</a>
         </li>
         {% endfor %}
       </ul>
