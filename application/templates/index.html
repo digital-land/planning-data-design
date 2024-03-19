@@ -15,21 +15,26 @@
   <div class="govuk-grid-column-one-quarter">
     <nav class="app-sub-navigation">
       <h3 class="govuk-heading-s">Filter by stage</h3>
-      <ul class="app-sub-navigation__section govuk-list">
+      <ul class="app-sub-navigation__section">
         {% for stage in stages %}
-        <li class="app-sub-navigation__section-item{% if filter == stage[0] %} app-sub-navigation__section-item--current{% endif %}">
-          <a href="#" class="app-sub-navigation__link">{{ stage.value }}</a>
+        <li class="app-sub-navigation__section-item{% if stage_filter == stage.value %} app-sub-navigation__section-item--current{% endif %}">
+          <a href="?stage={{ stage.value }}" class="app-sub-navigation__link">{{ stage.value }}</a>
         </li>
         {% endfor %}
       </ul>
     </nav>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
+  {%- if stage_filter %}
+  <p class="govuk-body">Filtered by <span class="govuk-tag {{ stage_filter|map_to_tag_class }}">{{ stage_filter }}</span> stage. <a href="{{ url_for('main.index') }}" class="govuk-link">Clear filter</a>.</p>
+  {% endif -%}
+
     <div class="concerns-list__wrapper">
 
       <div class="concerns-list__count__wrapper">
-        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ count }}</span> planning considerations</p>
-        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ count }}</span>
+        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
+        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
       </div>
 
       <dl class="govuk-summary-list" data-filter="list">
@@ -39,8 +44,7 @@
             <a href="{{ url_for('main.consideration', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">{{ consideration['name'] }}</a>
           </dt>
           <dd class="govuk-summary-list__value">
-            {% set status_class = "blue" %}
-            <strong class="govuk-tag govuk-tag--{{ status_class }}">
+            <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
               {{ consideration['stage'].value }}
             </strong>
           </dd>

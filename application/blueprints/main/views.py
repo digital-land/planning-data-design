@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 from application.forms import ConsiderationForm
 from application.models import Consideration, Stage
@@ -8,8 +8,21 @@ main = Blueprint("main", __name__)
 
 @main.route("/")
 def index():
-    considerations = Consideration.query.all()
-    return render_template("index.html", considerations=considerations, stages=Stage)
+    stage_filter = None
+    stage_param = request.args.get("stage")
+    if stage_param:
+        stage = Stage(stage_param)
+        stage_filter = stage_param
+        considerations = Consideration.query.filter_by(stage=stage).all()
+    else:
+        considerations = Consideration.query.all()
+
+    return render_template(
+        "index.html",
+        considerations=considerations,
+        stages=Stage,
+        stage_filter=stage_filter,
+    )
 
 
 @main.route("/planning-consideration/<slug>")

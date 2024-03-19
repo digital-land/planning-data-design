@@ -44,9 +44,10 @@ def register_context_processors(app):
 
 
 def register_filters(app):
-    from application.filters import slugify_filter
+    from application.filters import map_to_tag_class_filter, slugify_filter
 
     app.add_template_filter(slugify_filter, "slugify")
+    app.add_template_filter(map_to_tag_class_filter, "map_to_tag_class")
 
 
 def register_extensions(app):
