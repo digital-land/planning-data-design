@@ -45,7 +45,7 @@
               {{ consideration.name }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+              <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -56,7 +56,7 @@
               {{ consideration.description }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration description</span></a>
+              <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration description</span></a>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -75,10 +75,10 @@
               Github discussion
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.github_discussion_number if consideration.github_discussion_number is not none }}
+              {{ consideration.github_discussion_number }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+              <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug) }}">{{ "Change" if consideration.github_discussion_number else "Add" }}<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
             </dd>
           </div>
           <div class="govuk-summary-list__row">

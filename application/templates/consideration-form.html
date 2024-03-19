@@ -21,8 +21,8 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <span class="govuk-caption-xl">Planning consideration</span>
-    <h1 class="govuk-heading-xl">Add new</h1>
+    <span class="govuk-caption-xl">{{ "Edit p" if mode == "edit" else "P" }}lanning consideration</span>
+    <h1 class="govuk-heading-xl">{{ consideration.name if mode == "edit" else "Add new" }}</h1>
   </div>
 </div>
 
@@ -54,8 +54,13 @@
       {% endfor %}
 
       <div class="govuk-button-group">
-        <button class="govuk-button" type="submit">Create</button>
-        <a class="govuk-link" href="{{ url_for('main.index') }}">Cancel</a>
+        <button class="govuk-button" type="submit">{{ "Save changes" if mode == "edit" else "Create" }}</button>
+        {%- if mode == "edit" %}
+          {%- set cancelLink = url_for('main.consideration', slug=consideration.slug) %}
+        {%- else %}
+          {%- set cancelLink = url_for('main.index') %}
+        {%- endif %}
+        <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
       </div>
 
     </form>

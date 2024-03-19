@@ -45,8 +45,8 @@
             </strong>
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="">
-              Edit (not active)</a>
+            <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug )}}">
+              Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
           </dd>
         </div>
         {%- endfor %}

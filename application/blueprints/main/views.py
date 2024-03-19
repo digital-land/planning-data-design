@@ -27,4 +27,19 @@ def new():
         # redirect to page for the new consideration
         pass
 
-    return render_template("new.html", form=form)
+    return render_template("consideration-form.html", form=form)
+
+
+@main.route("/planning-consideration/<slug>/edit", methods=["GET", "POST"])
+def edit(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = ConsiderationForm(obj=consideration)
+
+    if form.validate_on_submit():
+        # handle form submission
+        # redirect back to consideration page
+        pass
+
+    return render_template(
+        "consideration-form.html", consideration=consideration, form=form, mode="edit"
+    )
