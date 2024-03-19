@@ -12,14 +12,7 @@ from application.models import Consideration, FrequencyOfUpdates, Stage
 consider_cli = AppGroup("consider")
 
 
-@consider_cli.command("update-backlog")
-def update_backlog():
-    pass
-
-
-@consider_cli.command("fetch-grid")
-def fetch_grid():
-
+def _fetch():
     load_dotenv()
 
     google_credentials = {
@@ -52,6 +45,30 @@ def fetch_grid():
     df.to_csv("data/planning-concerns-backlog.csv", index=False, header=False)
 
 
+@consider_cli.command("update-backlog")
+def update_backlog():
+    _fetch()
+    backlog_file_path = "data/planning-concerns-backlog.csv"
+    if os.path.exists(backlog_file_path):
+        with open(backlog_file_path, "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                name = row["Concern"]
+                consideration = Consideration.query.filter(
+                    Consideration.name == name
+                ).one_or_none()
+                if consideration is None:
+                    consideration = Consideration()
+                set_fields(consideration, row)
+                db.session.add(consideration)
+                db.session.commit()
+
+
+@consider_cli.command("fetch-grid")
+def fetch_grid():
+    _fetch()
+
+
 @consider_cli.command("drop-backlog")
 def drop_backlog():
     db.session.query(Consideration).delete()
@@ -68,71 +85,71 @@ def load_backlog():
             reader = csv.DictReader(file)
 
             for row in reader:
-                name = row["Concern"]
-                description = row["Description"]
-                stage = row["Stage"]
-                synonyms = row["Also called"].split(",") if row["Also called"] else []
-                frequency_of_updates = row["Frequency of data updates"]
-                if stage != "":
-                    stage = (
-                        stage.strip()
-                        .upper()
-                        .replace(" ", "_")
-                        .replace("-", "_")
-                        .replace("/", "_")
-                    )
-                    stage = Stage[stage]
-
-                if frequency_of_updates != "":
-                    frequency_of_updates = (
-                        frequency_of_updates.strip()
-                        .upper()
-                        .replace(" ", "_")
-                        .replace("-", "_")
-                        .replace("/", "_")
-                    )
-                    frequency_of_updates = FrequencyOfUpdates[frequency_of_updates]
-
-                github_discssion_number = row["discussion-number"]
-
-                useful_links = []
-                link_columns = [
-                    "National dataset documentation page",
-                    "URL of national dataset",
-                    "Fact sheet url",
-                ]
-                for link in link_columns:
-                    if row[link] != "":
-                        useful_links.append(
-                            {
-                                "link_text": link,
-                                "link_url": row[link],
-                            }
-                        )
-                legistlation = row["Legislation"]
-
-                name_part = name.split("(")[0]
-                slug = slugify(name_part)
-
-                consideration = Consideration()
-                if name:
-                    consideration.name = name
-                if description:
-                    consideration.description = description
-                if stage:
-                    consideration.stage = stage
-                if synonyms:
-                    consideration.synonyms = synonyms
-                if frequency_of_updates:
-                    frequency_of_updates = frequency_of_updates
-                if github_discssion_number:
-                    consideration.github_discssion_number = github_discssion_number
-                if useful_links:
-                    consideration.useful_links = useful_links
-                if legistlation:
-                    consideration.legislation = legistlation
-                if slug:
-                    consideration.slug = slug
-
+                consideration = Consideration
+                set_fields(consideration, row)
                 db.session.add(consideration)
                 db.session.commit()
+
+
+def set_fields(consideration, row):
+    description = row["Description"]
+    stage = row["Stage"]
+    synonyms = row["Also called"].split(",") if row["Also called"] else []
+    frequency_of_updates = row["Frequency of data updates"]
+    if stage != "":
+        stage = (
+            stage.strip().upper().replace(" ", "_").replace("-", "_").replace("/", "_")
+        )
+        stage = Stage[stage]
+
+    if frequency_of_updates != "":
+        frequency_of_updates = (
+            frequency_of_updates.strip()
+            .upper()
+            .replace(" ", "_")
+            .replace("-", "_")
+            .replace("/", "_")
+        )
+        frequency_of_updates = FrequencyOfUpdates[frequency_of_updates]
+
+    github_discssion_number = row["discussion-number"]
+
+    useful_links = []
+    link_columns = [
+        "National dataset documentation page",
+        "URL of national dataset",
+        "Fact sheet url",
+    ]
+    for link in link_columns:
+        if row[link] != "":
+            useful_links.append(
+                {
+                    "link_text": link,
+                    "link_url": row[link],
+                }
+            )
+
+    legistlation = row["Legislation"]
+
+    if consideration.name is None:
+        name = row["Concern"]
+        consideration.name = name
+        name_part = name.split("(")[0]
+        slug = slugify(name_part)
+        consideration.slug = slug
+    if description:
+        consideration.description = description
+    if stage:
+        consideration.stage = stage
+    if synonyms:
+        consideration.synonyms = synonyms
+    if frequency_of_updates:
+        frequency_of_updates = frequency_of_updates
+    if github_discssion_number:
+        consideration.github_discssion_number = github_discssion_number
+    if useful_links:
+        consideration.useful_links = useful_links
+    if legistlation:
+        consideration.legislation = legistlation
+
+    return consideration
