@@ -1,6 +1,9 @@
 {% extends 'layouts/base.html' %}
 
 {% block beforeContent %}
+
+{% set text = "Edit" if mode == "edit" else "Add new" %}
+
 {{ govukBreadcrumbs({
   'items': [
     {
@@ -12,7 +15,7 @@
       'href': "/"
     },
     {
-      'text': "Add new"
+      'text': text,
     }
   ]
 }) }}
