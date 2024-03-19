@@ -1,12 +1,185 @@
 {% extends 'layouts/base.html' %}
 
+{% block beforeContent %}
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': "/"
+    },
+    {
+      'text': "Planning consideration",
+      'href': "/n"
+    },
+    {
+      'text': consideration.name
+    }
+  ]
+}) }}
+{% endblock beforeContent %}
+
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <span class="govuk-caption-xl">Planning consideration</span>
     <h1 class="govuk-heading-xl">{{ consideration.name }}</h1>
+  </div>
+</div>
 
-    {{ consideration }}
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+    <div id="details" class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">
+          Planning consideration
+        </h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Name
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.name }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Description
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.description }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration description</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Synonyms
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.synonyms if consideration.synonyms is not none }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Github discussion
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.github_discussion_number if consideration.github_discussion_number is not none }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Specification
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.specification_url if consideration.specification_url is not none }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Useful links
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {% if consideration.useful_links is not none %}
+              <ul class="govuk-list">
+                {% for link in consideration.useful_links %}
+                <li><a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a></li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Expected number of records
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.expected_number_of_records if consideration.expected_number_of_records is not none }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> expected number of records</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Frequency of updates
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.frequency_of_updates if consideration.frequency_of_updates is not none }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <div id="flags" class="govuk-summary-card">
+      <div class="govuk-summary-card__title-wrapper">
+        <h2 class="govuk-summary-card__title">
+          Flags
+        </h2>
+      </div>
+      <div class="govuk-summary-card__content">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Stage
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.stage }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Prioritised
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.prioritised }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Public
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.public }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
   </div>
 </div>
 
