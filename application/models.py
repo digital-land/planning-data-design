@@ -46,7 +46,7 @@ class Consideration(DateModel):
     id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    name: Mapped[str] = mapped_column(db.Text)
+    name: Mapped[str] = mapped_column(db.Text, unique=True)
     description: Mapped[Optional[str]] = mapped_column(db.Text)
     synonyms: Mapped[Optional[list[str]]] = mapped_column(ARRAY(db.Text))
     github_discssion_number: Mapped[Optional[int]] = mapped_column(db.Integer)
