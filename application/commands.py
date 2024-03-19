@@ -4,6 +4,7 @@ import os
 import gspread
 import pandas as pd
 from flask.cli import AppGroup, load_dotenv
+from slugify import slugify
 
 from application.extensions import db
 from application.models import Consideration, FrequencyOfUpdates, Stage
@@ -110,6 +111,9 @@ def load_backlog():
                         )
                 legistlation = row["Legislation"]
 
+                name_part = name.split("(")[0]
+                slug = slugify(name_part)
+
                 consideration = Consideration()
                 if name:
                     consideration.name = name
@@ -127,6 +131,8 @@ def load_backlog():
                     consideration.useful_links = useful_links
                 if legistlation:
                     consideration.legislation = legistlation
+                if slug:
+                    consideration.slug = slug
 
                 db.session.add(consideration)
                 db.session.commit()
