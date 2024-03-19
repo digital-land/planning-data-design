@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">Planning consideration</span>
+    <h1 class="govuk-heading-xl">{{ consideration.name }}</h1>
+
+    {{ consideration }}
+  </div>
+</div>
+
+{% endblock content %}

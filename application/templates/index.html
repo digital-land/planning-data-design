@@ -32,7 +32,7 @@
         {% for consideration in considerations -%}
         <div class="govuk-summary-list__row" data-filter="item">
           <dt class="govuk-summary-list__key" data-filter="match-content">
-            <a href="/planning-consideration/{{ consideration['name']|slugify }}" class="govuk-link govuk-link--text-colour">{{ consideration['name'] }}</a>
+            <a href="{{ url_for('main.consideration', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">{{ consideration['name'] }}</a>
           </dt>
           <dd class="govuk-summary-list__value">
             {% set status_class = "blue" %}
