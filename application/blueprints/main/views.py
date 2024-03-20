@@ -56,8 +56,12 @@ def edit(slug):
 
     if form.validate_on_submit():
         # handle form submission
-        # redirect back to consideration page
-        pass
+        consideration.name = form.name.data
+        consideration.github_discussion_number = form.github_discussion_number.data
+        consideration.description = form.description.data
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
 
     return render_template(
         "consideration-form.html", consideration=consideration, form=form, mode="edit"
