@@ -85,7 +85,7 @@ def load_backlog():
             reader = csv.DictReader(file)
 
             for row in reader:
-                consideration = Consideration
+                consideration = Consideration()
                 set_fields(consideration, row)
                 db.session.add(consideration)
                 db.session.commit()
