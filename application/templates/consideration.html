@@ -32,7 +32,7 @@
     <div id="details" class="govuk-summary-card">
       <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
-          Planning consideration
+          Details
         </h2>
       </div>
       <div class="govuk-summary-card__content">
@@ -85,6 +85,17 @@
             </dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug) }}">{{ "Change" if consideration.github_discussion_number else "Add" }}<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Legislation
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ consideration.legislation if consideration.legislation }}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('main.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.legislation else "Add" }}<span class="govuk-visually-hidden"> legislation</span></a>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
