@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+
+{% block beforeContent %}
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': "/"
+    },
+    {
+      'text': "Planning consideration",
+      'href': "/"
+    },
+    {
+      'text': "Add new"
+    }
+  ]
+}) }}
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">Edit {{ consideration.name }}</span>
+    <h1 class="govuk-heading-xl">Specification URL</h1>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="govuk-form" method="POST">
+      {{ form.hidden_tag() }}
+
+      {% for field in form %}
+      <div class="govuk-form-group">
+        {{ field.label(class='govuk-label') }}
+
+        <div id="" class="govuk-hint">
+          {{ field.description }}
+        </div>
+
+        {% if field.type == "IntegerField" %}
+          {% set fieldClass = 'govuk-input govuk-input--width-4' %}
+        {% elif field.type == "TextAreaField" %}
+          {% set fieldClass = 'govuk-textarea' %}
+        {% else %}
+          {% set fieldClass = 'govuk-input' %}
+        {% endif %}
+        {{ field(class=fieldClass) }}
+        {% if field.errors %}
+        <ul>
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="govuk-button-group">
+        <button class="govuk-button" type="submit">{{ "Save changes" if mode == "edit" else "Create" }}</button>
+        {%- set cancelLink = url_for('main.consideration', slug=consideration.slug) %}
+        <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

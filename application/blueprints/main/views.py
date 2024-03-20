@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
 
+from application.blueprints.main.forms import SpecificationForm
 from application.forms import ConsiderationForm
 from application.models import Consideration, Stage
 
@@ -55,4 +56,21 @@ def edit(slug):
 
     return render_template(
         "consideration-form.html", consideration=consideration, form=form, mode="edit"
+    )
+
+
+@main.route(
+    "/planning-consideration/<slug>/edit-specification", methods=["GET", "POST"]
+)
+def edit_specification(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = SpecificationForm(obj=consideration)
+
+    if form.validate_on_submit():
+        # handle form submission
+        # redirect back to consideration page
+        pass
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, mode="edit"
     )

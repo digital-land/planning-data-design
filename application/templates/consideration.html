@@ -64,7 +64,13 @@
               Synonyms
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.synonyms if consideration.synonyms is not none }}
+              {%- if consideration.synonyms %}
+              <ul class="govuk-list govuk-list--bullet">
+                {% for synonym in consideration.synonyms %}
+                <li>{{ synonym }}</li>
+                {% endfor %}
+              </ul>
+              {% endif -%}
             </dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="#">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
@@ -86,10 +92,10 @@
               Specification
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.specification_url if consideration.specification_url is not none }}
+              {{ consideration.specification_url if consideration.specification_url }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
+              <a class="govuk-link" href="{{ url_for('main.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.specification_url else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
@@ -98,7 +104,7 @@
             </dt>
             <dd class="govuk-summary-list__value">
               {% if consideration.useful_links is not none %}
-              <ul class="govuk-list">
+              <ul class="govuk-list govuk-list--bullet">
                 {% for link in consideration.useful_links %}
                 <li><a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a></li>
                 {% endfor %}
