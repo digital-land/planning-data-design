@@ -31,3 +31,12 @@ class PriorityForm(FlaskForm):
         description="Prioritised items will show up in our list of working on or emerging priorities",
         choices=[("True", "Yes"), ("False", "No")],
     )
+
+
+class PublicForm(FlaskForm):
+    public = RadioField(
+        "Should the work we do on this planning consideration be public?",
+        validators=[DataRequired()],
+        description="Things not marked public will not show in the public list of planning considerations.",
+        choices=[("True", "Yes"), ("False", "No")],
+    )

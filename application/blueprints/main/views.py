@@ -4,6 +4,7 @@ from application.blueprints.main.forms import (
     ExpectedSizeForm,
     LinkForm,
     PriorityForm,
+    PublicForm,
     SpecificationForm,
 )
 from application.extensions import db
@@ -14,7 +15,7 @@ main = Blueprint("main", __name__)
 
 
 def true_false_to_bool(s):
-    return s.lower == "true"
+    return s.lower() == "true"
 
 
 @main.route("/")
@@ -132,6 +133,25 @@ def prioritised(slug):
         return redirect(url_for("main.consideration", slug=slug))
 
     page = {"title": "Set prioritisation", "submit_text": "Set prioritisation"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@main.route("/planning-consideration/<slug>/public", methods=["GET", "POST"])
+def public(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = PublicForm(obj=consideration)
+
+    if form.validate_on_submit():
+        # handle form submission
+        consideration.public = true_false_to_bool(form.public.data)
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
+
+    page = {"title": "Set public or private", "submit_text": "Set"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page

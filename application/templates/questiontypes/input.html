@@ -15,9 +15,14 @@
 {% macro radioComponent(field) %}
 <div class="govuk-form-group">
   <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend">
-      {{ field.name }}
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+      <h2 class="govuk-fieldset__heading">
+      {{ field.label.text }}
+      </h2>
     </legend>
+    <div id="{{ field.id }}-hint" class="govuk-hint">
+      {{ field.description }}
+    </div>
     <div class="govuk-radios" data-module="govuk-radios">
       {% for choice in field.choices %}
       <div class="govuk-radios__item">
@@ -40,15 +45,15 @@
 
       {% for field in form %}
       <div class="govuk-form-group">
-        {{ field.label(class='govuk-label') }}
-
-        <div id="" class="govuk-hint">
-          {{ field.description }}
-        </div>
 
         {% if field.type == "RadioField" %}
         {{ radioComponent(field) }}
         {% else %}
+          {{ field.label(class='govuk-label') }}
+
+          <div id="" class="govuk-hint">
+            {{ field.description }}
+          </div>
           {% if field.type == "IntegerField" %}
             {% set fieldClass = 'govuk-input govuk-input--width-' + form.input_size if form.input_size else 'govuk-input govuk-input--width-4' %}
           {% elif field.type == "TextAreaField" %}

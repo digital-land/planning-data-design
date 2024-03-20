@@ -217,7 +217,7 @@
               {{ consideration.public }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+              <a class="govuk-link" href="{{ url_for('main.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
             </dd>
           </div>
         </dl>
