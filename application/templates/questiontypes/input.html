@@ -40,7 +40,7 @@
         </div>
 
         {% if field.type == "IntegerField" %}
-          {% set fieldClass = 'govuk-input govuk-input--width-4' %}
+          {% set fieldClass = 'govuk-input govuk-input--width-' + form.input_size if form.input_size else 'govuk-input govuk-input--width-4' %}
         {% elif field.type == "TextAreaField" %}
           {% set fieldClass = 'govuk-textarea' %}
         {% else %}

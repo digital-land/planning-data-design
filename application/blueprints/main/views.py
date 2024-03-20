@@ -1,6 +1,10 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 
-from application.blueprints.main.forms import LinkForm, SpecificationForm
+from application.blueprints.main.forms import (
+    ExpectedSizeForm,
+    LinkForm,
+    SpecificationForm,
+)
 from application.extensions import db
 from application.forms import ConsiderationForm
 from application.models import Consideration, Stage
@@ -73,6 +77,29 @@ def edit_specification(slug):
         pass
 
     page = {"title": "Specification URL"}
+
+    return render_template(
+        "questiontypes/input.html",
+        consideration=consideration,
+        form=form,
+        mode="edit",
+        page=page,
+    )
+
+
+@main.route(
+    "/planning-consideration/<slug>/edit-estimated-size", methods=["GET", "POST"]
+)
+def edit_estimated_size(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = ExpectedSizeForm(obj=consideration)
+
+    if form.validate_on_submit():
+        # handle form submission
+        # redirect back to consideration page
+        pass
+
+    page = {"title": "Expected number of records"}
 
     return render_template(
         "questiontypes/input.html",
