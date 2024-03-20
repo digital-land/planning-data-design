@@ -22,7 +22,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <span class="govuk-caption-xl">Edit {{ consideration.name }}</span>
-    <h1 class="govuk-heading-xl">Specification URL</h1>
+    <h1 class="govuk-heading-xl">{{ page.title }}</h1>
   </div>
 </div>
 
@@ -58,7 +58,11 @@
       {% endfor %}
 
       <div class="govuk-button-group">
-        <button class="govuk-button" type="submit">{{ "Save changes" if mode == "edit" else "Create" }}</button>
+        <button class="govuk-button" type="submit">{% if page.submit_text %}
+        {{ page.submit_text }}
+        {%- else %}
+        {{ "Save changes" if mode == "edit" else "Create" }}
+        {% endif %}</button>
         {%- set cancelLink = url_for('main.consideration', slug=consideration.slug) %}
         <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
       </div>

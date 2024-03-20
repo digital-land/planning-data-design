@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 
-from application.blueprints.main.forms import SpecificationForm
+from application.blueprints.main.forms import LinkForm, SpecificationForm
 from application.forms import ConsiderationForm
 from application.models import Consideration, Stage
 
@@ -71,6 +71,29 @@ def edit_specification(slug):
         # redirect back to consideration page
         pass
 
+    page = {"title": "Specification URL"}
+
     return render_template(
-        "questiontypes/input.html", consideration=consideration, form=form, mode="edit"
+        "questiontypes/input.html",
+        consideration=consideration,
+        form=form,
+        mode="edit",
+        page=page,
+    )
+
+
+@main.route("/planning-consideration/<slug>/add-useful-link", methods=["GET", "POST"])
+def add_useful_link(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = LinkForm()
+
+    if form.validate_on_submit():
+        # handle form submission
+        # redirect back to consideration page
+        pass
+
+    page = {"title": "Add useful link", "submit_text": "Save link"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
     )

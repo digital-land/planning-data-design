@@ -109,11 +109,12 @@
                 <li><a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a></li>
                 {% endfor %}
               </ul>
+              <a class="govuk-link" href="{{ url_for('main.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
               {% endif %}
             </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
-            </dd>
+            <!-- <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('main.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
+            </dd> -->
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
