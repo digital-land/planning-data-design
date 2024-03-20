@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import IntegerField, RadioField, StringField
 from wtforms.validators import DataRequired
 
+from application.models import Stage
+
 
 class SpecificationForm(FlaskForm):
     specification_url = StringField(
@@ -39,4 +41,13 @@ class PublicForm(FlaskForm):
         validators=[DataRequired()],
         description="Things not marked public will not show in the public list of planning considerations.",
         choices=[("True", "Yes"), ("False", "No")],
+    )
+
+
+class StageForm(FlaskForm):
+    stage = RadioField(
+        "What stage are we at with this planning consideration?",
+        validators=[DataRequired()],
+        description="We should only change the stage when we are confident we have enough information to move on.",
+        choices=[(stage.value, stage.value) for stage in Stage],
     )

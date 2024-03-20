@@ -6,6 +6,7 @@ from application.blueprints.main.forms import (
     PriorityForm,
     PublicForm,
     SpecificationForm,
+    StageForm,
 )
 from application.extensions import db
 from application.forms import ConsiderationForm
@@ -152,6 +153,28 @@ def public(slug):
         return redirect(url_for("main.consideration", slug=slug))
 
     page = {"title": "Set public or private", "submit_text": "Set"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@main.route("/planning-consideration/<slug>/stage", methods=["GET", "POST"])
+def stage(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = StageForm()
+
+    if form.validate_on_submit():
+        # handle form submission
+        consideration.stage = Stage(form.stage.data)
+        # To Do: record who changed it and the date
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
+
+    form.stage.data = consideration.stage.value
+
+    page = {"title": "Update stage", "submit_text": "Update"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page
