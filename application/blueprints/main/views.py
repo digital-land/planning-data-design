@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
 
 from application.blueprints.main.forms import LinkForm, SpecificationForm
+from application.extensions import db
 from application.forms import ConsiderationForm
 from application.models import Consideration, Stage
 
@@ -89,8 +90,23 @@ def add_useful_link(slug):
 
     if form.validate_on_submit():
         # handle form submission
-        # redirect back to consideration page
-        pass
+        current_links = []
+        if consideration.useful_links is not None:
+            current_links = [
+                _link["link_url"]
+                for _link in consideration.useful_links
+                if consideration.useful_links
+            ]
+        if form.link_url.data not in current_links:
+            # Adam - I could only get this to work if I create a new list rather than editing the existing list
+            # existing list. Is that the right thing to do?
+            _link = {"link_url": form.link_url.data, "link_text": form.link_text.data}
+            links = list(consideration.useful_links)
+            links.append(_link)
+            consideration.useful_links = links
+            db.session.add(consideration)
+            db.session.commit()
+            return redirect(url_for("main.consideration", slug=slug))
 
     page = {"title": "Add useful link", "submit_text": "Save link"}
 

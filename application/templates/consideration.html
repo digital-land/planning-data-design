@@ -112,9 +112,11 @@
               <a class="govuk-link" href="{{ url_for('main.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
               {% endif %}
             </dd>
-            <!-- <dd class="govuk-summary-list__actions">
+            {%- if consideration.useful_links is none %}
+            <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('main.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
-            </dd> -->
+            </dd>
+            {% endif -%}
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
