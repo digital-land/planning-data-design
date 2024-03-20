@@ -42,6 +42,13 @@ def register_context_processors(app):
 
     app.context_processor(base_context_processor)
 
+    def global_variables_context_processor():
+        return {
+            "github_discussion_base_url": "https://github.com/digital-land/data-standards-backlog/discussions"
+        }
+
+    app.context_processor(global_variables_context_processor)
+
 
 def register_filters(app):
     from application.filters import map_to_tag_class_filter, slugify_filter
