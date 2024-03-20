@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField
+from wtforms import IntegerField, RadioField, StringField
 from wtforms.validators import DataRequired
 
 
@@ -22,3 +22,12 @@ class ExpectedSizeForm(FlaskForm):
         description="Put an estimate for expected number of records. For example, 100 or 25,0000",
     )
     input_size = "10"
+
+
+class PriorityForm(FlaskForm):
+    prioritised = RadioField(
+        "Are we prioritising this planning consideration?",
+        validators=[DataRequired()],
+        description="Prioritised items will show up in our list of working on or emerging priorities",
+        choices=[("True", "Yes"), ("False", "No")],
+    )

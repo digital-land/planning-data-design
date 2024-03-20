@@ -12,6 +12,27 @@
   </div>
 </div>
 
+{% macro radioComponent(field) %}
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend">
+      {{ field.name }}
+    </legend>
+    <div class="govuk-radios" data-module="govuk-radios">
+      {% for choice in field.choices %}
+      <div class="govuk-radios__item">
+        {%- set radioID = field.id + ('-'+loop.index|string) if loop.index %}
+        <input class="govuk-radios__input" id="{{ radioID }}" name="{{ field.id }}" type="radio" value="{{ choice[0] }}" {% if field.data == choice[0] %} checked{% endif %}>
+        <label class="govuk-label govuk-radios__label" for="{{ radioID }}">
+          {{ choice[1] }}
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+  </fieldset>
+</div>
+{% endmacro %}
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <form class="govuk-form" method="POST">
@@ -25,14 +46,19 @@
           {{ field.description }}
         </div>
 
-        {% if field.type == "IntegerField" %}
-          {% set fieldClass = 'govuk-input govuk-input--width-' + form.input_size if form.input_size else 'govuk-input govuk-input--width-4' %}
-        {% elif field.type == "TextAreaField" %}
-          {% set fieldClass = 'govuk-textarea' %}
+        {% if field.type == "RadioField" %}
+        {{ radioComponent(field) }}
         {% else %}
-          {% set fieldClass = 'govuk-input' %}
+          {% if field.type == "IntegerField" %}
+            {% set fieldClass = 'govuk-input govuk-input--width-' + form.input_size if form.input_size else 'govuk-input govuk-input--width-4' %}
+          {% elif field.type == "TextAreaField" %}
+            {% set fieldClass = 'govuk-textarea' %}
+          {% else %}
+            {% set fieldClass = 'govuk-input' %}
+          {% endif %}
+          {{ field(class=fieldClass) }}
         {% endif %}
-        {{ field(class=fieldClass) }}
+
         {% if field.errors %}
         <ul>
         {% for error in field.errors %}

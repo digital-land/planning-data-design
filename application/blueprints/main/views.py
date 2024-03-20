@@ -3,6 +3,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from application.blueprints.main.forms import (
     ExpectedSizeForm,
     LinkForm,
+    PriorityForm,
     SpecificationForm,
 )
 from application.extensions import db
@@ -10,6 +11,10 @@ from application.forms import ConsiderationForm
 from application.models import Consideration, Stage
 
 main = Blueprint("main", __name__)
+
+
+def true_false_to_bool(s):
+    return s.lower == "true"
 
 
 @main.route("/")
@@ -111,6 +116,25 @@ def edit_estimated_size(slug):
         form=form,
         mode="edit",
         page=page,
+    )
+
+
+@main.route("/planning-consideration/<slug>/prioritised", methods=["GET", "POST"])
+def prioritised(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = PriorityForm(obj=consideration)
+
+    if form.validate_on_submit():
+        # handle form submission
+        consideration.prioritised = true_false_to_bool(form.prioritised.data)
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
+
+    page = {"title": "Set prioritisation", "submit_text": "Set prioritisation"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
     )
 
 
