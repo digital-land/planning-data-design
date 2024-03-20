@@ -5,8 +5,8 @@ Revises:
 Create Date: 2024-03-18 10:57:26.279886
 
 """
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('name', sa.Text(), nullable=False),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('synonyms', postgresql.ARRAY(sa.Text()), nullable=True),
-    sa.Column('github_discssion_number', sa.Integer(), nullable=True),
+    sa.Column('github_discussion_number', sa.Integer(), nullable=True),
     sa.Column('stage', postgresql.ENUM('BACKLOG', 'SCREEN', 'RESEARCH', 'CO_DESIGN', 'TEST_AND_ITERATE', 'READY_FOR_GO_NO_GO', 'PREPARED_FOR_PLATFORM', 'ON_THE_PLATFORM', 'ARCHIVED', name='stage'), nullable=False),
     sa.Column('public', sa.Boolean(), nullable=False),
     sa.Column('expected_number_of_records', sa.Integer(), nullable=True),

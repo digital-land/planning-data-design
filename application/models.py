@@ -49,7 +49,7 @@ class Consideration(DateModel):
     name: Mapped[str] = mapped_column(db.Text, unique=True)
     description: Mapped[Optional[str]] = mapped_column(db.Text)
     synonyms: Mapped[Optional[list[str]]] = mapped_column(ARRAY(db.Text))
-    github_discssion_number: Mapped[Optional[int]] = mapped_column(db.Integer)
+    github_discussion_number: Mapped[Optional[int]] = mapped_column(db.Integer)
     stage: Mapped[Stage] = mapped_column(ENUM(Stage))
     public: Mapped[bool] = mapped_column(db.Boolean, default=True)
 

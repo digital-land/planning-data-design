@@ -112,7 +112,7 @@ def set_fields(consideration, row):
         )
         frequency_of_updates = FrequencyOfUpdates[frequency_of_updates]
 
-    github_discssion_number = row["discussion-number"]
+    github_discussion_number = row["discussion-number"]
 
     useful_links = []
     link_columns = [
@@ -145,8 +145,8 @@ def set_fields(consideration, row):
         consideration.synonyms = synonyms
     if frequency_of_updates:
         frequency_of_updates = frequency_of_updates
-    if github_discssion_number:
-        consideration.github_discssion_number = github_discssion_number
+    if github_discussion_number:
+        consideration.github_discussion_number = github_discussion_number
     if useful_links:
         consideration.useful_links = useful_links
     if legistlation:
