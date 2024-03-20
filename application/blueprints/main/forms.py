@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, RadioField, StringField
-from wtforms.validators import DataRequired
+from wtforms import IntegerField, RadioField, StringField, TextAreaField
+from wtforms.validators import DataRequired, Optional
 
 from application.models import Stage
 
@@ -51,3 +51,4 @@ class StageForm(FlaskForm):
         description="We should only change the stage when we are confident we have enough information to move on.",
         choices=[(stage.value, stage.value) for stage in Stage],
     )
+    reason = TextAreaField("Reason for changing the stage", validators=[Optional()])
