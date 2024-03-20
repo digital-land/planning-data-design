@@ -128,7 +128,11 @@ def add_useful_link(slug):
             # Adam - I could only get this to work if I create a new list rather than editing the existing list
             # existing list. Is that the right thing to do?
             _link = {"link_url": form.link_url.data, "link_text": form.link_text.data}
-            links = list(consideration.useful_links)
+            links = (
+                list(consideration.useful_links)
+                if consideration.useful_links is not None
+                else []
+            )
             links.append(_link)
             consideration.useful_links = links
             db.session.add(consideration)
