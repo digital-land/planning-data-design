@@ -179,6 +179,11 @@
       </div>
     </div>
 
+
+
+  </div>
+
+  <div class="govuk-grid-column-one-third">
     <div id="flags" class="govuk-summary-card">
       <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
@@ -190,40 +195,42 @@
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Stage
+              <br />
+              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
+                <a class="govuk-link" href="{{ url_for('main.stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
+              </span>
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.stage }}
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('main.stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
+              {{ consideration.stage.value }}
             </dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Prioritised
+              <br />
+              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
+                <a class="govuk-link" href="{{ url_for('main.prioritised', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+              </span>
             </dt>
             <dd class="govuk-summary-list__value">
               {{ consideration.prioritised }}
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('main.prioritised', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Public
+              <br />
+              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
+                <a class="govuk-link" href="{{ url_for('main.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+              </span>
             </dt>
             <dd class="govuk-summary-list__value">
               {{ consideration.public }}
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('main.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
             </dd>
           </div>
         </dl>
       </div>
     </div>
-
   </div>
 </div>
 
