@@ -1,0 +1,19 @@
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': "/"
+    },
+    {
+      'text': "Planning consideration",
+      'href': "/"
+    },
+    {
+      'text': consideration.name,
+      'href': url_for('main.consideration', slug=consideration.slug)
+    },
+    {
+      'text': page.title if page and page.title else "Edit"
+    }
+  ]
+}) }}

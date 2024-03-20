@@ -2,8 +2,9 @@
 
 {% block beforeContent %}
 
-{% set text = "Edit" if mode == "edit" else "Add new" %}
-
+{% if mode == "edit" %}
+{% include 'questiontypes/question-page-breadcrumbs.html' %}
+{% else %}
 {{ govukBreadcrumbs({
   'items': [
     {
@@ -15,10 +16,12 @@
       'href': "/"
     },
     {
-      'text': text,
+      'text': "Add new",
     }
   ]
 }) }}
+{% endif %}
+
 {% endblock beforeContent %}
 
 {% block content %}

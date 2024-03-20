@@ -1,27 +1,13 @@
 {% extends 'layouts/base.html' %}
 
 {% block beforeContent %}
-{{ govukBreadcrumbs({
-  'items': [
-    {
-      'text': "Home",
-      'href': "/"
-    },
-    {
-      'text': "Planning consideration",
-      'href': "/"
-    },
-    {
-      'text': "Add new"
-    }
-  ]
-}) }}
+{% include 'questiontypes/question-page-breadcrumbs.html' %}
 {% endblock beforeContent %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <span class="govuk-caption-xl">Edit {{ consideration.name }}</span>
+    <span class="govuk-caption-xl">{{ consideration.name }}</span>
     <h1 class="govuk-heading-xl">{{ page.title }}</h1>
   </div>
 </div>
