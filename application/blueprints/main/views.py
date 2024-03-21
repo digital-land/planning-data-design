@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 
 from application.blueprints.main.forms import (
     ExpectedSizeForm,
+    FrequencyForm,
     LinkForm,
     PriorityForm,
     PublicForm,
@@ -11,7 +12,7 @@ from application.blueprints.main.forms import (
 )
 from application.extensions import db
 from application.forms import ConsiderationForm
-from application.models import Consideration, Stage
+from application.models import Consideration, FrequencyOfUpdates, Stage
 
 main = Blueprint("main", __name__)
 
@@ -239,6 +240,31 @@ def stage(slug):
     form.stage.data = consideration.stage.value
 
     page = {"title": "Update stage", "submit_text": "Update"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@main.route("/planning-consideration/<slug>/edit-frequency", methods=["GET", "POST"])
+def frequency(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = FrequencyForm()
+
+    if form.validate_on_submit():
+        # handle form submission
+        consideration.frequency_of_updates = FrequencyOfUpdates(form.frequency.data)
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
+
+    form.frequency.data = (
+        consideration.frequency_of_updates.value
+        if consideration.frequency_of_updates
+        else ""
+    )
+
+    page = {"title": "Edit expected frequency of updates", "submit_text": "Save"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page

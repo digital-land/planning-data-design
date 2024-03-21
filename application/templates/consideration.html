@@ -171,10 +171,10 @@
               Frequency of updates
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.frequency_of_updates if consideration.frequency_of_updates is not none }}
+              {{ consideration.frequency_of_updates.value if consideration.frequency_of_updates is not none }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
+              <a class="govuk-link" href="{{ url_for('main.frequency', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
             </dd>
           </div>
         </dl>

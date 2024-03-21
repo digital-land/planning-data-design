@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import IntegerField, RadioField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Optional
 
-from application.models import Stage
+from application.models import FrequencyOfUpdates, Stage
 
 
 class SpecificationForm(FlaskForm):
@@ -52,6 +52,14 @@ class StageForm(FlaskForm):
         choices=[(stage.value, stage.value) for stage in Stage],
     )
     reason = TextAreaField("Reason for changing the stage", validators=[Optional()])
+
+
+class FrequencyForm(FlaskForm):
+    frequency = RadioField(
+        "How often do we expect this data to change?",
+        validators=[DataRequired()],
+        choices=[(freq.value, freq.value) for freq in FrequencyOfUpdates],
+    )
 
 
 class SynonymForm(FlaskForm):
