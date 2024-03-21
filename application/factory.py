@@ -56,6 +56,10 @@ def register_filters(app):
     app.add_template_filter(slugify_filter, "slugify")
     app.add_template_filter(map_to_tag_class_filter, "map_to_tag_class")
 
+    from digital_land_frontend.filters import commanum_filter
+
+    app.add_template_filter(commanum_filter, "commanum")
+
 
 def register_extensions(app):
     from application.extensions import db, migrate, oauth

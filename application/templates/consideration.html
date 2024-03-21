@@ -160,7 +160,7 @@
               Expected number of records
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.expected_number_of_records if consideration.expected_number_of_records is not none }}
+              {{ consideration.expected_number_of_records|commanum if consideration.expected_number_of_records is not none }}
             </dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('main.edit_estimated_size', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> expected number of records</span></a>

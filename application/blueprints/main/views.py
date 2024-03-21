@@ -143,8 +143,10 @@ def edit_estimated_size(slug):
 
     if form.validate_on_submit():
         # handle form submission
-        # redirect back to consideration page
-        pass
+        consideration.expected_number_of_records = form.expected_number_of_records.data
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
 
     page = {"title": "Expected number of records"}
 
