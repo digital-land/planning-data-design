@@ -22,7 +22,10 @@ def true_false_to_bool(s):
 @main.route("/")
 def index():
     stage_filter = None
+    legislation_param = None
     stage_param = request.args.get("stage")
+    legislation_param = request.args.get("legislation")
+
     if stage_param:
         stage = Stage(stage_param)
         stage_filter = stage_param
@@ -30,11 +33,19 @@ def index():
     else:
         considerations = Consideration.query.all()
 
+    # this is a temporary filter so not combining for now
+    if legislation_param:
+        filter_query = Consideration.legislation.is_(None)
+        if legislation_param == "recorded":
+            filter_query = Consideration.legislation.isnot(None)
+        considerations = Consideration.query.filter(filter_query).all()
+
     return render_template(
         "index.html",
         considerations=considerations,
         stages=Stage,
         stage_filter=stage_filter,
+        legislation_filter=legislation_param,
     )
 
 
