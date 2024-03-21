@@ -47,9 +47,13 @@ def index():
     if stage_param:
         stage = Stage(stage_param)
         stage_filter = stage_param
-        considerations = Consideration.query.filter_by(stage=stage).all()
+        considerations = (
+            Consideration.query.filter_by(stage=stage)
+            .order_by(Consideration.name.asc())
+            .all()
+        )
     else:
-        considerations = Consideration.query.all()
+        considerations = Consideration.query.order_by(Consideration.name.asc()).all()
 
     # this is a temporary filter so not combining for now
     if legislation_param:
