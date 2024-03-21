@@ -7,3 +7,19 @@ $govuk-new-link-styles: true;
 
 // components
 @import "components/subnavigation";
+
+
+// used in buttons like "add new planning consideration"
+.app-icon {
+  font-style: normal;
+
+  .govuk-button & {
+    margin-right: $govuk-gutter-half;
+  }
+}
+
+// used on main list of planning considerations
+.app-list__actions {
+  display: flex;
+  justify-content: end;
+}

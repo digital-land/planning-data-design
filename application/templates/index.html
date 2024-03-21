@@ -4,19 +4,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-xl">DLUHC Planning considerations</h1>
-
-    <section class="govuk-!-margin-top-9">
-      <a href="{{ url_for('main.new' )}}" class="govuk-button">Add planning consideration</a>
-    </section>
   </div>
 </div>
 
 <div class='govuk-grid-row'>
-  <div class='govuk-grid-column-full'>
+  <div class='govuk-grid-column-two-thirds'>
     <form class="filter-organisations-list__form filter-organisations-list__form--active govuk-!-margin-bottom-9" data-filter="form">
       <label class="dl-list-filter__label govuk-label govuk-!-font-weight-bold" for="filter-organisations-list">I'm looking for</label>
       <input class="dl-list-filter__input govuk-input" type="text" id="filter-organisations-list" placeholder="For example, Planning conditions">
     </form>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <section class="app-list__actions">
+      <a href="{{ url_for('main.new' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add planning consideration</a>
+    </section>
   </div>
 </div>
 

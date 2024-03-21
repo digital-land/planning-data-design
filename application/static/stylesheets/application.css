@@ -7952,3 +7952,12 @@ p + .govuk-heading-s,
     .app-sub-navigation__theme {
       font-size: 14pt;
       line-height: 1.15; } }
+
+.app-icon {
+  font-style: normal; }
+  .govuk-button .app-icon {
+    margin-right: 15px; }
+
+.app-list__actions {
+  display: flex;
+  justify-content: end; }
