@@ -19,6 +19,24 @@ def true_false_to_bool(s):
     return s.lower() == "true"
 
 
+def _update_basic_consideration_attrs(consideration, form):
+    # if a new consideration is needed
+    if consideration is None:
+        consideration = Consideration()
+        consideration.stage = Stage("Backlog")
+        is_new = True
+
+    # set attributes
+    consideration.name = form.name.data
+    consideration.github_discussion_number = form.github_discussion_number.data
+    consideration.description = form.description.data
+
+    if is_new:
+        consideration.set_slug()
+
+    return consideration
+
+
 @main.route("/")
 def index():
     stage_filter = None
@@ -61,8 +79,10 @@ def new():
 
     if form.validate_on_submit():
         # handle form submission
-        # redirect to page for the new consideration
-        pass
+        consideration = _update_basic_consideration_attrs(None, form)
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=consideration.slug))
 
     return render_template("consideration-form.html", form=form)
 

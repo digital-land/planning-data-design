@@ -4,7 +4,6 @@ import os
 import gspread
 import pandas as pd
 from flask.cli import AppGroup, load_dotenv
-from slugify import slugify
 
 from application.extensions import db
 from application.models import Consideration, FrequencyOfUpdates, Stage
@@ -134,9 +133,7 @@ def set_fields(consideration, row):
     if consideration.name is None:
         name = row["Concern"]
         consideration.name = name
-        name_part = name.split("(")[0]
-        slug = slugify(name_part)
-        consideration.slug = slug
+        consideration.set_slug()
     if description:
         consideration.description = description
     if stage:

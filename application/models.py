@@ -3,6 +3,7 @@ import uuid
 from enum import Enum
 from typing import Optional
 
+from slugify import slugify
 from sqlalchemy import UUID
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
@@ -63,6 +64,12 @@ class Consideration(DateModel):
     useful_links: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
     legislation: Mapped[Optional[str]] = mapped_column(db.Text)
     slug: Mapped[Optional[str]] = mapped_column(db.Text)
+
+    def set_slug(self):
+        if self.name is not None:
+            name_part = self.name.split("(")[0]
+            slug = slugify(name_part)
+            self.slug = slug
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
