@@ -7,6 +7,7 @@ from application.blueprints.main.forms import (
     PublicForm,
     SpecificationForm,
     StageForm,
+    SynonymForm,
 )
 from application.extensions import db
 from application.forms import ConsiderationForm
@@ -146,6 +147,32 @@ def edit_estimated_size(slug):
         pass
 
     page = {"title": "Expected number of records"}
+
+    return render_template(
+        "questiontypes/input.html",
+        consideration=consideration,
+        form=form,
+        mode="edit",
+        page=page,
+    )
+
+
+@main.route("/planning-consideration/<slug>/add-synonym", methods=["GET", "POST"])
+def add_synonym(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = SynonymForm(obj=consideration)
+
+    if form.validate_on_submit():
+        # handle form submission
+        # To Do: check for duplicates
+        synonyms = list()
+        synonyms = set([form.synonym.data] + consideration.synonyms)
+        consideration.synonyms = synonyms
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
+
+    page = {"title": "Add synonym", "submit_text": "Save synonym"}
 
     return render_template(
         "questiontypes/input.html",

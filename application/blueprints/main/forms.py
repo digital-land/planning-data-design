@@ -52,3 +52,11 @@ class StageForm(FlaskForm):
         choices=[(stage.value, stage.value) for stage in Stage],
     )
     reason = TextAreaField("Reason for changing the stage", validators=[Optional()])
+
+
+class SynonymForm(FlaskForm):
+    synonym = StringField(
+        "Synonym",
+        validators=[DataRequired()],
+        description="Add another name people use for this planning consideration",
+    )

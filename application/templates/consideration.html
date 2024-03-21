@@ -73,7 +73,7 @@
               {% endif -%}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+              <a class="govuk-link" href="{{ url_for('main.add_synonym', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
             </dd>
           </div>
           <div class="govuk-summary-list__row">
