@@ -168,6 +168,7 @@ def add_synonym(slug):
     if form.validate_on_submit():
         # handle form submission
         # To Do: check for duplicates
+        # Adam - I could only get this to work if I create a new list rather than editing the existing list
         synonyms = list()
         synonyms = set([form.synonym.data] + consideration.synonyms)
         consideration.synonyms = synonyms
