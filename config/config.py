@@ -20,6 +20,9 @@ class Config:
     GOOGLE_PRIVATE_KEY = os.getenv("GOOGLE_PRIVATE_KEY")
     GOOGLE_CLIENT_EMAIL = os.getenv("GOOGLE_CLIENT_EMAIL")
     GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+    GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
+    GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
+    SAFE_URLS = set(os.getenv("SAFE_URLS", "").split(","))
 
 
 class DevelopmentConfig(Config):
@@ -28,7 +31,7 @@ class DevelopmentConfig(Config):
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_RECORD_QUERIES = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    AUTHENTICATION_ON = False
+    AUTHENTICATION_ON = True
 
 
 class TestConfig(Config):

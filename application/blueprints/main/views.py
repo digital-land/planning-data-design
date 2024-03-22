@@ -13,6 +13,7 @@ from application.blueprints.main.forms import (
 from application.extensions import db
 from application.forms import ConsiderationForm
 from application.models import Consideration, FrequencyOfUpdates, Stage
+from application.utils import login_required
 
 main = Blueprint("main", __name__)
 
@@ -85,6 +86,7 @@ def consideration(slug):
 
 
 @main.route("/planning-consideration/add", methods=["GET", "POST"])
+@login_required
 def new():
     form = ConsiderationForm()
 
@@ -99,6 +101,7 @@ def new():
 
 
 @main.route("/planning-consideration/<slug>/edit", methods=["GET", "POST"])
+@login_required
 def edit(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = ConsiderationForm(obj=consideration)
@@ -120,6 +123,7 @@ def edit(slug):
 @main.route(
     "/planning-consideration/<slug>/edit-specification", methods=["GET", "POST"]
 )
+@login_required
 def edit_specification(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = SpecificationForm(obj=consideration)
@@ -143,6 +147,7 @@ def edit_specification(slug):
 @main.route(
     "/planning-consideration/<slug>/edit-estimated-size", methods=["GET", "POST"]
 )
+@login_required
 def edit_estimated_size(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = ExpectedSizeForm(obj=consideration)
@@ -166,6 +171,7 @@ def edit_estimated_size(slug):
 
 
 @main.route("/planning-consideration/<slug>/add-synonym", methods=["GET", "POST"])
+@login_required
 def add_synonym(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = SynonymForm(obj=consideration)
@@ -193,6 +199,7 @@ def add_synonym(slug):
 
 
 @main.route("/planning-consideration/<slug>/prioritised", methods=["GET", "POST"])
+@login_required
 def prioritised(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = PriorityForm(obj=consideration)
@@ -212,6 +219,7 @@ def prioritised(slug):
 
 
 @main.route("/planning-consideration/<slug>/public", methods=["GET", "POST"])
+@login_required
 def public(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = PublicForm(obj=consideration)
@@ -231,6 +239,7 @@ def public(slug):
 
 
 @main.route("/planning-consideration/<slug>/stage", methods=["GET", "POST"])
+@login_required
 def stage(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = StageForm()
@@ -253,6 +262,7 @@ def stage(slug):
 
 
 @main.route("/planning-consideration/<slug>/edit-frequency", methods=["GET", "POST"])
+@login_required
 def frequency(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = FrequencyForm()
@@ -278,6 +288,7 @@ def frequency(slug):
 
 
 @main.route("/planning-consideration/<slug>/add-useful-link", methods=["GET", "POST"])
+@login_required
 def add_useful_link(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = LinkForm()

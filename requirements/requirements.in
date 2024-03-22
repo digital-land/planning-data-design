@@ -16,3 +16,4 @@ Authlib
 gspread
 pandas
 python-slugify
+PyGithub

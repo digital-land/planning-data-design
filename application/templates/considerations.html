@@ -15,9 +15,11 @@
     </form>
   </div>
   <div class="govuk-grid-column-one-third">
-    <section class="app-list__actions">
-      <a href="{{ url_for('main.new' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add planning consideration</a>
-    </section>
+    {% if session["user"] %}
+      <section class="app-list__actions">
+        <a href="{{ url_for('main.new' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add planning consideration</a>
+      </section>
+    {% endif %}
   </div>
 </div>
 
@@ -59,10 +61,12 @@
               {{ consideration['stage'].value }}
             </strong>
           </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug )}}">
-              Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
-          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug )}}">
+                Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
+            </dd>
+          {% endif %}
         </div>
         {%- endfor %}
 
