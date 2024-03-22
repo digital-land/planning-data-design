@@ -292,8 +292,5 @@ dist
 
 # and the rest
 .DS_Store
-.editorconfig
-.flake8
-.isort.cfg
 .python-version
 .vscode
