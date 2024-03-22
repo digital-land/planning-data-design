@@ -36,6 +36,5 @@ Set the following in DevelopmentConfig
 The below is needed for local development and must not be committed to github. Therefore
 add to a file called ```.env``` which is gitignored.
 
-    GITHUB_APP_ID=[app id]
     GITHUB_CLIENT_ID=[client id]
     GITHUB_CLIENT_SECRET=[secret]
