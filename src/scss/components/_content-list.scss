@@ -1,0 +1,66 @@
+.app-content-list {
+  &__list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    &-item {
+      display: block;
+      @include govuk-responsive-padding(4, "top");
+      @include govuk-responsive-padding(4, "bottom");
+      // @include govuk-responsive-margin(3, "bottom");
+      border-bottom: 1px solid $govuk-border-colour;
+      &:first-child {
+        padding-top: 0;
+      }
+    }
+  }
+  &__link {
+    text-decoration: none;
+    display: block;
+    position: relative;
+    $selector: #{&};
+    &:after {
+      border-right: 3px solid $govuk-link-colour;;
+      border-top: 3px solid $govuk-link-colour;
+      content: "";
+      display: block;
+      height: 7px;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      margin-top: 5px;
+      -webkit-transform: translateY(0) rotate(45deg) scale(1);
+      -ms-transform: translateY(0) rotate(45deg) scale(1);
+      transform: translateY(0) rotate(45deg) scale(1);
+      width: 7px;
+    }
+    &:hover {
+      #{$selector}-text {
+        text-decoration: underline;
+        text-decoration-line: underline;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 0.1578em;
+        color: $govuk-link-hover-colour;
+      }
+      &:after {
+        border-right-color: $govuk-link-hover-colour;
+        border-top-color: $govuk-link-hover-colour;
+      }
+    }
+    &-text {
+      color: $govuk-link-colour;
+    }
+    &-description {
+      color: $govuk-text-colour;
+    }
+  }
+  &__sub-heading {
+    margin: 0;
+    @include govuk-responsive-margin(1, "bottom");
+    @include govuk-font(19, 'bold');
+  }
+  &__description {
+    margin: 0;
+    @include govuk-font(19);
+  }
+}

@@ -1,87 +1,75 @@
+
 {% extends 'layouts/base.html' %}
+{% set isHomepage = True %}
+
+{% block mastHead %}
+{{ super() }}
+<div class="app-masthead">
+  <div class="govuk-width-container">
+    <h1 class="govuk-heading-xl app-masthead__title govuk-!-margin-bottom-2">
+      Planning considerations manager
+    </h1>
+      <p class="govuk-body-l govuk-!-margin-bottom-0 app-masthead__sub-title">
+      This tool is used to manage the work of the data standards team
+      </p>
+  </div>
+</div>
+
+{% endblock %}
 
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
-    <h1 class="govuk-heading-xl">DLUHC Planning considerations</h1>
-  </div>
-</div>
-
 <div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
-    <form class="filter-organisations-list__form filter-organisations-list__form--active govuk-!-margin-bottom-9" data-filter="form">
-      <label class="dl-list-filter__label govuk-label govuk-!-font-weight-bold" for="filter-organisations-list">I'm looking for</label>
-      <input class="dl-list-filter__input govuk-input" type="text" id="filter-organisations-list" placeholder="For example, Planning conditions">
-    </form>
-  </div>
-  <div class="govuk-grid-column-one-third">
-    <section class="app-list__actions">
-      <a href="{{ url_for('main.new' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add planning consideration</a>
-    </section>
-  </div>
-</div>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
-    <nav class="app-sub-navigation">
-      <h3 class="govuk-heading-s">Filter by stage</h3>
-      <ul class="app-sub-navigation__section">
-        {% for stage in stages %}
-        <li class="app-sub-navigation__section-item{% if stage_filter == stage.value %} app-sub-navigation__section-item--current{% endif %}">
-          <a href="?stage={{ stage.value }}" class="app-sub-navigation__link">{{ stage.value }}</a>
+  <div class='govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop'>
+    <h2 class="govuk-heading-m">Options</h2>
+    <div class="app-content-list govuk-!-margin-bottom-8">
+      <ul class="app-content-list__list" data-track-count="cardList">
+        <li class="app-content-list__list-item">
+          <div class="app-content-list__list-item-wrapper">
+            <h3 class="app-content-list__sub-heading">
+              <a
+                class="app-content-list__link"
+                data-track-count="cardLink"
+                href="{{ url_for('main.considerations') }}">
+                <div class="app-content-list__link-text">List of planning considerations</div>
+                <div class="app-content-list__description app-content-list__link-description">
+                  A list of all the planning considerations that are candidates for planning.data.gov.uk
+                </div>
+              </a>
+            </h3>
+          </div>
         </li>
-        {% endfor %}
+        <li class="app-content-list__list-item">
+          <div class="app-content-list__list-item-wrapper">
+            <h3 class="app-content-list__sub-heading">
+              <a
+                class="app-content-list__link"
+                data-track-count="cardLink"
+                href="#">
+                <div class="app-content-list__link-text">What we are working on</div>
+                <div class="app-content-list__description app-content-list__link-description">
+                  An overview of the work we are doing now and in the future
+                </div>
+              </a>
+            </h3>
+          </div>
+        </li>
+        <li class="app-content-list__list-item">
+          <div class="app-content-list__list-item-wrapper">
+            <h3 class="app-content-list__sub-heading">
+              <a
+                class="app-content-list__link"
+                data-track-count="cardLink"
+                href="#">
+                <div class="app-content-list__link-text">Progress report</div>
+                <div class="app-content-list__description app-content-list__link-description">
+                  A report on how many considerations are in each stage of our process
+                </div>
+              </a>
+            </h3>
+          </div>
+        </li>
       </ul>
-    </nav>
-    {% include 'partials/legislation-filter.html' %}
-  </div>
-
-  <div class="govuk-grid-column-three-quarters">
-  {%- if stage_filter %}
-  <p class="govuk-body">Filtered by <span class="govuk-tag {{ stage_filter|map_to_tag_class }}">{{ stage_filter }}</span> stage. <a href="{{ url_for('main.index') }}" class="govuk-link">Clear filter</a>.</p>
-  {% endif -%}
-
-    <div class="concerns-list__wrapper">
-
-      <div class="concerns-list__count__wrapper">
-        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
-        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
-      </div>
-
-      <dl class="govuk-summary-list" data-filter="list">
-        {% for consideration in considerations -%}
-        <div class="govuk-summary-list__row" data-filter="item">
-          <dt class="govuk-summary-list__key" data-filter="match-content">
-            <a href="{{ url_for('main.consideration', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">{{ consideration['name'] }}</a>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
-              {{ consideration['stage'].value }}
-            </strong>
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ url_for('main.edit', slug=consideration.slug )}}">
-              Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
-          </dd>
-        </div>
-        {%- endfor %}
-
-      </dl>
     </div>
-
-    <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
-
   </div>
 </div>
-{% endblock content %}
-
-{% block pageScripts %}
-<script>
-  // initialise list filter
-  const $form = document.querySelector('[data-filter="form"]');
-  new window.DLFrontend.ListFilter($form).init({
-    list_section_selector: '.concerns-list__wrapper',
-    count_wrapper_selector: '.concerns-list__count__wrapper'
-  })
-</script>
 {% endblock %}

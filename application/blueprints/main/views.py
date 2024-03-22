@@ -41,6 +41,11 @@ def _update_basic_consideration_attrs(consideration, form):
 
 @main.route("/")
 def index():
+    return render_template("index.html")
+
+
+@main.route("/planning-consideration")
+def considerations():
     stage_filter = None
     legislation_param = None
     stage_param = request.args.get("stage")
@@ -65,7 +70,7 @@ def index():
         considerations = Consideration.query.filter(filter_query).all()
 
     return render_template(
-        "index.html",
+        "considerations.html",
         considerations=considerations,
         stages=Stage,
         stage_filter=stage_filter,

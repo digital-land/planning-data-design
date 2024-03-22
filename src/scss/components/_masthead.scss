@@ -1,0 +1,22 @@
+.app-masthead {
+  $_padding: 6;
+  @include govuk-responsive-padding($_padding, "top");
+  @include govuk-responsive-padding($_padding, "bottom");
+  color: #ffffff;
+  background-color: #012169;
+  margin-top: -10px;
+  position: relative;
+  z-index: 1;
+  &::after,
+  &::before {
+      content: ' ';
+      display: table;
+  }
+
+  &__title,
+  &__sub-title {
+    color: #fff;
+    max-width: 45ch;
+  }
+
+}

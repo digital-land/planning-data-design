@@ -64,7 +64,7 @@
         {%- if mode == "edit" %}
           {%- set cancelLink = url_for('main.consideration', slug=consideration.slug) %}
         {%- else %}
-          {%- set cancelLink = url_for('main.index') %}
+          {%- set cancelLink = url_for('main.considerations') %}
         {%- endif %}
         <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
       </div>

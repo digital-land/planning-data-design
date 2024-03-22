@@ -6,6 +6,8 @@ $govuk-new-link-styles: true;
 @import "digital-land-frontend/dl-frontend";
 
 // components
+@import "components/content-list";
+@import "components/masthead";
 @import "components/subnavigation";
 
 
