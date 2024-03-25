@@ -17,3 +17,4 @@ gspread
 pandas
 python-slugify
 PyGithub
+pydantic

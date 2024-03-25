@@ -13,7 +13,12 @@ from application.blueprints.main.forms import (
 )
 from application.extensions import db
 from application.forms import ConsiderationForm
-from application.models import Consideration, FrequencyOfUpdates, Stage
+from application.models import (
+    Consideration,
+    ConsiderationModel,
+    FrequencyOfUpdates,
+    Stage,
+)
 from application.utils import login_required
 
 main = Blueprint("main", __name__)
@@ -339,6 +344,19 @@ def add_useful_link(slug):
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page
     )
+
+
+@main.route("/planning-consideration.json")
+def considerations_json():
+    considerations = Consideration.query.all()
+    data = {
+        "considerations": [
+            ConsiderationModel.model_validate(c).dict()
+            for c in considerations
+            if c.public
+        ]
+    }
+    return data
 
 
 @main.route("/planning-consideration/<slug>/edit-legislation", methods=["GET", "POST"])

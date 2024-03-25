@@ -1,8 +1,9 @@
 import datetime
 import uuid
 from enum import Enum
-from typing import Optional
+from typing import List, Optional
 
+from pydantic import BaseModel
 from slugify import slugify
 from sqlalchemy import UUID
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
@@ -82,3 +83,42 @@ class Consideration(DateModel):
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
+
+
+# pydantic models
+
+
+class StageModel(BaseModel):
+    name: str
+    value: str
+
+    class Config:
+        from_attributes = True
+
+
+class FrequencyOfUpdatesModel(BaseModel):
+    name: str
+    value: str
+
+    class Config:
+        from_attributes = True
+
+
+class ConsiderationModel(BaseModel):
+    name: str
+    description: Optional[str]
+    synonyms: Optional[List[str]]
+    github_discussion_number: Optional[int]
+    stage: StageModel
+    public: bool
+    expected_number_of_records: Optional[int]
+    frequency_of_updates: Optional[FrequencyOfUpdatesModel]
+    prioritised: bool
+    schemas: Optional[list]
+    specification_url: Optional[dict]
+    useful_links: Optional[list]
+    legislation: Optional[dict]
+    slug: Optional[str]
+
+    class Config:
+        from_attributes = True
