@@ -339,3 +339,27 @@ def add_useful_link(slug):
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page
     )
+
+
+@main.route("/planning-consideration/<slug>/edit-legislation", methods=["GET", "POST"])
+@login_required
+def edit_legislation(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = LinkForm(url_required=False)
+
+    if form.validate_on_submit():
+        # handle submitted form
+        consideration.legislation["link_text"] = form.link_text.data
+        consideration.legislation["link_url"] = form.link_url.data
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
+
+    form.link_text.data = consideration.legislation["link_text"]
+    form.link_url.data = consideration.legislation["link_url"]
+
+    page = {"title": "Edit legislation", "submit_text": "Save"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )

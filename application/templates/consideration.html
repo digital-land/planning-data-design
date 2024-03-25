@@ -113,7 +113,7 @@
             </dd>
             {% if session["user"] %}
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('main.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.legislation else "Add" }}<span class="govuk-visually-hidden"> legislation</span></a>
+                <a class="govuk-link" href="{{ url_for('main.edit_legislation', slug=consideration.slug) }}">{{ "Change" if consideration.legislation else "Add" }}<span class="govuk-visually-hidden"> legislation</span></a>
               </dd>
             {% endif %}
           </div>

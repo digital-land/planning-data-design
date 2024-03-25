@@ -15,7 +15,12 @@ class SpecificationForm(FlaskForm):
 
 class LinkForm(FlaskForm):
     link_text = StringField("Title", validators=[DataRequired()])
-    link_url = StringField("URL", validators=[DataRequired()])
+    link_url = StringField("URL", validators=[])
+
+    def __init__(self, url_required=True, *args, **kwargs):
+        super(LinkForm, self).__init__(*args, **kwargs)
+        if url_required:
+            self.link_url.validators = [DataRequired()]
 
 
 class ExpectedSizeForm(FlaskForm):
