@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 
 from application.blueprints.main.forms import (
+    DeleteForm,
     ExpectedSizeForm,
     FrequencyForm,
     LinkForm,
@@ -118,6 +119,22 @@ def edit(slug):
     return render_template(
         "consideration-form.html", consideration=consideration, form=form, mode="edit"
     )
+
+
+@main.route("/planning-consideration/<slug>/delete", methods=["GET", "POST"])
+@login_required
+def delete(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = DeleteForm()
+
+    if form.validate_on_submit():
+        # handle deleting consideration
+        if true_false_to_bool(form.confirm.data):
+            consideration.delete()
+            return redirect(url_for("main.considerations"))
+        return redirect(url_for("main.consideration", slug=slug))
+
+    return render_template("delete.html", consideration=consideration, form=form)
 
 
 @main.route(

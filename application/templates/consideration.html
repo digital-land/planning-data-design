@@ -261,6 +261,12 @@
         </dl>
       </div>
     </div>
+    {%- if session["user"] %}
+    <section class="app-actions">
+      <h3 class="govuk-heading-m">Actions</h3>
+      <a href="{{ url_for('main.delete', slug=consideration.slug )}}" class="govuk-button govuk-button--warning">Delete</a>
+    </section>
+    {% endif -%}
   </div>
 </div>
 

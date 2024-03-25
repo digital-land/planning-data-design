@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+{% from 'macros/radios.html' import radioComponent %}
+
+{% block beforeContent %}
+{% include 'questiontypes/question-page-breadcrumbs.html' %}
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">Planning consideration</span>
+    <h1 class="govuk-heading-xl">Delete {{ consideration.name }}</h1>
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="govuk-form" method="POST">
+      {{ form.hidden_tag() }}
+
+      {% for field in form %}
+      <div class="govuk-form-group">
+
+        {{ radioComponent(field) }}
+
+        {% if field.errors %}
+        <ul>
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="govuk-button-group">
+        <button class="govuk-button govuk-button--warning" type="submit">Delete</button>
+        {%- set cancelLink = url_for('main.consideration', slug=consideration.slug) %}
+        <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

@@ -68,3 +68,12 @@ class SynonymForm(FlaskForm):
         validators=[DataRequired()],
         description="Add another name people use for this planning consideration",
     )
+
+
+class DeleteForm(FlaskForm):
+    confirm = RadioField(
+        "Are you sure you want to delete this?",
+        validators=[DataRequired()],
+        description="This is a destructive action. Be sure you want to permanently delete it.",
+        choices=[("True", "Yes"), ("False", "No")],
+    )

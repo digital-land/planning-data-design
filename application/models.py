@@ -42,6 +42,7 @@ class DateModel(db.Model):
     updated: Mapped[Optional[datetime.datetime]] = mapped_column(
         db.DateTime, onupdate=datetime.datetime.now
     )
+    deleted_date: Mapped[Optional[datetime.date]] = mapped_column(db.Date)
 
 
 class Consideration(DateModel):
@@ -67,6 +68,11 @@ class Consideration(DateModel):
     useful_links: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
     legislation: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))
     slug: Mapped[Optional[str]] = mapped_column(db.Text)
+
+    def delete(self):
+        self.deleted_date = datetime.date.today()
+        db.session.add(self)
+        db.session.commit()
 
     def set_slug(self):
         if self.name is not None:
