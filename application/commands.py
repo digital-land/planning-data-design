@@ -147,6 +147,6 @@ def set_fields(consideration, row):
     if useful_links:
         consideration.useful_links = useful_links
     if legistlation:
-        consideration.legislation = legistlation
+        consideration.legislation = {"link_text": legistlation, "link_url": None}
 
     return consideration

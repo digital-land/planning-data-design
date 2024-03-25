@@ -6,6 +6,7 @@ from typing import Optional
 from slugify import slugify
 from sqlalchemy import UUID
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
+from sqlalchemy.ext.mutable import MutableDict, MutableList
 from sqlalchemy.orm import Mapped, mapped_column
 
 from application.extensions import db
@@ -59,10 +60,12 @@ class Consideration(DateModel):
         ENUM(FrequencyOfUpdates)
     )
     prioritised: Mapped[bool] = mapped_column(db.Boolean, default=False)
-    schemas: Mapped[Optional[list[str]]] = mapped_column(ARRAY(db.Text))
-    specification_url: Mapped[Optional[str]] = mapped_column(db.Text)
-    useful_links: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
-    legislation: Mapped[Optional[str]] = mapped_column(db.Text)
+    schemas: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
+    specification_url: Mapped[Optional[dict]] = mapped_column(
+        MutableDict.as_mutable(JSONB)
+    )
+    useful_links: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
+    legislation: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))
     slug: Mapped[Optional[str]] = mapped_column(db.Text)
 
     def set_slug(self):

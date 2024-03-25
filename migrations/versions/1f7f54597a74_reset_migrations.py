@@ -1,8 +1,8 @@
-"""initial migration
+"""reset migrations
 
-Revision ID: 4ba79cc008d9
+Revision ID: 1f7f54597a74
 Revises:
-Create Date: 2024-03-18 10:57:26.279886
+Create Date: 2024-03-25 10:32:57.844507
 
 """
 import sqlalchemy as sa
@@ -10,7 +10,7 @@ from alembic import op
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '4ba79cc008d9'
+revision = '1f7f54597a74'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,11 +29,15 @@ def upgrade():
     sa.Column('expected_number_of_records', sa.Integer(), nullable=True),
     sa.Column('frequency_of_updates', postgresql.ENUM('DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY', 'AD_HOC', name='frequencyofupdates'), nullable=True),
     sa.Column('prioritised', sa.Boolean(), nullable=False),
-    sa.Column('specification_url', sa.Text(), nullable=True),
+    sa.Column('schemas', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('specification_url', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
     sa.Column('useful_links', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('legislation', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
+    sa.Column('slug', sa.Text(), nullable=True),
     sa.Column('created', sa.Date(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name')
     )
     # ### end Alembic commands ###
 
