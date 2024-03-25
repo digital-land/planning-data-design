@@ -351,7 +351,7 @@ def considerations_json():
     considerations = Consideration.query.all()
     data = {
         "considerations": [
-            ConsiderationModel.model_validate(c).dict()
+            ConsiderationModel.model_validate(c).model_dump()
             for c in considerations
             if c.public
         ]
