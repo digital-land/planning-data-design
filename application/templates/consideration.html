@@ -88,8 +88,14 @@
             </dt>
             <dd class="govuk-summary-list__value">
               {% set discussion_link = github_discussion_base_url + "/" + consideration.github_discussion_number|string if consideration.github_discussion_number is not none else github_discussion_base_url %}
-              {% set discussion_link_text = consideration.github_discussion_number if consideration.github_discussion_number is not none else "Create a discussion" %}
-              <a href="{{ discussion_link }}" class="govuk-link">{{ discussion_link_text }}</a>
+              {%- if consideration.github_discussion_number is not none %}
+              <a href="{{ discussion_link }}" class="govuk-link">{{ consideration.github_discussion_number }}</a>
+              {%- else -%}
+              <span class="app-missing-item">
+                <p class="govuk-!-margin-bottom-0">No discussion started</p>
+                <p class="govuk-!-font-size-16"><a href="{{ discussion_link }}" class="govuk-link">Create one now</a></p>
+              </span>
+              {% endif -%}
             </dd>
             {% if session["user"] %}
               <dd class="govuk-summary-list__actions">
