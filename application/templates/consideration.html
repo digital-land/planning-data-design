@@ -102,7 +102,14 @@
               Legislation
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.legislation if consideration.legislation }}
+              {% if consideration.legislation %}
+                {% if consideration.legislation['link_url'] %}
+                <a href="{{ consideration.legislation['link_url'] }}" class="govuk-link">{{ consideration.legislation['link_text'] }}</a>
+                {% else %}
+                <p>{{ consideration.legislation['link_text'] }}</p>
+                <span class="app-missing-item">No url recorded</span>
+                {% endif %}
+              {% endif %}
             </dd>
             {% if session["user"] %}
               <dd class="govuk-summary-list__actions">

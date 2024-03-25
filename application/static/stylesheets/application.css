@@ -8077,3 +8077,12 @@ p + .govuk-heading-s,
 .app-list__actions {
   display: flex;
   justify-content: end; }
+
+.app-missing-item {
+  display: inline-block;
+  margin: 5px 0;
+  padding: 5px 10px 5px 15px;
+  border-left: 4px solid #ffdd00;
+  color: #594d00; }
+  .app-missing-item *:last-child {
+    margin-bottom: 0; }
