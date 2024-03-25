@@ -70,6 +70,8 @@ class Consideration(DateModel):
     legislation: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))
     slug: Mapped[Optional[str]] = mapped_column(db.Text)
 
+    changes: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
+
     def delete(self):
         self.deleted_date = datetime.date.today()
         db.session.add(self)

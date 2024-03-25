@@ -1,4 +1,6 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+import datetime
+
+from flask import Blueprint, redirect, render_template, request, session, url_for
 
 from application.blueprints.main.forms import (
     DeleteForm,
@@ -267,9 +269,15 @@ def stage(slug):
     form = StageForm()
 
     if form.validate_on_submit():
-        # handle form submission
         consideration.stage = Stage(form.stage.data)
-        # To Do: record who changed it and the date
+        reason = {
+            "reason": form.data["reason"],
+            "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+            "user": session["user"]["name"],
+        }
+        if consideration.changes is None:
+            consideration.changes = []
+        consideration.changes.append(reason)
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("main.consideration", slug=slug))
