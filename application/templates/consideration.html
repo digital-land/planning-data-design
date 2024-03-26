@@ -24,7 +24,9 @@
     {% for link in params.links %}
     <li>
       <a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a>
+      {%- if session["user"] %}
       <span class="app-list__item__inline-action govuk-!-font-size-16">(<a class="app-destructive-link" href="{{ url_for('main.delete_attr_link', slug=params.consideration.slug, attr_name=params.attr, link_text=link['link_text'] )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ link['link_text'] }} schema from list</span>)</span>
+      {% endif -%}
     </li>
     {% endfor %}
   </ul>
