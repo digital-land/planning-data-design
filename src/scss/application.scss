@@ -41,7 +41,8 @@ $govuk-new-link-styles: true;
 }
 
 .app-list__item__inline-action {
-  margin-left: 5px;
+  //margin-left: 5px;
+  display: block;
 }
 
 // no thought has gone into the colour steps

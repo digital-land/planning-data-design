@@ -279,6 +279,21 @@ def add_synonym(slug):
     )
 
 
+@main.route(
+    "/planning-consideration/<slug>/synonym/<synonym>/delete", methods=["GET", "POST"]
+)
+@login_required
+def delete_synonym(slug, synonym):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    # had to ensure new list is made otherwise changes wont be saved to db
+    synonyms = [] + consideration.synonyms
+    synonyms.remove(synonym)
+    consideration.synonyms = synonyms
+    db.session.add(consideration)
+    db.session.commit()
+    return redirect(url_for("main.consideration", slug=slug))
+
+
 @main.route("/planning-consideration/<slug>/prioritised", methods=["GET", "POST"])
 @login_required
 def prioritised(slug):

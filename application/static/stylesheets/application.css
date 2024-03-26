@@ -8088,7 +8088,7 @@ p + .govuk-heading-s,
     margin-bottom: 0; }
 
 .app-list__item__inline-action {
-  margin-left: 5px; }
+  display: block; }
 
 .app-destructive-link:link {
   color: #d4351c; }
