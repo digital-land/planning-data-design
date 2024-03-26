@@ -74,9 +74,6 @@ def considerations():
     if stage_param:
         stage = Stage(stage_param)
         query = query.filter(Consideration.stage == stage)
-        considerations = query.order_by(Consideration.name.asc()).all()
-    else:
-        considerations = query.order_by(Consideration.name.asc()).all()
 
     legislation_param = request.args.get("legislation")
     if legislation_param:
@@ -85,7 +82,7 @@ def considerations():
         else:
             query = query.filter(Consideration.legislation.is_(None))
 
-    considerations = query.all()
+    considerations = query.order_by(Consideration.name.asc()).all()
 
     return render_template(
         "considerations.html",
