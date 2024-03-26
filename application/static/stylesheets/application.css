@@ -8086,3 +8086,21 @@ p + .govuk-heading-s,
   color: #594d00; }
   .app-missing-item *:last-child {
     margin-bottom: 0; }
+
+.app-list__item__inline-action {
+  margin-left: 5px; }
+
+.app-destructive-link:link {
+  color: #d4351c; }
+
+.app-destructive-link:visited {
+  color: #aa2a16; }
+
+.app-destructive-link:hover {
+  color: #942514; }
+
+.app-destructive-link:active {
+  color: #942514; }
+
+.app-destructive-link:focus {
+  color: #7f2011; }

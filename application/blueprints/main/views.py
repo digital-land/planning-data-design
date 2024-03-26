@@ -180,6 +180,51 @@ def edit_specification(slug):
     )
 
 
+@main.route("/planning-consideration/<slug>/add-schema", methods=["GET", "POST"])
+@login_required
+def add_schema(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = LinkForm()
+    form.link_text.label.text = "Schema name"
+
+    if form.validate_on_submit():
+        link = {"link_url": form.link_url.data, "link_text": form.link_text.data}
+        if consideration.schemas is None:
+            consideration.schemas = []
+        consideration.schemas.append(link)
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("main.consideration", slug=slug))
+
+    page = {"title": "Add new schema", "submit_text": "Save schema"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@main.route(
+    "/planning-consideration/<slug>/schema/<schema_name>/delete",
+    methods=["GET", "POST"],
+)
+@login_required
+def delete_schema(slug, schema_name):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+
+    # find matches
+    has_changed = False
+    for schema in consideration.schemas:
+        if schema["link_text"] == schema_name:
+            consideration.schemas.remove(schema)
+            has_changed = True
+
+    if has_changed:
+        db.session.add(consideration)
+        db.session.commit()
+
+    return redirect(url_for("main.consideration", slug=slug))
+
+
 @main.route(
     "/planning-consideration/<slug>/edit-estimated-size", methods=["GET", "POST"]
 )

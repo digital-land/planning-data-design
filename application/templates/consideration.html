@@ -18,6 +18,19 @@
 }) }}
 {% endblock beforeContent %}
 
+{% macro LinksList(params) %}
+  {% if params.links is not none %}
+  <ul class="govuk-list govuk-list--bullet">
+    {% for link in params.links %}
+    <li>
+      <a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a>
+      <span class="app-list__item__inline-action govuk-!-font-size-16">(<a class="app-destructive-link" href="{{ url_for('main.delete_schema', slug=params.consideration.slug, schema_name=link['link_text'] )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ link['link_text'] }} schema from list</span>)</span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+{% endmacro %}
+
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
@@ -180,11 +193,15 @@
               Schemas
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.schemas if consideration.schemas }}
+              {{  LinksList({
+                  "links": consideration.schemas,
+                  "consideration": consideration
+                })
+              }}
             </dd>
             {% if session["user"] %}
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('main.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.schemas else "Add" }}<span class="govuk-visually-hidden"> link to applicable schemas</span></a>
+                <a class="govuk-link" href="{{ url_for('main.add_schema', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> link to applicable schemas</span></a>
               </dd>
             {% endif %}
           </div>

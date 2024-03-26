@@ -39,3 +39,32 @@ $govuk-new-link-styles: true;
     margin-bottom: 0;
   }
 }
+
+.app-list__item__inline-action {
+  margin-left: 5px;
+}
+
+// no thought has gone into the colour steps
+.app-destructive-link {
+  &:link {
+    color: govuk-colour("red");
+  }
+
+  &:visited {
+    color: govuk-shade(govuk-colour("red"), 20%);
+  }
+
+  &:hover {
+    color: govuk-shade(govuk-colour("red"), 30%);
+  }
+
+  &:active {
+    color: govuk-shade(govuk-colour("red"), 30%);
+  }
+
+  // When focussed, the text colour needs to be darker to ensure that colour
+  // contrast is still acceptable
+  &:focus {
+    color: govuk-shade(govuk-colour("red"), 40%);
+  }
+}
