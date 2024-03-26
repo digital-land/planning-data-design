@@ -141,7 +141,7 @@
               Useful links
             </dt>
             <dd class="govuk-summary-list__value">
-              {% if consideration.useful_links|length %}
+              {% if consideration.useful_links and consideration.useful_links|length %}
               {{  LinksList({
                   "links": consideration.useful_links,
                   "consideration": consideration,
@@ -153,7 +153,7 @@
                 {% endif %}
               {% endif %}
             </dd>
-            {%- if consideration.useful_links|length == 0 %}
+            {%- if consideration.useful_links and consideration.useful_links|length == 0 %}
               {% if session["user"] %}
                 <dd class="govuk-summary-list__actions">
                   <a class="govuk-link" href="{{ url_for('main.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
