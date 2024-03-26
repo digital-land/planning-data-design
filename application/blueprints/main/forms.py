@@ -5,14 +5,6 @@ from wtforms.validators import DataRequired, Optional
 from application.models import FrequencyOfUpdates, Stage
 
 
-class SpecificationForm(FlaskForm):
-    specification_url = StringField(
-        "URL",
-        validators=[DataRequired()],
-        description="Add a link to applicable specification",
-    )
-
-
 class LinkForm(FlaskForm):
     link_text = StringField("Title", validators=[DataRequired()])
     link_url = StringField("URL", validators=[])

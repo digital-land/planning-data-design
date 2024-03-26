@@ -165,11 +165,13 @@
               Specification
             </dt>
             <dd class="govuk-summary-list__value">
-              {{ consideration.specification_url if consideration.specification_url }}
+              {%- if consideration.specification %}
+              <a href="{{ consideration.specification['link_url'] }}" class="govuk-link">{{ consideration.specification['link_text'] }}</a>
+              {% endif -%}
             </dd>
             {% if session["user"] %}
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('main.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.specification_url else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
+                <a class="govuk-link" href="{{ url_for('main.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.specification else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
               </dd>
             {% endif %}
           </div>

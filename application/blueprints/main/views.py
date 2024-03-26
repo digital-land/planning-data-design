@@ -9,7 +9,6 @@ from application.blueprints.main.forms import (
     LinkForm,
     PriorityForm,
     PublicForm,
-    SpecificationForm,
     StageForm,
     SynonymForm,
 )
@@ -46,6 +45,15 @@ def _update_basic_consideration_attrs(consideration, form):
         consideration.set_slug()
 
     return consideration
+
+
+def _update_link(consideration, attr_name, form):
+    _link = {}
+    _link["link_text"] = form.link_text.data
+    _link["link_url"] = form.link_url.data
+    setattr(consideration, attr_name, _link)
+    db.session.add(consideration)
+    db.session.commit()
 
 
 @main.route("/")
@@ -150,12 +158,16 @@ def delete(slug):
 @login_required
 def edit_specification(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
-    form = SpecificationForm(obj=consideration)
+    form = LinkForm()
 
     if form.validate_on_submit():
         # handle form submission
-        # redirect back to consideration page
-        pass
+        _update_link(consideration, "specification", form)
+        return redirect(url_for("main.consideration", slug=slug))
+
+    if consideration.specification is not None:
+        form.link_text.data = consideration.specification["link_text"]
+        form.link_url.data = consideration.specification["link_url"]
 
     page = {"title": "Specification URL"}
 
@@ -361,14 +373,12 @@ def edit_legislation(slug):
 
     if form.validate_on_submit():
         # handle submitted form
-        consideration.legislation["link_text"] = form.link_text.data
-        consideration.legislation["link_url"] = form.link_url.data
-        db.session.add(consideration)
-        db.session.commit()
+        _update_link(consideration, "legislation", form)
         return redirect(url_for("main.consideration", slug=slug))
 
-    form.link_text.data = consideration.legislation["link_text"]
-    form.link_url.data = consideration.legislation["link_url"]
+    if consideration.legislation is not None:
+        form.link_text.data = consideration.legislation["link_text"]
+        form.link_url.data = consideration.legislation["link_url"]
 
     page = {"title": "Edit legislation", "submit_text": "Save"}
 
