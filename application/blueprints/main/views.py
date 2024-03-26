@@ -82,7 +82,11 @@ def considerations():
         else:
             query = query.filter(Consideration.legislation.is_(None))
 
-    considerations = query.order_by(Consideration.name.asc()).all()
+    considerations = (
+        query.filter(Consideration.deleted_date.is_(None))
+        .order_by(Consideration.name.asc())
+        .all()
+    )
 
     return render_template(
         "considerations.html",
