@@ -24,7 +24,7 @@
     {% for link in params.links %}
     <li>
       <a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a>
-      <span class="app-list__item__inline-action govuk-!-font-size-16">(<a class="app-destructive-link" href="{{ url_for('main.delete_schema', slug=params.consideration.slug, schema_name=link['link_text'] )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ link['link_text'] }} schema from list</span>)</span>
+      <span class="app-list__item__inline-action govuk-!-font-size-16">(<a class="app-destructive-link" href="{{ url_for('main.delete_attr_link', slug=params.consideration.slug, attr_name=params.attr, link_text=link['link_text'] )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ link['link_text'] }} schema from list</span>)</span>
     </li>
     {% endfor %}
   </ul>
@@ -141,18 +141,19 @@
               Useful links
             </dt>
             <dd class="govuk-summary-list__value">
-              {% if consideration.useful_links is not none %}
-              <ul class="govuk-list govuk-list--bullet">
-                {% for link in consideration.useful_links %}
-                <li><a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a></li>
-                {% endfor %}
-              </ul>
+              {% if consideration.useful_links|length %}
+              {{  LinksList({
+                  "links": consideration.useful_links,
+                  "consideration": consideration,
+                  "attr": "useful_links"
+                })
+              }}
                 {% if session["user"] %}
                   <a class="govuk-link" href="{{ url_for('main.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
                 {% endif %}
               {% endif %}
             </dd>
-            {%- if consideration.useful_links is none %}
+            {%- if consideration.useful_links|length == 0 %}
               {% if session["user"] %}
                 <dd class="govuk-summary-list__actions">
                   <a class="govuk-link" href="{{ url_for('main.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
@@ -195,7 +196,8 @@
             <dd class="govuk-summary-list__value">
               {{  LinksList({
                   "links": consideration.schemas,
-                  "consideration": consideration
+                  "consideration": consideration,
+                  "attr": "schemas"
                 })
               }}
             </dd>

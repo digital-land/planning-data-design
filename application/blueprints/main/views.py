@@ -202,21 +202,23 @@ def add_schema(slug):
 
 
 @main.route(
-    "/planning-consideration/<slug>/schema/<schema_name>/delete",
+    "/planning-consideration/<slug>/<attr_name>/<link_text>/delete",
     methods=["GET", "POST"],
 )
 @login_required
-def delete_schema(slug, schema_name):
+def delete_attr_link(slug, attr_name, link_text):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
 
     # find matches
     has_changed = False
-    for schema in consideration.schemas:
-        if schema["link_text"] == schema_name:
-            consideration.schemas.remove(schema)
+    links = getattr(consideration, attr_name)
+    for link in links:
+        if link["link_text"] == link_text:
+            links.remove(link)
             has_changed = True
 
     if has_changed:
+        setattr(consideration, attr_name, links)
         db.session.add(consideration)
         db.session.commit()
 
