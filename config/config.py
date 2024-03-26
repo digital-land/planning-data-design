@@ -31,7 +31,7 @@ class DevelopmentConfig(Config):
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_RECORD_QUERIES = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    AUTHENTICATION_ON = False
+    AUTHENTICATION_ON = True
 
 
 class TestConfig(Config):

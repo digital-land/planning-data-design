@@ -109,7 +109,6 @@ def new():
     form = ConsiderationForm()
 
     if form.validate_on_submit():
-        # handle form submission
         consideration = _update_basic_consideration_attrs(None, form)
         db.session.add(consideration)
         db.session.commit()
@@ -125,7 +124,6 @@ def edit(slug):
     form = ConsiderationForm(obj=consideration)
 
     if form.validate_on_submit():
-        # handle form submission
         consideration.name = form.name.data
         consideration.github_discussion_number = form.github_discussion_number.data
         consideration.description = form.description.data
@@ -145,7 +143,6 @@ def delete(slug):
     form = DeleteForm()
 
     if form.validate_on_submit():
-        # handle deleting consideration
         if true_false_to_bool(form.confirm.data):
             consideration.delete()
             return redirect(url_for("main.considerations"))
@@ -163,7 +160,6 @@ def edit_specification(slug):
     form = LinkForm()
 
     if form.validate_on_submit():
-        # handle form submission
         _update_link(consideration, "specification", form)
         return redirect(url_for("main.consideration", slug=slug))
 
@@ -238,7 +234,6 @@ def edit_estimated_size(slug):
     form = ExpectedSizeForm(obj=consideration)
 
     if form.validate_on_submit():
-        # handle form submission
         consideration.expected_number_of_records = form.expected_number_of_records.data
         db.session.add(consideration)
         db.session.commit()
@@ -262,12 +257,11 @@ def add_synonym(slug):
     form = SynonymForm(obj=consideration)
 
     if form.validate_on_submit():
-        # handle form submission
-        # To Do: check for duplicates
-        # Adam - I could only get this to work if I create a new list rather than editing the existing list
-        synonyms = list()
-        synonyms = set([form.synonym.data] + consideration.synonyms)
-        consideration.synonyms = synonyms
+        if consideration.synonyms is None:
+            consideration.synonyms = []
+        synonym = form.synonym.data.strip()
+        if synonym not in consideration.synonyms:
+            consideration.synonyms.append(synonym)
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("main.consideration", slug=slug))
@@ -289,10 +283,7 @@ def add_synonym(slug):
 @login_required
 def delete_synonym(slug, synonym):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
-    # had to ensure new list is made otherwise changes wont be saved to db
-    synonyms = [] + consideration.synonyms
-    synonyms.remove(synonym)
-    consideration.synonyms = synonyms
+    consideration.synonyms.remove(synonym)
     db.session.add(consideration)
     db.session.commit()
     return redirect(url_for("main.consideration", slug=slug))
@@ -305,7 +296,6 @@ def prioritised(slug):
     form = PriorityForm(obj=consideration)
 
     if form.validate_on_submit():
-        # handle form submission
         consideration.prioritised = true_false_to_bool(form.prioritised.data)
         db.session.add(consideration)
         db.session.commit()
@@ -325,7 +315,6 @@ def public(slug):
     form = PublicForm(obj=consideration)
 
     if form.validate_on_submit():
-        # handle form submission
         consideration.public = true_false_to_bool(form.public.data)
         db.session.add(consideration)
         db.session.commit()
@@ -345,11 +334,16 @@ def stage(slug):
     form = StageForm()
 
     if form.validate_on_submit():
+        updated_stage = consideration.stage
         consideration.stage = Stage(form.stage.data)
         reason = {
             "reason": form.data["reason"],
             "date": datetime.datetime.today().strftime("%Y-%m-%d"),
             "user": session["user"]["name"],
+            "changes": {
+                "added": consideration.stage.value,
+                "deleted": updated_stage.value,
+            },
         }
         if consideration.changes is None:
             consideration.changes = []
@@ -374,7 +368,6 @@ def frequency(slug):
     form = FrequencyForm()
 
     if form.validate_on_submit():
-        # handle form submission
         consideration.frequency_of_updates = FrequencyOfUpdates(form.frequency.data)
         db.session.add(consideration)
         db.session.commit()

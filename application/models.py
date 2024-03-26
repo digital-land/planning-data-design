@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 from slugify import slugify
-from sqlalchemy import UUID
+from sqlalchemy import UUID, event
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
 from sqlalchemy.ext.mutable import MutableDict, MutableList
 from sqlalchemy.orm import Mapped, mapped_column
@@ -52,7 +52,9 @@ class Consideration(DateModel):
     )
     name: Mapped[str] = mapped_column(db.Text, unique=True)
     description: Mapped[Optional[str]] = mapped_column(db.Text)
-    synonyms: Mapped[Optional[list[str]]] = mapped_column(ARRAY(db.Text))
+    synonyms: Mapped[Optional[list[str]]] = mapped_column(
+        MutableList.as_mutable(ARRAY(db.Text))
+    )
     github_discussion_number: Mapped[Optional[int]] = mapped_column(db.Integer)
     stage: Mapped[Stage] = mapped_column(ENUM(Stage))
     public: Mapped[bool] = mapped_column(db.Boolean, default=True)
@@ -83,6 +85,43 @@ class Consideration(DateModel):
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
+
+
+@event.listens_for(Consideration, "before_update")
+def receive_before_update(mapper, connection, target):
+    from flask import session
+
+    from application.extensions import db
+
+    modifications = {}
+    state = db.inspect(target)
+    for attr in state.attrs:
+        if attr.key not in ["stage", "changes"]:
+            history = attr.load_history()
+            if history.has_changes():
+                c = {}
+                if history.added:
+                    c["added"] = history.added
+                if history.deleted:
+                    c["deleted"] = history.deleted
+                modifications[attr.key] = c
+
+    if modifications:
+        if target.changes is None:
+            target.changes = []
+
+        user_name = session.get("user", {}).get("name", None)
+        log = {
+            "user": user_name,
+            "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+            "changes": modifications,
+        }
+        target.changes.append(log)
+
+
+@event.listens_for(Consideration, "before_insert")
+def receive_before_insert(mapper, connection, target):
+    print("before_insert")
 
 
 # pydantic models
