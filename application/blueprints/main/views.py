@@ -63,34 +63,35 @@ def index():
 
 @main.route("/planning-consideration")
 def considerations():
-    stage_filter = None
-    legislation_param = None
+
     stage_param = request.args.get("stage")
-    legislation_param = request.args.get("legislation")
+    public_only = False if session.get("user") else True
+    if public_only:
+        query = Consideration.query.filter(Consideration.public == public_only)
+    else:
+        query = Consideration.query
 
     if stage_param:
         stage = Stage(stage_param)
-        stage_filter = stage_param
-        considerations = (
-            Consideration.query.filter_by(stage=stage)
-            .order_by(Consideration.name.asc())
-            .all()
-        )
+        query = query.filter(Consideration.stage == stage)
+        considerations = query.order_by(Consideration.name.asc()).all()
     else:
-        considerations = Consideration.query.order_by(Consideration.name.asc()).all()
+        considerations = query.order_by(Consideration.name.asc()).all()
 
-    # this is a temporary filter so not combining for now
+    legislation_param = request.args.get("legislation")
     if legislation_param:
-        filter_query = Consideration.legislation.is_(None)
         if legislation_param == "recorded":
-            filter_query = Consideration.legislation.isnot(None)
-        considerations = Consideration.query.filter(filter_query).all()
+            query = query.filter(Consideration.legislation.isnot(None))
+        else:
+            query = query.filter(Consideration.legislation.is_(None))
+
+    considerations = query.all()
 
     return render_template(
         "considerations.html",
         considerations=considerations,
         stages=Stage,
-        stage_filter=stage_filter,
+        stage_filter=stage.value if stage_param else None,
         legislation_filter=legislation_param,
     )
 
