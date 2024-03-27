@@ -1,0 +1,50 @@
+{% extends 'layouts/base.html' %}
+
+{% block beforeContent %}
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': "/"
+    },
+    {
+      'text': "Planning consideration",
+      'href': "/planning-consideration"
+    },
+    {
+      'text': consideration.name,
+      'href': url_for('main.consideration', slug=consideration.slug)
+    },
+    {
+      'text': question_set
+    }
+  ]
+}) }}
+
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">{{ consideration.name }}</span>
+    <h1 class="govuk-heading-xl">{{ question_set|capitalize }}</h1>
+  </div>
+</div>
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+    <p class="govuk-body">
+      <a href="{{ url_for('backlog.question', consideration_slug=consideration.slug, question_slug=starting_question ) }}" class="govuk-link">Answer all</a>
+    </p>
+
+    <ul class="govuk-list">
+      {% for question_slug, question in questions.items() %}
+      <li>
+        <h3 class="govuk-heading-m">{{ question.question }}</h3>
+        <p class="govuk-body"><a href="{{ question_slug }}" class="govuk-link">Change</a></p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

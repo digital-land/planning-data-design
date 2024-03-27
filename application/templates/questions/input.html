@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html' %}
+
+{% block beforeContent %}
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="govuk-form" method="POST">
+      {{ form.hidden_tag() }}
+
+      <span class="govuk-caption-xl">{{ consideration.name }}</span>
+      <h1 class="govuk-heading-xl">{{ form.input.label.text }}</h1>
+
+      {% for field in form %}
+      <div class="govuk-form-group">
+        {%- if field.description %}
+        <div id="" class="govuk-hint">
+          {{ field.description }}
+        </div>
+        {% endif -%}
+
+        {{ field(class='govuk-input') }}
+
+        {%- if field.errors %}
+        <ul>
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+        {% endif -%}
+      </div>
+      {% endfor %}
+
+      <div class="govuk-button-group">
+        <!-- <button class="govuk-button" type="submit">Save and continue</button> -->
+        <a href="{{ url_for('backlog.question', consideration_slug=consideration.slug, question_slug=question.next ) }}" class="govuk-button">Save and continue</a>
+        <a class="govuk-link" href="{{ url_for('backlog.index', consideration_slug=consideration.slug )}}">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

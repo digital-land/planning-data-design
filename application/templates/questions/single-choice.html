@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %}
+{% from 'macros/radios.html' import radioComponent %}
+
+{% block beforeContent %}
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="govuk-form" method="POST">
+      {{ form.hidden_tag() }}
+
+      {{ radioComponent(form.choice) }}
+
+      <div class="govuk-button-group">
+        <!-- <button class="govuk-button" type="submit">Save and continue</button> -->
+        {% if question.next %}
+          {%- set next_url = url_for('backlog.question', consideration_slug=consideration.slug, question_slug=question.next ) %}
+        {% else %}
+          {%- set next_url = url_for('backlog.index', consideration_slug=consideration.slug) %}
+        {% endif %}
+        <a href="{{ next_url }}" class="govuk-button">Save and continue</a>
+        <a class="govuk-link" href="{{ url_for('backlog.index', consideration_slug=consideration.slug )}}">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

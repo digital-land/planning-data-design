@@ -26,9 +26,11 @@ def create_app(config_filename):
 
 def register_blueprints(app):
     from application.blueprints.auth.views import auth
+    from application.blueprints.backlog.views import backlog
     from application.blueprints.main.views import main
 
     app.register_blueprint(main)
+    app.register_blueprint(backlog)
     app.register_blueprint(auth)
 
 
