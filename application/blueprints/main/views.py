@@ -341,8 +341,10 @@ def stage(slug):
             "date": datetime.datetime.today().strftime("%Y-%m-%d"),
             "user": session["user"]["name"],
             "changes": {
-                "added": consideration.stage.value,
-                "deleted": updated_stage.value,
+                "stage": {
+                    "added": consideration.stage.value,
+                    "deleted": updated_stage.value,
+                },
             },
         }
         if consideration.changes is None:
