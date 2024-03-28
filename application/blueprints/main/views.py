@@ -442,3 +442,31 @@ def edit_legislation(slug):
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page
     )
+
+
+# Report pages
+# ============
+
+
+@main.route("/wat-we-are-working-on")
+def what_we_are_working_on():
+
+    # List of stages to filter
+    active_stages = [
+        Stage.RESEARCH,
+        Stage.CO_DESIGN,
+        Stage.TEST_AND_ITERATE,
+        Stage.READY_FOR_GO_NO_GO,
+    ]
+    # ["Research", "Co-design", "Test and iterate", "Ready for go/no-go"]
+    active_considerations = Consideration.query.filter(
+        Consideration.stage.in_(active_stages)
+    ).all()
+
+    emerging_priorities = Consideration.query.filter(Consideration.prioritised).all()
+
+    return render_template(
+        "what-we-are-working-on.html",
+        active_considerations=active_considerations,
+        emerging_priorities=emerging_priorities,
+    )
