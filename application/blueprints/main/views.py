@@ -448,7 +448,7 @@ def edit_legislation(slug):
 # ============
 
 
-@main.route("/wat-we-are-working-on")
+@main.route("/what-we-are-working-on")
 def what_we_are_working_on():
 
     # List of stages to filter
