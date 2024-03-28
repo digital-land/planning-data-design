@@ -285,20 +285,20 @@
               {{ consideration.prioritised }}
             </dd>
           </div>
+          {% if session["user"] %}
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               Public
               <br />
-              {% if session["user"] %}
-                <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-                  <a class="govuk-link" href="{{ url_for('main.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
-                </span>
-              {% endif %}
+              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
+                <a class="govuk-link" href="{{ url_for('main.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+              </span>
             </dt>
             <dd class="govuk-summary-list__value">
               {{ consideration.public }}
             </dd>
           </div>
+          {% endif %}
         </dl>
       </div>
     </div>
