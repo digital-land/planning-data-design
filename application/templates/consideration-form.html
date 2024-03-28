@@ -37,7 +37,7 @@
     <form class="govuk-form" method="POST">
       {{ form.hidden_tag() }}
 
-      {% for field in form %}
+      {% for field in form if field.name != 'csrf_token' %}
       <div class="govuk-form-group">
         {{ field.label(class='govuk-label') }}
 

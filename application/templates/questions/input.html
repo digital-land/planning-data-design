@@ -12,7 +12,7 @@
       <span class="govuk-caption-xl">{{ consideration.name }}</span>
       <h1 class="govuk-heading-xl">{{ form.input.label.text }}</h1>
 
-      {% for field in form %}
+      {% for field in form if field.name != 'csrf_token' %}
       <div class="govuk-form-group">
         {%- if field.description %}
         <div id="" class="govuk-hint">
