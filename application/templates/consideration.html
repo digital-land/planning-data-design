@@ -244,7 +244,8 @@
       </div>
     </div>
 
-
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <span class="govuk-hint">{% if latest_change %}Last updated: {{ latest_change }}{% else %}No recent updates{% endif %}</span>
 
   </div>
 
@@ -259,11 +260,11 @@
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              Stage
+              <a href="{{ url_for('main.stage', slug=consideration.slug) }}" class="govuk-link govuk-link--muted">Stage</a>
               <br />
               {% if session["user"] %}
                 <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-                  <a class="govuk-link" href="{{ url_for('main.stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
+                  <a class="govuk-link" href="{{ url_for('main.change_stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
                 </span>
               {% endif %}
             </dt>
@@ -310,5 +311,6 @@
     {% endif -%}
   </div>
 </div>
+
 
 {% endblock content %}

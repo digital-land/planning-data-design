@@ -56,6 +56,16 @@ def _update_link(consideration, attr_name, form):
     db.session.commit()
 
 
+def _extract_changes_of_type(consideration, attr_name):
+    if consideration.changes is None:
+        return None
+    return [
+        change
+        for change in consideration.changes
+        if attr_name in change["changes"].keys()
+    ]
+
+
 @main.route("/")
 def index():
     return render_template("index.html")
@@ -100,7 +110,17 @@ def considerations():
 @main.route("/planning-consideration/<slug>")
 def consideration(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
-    return render_template("consideration.html", consideration=consideration)
+
+    latest_change = None
+    if consideration.changes is not None:
+        change_dates = [change["date"] for change in consideration.changes]
+        latest_change = max(change_dates)
+
+    return render_template(
+        "consideration.html",
+        consideration=consideration,
+        latest_change=latest_change,
+    )
 
 
 @main.route("/planning-consideration/add", methods=["GET", "POST"])
@@ -327,9 +347,19 @@ def public(slug):
     )
 
 
-@main.route("/planning-consideration/<slug>/stage", methods=["GET", "POST"])
-@login_required
+@main.route("/planning-consideration/<slug>/stage")
 def stage(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+
+    stage_changes = _extract_changes_of_type(consideration, "stage")
+    return render_template(
+        "stage.html", consideration=consideration, stage_changes=stage_changes
+    )
+
+
+@main.route("/planning-consideration/<slug>/stage/change", methods=["GET", "POST"])
+@login_required
+def change_stage(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
     form = StageForm()
 

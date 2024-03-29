@@ -1,0 +1,37 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">{{ consideration.name }}</span>
+    <h1 class="govuk-heading-xl">Stage</h1>
+  </div>
+</div>
+
+
+{%- if stage_changes %}
+
+  {% for change in stage_changes %}
+  <div class='govuk-grid-row'>
+    <div class='govuk-grid-column-one-quarter'>{{ change.date }}</div>
+    <div class='govuk-grid-column-one-quarter'>{{ change.user }}</div>
+    <div class='govuk-grid-column-one-quarter'>
+      <span>From: {{ change.changes.stage.deleted }}</span>
+      <br>
+      <span>To: {{ change.changes.stage.added }}</span>
+    </div>
+    <div class='govuk-grid-column-one-quarter'>{{ change.reason }}</div>
+  </div>
+  {% endfor %}
+{% else %}
+<div class='govuk-grid-row'>
+  <div class="govuk-grid-column-three-quarters">
+    <p class="govuk-body govuk-hint">No recent changes to stage of this planning consideration</p>
+  </div>
+</div>
+{% endif -%}
+
+
+
+
+{% endblock content %}
