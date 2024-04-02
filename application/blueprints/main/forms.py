@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, RadioField, StringField, TextAreaField
+from wtforms import IntegerField, RadioField, StringField, TextAreaField, URLField
 from wtforms.validators import DataRequired, Optional
 
 from application.models import FrequencyOfUpdates, Stage
@@ -7,7 +7,7 @@ from application.models import FrequencyOfUpdates, Stage
 
 class LinkForm(FlaskForm):
     link_text = StringField("Title", validators=[DataRequired()])
-    link_url = StringField("URL", validators=[])
+    link_url = URLField("URL")
 
     def __init__(self, url_required=True, *args, **kwargs):
         super(LinkForm, self).__init__(*args, **kwargs)
