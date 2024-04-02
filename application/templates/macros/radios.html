@@ -17,11 +17,21 @@
       {% for choice in params.field.choices %}
       <div class="govuk-radios__item">
         {%- set radioID = params.field.id + ('-'+loop.index|string) if loop.index %}
-        <input class="govuk-radios__input" id="{{ radioID }}" name="{{ params.field.id }}" type="radio" value="{{ choice[0] }}" {% if params.field.data == choice[0] %} checked{% endif %}>
+        <input class="govuk-radios__input" id="{{ radioID }}" name="{{ params.field.id }}" type="radio" value="{{ choice[0] }}" {% if params.field.data == choice[0] %} checked{% endif %}{% if params.conditional and params.conditional|lower() == choice[0]|lower() %} data-aria-controls="conditional"{% endif %}>
         <label class="govuk-label govuk-radios__label" for="{{ radioID }}">
           {{ choice[1] }}
         </label>
       </div>
+      {% if params.conditional and params.conditional|lower() == choice[0]|lower() %}
+      <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional">
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="{{ params.field.id }}-other">
+            Enter details
+          </label>
+          <input class="govuk-input govuk-!-width-one-third" id="{{ params.field.id }}-other" name="other" type="text">
+        </div>
+      </div>
+      {% endif %}
       {% endfor %}
     </div>
   </fieldset>

@@ -47,6 +47,14 @@ questions = {
 }
 
 
+def _compile_template_strings(questions, consideration):
+    # must be a better way to do this than each individul string
+    for q_id, q_obj in questions.items():
+        if isinstance(q_obj["question"], Template):
+            q_obj["question"] = q_obj["question"].substitute(name=consideration.name)
+    return questions
+
+
 @backlog.get("/")
 def index(consideration_slug):
     consideration = Consideration.query.filter(
@@ -57,7 +65,7 @@ def index(consideration_slug):
         "questions/set.html",
         question_set="Backlog",
         consideration=consideration,
-        questions=questions,
+        questions=_compile_template_strings(questions, consideration),
         starting_question=next(iter(questions)),
     )
 

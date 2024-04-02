@@ -15,7 +15,8 @@
         "pageHeading": {
           "size": "xl",
           "captionHTML": '<span class="govuk-caption-xl">' + consideration.name + '</span>'
-        }
+        },
+        "conditional": 'Other' if question.type == 'choose-one-from-list-other' else False
       }) }}
 
       <div class="govuk-button-group">
