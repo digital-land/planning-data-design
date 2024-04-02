@@ -10,7 +10,13 @@
     <form class="govuk-form" method="POST">
       {{ form.hidden_tag() }}
 
-      {{ radioComponent(form.choice) }}
+      {{ radioComponent({
+        "field": form.choice,
+        "pageHeading": {
+          "size": "xl",
+          "captionHTML": '<span class="govuk-caption-xl">' + consideration.name + '</span>'
+        }
+      }) }}
 
       <div class="govuk-button-group">
         <!-- <button class="govuk-button" type="submit">Save and continue</button> -->

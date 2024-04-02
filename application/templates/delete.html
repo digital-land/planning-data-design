@@ -22,7 +22,9 @@
       {% for field in form if field.name != 'csrf_token' %}
       <div class="govuk-form-group">
 
-        {{ radioComponent(field) }}
+        {{ radioComponent({
+          "field": field
+        }) }}
 
         {% if field.errors %}
         <ul>

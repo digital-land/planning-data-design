@@ -40,6 +40,7 @@ questions = {
         "choices": [
             ("Modern planning software", "Modern planning software"),
             ("Faster local plans", "Faster local plans"),
+            ("Included in LURA", "Included in LURA"),
             ("Other", "Other"),
         ],
     },

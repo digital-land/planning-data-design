@@ -1,19 +1,23 @@
-{% macro radioComponent(field) %}
+{% macro radioComponent(params) %}
 <div class="govuk-form-group">
   <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+    {% set headingSize = params.pageHeading.size|default('m') if params.pageHeading else 'm' %}
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ headingSize }}">
+      {%- if params.pageHeading and params.pageHeading.captionHTML %}
+      {{ params.pageHeading.captionHTML|safe }}
+      {% endif -%}
       <h2 class="govuk-fieldset__heading">
-      {{ field.label.text }}
+      {{ params.field.label.text }}
       </h2>
     </legend>
-    <div id="{{ field.id }}-hint" class="govuk-hint">
-      {{ field.description }}
+    <div id="{{ params.field.id }}-hint" class="govuk-hint">
+      {{ params.field.description }}
     </div>
     <div class="govuk-radios" data-module="govuk-radios">
-      {% for choice in field.choices %}
+      {% for choice in params.field.choices %}
       <div class="govuk-radios__item">
-        {%- set radioID = field.id + ('-'+loop.index|string) if loop.index %}
-        <input class="govuk-radios__input" id="{{ radioID }}" name="{{ field.id }}" type="radio" value="{{ choice[0] }}" {% if field.data == choice[0] %} checked{% endif %}>
+        {%- set radioID = params.field.id + ('-'+loop.index|string) if loop.index %}
+        <input class="govuk-radios__input" id="{{ radioID }}" name="{{ params.field.id }}" type="radio" value="{{ choice[0] }}" {% if params.field.data == choice[0] %} checked{% endif %}>
         <label class="govuk-label govuk-radios__label" for="{{ radioID }}">
           {{ choice[1] }}
         </label>
