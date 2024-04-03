@@ -502,3 +502,39 @@ def what_we_are_working_on():
         active_considerations=active_considerations,
         emerging_priorities=emerging_priorities,
     )
+
+
+@main.route("/stage-count")
+def stage_count():
+
+    considerations = Consideration.query.all()
+
+    data = {"considerations": len(considerations), "stages": {}}
+
+    for consideration in considerations:
+        data["stages"].setdefault(
+            consideration.stage.name,
+            {"name": consideration.stage.value, "considerations": []},
+        )
+        data["stages"][consideration.stage.name]["considerations"].append(consideration)
+
+    data["largest_count"] = max(
+        [len(stage["considerations"]) for stage in data["stages"].values()]
+    )
+    active_considerations = [
+        len(stage["considerations"])
+        for stage in data["stages"].values()
+        if stage["name"]
+        in [
+            "Screen",
+            "Research",
+            "Co-design",
+            "Test and iterate",
+            "Ready for go/no-go",
+            "Prepared for platform",
+        ]
+    ]
+    data["active_count"] = sum(active_considerations)
+    data["max_active"] = max(active_considerations)
+
+    return render_template("stage-count.html", data=data)

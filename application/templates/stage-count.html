@@ -1,0 +1,86 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block beforeContent %}
+<a href="{{ url_for('main.index') }}" class="govuk-back-link">Back</a>
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Breakdown of planning considerations</h1>
+
+    <p class="govuk-body-l">We know about {{ data.considerations }} planning considerations that may yield data suitable for planning.data.gov.uk. These planning considerations are split between items on on backlog, ones we are working on and ones we've decided are not a match for now.</p>
+    <p class="govuk-body-l">This page breaks down how we've categorised them and, if applicable, where they are in our design process.</p>
+  </div>
+</div>
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+    <h3 class="govuk-heading-l">In our design process</h3>
+
+    <p class="govuk-body">We are currently do work to develop our understanding and design data standards for {{ data['active_count'] }} planning considerations. Below is a breakdown of how many are in each stage of our design process.</p>
+  </div>
+</div><!-- end govuk-row -->
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <ul class="govuk-list app-report" style="--max-count: {{ data['max_active'] }}">
+      {% for stage in ["SCREEN", "RESEARCH", "CO_DESIGN", "TEST_AND_ITERATE", "READY_FOR_GO_NO_GO", "PREPARED_FOR_PLATFORM"] %}
+      {% set stage_data = data['stages'][stage] %}
+      <li class="app-report-bar" style="--bar-width: {{ stage_data['considerations']|length }}">
+        <a href="{{ url_for('main.considerations', stage=stage_data['name'])}}">
+          <!-- <div class="app-report-bar__bg1"></div>
+          <div class="app-report-bar__bg2"></div> -->
+          <div class="app-report-bar__colour-mask"></div>
+          <div class="app-report-bar__label">{{ stage_data['considerations']|length }} planning considerations in {{ stage_data['name'] }}</div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+    <h3 class="govuk-heading-l">Overview of planning considerations</h3>
+
+    <p class="govuk-body">There are lots of planning considerations we can potentially work on. These are on our backlog, after some high-level triaging we may choose to work on a given planning conisderation. Once we complete our process we should be able to collect data for planning.data.gov.uk. If we decide not to work on a planning consideration we may archive it.</p>
+    <p class="govuk-body">Below is a breakdown of where each planning consideration currently sits.</p>
+  </div>
+</div><!-- end govuk-row -->
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <ul class="govuk-list app-report" style="--max-count: {{ data['largest_count'] }}">
+      {%- set backlogLength = data['stages']['BACKLOG']['considerations']|length %}
+      <li class="app-report-bar app-report-bar--backlog" style="--bar-width: {{ backlogLength }}">
+        <a href="{{ url_for('main.considerations', stage='Backlog')}}">
+          <div class="app-report-bar__colour-mask"></div>
+          <div class="app-report-bar__label">{{ backlogLength }} planning considerations in our backlog</div>
+        </a>
+      </li>
+      {%- set activeLength = data['active_count'] %}
+      <li class="app-report-bar" style="--bar-width: {{ activeLength }}">
+        <div class="app-report-bar__colour-mask"></div>
+        <div class="app-report-bar__label">{{ activeLength }} planning considerations in our design process</div>
+      </li>
+      {%- set platformLength = data['stages']['ON_THE_PLATFORM']['considerations']|length %}
+      <li class="app-report-bar app-report-bar--on-the-platform" style="--bar-width: {{platformLength }}">
+        <a href="{{ url_for('main.considerations', stage='On the platform')}}">
+          <div class="app-report-bar__colour-mask"></div>
+          <div class="app-report-bar__label">{{platformLength }} planning considerations with data on the platform</div>
+        </a>
+      </li>
+      {%- set archivedLength = data['stages']['ARCHIVED']['considerations']|length %}
+      <li class="app-report-bar app-report-bar--archived" style="--bar-width: {{archivedLength }}">
+        <a href="{{ url_for('main.considerations', stage='Archived')}}">
+          <div class="app-report-bar__colour-mask"></div>
+          <div class="app-report-bar__label">{{archivedLength }} planning considerations have been archived</div>
+        </a>
+      </li>
+    </ul>
+
+  </div>
+</div>
+{% endblock %}
