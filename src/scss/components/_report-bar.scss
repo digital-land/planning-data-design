@@ -60,11 +60,19 @@
   width: 100%;
   mix-blend-mode: screen;
   z-index: 4;
+
+  .app-report-bar:hover & {
+    background: rgb(26, 101, 166);
+  }
 }
 
 .app-report-bar--archived {
   .app-report-bar__colour-mask {
     background: govuk-colour('orange');
+  }
+
+  &:hover .app-report-bar__colour-mask {
+    background: govuk-shade(govuk-colour('orange'), 10);
   }
 }
 
@@ -72,10 +80,18 @@
   .app-report-bar__colour-mask {
     background: govuk-colour('mid-grey');
   }
+
+  &:hover .app-report-bar__colour-mask {
+    background: govuk-shade(govuk-colour('mid-grey'), 10);
+  }
 }
 
 .app-report-bar--on-the-platform {
   .app-report-bar__colour-mask {
     background: govuk-colour('green');
+  }
+
+  &:hover .app-report-bar__colour-mask {
+    background: govuk-shade(govuk-colour('green'), 10);
   }
 }

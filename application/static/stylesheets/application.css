@@ -8003,15 +8003,26 @@ p + .govuk-heading-s,
   width: 100%;
   mix-blend-mode: screen;
   z-index: 4; }
+  .app-report-bar:hover .app-report-bar__colour-mask {
+    background: #1a65a6; }
 
 .app-report-bar--archived .app-report-bar__colour-mask {
   background: #f47738; }
 
+.app-report-bar--archived:hover .app-report-bar__colour-mask {
+  background: #dc6b32; }
+
 .app-report-bar--backlog .app-report-bar__colour-mask {
   background: #b1b4b6; }
 
+.app-report-bar--backlog:hover .app-report-bar__colour-mask {
+  background: #9fa2a4; }
+
 .app-report-bar--on-the-platform .app-report-bar__colour-mask {
   background: #00703c; }
+
+.app-report-bar--on-the-platform:hover .app-report-bar__colour-mask {
+  background: #006536; }
 
 .app-sub-navigation {
   font-family: "GDS Transport", arial, sans-serif;
