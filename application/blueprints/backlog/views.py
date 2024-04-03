@@ -33,6 +33,7 @@ questions = {
             ("Existing planning requirement", "Existing planning requirement"),
         ],
         "next": "which-focus-area-does-it-support",
+        "prev": "who-asked-for-it",
     },
     "which-focus-area-does-it-support": {
         "question": "Which 2024 focus area does the request support?",
@@ -43,6 +44,7 @@ questions = {
             ("Included in LURA", "Included in LURA"),
             ("Other", "Other"),
         ],
+        "prev": "what-is-the-driver",
     },
 }
 
