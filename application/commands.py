@@ -177,7 +177,7 @@ def load_data():
     print("Starting load data into", current_app.config["SQLALCHEMY_DATABASE_URI"])
     if (
         input(
-            "Completing process will overwrite your localdatabase. Enter 'y' to continue, or anything else to exit. "
+            "Completing process will overwrite your local database. Enter 'y' to continue, or anything else to exit. "
         )
         != "y"
     ):
