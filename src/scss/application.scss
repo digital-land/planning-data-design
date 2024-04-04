@@ -70,3 +70,9 @@ $govuk-new-link-styles: true;
     color: govuk-shade(govuk-colour("red"), 40%);
   }
 }
+
+// tweaks to govuk-notification-banner element
+
+.govuk-notification-banner__content p:first-child {
+  margin-top: 0;
+}

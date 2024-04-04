@@ -1,6 +1,7 @@
 import datetime
 
-from flask import Blueprint, redirect, render_template, request, session, url_for
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from markupsafe import Markup
 
 from application.blueprints.main.forms import (
     DeleteForm,
@@ -110,6 +111,19 @@ def considerations():
 @main.route("/planning-consideration/<slug>")
 def consideration(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
+
+    # handle rouge consideration slugs
+    if consideration is None:
+        message = Markup(
+            (
+                "<p>We don't recognise <span class='govuk-!-font-weight-bold'>"
+                f"{slug}</span>, maybe the spelling is different.</p><p>Use our "
+                "<a class='govuk-list' href='#filter-considerations-list'>search</a>"
+                " to see if the planning consideration exists.</p>"
+            )
+        )
+        flash(message)
+        return redirect(url_for("main.considerations"))
 
     latest_change = None
     if consideration.changes is not None:

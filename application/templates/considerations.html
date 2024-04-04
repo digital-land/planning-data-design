@@ -3,15 +3,28 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+      </div>
+      <div class="govuk-notification-banner__content">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endwith %}
     <h1 class="govuk-heading-xl">DLUHC Planning considerations</h1>
   </div>
 </div>
 
 <div class='govuk-grid-row'>
   <div class='govuk-grid-column-two-thirds'>
-    <form class="filter-organisations-list__form filter-organisations-list__form--active govuk-!-margin-bottom-9" data-filter="form">
-      <label class="dl-list-filter__label govuk-label govuk-!-font-weight-bold" for="filter-organisations-list">I'm looking for</label>
-      <input class="dl-list-filter__input govuk-input" type="text" id="filter-organisations-list" placeholder="For example, Planning conditions">
+    <form class="govuk-!-margin-bottom-9" data-filter="form">
+      <label class="dl-list-filter__label govuk-label govuk-!-font-weight-bold" for="filter-considerations-list">I'm looking for</label>
+      <input class="dl-list-filter__input govuk-input" type="text" id="filter-considerations-list" placeholder="For example, Planning conditions">
     </form>
   </div>
   <div class="govuk-grid-column-one-third">

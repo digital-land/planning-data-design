@@ -8174,3 +8174,6 @@ p + .govuk-heading-s,
 
 .app-destructive-link:focus {
   color: #7f2011; }
+
+.govuk-notification-banner__content p:first-child {
+  margin-top: 0; }
