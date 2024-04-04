@@ -14,6 +14,6 @@
       <span class="govuk-visually-hidden">Error:</span> Enter more detail
     </p>
   {% endif %}
-  <textarea class="govuk-textarea" id="{{ thisID }}" name="{{ thisID }}" rows="{{ params.rows | default('5') }}" aria-describedby="{{ thisID }}-hint {{ thisID }}-error">{% if params.value %}{{ params.value }}{% endif %}</textarea>
+  <textarea class="govuk-textarea" id="{{ thisID }}" name="{{ thisID }}" rows="{{ params.rows | default('5') }}" aria-describedby="{{ thisID }}-hint{% if params.error %} {{ thisID }}-error{% endif %}">{% if params.value %}{{ params.value }}{% endif %}</textarea>
 </div>
 {% endmacro %}
