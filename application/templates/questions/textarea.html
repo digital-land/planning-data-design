@@ -1,0 +1,33 @@
+{% extends 'layouts/base.html' %}
+{% from 'macros/textarea.html' import textareaComponent %}
+
+{% block beforeContent %}
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="govuk-form" method="POST">
+      {{ form.hidden_tag() }}
+
+      {{ textareaComponent({
+        'label': {
+          'text': question.question
+        },
+        'hint': {
+          'text': question.hint
+        },
+        'rows': '7',
+        'id': question.question
+      }) }}
+
+      <div class="govuk-button-group">
+        <a href="{{ url_for('screen.question', consideration_slug=consideration.slug, question_slug=question.next ) }}" class="govuk-button">Save and continue</a>
+        <a class="govuk-link" href="{{ url_for('screen.index', consideration_slug=consideration.slug )}}">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

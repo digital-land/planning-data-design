@@ -6,6 +6,7 @@ from application.blueprints.screen.forms import (
     InputForm,
     SingleChoiceForm,
     SingleChoiceFormOther,
+    TextareaForm,
 )
 from application.models import Consideration
 
@@ -17,18 +18,12 @@ screen = Blueprint(
 
 
 questions = {
-    "what-is-the-driver": {
-        "question": "What is the driver for the request?",
-        "type": "choose-one-from-list",
-        "choices": [
-            ("National policy change", "National policy change"),
-            ("Ministerial priority", "Ministerial priority"),
-            ("Specific user requirement", "Specific user requirement"),
-            ("LPA requirement", "LPA requirement"),
-            ("Existing planning requirement", "Existing planning requirement"),
-        ],
+    "what-is-the-planning-consideration": {
+        "question": Template("What is the '$name' consideration?"),
+        "type": "textarea",
+        "hint": """Provide a description of this planning consideration.
+        The common name for the planning consideration should be used here""",
         "next": "which-focus-area-does-it-support",
-        "prev": "who-asked-for-it",
     },
 }
 
@@ -71,6 +66,9 @@ def question(consideration_slug, question_slug):
     if question["type"] == "input":
         form = InputForm(label=question["question"])
         template = "questions/input.html"
+    if question["type"] == "textarea":
+        form = TextareaForm(label=question["question"])
+        template = "questions/textarea.html"
     if question["type"] == "choose-one-from-list":
         form = SingleChoiceForm(label=question["question"])
         form.choice.choices = question["choices"]

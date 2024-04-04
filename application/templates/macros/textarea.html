@@ -1,0 +1,19 @@
+{% macro textareaComponent(params) %}
+{% set thisID = params.id | replace(' ','') | replace("'",'') | replace('?','') %}
+<div class="govuk-form-group">
+  <h1 class="govuk-label-wrapper">
+    <label class="govuk-label govuk-label--l" for="more-detail">
+      {{ params.label.text }}
+    </label>
+  </h1>
+  <div id="{{ thisID }}-hint" class="govuk-hint">
+    {{ params.hint.text }}
+  </div>
+  {% if params.error %}
+    <p id="more-detail-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Enter more detail
+    </p>
+  {% endif %}
+  <textarea class="govuk-textarea" id="{{ thisID }}" name="{{ thisID }}" rows="{{ params.rows | default('5') }}" aria-describedby="{{ thisID }}-hint {{ thisID }}-error">{% if params.value %}{{ params.value }}{% endif %}</textarea>
+</div>
+{% endmacro %}

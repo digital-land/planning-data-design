@@ -1,5 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import RadioField, StringField
+from wtforms import RadioField, StringField, TextAreaField
+
+
+class TextareaForm(FlaskForm):
+    input = TextAreaField("Title")
+
+    def __init__(self, label="Title", *args, **kwargs):
+        super(InputForm, self).__init__(*args, **kwargs)
+        self.input.label.text = label
 
 
 class InputForm(FlaskForm):
