@@ -11,27 +11,35 @@
 
 {%- if stage_changes %}
 
-  {% for change in stage_changes %}
-  <div class='govuk-grid-row'>
-    <div class='govuk-grid-column-one-quarter'>{{ change.date }}</div>
-    <div class='govuk-grid-column-one-quarter'>{{ change.user }}</div>
-    <div class='govuk-grid-column-one-quarter'>
-      <span>From: {{ change.changes.stage.deleted }}</span>
-      <br>
-      <span>To: {{ change.changes.stage.added }}</span>
-    </div>
-    <div class='govuk-grid-column-one-quarter'>{{ change.reason }}</div>
-  </div>
-  {% endfor %}
-{% else %}
 <div class='govuk-grid-row'>
-  <div class="govuk-grid-column-three-quarters">
-    <p class="govuk-body govuk-hint">No recent changes to stage of this planning consideration</p>
+  <div class='govuk-grid-column-two-thirds'>
+    <div class="moj-timeline">
+      {% for change in stage_changes %}
+      <div class="moj-timeline__item">
+
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">From <span class="govuk-tag {{ change.changes.stage.deleted|map_to_tag_class }}">{{ change.changes.stage.deleted }}</span> to <span class="govuk-tag {{ change.changes.stage.added|map_to_tag_class }}">{{ change.changes.stage.added }}</span></h2>
+
+          <p class="moj-timeline__byline">by {{ change.user }}</p>
+
+        </div>
+
+        <p class="moj-timeline__date">
+          <time datetime="2019-06-14T14:01:00.000Z">{{ change.date }}</time>
+        </p>
+
+        {% if change.reason %}
+        <div class="moj-timeline__description">
+          <p>{{ change.reason }}</p>
+        </div>
+        {% endif %}
+
+      </div>
+      {% endfor %}
+    </div>
+    <p class="govuk-body govuk-hint">At the end of March 2024, we moved the planning consideration with the stage it had at the time. History had not previously been kept.</p>
   </div>
 </div>
-{% endif -%}
-
-
-
+{% endif %}
 
 {% endblock content %}

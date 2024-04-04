@@ -7838,6 +7838,161 @@ p + .govuk-heading-s,
   display: none;
   visibility: hidden; }
 
+/* ==========================================================================
+   #TIMELINE
+   ========================================================================== */
+.moj-timeline {
+  margin-bottom: 20px;
+  overflow: hidden;
+  position: relative; }
+  .moj-timeline:before {
+    background-color: #1d70b8;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 10px;
+    width: 5px; }
+
+.moj-timeline--full {
+  margin-bottom: 0; }
+  .moj-timeline--full:before {
+    height: calc(100% - 75px); }
+
+.moj-timeline__item {
+  padding-bottom: 30px;
+  padding-left: 20px;
+  position: relative; }
+  .moj-timeline__item:before {
+    background-color: #1d70b8;
+    content: "";
+    height: 5px;
+    left: 0;
+    position: absolute;
+    top: 10px;
+    width: 15px; }
+
+.moj-timeline__title {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  display: inline; }
+  @media print {
+    .moj-timeline__title {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .moj-timeline__title {
+      font-size: 19px;
+      font-size: 1.1875rem;
+      line-height: 1.31579; } }
+  @media print {
+    .moj-timeline__title {
+      font-size: 14pt;
+      line-height: 1.15; } }
+
+.moj-timeline__byline {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #505a5f;
+  display: inline;
+  margin: 0; }
+  @media print {
+    .moj-timeline__byline {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .moj-timeline__byline {
+      font-size: 19px;
+      font-size: 1.1875rem;
+      line-height: 1.31579; } }
+  @media print {
+    .moj-timeline__byline {
+      font-size: 14pt;
+      line-height: 1.15; } }
+
+.moj-timeline__date {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  font-size: 0.875rem;
+  line-height: 1.14286;
+  margin-top: 5px;
+  margin-bottom: 0; }
+  @media print {
+    .moj-timeline__date {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .moj-timeline__date {
+      font-size: 16px;
+      font-size: 1rem;
+      line-height: 1.25; } }
+  @media print {
+    .moj-timeline__date {
+      font-size: 14pt;
+      line-height: 1.2; } }
+
+.moj-timeline__description {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  margin-top: 20px; }
+  @media print {
+    .moj-timeline__description {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .moj-timeline__description {
+      font-size: 19px;
+      font-size: 1.1875rem;
+      line-height: 1.31579; } }
+  @media print {
+    .moj-timeline__description {
+      font-size: 14pt;
+      line-height: 1.15; } }
+
+/* ==========================================================================
+     #TIMELINE DOCUMENT STYLES – FOR BACKWARDS COMPATIBILITY
+     ========================================================================== */
+.moj-timeline__documents {
+  list-style: none;
+  margin-bottom: 0;
+  padding-left: 0; }
+
+.moj-timeline__document-item {
+  margin-bottom: 5px; }
+  .moj-timeline__document-item:last-child {
+    margin-bottom: 0; }
+
+.moj-timeline__document-icon {
+  float: left;
+  margin-top: 4px;
+  margin-right: 4px;
+  fill: currentColor; }
+  @media screen and (forced-colors: active) {
+    .moj-timeline__document-icon {
+      fill: linkText; } }
+
+.moj-timeline__document-link {
+  background-repeat: no-repeat;
+  background-size: 20px 16px;
+  background-position: 0 50%;
+  padding-left: 25px; }
+  .moj-timeline__document-link:focus {
+    color: #0b0c0c; }
+
 .app-content-list__list {
   list-style-type: none;
   margin: 0;
