@@ -1,10 +1,33 @@
 {% extends 'layouts/base.html' %}
 
+{% block beforeContent %}
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': url_for('main.index')
+    },
+    {
+      'text': "Planning consideration",
+      'href': url_for('main.considerations')
+    },
+    {
+      'text': consideration.name,
+      'href': url_for('main.consideration', slug=consideration.slug)
+    },
+    {
+      'text': "Changes to Stage"
+    }
+  ]
+}) }}
+
+{% endblock %}
+
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <span class="govuk-caption-xl">{{ consideration.name }}</span>
-    <h1 class="govuk-heading-xl">Stage</h1>
+    <h1 class="govuk-heading-xl">Changes to Stage</h1>
   </div>
 </div>
 
