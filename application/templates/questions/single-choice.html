@@ -22,9 +22,9 @@
       <div class="govuk-button-group">
         <!-- <button class="govuk-button" type="submit">Save and continue</button> -->
         {% if question.next %}
-          {%- set next_url = url_for('backlog.question', consideration_slug=consideration.slug, question_slug=question.next ) %}
+          {%- set next_url = url_for(stage+'.question', consideration_slug=consideration.slug, question_slug=question.next ) %}
         {% else %}
-          {%- set next_url = url_for('backlog.index', consideration_slug=consideration.slug) %}
+          {%- set next_url = url_for(stage+'.index', consideration_slug=consideration.slug) %}
         {% endif %}
         <a href="{{ next_url }}" class="govuk-button">Save and continue</a>
         <a class="govuk-link" href="{{ url_for('backlog.index', consideration_slug=consideration.slug )}}">Cancel</a>

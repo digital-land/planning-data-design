@@ -23,9 +23,9 @@ questions = {
         "type": "textarea",
         "hint": """Provide a description of this planning consideration.
         The common name for the planning consideration should be used here""",
-        "next": "legislative-definition",
+        "next": "is-there-legislation",
     },
-    "legislative-definition": {
+    "is-there-legislation": {
         "question": Template("Is there legislation that defines '$name'?"),
         "type": "choose-one-from-list",
         "choices": [
@@ -33,8 +33,46 @@ questions = {
             ("No", "No"),
         ],
         "hint": """Tell us where it is""",
-        "next": "which-focus-area-does-it-support",
         "prev": "what-is-the-planning-consideration",
+        "next": "what-is-the-legislation-that-defines",
+    },
+    "what-is-the-legislation-that-defines": {
+        "question": Template(
+            "What is the legislation that defines how a '$name' gets designated?"
+        ),
+        "type": "textarea",
+        "hint": """We are looking for the legislation that specifically sets out who,
+        where applicable, are the parties who are able to designate the planning consideration""",
+        "prev": "is-there-legislation",
+        "next": "which-focus-area-does-it-support",
+    },
+    "what-is-the-legislation-for-publication": {
+        "question": Template(
+            "What is the legislation that requires the publication of  '$name'?"
+        ),
+        "type": "textarea",
+        "hint": """We are looking for the legislation that specifically
+        mentions data/registers or other""",
+        "prev": "what-is-the-legislation-that-defines",
+        "next": "who-in-law-is-responsible-for-it",
+    },
+    "who-in-law-is-responsible-for-it": {
+        "question": Template(
+            "Who, in law, is responsible for the planning consideration or makes decisions about '$name'?"
+        ),
+        "type": "textarea",
+        "hint": """We are looking for the legislation that imposes this accountability on an organisation""",
+        "prev": "what-is-the-legislation-for-publication",
+        "next": "which-organisations-should-publish-it",
+    },
+    "which-organisations-should-publish-it": {
+        "question": Template(
+            "Which organisations do we think should publish '$name' data?"
+        ),
+        "type": "textarea",
+        "hint": """This potentially is the same as the previous question, but if it is a SoS
+        who is accountable it might be a clearly defined organisation""",
+        "prev": "who-in-law-is-responsible-for-it",
     },
 }
 
@@ -97,4 +135,5 @@ def question(consideration_slug, question_slug):
         consideration=consideration,
         form=form,
         question=question,
+        stage="screen",
     )

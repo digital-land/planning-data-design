@@ -105,4 +105,5 @@ def question(consideration_slug, question_slug):
         consideration=consideration,
         form=form,
         question=question,
+        stage="backlog",
     )
