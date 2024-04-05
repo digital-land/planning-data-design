@@ -23,7 +23,18 @@ questions = {
         "type": "textarea",
         "hint": """Provide a description of this planning consideration.
         The common name for the planning consideration should be used here""",
+        "next": "legislative-definition",
+    },
+    "legislative-definition": {
+        "question": Template("Is there legislation that defines '$name'?"),
+        "type": "choose-one-from-list",
+        "choices": [
+            ("Yes", "Yes"),
+            ("No", "No"),
+        ],
+        "hint": """Tell us where it is""",
         "next": "which-focus-area-does-it-support",
+        "prev": "what-is-the-planning-consideration",
     },
 }
 
