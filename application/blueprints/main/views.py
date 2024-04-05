@@ -552,3 +552,74 @@ def stage_count():
     data["max_active"] = max(active_considerations)
 
     return render_template("stage-count.html", data=data)
+
+
+def _flatten_list_of_lists(data):
+    return sum(data, [])
+
+
+def _augment_change_entry(consideration):
+    for change in consideration.changes:
+        change["consideration"] = consideration.name
+    return consideration.changes
+
+
+@main.route("/progress-report")
+def progress_report():
+
+    considerations = Consideration.query.all()
+    all_changes = _flatten_list_of_lists(
+        [
+            _augment_change_entry(consideration)
+            for consideration in considerations
+            if consideration.changes is not None
+        ]
+    )
+
+    # Calculate the date one week ago for default range
+    since = datetime.datetime.now() - datetime.timedelta(weeks=1)
+    since_param = request.args.get("since")
+    if since_param:
+        since = datetime.datetime.strptime(since_param, "%Y-%m-%d")
+
+    recent_changes = [
+        change
+        for change in all_changes
+        if datetime.datetime.strptime(change["date"], "%Y-%m-%d") >= since
+    ]
+
+    data = {
+        "total": len(considerations),
+        "with": {
+            "legislation": len(
+                [
+                    consideration
+                    for consideration in considerations
+                    if consideration.legislation is not None
+                ]
+            ),
+            "specification": len(
+                [
+                    consideration
+                    for consideration in considerations
+                    if consideration.specification is not None
+                ]
+            ),
+            "schemas": len(
+                [
+                    consideration
+                    for consideration in considerations
+                    if consideration.schemas is not None
+                ]
+            ),
+            "useful_links": len(
+                [
+                    consideration
+                    for consideration in considerations
+                    if consideration.useful_links is not None
+                ]
+            ),
+        },
+        "edits": {"total": len(all_changes), "recent": len(recent_changes)},
+    }
+    return render_template("progress.html", data=data, since=since)
