@@ -564,6 +564,16 @@ def _augment_change_entry(consideration):
     return consideration.changes
 
 
+def _count_coverage(considerations, attr_name):
+    return len(
+        [
+            consideration
+            for consideration in considerations
+            if getattr(consideration, attr_name) is not None
+        ]
+    )
+
+
 @main.route("/progress-report")
 def progress_report():
 
@@ -591,33 +601,12 @@ def progress_report():
     data = {
         "total": len(considerations),
         "with": {
-            "legislation": len(
-                [
-                    consideration
-                    for consideration in considerations
-                    if consideration.legislation is not None
-                ]
-            ),
-            "specification": len(
-                [
-                    consideration
-                    for consideration in considerations
-                    if consideration.specification is not None
-                ]
-            ),
-            "schemas": len(
-                [
-                    consideration
-                    for consideration in considerations
-                    if consideration.schemas is not None
-                ]
-            ),
-            "useful_links": len(
-                [
-                    consideration
-                    for consideration in considerations
-                    if consideration.useful_links is not None
-                ]
+            "legislation": _count_coverage(considerations, "legislation"),
+            "specification": _count_coverage(considerations, "specification"),
+            "schemas": _count_coverage(considerations, "schemas"),
+            "useful_links": _count_coverage(considerations, "useful_links"),
+            "github_discussion": _count_coverage(
+                considerations, "github_discussion_number"
             ),
         },
         "edits": {"total": len(all_changes), "recent": len(recent_changes)},
