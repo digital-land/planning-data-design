@@ -50,21 +50,26 @@ def question(consideration_slug, stage, question_slug):
         )
 
     label = question.format(consideration.name)
+    answer = consideration.get_answer(question)
 
     match question.question_type:
         case QuestionType.INPUT:
             form = InputForm(label=label)
+            form.input.data = answer.text if answer else ""
             template = "questions/input.html"
         case QuestionType.TEXTAREA:
             form = TextareaForm(label=label)
             template = "questions/textarea.html"
+            form.input.data = answer.text if answer else ""
         case QuestionType.CHOOSE_ONE_FROM_LIST:
             form = SingleChoiceForm(label=label)
-            form.choice.choices = question.choices
+            form.choice.choices = [(choice, choice) for choice in question.choices]
+            form.choice.data = answer.text if answer else ""
             template = "questions/single-choice.html"
         case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
             form = SingleChoiceFormOther(label=label)
-            form.choice.choices = question.choices
+            form.choice.choices = [(choice, choice) for choice in question.choices]
+            form.choice.data = answer.text if answer else ""
             template = "questions/single-choice.html"
         case _:
             return redirect(
@@ -107,12 +112,17 @@ def save_answer(consideration_slug, stage, question_slug):
         case QuestionType.INPUT:
             form = InputForm()
             data = form.input.data
+        case QuestionType.TEXTAREA:
+            form = TextareaForm()
+            data = form.input.data
         case QuestionType.CHOOSE_ONE_FROM_LIST:
             form = SingleChoiceForm()
-            data = form.choices.data
+            form.choice.choices = [(choice, choice) for choice in question.choices]
+            data = form.choice.data
         case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
             form = SingleChoiceFormOther()
-            data = form.choices.data
+            form.choice.choices = [(choice, choice) for choice in question.choices]
+            data = form.choice.data
         case _:
             return redirect(
                 url_for(
@@ -139,6 +149,15 @@ def save_answer(consideration_slug, stage, question_slug):
 
         db.session.add(consideration)
         db.session.commit()
+        if question.next:
+            return redirect(
+                url_for(
+                    "questions.question",
+                    consideration_slug=consideration_slug,
+                    stage=stage,
+                    question_slug=question.next,
+                )
+            )
 
     return redirect(
         url_for("questions.index", consideration_slug=consideration.slug, stage=stage)

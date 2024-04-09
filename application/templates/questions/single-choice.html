@@ -7,7 +7,7 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form class="govuk-form" method="POST">
+    <form class="govuk-form" method="POST" action="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage) }}">
       {{ form.hidden_tag() }}
 
       {{ radioComponent({
@@ -20,13 +20,12 @@
       }) }}
 
       <div class="govuk-button-group">
-        <!-- <button class="govuk-button" type="submit">Save and continue</button> -->
+        <button class="govuk-button" type="submit">Save and continue</button>
         {% if question.next %}
           {%- set next_url = url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.next, stage=stage ) %}
         {% else %}
           {%- set next_url = url_for('questions.index', consideration_slug=consideration.slug, stage=stage) %}
         {% endif %}
-        <a href="{{ next_url }}" class="govuk-button">Save and continue</a>
         <a class="govuk-link" href="{{ url_for('questions.index', consideration_slug=consideration.slug, stage=stage )}}">Cancel</a>
       </div>
 
