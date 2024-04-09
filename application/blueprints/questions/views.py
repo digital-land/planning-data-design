@@ -60,7 +60,7 @@ def question(consideration_slug, stage, question_slug):
         case QuestionType.TEXTAREA:
             form = TextareaForm(label=label)
             template = "questions/textarea.html"
-            form.input.data = answer.text if answer else ""
+            form.textarea.data = answer.text if answer else ""
         case QuestionType.CHOOSE_ONE_FROM_LIST:
             form = SingleChoiceForm(label=label)
             form.choice.choices = [(choice, choice) for choice in question.choices]
@@ -114,7 +114,7 @@ def save_answer(consideration_slug, stage, question_slug):
             data = form.input.data
         case QuestionType.TEXTAREA:
             form = TextareaForm()
-            data = form.input.data
+            data = form.textarea.data
         case QuestionType.CHOOSE_ONE_FROM_LIST:
             form = SingleChoiceForm()
             form.choice.choices = [(choice, choice) for choice in question.choices]
