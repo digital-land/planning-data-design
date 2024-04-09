@@ -3,7 +3,7 @@ import uuid
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import UUID4, BaseModel, Field
 from slugify import slugify
 from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text, event
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
@@ -103,36 +103,51 @@ class Consideration(DateModel):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
 
 
-# @event.listens_for(Consideration, "before_update")
-# def receive_before_update(mapper, connection, target):
-#     from flask import session
+@event.listens_for(Consideration, "before_update")
+def receive_before_update(mapper, connection, target):
+    from flask import session
 
-#     from application.extensions import db
+    from application.extensions import db
 
-#     modifications = {}
-#     state = db.inspect(target)
-#     for attr in state.attrs:
-#         if attr.key not in ["stage", "changes"]:
-#             history = attr.load_history()
-#             if history.has_changes():
-#                 c = {}
-#                 if history.added:
-#                     c["added"] = history.added
-#                 if history.deleted:
-#                     c["deleted"] = history.deleted
-#                 modifications[attr.key] = c
+    try:
+        modifications = {}
+        state = db.inspect(target)
+        for attr in state.attrs:
+            if attr.key not in ["stage", "changes"]:
+                history = attr.load_history()
+                if history.has_changes():
+                    c = {}
+                    if history.added:
+                        c["added"] = history.added
+                    if history.deleted:
+                        c["deleted"] = history.deleted
+                    modifications[attr.key] = c
 
-#     if modifications:
-#         if target.changes is None:
-#             target.changes = []
+                if attr.key == "answers":
+                    answers = modifications.get(attr.key, {})
+                    added = []
+                    deleted = []
+                    for a in answers.get("added", []):
+                        added.append(AnswerModel.model_validate(a).model_dump())
+                        raise Exception("foo")
+                    for d in answers.get("deleted", []):
+                        deleted.append(AnswerModel.model_validate(d).model_dump())
+                    modifications[attr.key] = {"added": added, "deleted": deleted}
 
-#         user_name = session.get("user", {}).get("name", None)
-#         log = {
-#             "user": user_name,
-#             "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-#             "changes": modifications,
-#         }
-#         target.changes.append(log)
+        if modifications:
+            if target.changes is None:
+                target.changes = []
+
+            user_name = session.get("user", {}).get("name", None)
+            log = {
+                "user": user_name,
+                "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+                "changes": modifications,
+            }
+            target.changes.append(log)
+    except Exception as e:
+        print(e)
+        print("Error logging changes")
 
 
 @event.listens_for(Consideration, "before_insert")
@@ -217,6 +232,15 @@ class ConsiderationModel(BaseModel):
     useful_links: Optional[list]
     legislation: Optional[dict]
     slug: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+
+class AnswerModel(BaseModel):
+    text: str
+    consideration_id: UUID4 = Field(exclude=True)
+    question_slug: str
 
     class Config:
         from_attributes = True
