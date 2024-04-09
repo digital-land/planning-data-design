@@ -6,7 +6,13 @@ import pandas as pd
 from flask.cli import AppGroup, load_dotenv
 
 from application.extensions import db
-from application.models import Consideration, FrequencyOfUpdates, Stage
+from application.models import (
+    Consideration,
+    FrequencyOfUpdates,
+    Question,
+    QuestionType,
+    Stage,
+)
 
 consider_cli = AppGroup("consider")
 
@@ -223,3 +229,37 @@ def load_data():
         )
 
     print("Data loaded successfully")
+
+
+@consider_cli.command("load-questions")
+def load_questions():
+
+    from application.extensions import db
+    from application.question_sets import questions
+
+    print("\nLoading/updating questions")
+
+    for stage in questions.keys():
+        print("\tLoading questions for", stage)
+        qs = questions[stage]
+        for slug in qs.keys():
+            question = Question.query.filter(Question.slug == slug).one_or_none()
+            if question is None:
+                print(f"\t\tCreating question: '{slug}'")
+                question = Question(slug=slug, stage=stage)
+            else:
+                print(f"\t\tReloading question: '{slug}'. Any changes will be applied.")
+
+            q = qs[slug]
+            question.text = q["question"]
+            question.hint = q.get("hint", None)
+
+            question.question_type = QuestionType(q["type"])
+            question.next = q.get("next", None)
+            question.previous = q.get("prev", None)
+            question.choices = q.get("choices", None)
+
+            db.session.add(question)
+            db.session.commit()
+
+    print("Questions loaded successfully")

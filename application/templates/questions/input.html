@@ -6,7 +6,7 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form class="govuk-form" method="POST">
+    <form class="govuk-form" method="POST" action="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage) }}">
       {{ form.hidden_tag() }}
 
       <span class="govuk-caption-xl">{{ consideration.name }}</span>
@@ -33,9 +33,8 @@
       {% endfor %}
 
       <div class="govuk-button-group">
-        <!-- <button class="govuk-button" type="submit">Save and continue</button> -->
-        <a href="{{ url_for('backlog.question', consideration_slug=consideration.slug, question_slug=question.next ) }}" class="govuk-button">Save and continue</a>
-        <a class="govuk-link" href="{{ url_for('backlog.index', consideration_slug=consideration.slug )}}">Cancel</a>
+        <button class="govuk-button" type="submit">Save and continue</button>
+        <a class="govuk-link" href="{{ url_for('questions.index', consideration_slug=consideration.slug, stage=stage )}}">Cancel</a>
       </div>
 
     </form>

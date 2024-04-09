@@ -22,8 +22,8 @@
       }) }}
 
       <div class="govuk-button-group">
-        <a href="{{ url_for('screen.question', consideration_slug=consideration.slug, question_slug=question.next ) }}" class="govuk-button">Save and continue</a>
-        <a class="govuk-link" href="{{ url_for('screen.index', consideration_slug=consideration.slug )}}">Cancel</a>
+        <a href="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.next, stage=stage ) }}" class="govuk-button">Save and continue</a>
+        <a class="govuk-link" href="{{ url_for('questions.index', consideration_slug=consideration.slug, stage=stage )}}">Cancel</a>
       </div>
 
     </form>

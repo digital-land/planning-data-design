@@ -14,6 +14,8 @@ def create_app(config_filename):
     app.config.from_object(config_filename)
     app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 10
 
+    register_converters(app)
+    # converters need to be registered first to be used in blueprints
     register_blueprints(app)
     register_context_processors(app)
     register_templates(app)
@@ -26,14 +28,12 @@ def create_app(config_filename):
 
 def register_blueprints(app):
     from application.blueprints.auth.views import auth
-    from application.blueprints.backlog.views import backlog
     from application.blueprints.main.views import main
-    from application.blueprints.screen.views import screen
+    from application.blueprints.questions.views import questions
 
-    app.register_blueprint(main)
-    app.register_blueprint(backlog)
-    app.register_blueprint(screen)
     app.register_blueprint(auth)
+    app.register_blueprint(main)
+    app.register_blueprint(questions)
 
 
 def register_context_processors(app):
@@ -128,3 +128,9 @@ def register_commands(app):
     from application.commands import consider_cli
 
     app.cli.add_command(consider_cli)
+
+
+def register_converters(app):
+    from application.utils import StageConverter
+
+    app.url_map.converters["stage"] = StageConverter
