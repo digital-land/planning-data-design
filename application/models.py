@@ -95,7 +95,7 @@ class Consideration(DateModel):
     def get_answer(self, question):
         answer = next(
             (a for a in self.answers if a.question_slug == question.slug),
-            "Not anwsered yet",
+            "Not answered yet",
         )
         return answer
 
