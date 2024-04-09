@@ -9,7 +9,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <span class="govuk-caption-xl">{{ consideration.name }}</span>
-    <h1 class="govuk-heading-xl">{{ form.textarea.label.text }}</h1>
+    <h1 class="govuk-heading-xl">{{ form.input.label.text }}</h1>
 
     <form class="govuk-form" method="POST" action="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage) }}">
       {{ form.hidden_tag() }}
@@ -22,8 +22,9 @@
           'text': question.hint
         },
         'rows': '7',
-        'id': "textarea",
-        'name': "textarea",
+        'id': 'input',
+        'name': 'input',
+        'value': form.input.data,
       }) }}
 
       <div class="govuk-button-group">

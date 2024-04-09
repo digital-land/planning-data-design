@@ -3,11 +3,11 @@ from wtforms import RadioField, StringField, TextAreaField
 
 
 class TextareaForm(FlaskForm):
-    textarea = TextAreaField("Title")
+    input = TextAreaField("Title")
 
     def __init__(self, label="Title", *args, **kwargs):
         super(TextareaForm, self).__init__(*args, **kwargs)
-        self.textarea.label.text = label
+        self.input.label.text = label
 
 
 class InputForm(FlaskForm):

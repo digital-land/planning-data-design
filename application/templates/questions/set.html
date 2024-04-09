@@ -44,7 +44,7 @@
           <li>
             <h3 class="govuk-heading-m">{{ question.format(consideration.name) }}</h3>
             <p class="govuk-body">{% if answer %}{{ answer.text }}{% endif %}</p>
-            <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">Change</a></p>
+            <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">{% if answer %}Edit{% else %}Add{% endif %}</a></p>
           </li>
       {% endfor %}
     </ul>
