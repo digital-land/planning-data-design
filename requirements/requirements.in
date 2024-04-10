@@ -13,8 +13,6 @@ gunicorn
 python-dotenv
 alembic-postgresql-enum
 Authlib
-gspread
-pandas
 python-slugify
 PyGithub
 pydantic

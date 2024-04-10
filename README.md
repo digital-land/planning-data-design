@@ -8,6 +8,12 @@ Manage planning considerations through standards process
     node 18
     postgresql
 
+For loading data into db:
+
+    heroku-cli
+
+[heroku-cli](https://devcenter.heroku.com/articles/heroku-cli)
+
 
 ## Get started
 
@@ -18,9 +24,15 @@ Manage planning considerations through standards process
     flask db upgrade
 
 
-## Load grid data
+## Load/update consideration data
 
-    flask consider load-backlog
+    flask consider load-data
+
+## Load/update questions
+
+Questions are [here](application/question_sets.py)
+
+    flask consider load-questions
 
 ## Run app locally
 
