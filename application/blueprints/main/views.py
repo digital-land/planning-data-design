@@ -126,7 +126,7 @@ def consideration(slug):
         return redirect(url_for("main.considerations"))
 
     latest_change = None
-    if consideration.changes is not None:
+    if consideration.changes is not None and len(consideration.changes) > 0:
         change_dates = [change["date"] for change in consideration.changes]
         latest_change = max(change_dates)
 
