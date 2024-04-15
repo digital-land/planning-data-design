@@ -74,3 +74,11 @@ class DeleteForm(FlaskForm):
         description="This is a destructive action. Be sure you want to permanently delete it.",
         choices=[("True", "Yes"), ("False", "No")],
     )
+
+
+class ConsiderationForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    github_discussion_number = IntegerField(
+        "Github disucssion number", validators=[Optional()]
+    )
+    description = TextAreaField("Description", validators=[Optional()])

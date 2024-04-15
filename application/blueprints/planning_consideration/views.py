@@ -4,7 +4,8 @@ from flask import Blueprint, flash, redirect, render_template, request, session,
 from markupsafe import Markup
 from slugify import slugify
 
-from application.blueprints.main.forms import (
+from application.blueprints.planning_consideration.forms import (
+    ConsiderationForm,
     DeleteForm,
     ExpectedSizeForm,
     FrequencyForm,
@@ -15,7 +16,6 @@ from application.blueprints.main.forms import (
     SynonymForm,
 )
 from application.extensions import db
-from application.forms import ConsiderationForm
 from application.models import Consideration, FrequencyOfUpdates, Stage
 from application.utils import login_required
 
