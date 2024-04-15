@@ -118,7 +118,7 @@ def consideration(slug):
             )
         )
         flash(message)
-        return redirect(url_for(""))
+        return redirect(url_for("planning_consideration.considerations"))
 
     latest_change = None
     if consideration.changes is not None and len(consideration.changes) > 0:
