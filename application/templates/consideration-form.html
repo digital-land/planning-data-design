@@ -62,9 +62,9 @@
       <div class="govuk-button-group">
         <button class="govuk-button" type="submit">{{ "Save changes" if mode == "edit" else "Create" }}</button>
         {%- if mode == "edit" %}
-          {%- set cancelLink = url_for('main.consideration', slug=consideration.slug) %}
+          {%- set cancelLink = url_for('planning_consideration.consideration', slug=consideration.slug) %}
         {%- else %}
-          {%- set cancelLink = url_for('main.considerations') %}
+          {%- set cancelLink = url_for('planning_consideration.considerations') %}
         {%- endif %}
         <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
       </div>

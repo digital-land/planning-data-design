@@ -23,7 +23,7 @@
   </div>
   <div class="govuk-button-group">
     <button class="govuk-button" type="submit">Filter</button>
-    <a class="govuk-link" href="{{ url_for('main.considerations') }}">Clear</a>
+    <a class="govuk-link" href="{{ url_for('planning_consideration.considerations') }}">Clear</a>
   </div>
   {% if stage_filter %}
     <input type="hidden" name="stage" value="{{ stage_filter }}">

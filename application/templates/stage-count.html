@@ -29,7 +29,7 @@
       {% for stage in ["SCREEN", "RESEARCH", "CO_DESIGN", "TEST_AND_ITERATE", "READY_FOR_GO_NO_GO", "PREPARED_FOR_PLATFORM"] %}
       {% set stage_data = data['stages'][stage] %}
       <li class="app-report-bar" style="--bar-width: {{ stage_data['considerations']|length }}">
-        <a href="{{ url_for('main.considerations', stage=stage_data['name'])}}">
+        <a href="{{ url_for('planning_consideration.considerations', stage=stage_data['name'])}}">
           <!-- <div class="app-report-bar__bg1"></div>
           <div class="app-report-bar__bg2"></div> -->
           <div class="app-report-bar__colour-mask"></div>
@@ -55,7 +55,7 @@
     <ul class="govuk-list app-report" style="--max-count: {{ data['largest_count'] }}">
       {%- set backlogLength = data['stages']['BACKLOG']['considerations']|length %}
       <li class="app-report-bar app-report-bar--backlog" style="--bar-width: {{ backlogLength }}">
-        <a href="{{ url_for('main.considerations', stage='Backlog')}}">
+        <a href="{{ url_for('planning_consideration.considerations', stage='Backlog')}}">
           <div class="app-report-bar__colour-mask"></div>
           <div class="app-report-bar__label">{{ backlogLength }} planning considerations in our backlog</div>
         </a>
@@ -67,14 +67,14 @@
       </li>
       {%- set platformLength = data['stages']['ON_THE_PLATFORM']['considerations']|length %}
       <li class="app-report-bar app-report-bar--on-the-platform" style="--bar-width: {{platformLength }}">
-        <a href="{{ url_for('main.considerations', stage='On the platform')}}">
+        <a href="{{ url_for('planning_consideration.considerations', stage='On the platform')}}">
           <div class="app-report-bar__colour-mask"></div>
           <div class="app-report-bar__label">{{platformLength }} planning considerations with data on the platform</div>
         </a>
       </li>
       {%- set archivedLength = data['stages']['ARCHIVED']['considerations']|length %}
       <li class="app-report-bar app-report-bar--archived" style="--bar-width: {{archivedLength }}">
-        <a href="{{ url_for('main.considerations', stage='Archived')}}">
+        <a href="{{ url_for('planning_consideration.considerations', stage='Archived')}}">
           <div class="app-report-bar__colour-mask"></div>
           <div class="app-report-bar__label">{{archivedLength }} planning considerations have been archived</div>
         </a>

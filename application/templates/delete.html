@@ -38,7 +38,7 @@
 
       <div class="govuk-button-group">
         <button class="govuk-button govuk-button--warning" type="submit">Delete</button>
-        {%- set cancelLink = url_for('main.consideration', slug=consideration.slug) %}
+        {%- set cancelLink = url_for('planning_consideration.consideration', slug=consideration.slug) %}
         <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
       </div>
 
