@@ -1,4 +1,5 @@
 {% extends 'layouts/base.html' %}
+{% from 'macros/radios.html' import radioComponent %}
 
 {% block beforeContent %}
 
@@ -39,16 +40,23 @@
 
       {% for field in form if field.name != 'csrf_token' %}
       <div class="govuk-form-group">
-        {{ field.label(class='govuk-label') }}
-
         {% if field.type == "IntegerField" %}
-          {% set fieldClass = 'govuk-input govuk-input--width-4' %}
+          {{ field.label(class='govuk-label') }}
+          {{ field(class='govuk-input govuk-input--width-4') }}
         {% elif field.type == "TextAreaField" %}
-          {% set fieldClass = 'govuk-textarea' %}
+          {{ field.label(class='govuk-label') }}
+          {{ field(class='govuk-textarea') }}
+        {% elif field.type == "RadioField" %}
+          {{ radioComponent({
+            "field": form.public_or_private,
+            "pageHeading": {"size": "m"},
+            })
+          }}
         {% else %}
-          {% set fieldClass = 'govuk-input' %}
+          {{ field.label(class='govuk-label') }}
+          {{ field(class='govuk-input') }}
         {% endif %}
-        {{ field(class=fieldClass) }}
+
         {% if field.errors %}
         <ul>
         {% for error in field.errors %}

@@ -41,6 +41,8 @@ def _update_basic_consideration_attrs(consideration, form):
     consideration.name = form.name.data
     consideration.github_discussion_number = form.github_discussion_number.data
     consideration.description = form.description.data
+    if form.public_or_private.data == "private":
+        consideration.public = False
 
     if is_new:
         consideration.set_slug()
