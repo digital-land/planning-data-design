@@ -109,11 +109,17 @@ def receive_before_update(mapper, connection, target):
 
     from application.extensions import db
 
+    attr_to_model = {
+        "stage": StageModel,
+        "answers": AnswerModel,
+        "frequency_of_updates": FrequencyOfUpdatesModel,
+    }
+
     try:
         modifications = {}
         state = db.inspect(target)
         for attr in state.attrs:
-            if attr.key not in ["stage", "changes"]:
+            if attr.key not in ["changes", "udpated", "deleted_date"]:
                 history = attr.load_history()
                 if history.has_changes():
                     c = {}
@@ -123,16 +129,22 @@ def receive_before_update(mapper, connection, target):
                         c["deleted"] = history.deleted
                     modifications[attr.key] = c
 
-                if attr.key == "answers":
-                    answers = modifications.get(attr.key, {})
-                    added = []
-                    deleted = []
-                    for a in answers.get("added", []):
-                        added.append(AnswerModel.model_validate(a).model_dump())
-                        raise Exception("foo")
-                    for d in answers.get("deleted", []):
-                        deleted.append(AnswerModel.model_validate(d).model_dump())
-                    modifications[attr.key] = {"added": added, "deleted": deleted}
+                # handle field that need additional json serialization - stage, answers, frequency_of_updates
+                if attr.key in attr_to_model.keys():
+                    mods = modifications.get(attr.key, {})
+                    if mods:
+                        added = []
+                        deleted = []
+                        model_class = attr_to_model.get(attr.key)
+                        for a in mods.get("added", []):
+                            added.append(model_class.model_validate(a).model_dump())
+                        for d in mods.get("deleted", []):
+                            deleted.append(model_class.model_validate(d).model_dump())
+                        if added or deleted:
+                            modifications[attr.key] = {
+                                "added": added,
+                                "deleted": deleted,
+                            }
 
         if modifications:
             if target.changes is None:
