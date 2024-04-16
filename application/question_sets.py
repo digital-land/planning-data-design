@@ -54,7 +54,7 @@ questions = {
             "hint": """We are looking for the legislation that specifically sets out who,
             where applicable, are the parties who are able to designate the planning consideration""",
             "prev": "is-there-legislation",
-            "next": "which-focus-area-does-it-support",
+            "next": "what-is-the-legislation-for-publication",
         },
         "what-is-the-legislation-for-publication": {
             "question": "What is the legislation that requires the publication of '{name}'?",

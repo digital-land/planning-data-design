@@ -8,7 +8,9 @@
   <div class="govuk-grid-column-two-thirds">
     <form class="govuk-form" method="POST" action="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage) }}">
       {{ form.hidden_tag() }}
-
+      {% if request.args.get('next') %}
+        <input type="hidden" name="next" value="{{ request.args.get('next') }}"/>
+      {% endif %}
       <span class="govuk-caption-xl">{{ consideration.name }}</span>
       <h1 class="govuk-heading-xl">{{ form.input.label.text }}</h1>
 
@@ -33,7 +35,11 @@
       {% endfor %}
 
       <div class="govuk-button-group">
-        <button class="govuk-button" type="submit">Save and continue</button>
+        {% if next %}
+          <button class="govuk-button" type="submit">Save and continue</button>
+        {% else %}
+          <button class="govuk-button" type="submit">Save</button>
+        {% endif %}
         <a class="govuk-link" href="{{ url_for('questions.index', consideration_slug=consideration.slug, stage=stage )}}">Cancel</a>
       </div>
 

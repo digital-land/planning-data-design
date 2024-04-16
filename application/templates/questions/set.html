@@ -34,10 +34,8 @@
 <div class='govuk-grid-row'>
   <div class='govuk-grid-column-two-thirds'>
     <p class="govuk-body">
-      <!-- not sure how this is supposed to work -->
-      <!-- <a href="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=starting_question.slug, stage=stage) }}" class="govuk-link">Answer all</a> -->
+      <a href="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=starting_question.slug, stage=stage, next=True) }}" class="govuk-link">Answer all</a>
     </p>
-
     <ul class="govuk-list">
       {% for question in questions %}
         {% set answer = consideration.get_answer(question) %}

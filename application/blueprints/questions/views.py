@@ -34,6 +34,8 @@ def index(consideration_slug, stage):
 
 @questions.get("/<question_slug>")
 def question(consideration_slug, stage, question_slug):
+    from flask import request
+
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
     ).first()
@@ -86,11 +88,14 @@ def question(consideration_slug, stage, question_slug):
         form=form,
         question=question,
         stage=stage,
+        next=request.args.get("next"),
     )
 
 
 @questions.post("/<question_slug>")
 def save_answer(consideration_slug, stage, question_slug):
+    from flask import request
+
     from application.extensions import db
 
     consideration = Consideration.query.filter(
@@ -149,13 +154,14 @@ def save_answer(consideration_slug, stage, question_slug):
 
         db.session.add(consideration)
         db.session.commit()
-        if question.next:
+        if question.next and request.form.get("next") is not None:
             return redirect(
                 url_for(
                     "questions.question",
                     consideration_slug=consideration_slug,
                     stage=stage,
                     question_slug=question.next,
+                    next=True,
                 )
             )
 
