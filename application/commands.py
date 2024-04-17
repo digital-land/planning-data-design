@@ -112,3 +112,25 @@ def load_questions():
             db.session.commit()
 
     print("Questions loaded successfully")
+
+
+@consider_cli.command("check-questions")
+def check_questions():
+    from application.question_sets import questions
+
+    for stage in questions.keys():
+        qs = questions[stage]
+        for slug in qs.keys():
+            q = qs[slug]
+            next_slug = q.get("next", None)
+            if next_slug is not None:
+                if next_slug not in qs.keys():
+                    print(
+                        f"{stage} question '{slug}' has next question '{next_slug}' not in the set"
+                    )
+            prev_slug = q.get("prev", None)
+            if prev_slug is not None:
+                if prev_slug not in qs.keys():
+                    print(
+                        f"{stage} question '{slug}' has prev question '{prev_slug}' not in the set"
+                    )

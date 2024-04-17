@@ -34,6 +34,12 @@ Questions are [here](application/question_sets.py)
 
     flask consider load-questions
 
+To add/edit a question make changes [here](application/question_sets.py) then run
+
+    flask consider check-questions
+
+Fix any errors then run the load command above
+
 ## Run app locally
 
     flask run
