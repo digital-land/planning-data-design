@@ -245,6 +245,16 @@
     </div>
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <section id="design-process-stages">
+      <h2 class="govuk-heading-l">Design process stages</h2>
+      <p class="govuk-body">Each planning consideration we work on passes through the stages of our design process. At each stage we are trying to learn enough to more on to the next stage.</p>
+      <ul class="govuk-list">
+        <li><a href="{{ url_for('questions.index', stage=stages.BACKLOG, consideration_slug=consideration.slug )}}" class="govuk-link">Backlog</a></li>
+        <li><a href="{{ url_for('questions.index', stage=stages.SCREEN, consideration_slug=consideration.slug )}}" class="govuk-link">Screen</a></li>
+      </ul>
+    </section>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <span class="govuk-hint">{% if latest_change %}Last updated: {{ latest_change }}{% else %}No recent updates{% endif %}</span>
 
   </div>

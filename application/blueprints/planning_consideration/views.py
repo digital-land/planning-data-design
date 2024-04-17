@@ -131,6 +131,7 @@ def consideration(slug):
         "consideration.html",
         consideration=consideration,
         latest_change=latest_change,
+        stages=Stage,
     )
 
 
