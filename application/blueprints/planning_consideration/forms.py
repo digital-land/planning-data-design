@@ -86,4 +86,5 @@ class ConsiderationForm(FlaskForm):
         "Public or private",
         validators=[DataRequired()],
         choices=[("public", "Public"), ("private", "Private")],
+        default="public",
     )
