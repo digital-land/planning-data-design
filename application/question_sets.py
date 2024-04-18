@@ -79,9 +79,17 @@ questions = {
             "next": "is-it-a-trigger",
         },
         "is-it-a-trigger": {
-            "question": "Is the {name} a trigger - and if so, what does it trigger?",
-            "type": "textarea",
+            "question": "Is the {name} a trigger?",
+            "type": "choose-one-from-list",
+            "choices": ["Yes", "No"],
             "hint": """Considerations can trigger a need to do something or a series of things.""",
+            "prev": "publishing-organisations",
+            # this needs a logic gate here
+            "next": "what-is-triggered",
+        },
+        "what-is-triggered": {
+            "question": "What is triggered by {name}?",
+            "type": "textarea",
             "prev": "publishing-organisations",
             "next": "is-it-consulted",
         },

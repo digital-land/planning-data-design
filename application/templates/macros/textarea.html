@@ -6,9 +6,11 @@
       {{ params.label.text }}
     </label>
   </h1>
+  {% if params.hint.text %}
   <div id="{{ thisID }}-hint" class="govuk-hint">
     {{ params.hint.text }}
   </div>
+  {% endif %}
   {% if params.error %}
     <p id="more-detail-error" class="govuk-error-message">
       <span class="govuk-visually-hidden">Error:</span> Enter more detail
