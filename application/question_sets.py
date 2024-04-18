@@ -185,4 +185,21 @@ questions = {
             "prev": "single-source",
         },
     },
+    Stage.RESEARCH: {
+        "lifecycle": {
+            "question": "What is the (high-level) lifecycle of a {name}?",
+            "type": "textarea",
+            "hint": """Provide details on designation and de-designation.""",
+            "next": {
+                "type": "url",
+                "url": "is-a-data-standard-required",
+            },
+        },
+        "how-is-data-created": {
+            "question": "Do we understand how the data is created/produced?",
+            "type": "textarea",
+            "hint": """What is the recipe? How do we think the publisher does this?""",
+            "prev": "lifecycle",
+        },
+    },
 }
