@@ -109,7 +109,7 @@ questions = {
             "next": "existing-data",
         },
         "existing-data": {
-            "question": "Is there any {name} already data available?",
+            "question": "Is there any {name} data already available?",
             "type": "choose-one-from-list",
             "choices": ["Yes", "No"],
             "prev": "is-it-consulted",
