@@ -6,7 +6,7 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form class="govuk-form" method="POST" action="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage) }}">
+    <form class="govuk-form" method="POST" action="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
       {{ form.hidden_tag() }}
       {% if request.args.get('next') %}
         <input type="hidden" name="next" value="{{ request.args.get('next') }}"/>

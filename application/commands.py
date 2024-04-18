@@ -83,6 +83,8 @@ def load_data():
 @consider_cli.command("load-questions")
 def load_questions():
 
+    # how do we preserve order?
+
     from application.extensions import db
     from application.question_sets import questions
 

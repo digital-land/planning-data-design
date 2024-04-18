@@ -154,13 +154,21 @@ def save_answer(consideration_slug, stage, question_slug):
 
         db.session.add(consideration)
         db.session.commit()
-        if question.next and request.form.get("next") is not None:
+        if question.next and request.args.get("next") is not None:
+            question_slug = question.next.get("url", None)
+            if question.next["type"] == "condition":
+                # In thef future, we might have multiple conditions to look through
+                condition = question.next["conditions"][0]
+                question_slug = question.next["default_url"]
+                if answer.text == condition["value"]:
+                    question_slug = condition["url"]
+
             return redirect(
                 url_for(
                     "questions.question",
                     consideration_slug=consideration_slug,
                     stage=stage,
-                    question_slug=question.next,
+                    question_slug=question_slug,
                     next=True,
                 )
             )

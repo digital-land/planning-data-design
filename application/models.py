@@ -194,7 +194,7 @@ class Question(DateModel):
     hint: Mapped[Optional[str]] = mapped_column(Text)
 
     # could make this self referential keys
-    next: Mapped[Optional[str]] = mapped_column(Text)
+    next: Mapped[Optional[str]] = mapped_column(MutableDict.as_mutable(JSONB))
     previous: Mapped[Optional[str]] = mapped_column(Text)
 
     choices: Mapped[Optional[list[str]]] = mapped_column(
