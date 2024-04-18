@@ -112,13 +112,5 @@ questions = {
             "choices": ["Yes", "No"],
             "prev": "single-source",
         },
-        "which-organisations-should-publish-it": {
-            "question": "Which organisations do we think should publish  '{name}' data??",
-            "type": "textarea",
-            "hint": """This potentially is the same as the previous question, but if it is
-            a SoS who is accountable it might be a clearly defined organisation""",
-            "prev": "who-in-law-is-responsible-for-it",
-            "next": "which-organisations-should-publish-it",
-        },
     },
 }
