@@ -94,14 +94,30 @@ questions = {
             "next": "is-it-consulted",
         },
         "is-it-consulted": {
-            "question": "Is the {name} something to consult? When is it used?",
-            "type": "textarea",
+            "question": "Is the {name} something to consult?",
+            "type": "choose-one-from-list",
+            "choices": ["Yes", "No"],
             "hint": """Some considerations are consulted when performing tasks within the planning system.""",
             "prev": "is-it-a-trigger",
-            "next": "is-it-consulted",
+            "next": "is-consulted",
+        },
+        "is-consulted": {
+            "question": "Provide information about when {name} is consulted",
+            "type": "textarea",
+            "hint": """Some considerations are consulted when performing tasks within the planning system.""",
+            "prev": "is-it-consulted",
+            "next": "existing-data",
         },
         "existing-data": {
             "question": "Is there any {name} already data available?",
+            "type": "choose-one-from-list",
+            "choices": ["Yes", "No"],
+            "prev": "is-it-consulted",
+            # needs logic gate
+            "next": "existing-data-examples",
+        },
+        "existing-data-examples": {
+            "question": "What {name} data is currently available?",
             "type": "textarea",
             "hint": """Capture examples of any data currently available.""",
             "prev": "is-it-consulted",
