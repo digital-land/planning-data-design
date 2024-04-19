@@ -120,23 +120,30 @@ def load_questions():
     print("Questions loaded successfully")
 
 
+def extract_values(d, result):
+    for key, value in d.items():
+        if isinstance(value, dict):
+            extract_values(value, result)
+        elif key in ["url", "prev", "next", "default_url"]:
+            result.add(value)
+
+
 @consider_cli.command("check-questions")
 def check_questions():
     from application.question_sets import questions
 
     for stage in questions.keys():
         qs = questions[stage]
-        for slug in qs.keys():
-            q = qs[slug]
-            next_slug = q.get("next", None)
-            if next_slug is not None:
-                if next_slug not in qs.keys():
-                    print(
-                        f"{stage} question '{slug}' has next question '{next_slug}' not in the set"
-                    )
-            prev_slug = q.get("prev", None)
-            if prev_slug is not None:
-                if prev_slug not in qs.keys():
-                    print(
-                        f"{stage} question '{slug}' has prev question '{prev_slug}' not in the set"
-                    )
+        slugs = set([next(iter(q.keys())) for q in qs])
+        next_prev_slugs = set([])
+        for q in qs:
+            extract_values(q, next_prev_slugs)
+
+        if not next_prev_slugs.issubset(slugs):
+            print(f"{stage} failed check")
+            print(f"{next_prev_slugs - slugs} not found in {stage}")
+            print(f"Slugs {slugs}")
+            print(f"Next/prev slugs {next_prev_slugs}\n")
+
+        else:
+            print(f"Next/prev/default slugs are valid for {stage}\n")
