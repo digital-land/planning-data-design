@@ -21,7 +21,9 @@ def index(consideration_slug, stage):
         Consideration.slug == consideration_slug
     ).first()
 
-    questions = Question.query.filter(Question.stage == stage).all()
+    questions = (
+        Question.query.filter(Question.stage == stage).order_by(Question.order).all()
+    )
 
     return render_template(
         "questions/set.html",
