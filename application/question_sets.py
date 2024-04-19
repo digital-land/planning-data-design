@@ -44,27 +44,6 @@ questions = {
             }
         },
     ],
-    Stage.RESEARCH: [
-        {
-            "lifecycle": {
-                "question": "What is the (high-level) lifecycle of a {name}?",
-                "type": "textarea",
-                "hint": """Provide details on designation and de-designation.""",
-                "next": {
-                    "type": "url",
-                    "url": "is-a-data-standard-required",
-                },
-            }
-        },
-        {
-            "how-is-data-created": {
-                "question": "Do we understand how the data is created/produced?",
-                "type": "textarea",
-                "hint": """What is the recipe? How do we think the publisher does this?""",
-                "prev": "lifecycle",
-            }
-        },
-    ],
     Stage.SCREEN: [
         {
             "what-is-the-planning-consideration": {
@@ -237,6 +216,132 @@ questions = {
                 "type": "choose-one-from-list",
                 "choices": ["Yes", "No"],
                 "prev": "single-source",
+            }
+        },
+    ],
+    Stage.RESEARCH: [
+        {
+            "lifecycle": {
+                "question": "What is the (high-level) lifecycle of a {name}?",
+                "type": "textarea",
+                "hint": """Provide details on designation and de-designation.""",
+                "next": {
+                    "type": "url",
+                    "url": "how-is-data-created",
+                },
+            }
+        },
+        {
+            "how-is-data-created": {
+                "question": "Do we understand how the data is created/produced?",
+                "type": "textarea",
+                "hint": """What is the recipe? How do we think the publisher does this?""",
+                "next": {
+                    "type": "url",
+                    "url": "where-is-data-used",
+                },
+                "prev": "lifecycle",
+            }
+        },
+        {
+            "where-is-data-used": {
+                "question": "Where will or should the data be used?",
+                "type": "textarea",
+                "hint": "Where do we expect the data to be used and for what purpose.",
+                "next": {
+                    "type": "url",
+                    "url": "related-planning-considerations",
+                },
+                "prev": "how-is-data-created",
+            }
+        },
+        {
+            "related-planning-considerations": {
+                "question": "What other planning considerations does it interact with?",
+                "type": "textarea",
+                "hint": "List the planning considerations it interacts with. Try to explain how.",
+                "next": {
+                    "type": "url",
+                    "url": "primary-users",
+                },
+                "prev": "where-is-data-used",
+            }
+        },
+        {
+            "primary-users": {
+                "question": (
+                    "Other than the statutory consultees who are the primary users of {name}? "
+                    "How do we expect them to use {name}?"
+                ),
+                "type": "textarea",
+                "hint": (
+                    "List the actor or actors affected by the planning consideration, "
+                    "include how we expect each actor to actually use the data, what will they do with it and why?"
+                ),
+                "next": {
+                    "type": "url",
+                    "url": "user-and-data-needs",
+                },
+                "prev": "related-planning-considerations",
+            }
+        },
+        {
+            "user-and-data-needs": {
+                "question": "What are the (statutory) user/data needs?",
+                "type": "textarea",
+                "hint": "Either capture the needs here or link to where the needs have been recorded.",
+                "next": {
+                    "type": "url",
+                    "url": "additional-users",
+                },
+                "prev": "primary-users",
+            }
+        },
+        {
+            "additional-users": {
+                "question": "Who are the types of users who might benefit from having access to {name} data?",
+                "type": "textarea",
+                "hint": "These are actors who may find the data useful, but are not the statutory user.",
+                "next": {
+                    "type": "url",
+                    "url": "use-cases",
+                },
+                "prev": "user-and-data-needs",
+            }
+        },
+        {
+            "use-cases": {
+                "question": "What are some potential uses of {name} data?",
+                "type": "textarea",
+                "next": {
+                    "type": "url",
+                    "url": "value-to-platform",
+                },
+                "prev": "additional-users",
+            }
+        },
+        {
+            "value-to-platform": {
+                "question": "What's the value of adding {name} data to the platform?",
+                "type": "textarea",
+                "hint": "Is there value in DLUHC investing time and effort in getting the data ready and re-publishing?",
+                "next": {
+                    "type": "url",
+                    "url": "risks",
+                },
+                "prev": "use-cases",
+            }
+        },
+        {
+            "risks": {
+                "question": "From what we have learnt so far are there any risks to making {name} data available?",
+                "type": "textarea",
+                "hint": (
+                    "This could be things like, the multiple sources of data, unclear licensing, "
+                    "lack of legislative driver, poor data quality, poorly defined requirements, "
+                    "ongoing costs on LPA, DLUHC etc."
+                ),
+                "prev": "value-to-platform",
             }
         },
     ],
