@@ -91,20 +91,24 @@ def load_questions():
     print("\nLoading/updating questions")
 
     for stage in questions.keys():
-        print("\tLoading questions for", stage)
+        print("Loading questions for", stage)
         qs = questions[stage]
-        for slug in qs.keys():
+        for q_order, q in enumerate(qs):
+            slug = next(iter(q.keys()))
+            print(f"\t Loading question: {q_order} {slug}")
             question = Question.query.filter(Question.slug == slug).one_or_none()
             if question is None:
                 print(f"\t\tCreating question: '{slug}'")
                 question = Question(slug=slug, stage=stage)
             else:
-                print(f"\t\tReloading question: '{slug}'. Any changes will be applied.")
+                print(
+                    f"\t\tReloading question {q_order}: '{slug}'. Any changes will be applied."
+                )
 
-            q = qs[slug]
+            q = q[slug]
             question.text = q["question"]
             question.hint = q.get("hint", None)
-
+            question.order = q_order
             question.question_type = QuestionType(q["type"])
             question.next = q.get("next", None)
             question.previous = q.get("prev", None)
