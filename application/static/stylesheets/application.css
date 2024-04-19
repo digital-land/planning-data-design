@@ -8109,6 +8109,10 @@ p + .govuk-heading-s,
     color: #fff;
     max-width: 45ch; }
 
+.app-question-set__item {
+  padding-top: 15px;
+  border-top: 1px solid #b1b4b6; }
+
 .app-report {
   --bar-height: 90px; }
 

@@ -41,11 +41,11 @@
     <ul class="govuk-list">
       {% for question in questions %}
         {% set answer = consideration.get_answer(question) %}
-          <li>
-            <h3 class="govuk-heading-m">{{ question.format(consideration.name) }}</h3>
+          <li class="app-question-set__item">
+            <h3 class="govuk-heading-s">{{ question.format(consideration.name) }}</h3>
             <p class="govuk-body">{% if answer %}{{ answer.text }}{% endif %}</p>
             {%- if session["user"] %}
-            <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">{% if answer %}Edit{% else %}Add{% endif %}</a></p>
+            <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">{% if answer %}Edit{% else %}Provide an answer{% endif %}</a></p>
             {% endif -%}
           </li>
       {% endfor %}
