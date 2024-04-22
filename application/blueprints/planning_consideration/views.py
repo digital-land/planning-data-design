@@ -79,6 +79,10 @@ def considerations():
     else:
         query = Consideration.query
 
+    archived_param = request.args.get("include_archived")
+    if not archived_param:
+        query = query.filter(Consideration.stage != Stage("Archived"))
+
     if stage_param:
         stage = Stage(stage_param)
         query = query.filter(Consideration.stage == stage)
@@ -102,6 +106,7 @@ def considerations():
         stages=Stage,
         stage_filter=slugify(stage.name) if stage_param else None,
         legislation_filter=legislation_param,
+        include_archived=archived_param,
     )
 
 
