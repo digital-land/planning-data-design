@@ -59,21 +59,27 @@ def question(consideration_slug, stage, question_slug):
     match question.question_type:
         case QuestionType.INPUT:
             form = InputForm(label=label)
-            form.input.data = answer.text if answer else ""
+            form.input.data = answer.answer["text"] if answer else None
             template = "questions/input.html"
         case QuestionType.TEXTAREA:
             form = TextareaForm(label=label)
             template = "questions/textarea.html"
-            form.input.data = answer.text if answer else ""
+            form.input.data = answer.answer["text"] if answer else None
         case QuestionType.CHOOSE_ONE_FROM_LIST:
             form = SingleChoiceForm(label=label)
             form.choice.choices = [(choice, choice) for choice in question.choices]
-            form.choice.data = answer.text if answer else ""
+            form.choice.data = answer.answer["choice"] if answer else None
             template = "questions/single-choice.html"
         case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
             form = SingleChoiceFormOther(label=label)
             form.choice.choices = [(choice, choice) for choice in question.choices]
-            form.choice.data = answer.text if answer else ""
+            form.choice.data = answer.answer["choice"] if answer else None
+            if (
+                answer
+                and answer.answer.get("choice") is not None
+                and answer.answer.get("choice").lower() == "other"
+            ):
+                form.other.data = answer.answer["text"]
             template = "questions/single-choice.html"
         case _:
             return redirect(
@@ -139,23 +145,55 @@ def save_answer(consideration_slug, stage, question_slug):
                 )
             )
 
-    if form.validate_on_submit():
-        answer = Answer.query.filter(
-            Answer.consideration_id == consideration.id,
-            Answer.question_slug == question.slug,
-        ).one_or_none()
-        if answer is None:
-            answer = Answer(
-                text=data,
-                consideration_id=consideration.id,
-                question_slug=question.slug,
-            )
-            consideration.answers.append(answer)
-        else:
-            answer.text = data
+    if form.is_submitted():
+        data = None
+        match question.question_type:
+            case QuestionType.INPUT:
+                if form.input.data:
+                    data = {"text": form.input.data}
+            case QuestionType.TEXTAREA:
+                if form.input.data:
+                    data = {"text": form.input.data}
+            case QuestionType.CHOOSE_ONE_FROM_LIST:
+                if form.choice.data:
+                    data = {"choice": form.choice.data}
+            case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
+                if form.choice.data:
+                    data = {"choice": form.choice.data}
+                if form.choice.data == "Other":
+                    if form.other.data:
+                        data["text"] = form.other.data
+                    else:
+                        data = None
 
-        db.session.add(consideration)
-        db.session.commit()
+        if data is not None:
+            answer = Answer.query.filter(
+                Answer.consideration_id == consideration.id,
+                Answer.question_slug == question.slug,
+            ).one_or_none()
+
+            if answer is None:
+                answer = Answer(
+                    answer=data,
+                    consideration_id=consideration.id,
+                    question_slug=question.slug,
+                )
+                consideration.answers.append(answer)
+            else:
+                answer.answer = data
+
+            db.session.add(consideration)
+            db.session.commit()
+
+        if not data:
+            answer = Answer.query.filter(
+                Answer.consideration_id == consideration.id,
+                Answer.question_slug == question.slug,
+            ).one_or_none()
+            if answer:
+                db.session.delete(answer)
+                db.session.commit()
+
         if question.next and request.args.get("next") is not None:
             question_slug = question.next.get("url", None)
             if question.next["type"] == "condition":

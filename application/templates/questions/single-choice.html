@@ -18,7 +18,8 @@
           "size": "xl",
           "captionHTML": '<span class="govuk-caption-xl">' + consideration.name + '</span>'
         },
-        "conditional": 'Other' if question.question_type.value == 'choose-one-from-list-other' else False
+        "conditional": 'Other' if question.question_type.value == 'choose-one-from-list-other' else False,
+        "other": form.other.data if form.other else None
       }) }}
 
       <div class="govuk-button-group">

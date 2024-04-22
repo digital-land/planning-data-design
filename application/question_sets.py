@@ -7,8 +7,8 @@ questions = {
                 "question": "Who asked for '{name}' data?",
                 "type": "input",
                 "next": {
-                    "type": "url",
-                    "url": "what-is-the-driver",
+                    "type": "slug",
+                    "slug": "what-is-the-driver",
                 },
             }
         },
@@ -24,8 +24,8 @@ questions = {
                     "Existing planning requirement",
                 ],
                 "next": {
-                    "type": "url",
-                    "url": "which-focus-area-does-it-support",
+                    "type": "slug",
+                    "slug": "which-focus-area-does-it-support",
                 },
                 "prev": "who-asked-for-it",
             }
@@ -52,8 +52,8 @@ questions = {
                 "hint": """Provide a description of this planning consideration.
             The common name for the planning consideration should be used here""",
                 "next": {
-                    "type": "url",
-                    "url": "is-there-legislation",
+                    "type": "slug",
+                    "slug": "is-there-legislation",
                 },
             }
         },
@@ -67,9 +67,9 @@ questions = {
                 "next": {
                     "type": "condition",
                     "conditions": [
-                        {"url": "what-is-the-legislation-that-defines", "value": "Yes"}
+                        {"slug": "what-is-the-legislation-that-defines", "value": "Yes"}
                     ],
-                    "default_url": "who-in-law-is-responsible-for-it",
+                    "default_slug": "who-in-law-is-responsible-for-it",
                 },
             }
         },
@@ -81,8 +81,8 @@ questions = {
             where applicable, are the parties who are able to designate the planning consideration""",
                 "prev": "is-there-legislation",
                 "next": {
-                    "type": "url",
-                    "url": "what-is-the-legislation-for-publication",
+                    "type": "slug",
+                    "slug": "what-is-the-legislation-for-publication",
                 },
             }
         },
@@ -94,8 +94,8 @@ questions = {
             mentions data/registers or other""",
                 "prev": "what-is-the-legislation-that-defines",
                 "next": {
-                    "type": "url",
-                    "url": "who-in-law-is-responsible-for-it",
+                    "type": "slug",
+                    "slug": "who-in-law-is-responsible-for-it",
                 },
             }
         },
@@ -106,8 +106,8 @@ questions = {
                 "hint": """We are looking for the legislation that imposes this accountability on an organisation""",
                 "prev": "what-is-the-legislation-for-publication",
                 "next": {
-                    "type": "url",
-                    "url": "publishing-organisations",
+                    "type": "slug",
+                    "slug": "publishing-organisations",
                 },
             }
         },
@@ -118,8 +118,8 @@ questions = {
                 "hint": """""",
                 "prev": "who-in-law-is-responsible-for-it",
                 "next": {
-                    "type": "url",
-                    "url": "is-it-a-trigger",
+                    "type": "slug",
+                    "slug": "is-it-a-trigger",
                 },
             }
         },
@@ -132,8 +132,8 @@ questions = {
                 "prev": "publishing-organisations",
                 # this needs a logic gate here
                 "next": {
-                    "type": "url",
-                    "url": "what-is-triggered",
+                    "type": "slug",
+                    "slug": "what-is-triggered",
                 },
             }
         },
@@ -143,8 +143,8 @@ questions = {
                 "type": "textarea",
                 "prev": "publishing-organisations",
                 "next": {
-                    "type": "url",
-                    "url": "is-it-consulted",
+                    "type": "slug",
+                    "slug": "is-it-consulted",
                 },
             }
         },
@@ -156,8 +156,8 @@ questions = {
                 "hint": """Some considerations are consulted when performing tasks within the planning system.""",
                 "prev": "is-it-a-trigger",
                 "next": {
-                    "type": "url",
-                    "url": "is-consulted",
+                    "type": "slug",
+                    "slug": "is-consulted",
                 },
             }
         },
@@ -168,8 +168,8 @@ questions = {
                 "hint": """Some considerations are consulted when performing tasks within the planning system.""",
                 "prev": "is-it-consulted",
                 "next": {
-                    "type": "url",
-                    "url": "existing-data",
+                    "type": "slug",
+                    "slug": "existing-data",
                 },
             }
         },
@@ -181,8 +181,8 @@ questions = {
                 "prev": "is-it-consulted",
                 # needs logic gate
                 "next": {
-                    "type": "url",
-                    "url": "existing-data-examples",
+                    "type": "slug",
+                    "slug": "existing-data-examples",
                 },
             }
         },
@@ -193,8 +193,8 @@ questions = {
                 "hint": """Capture examples of any data currently available.""",
                 "prev": "is-it-consulted",
                 "next": {
-                    "type": "url",
-                    "url": "single-source",
+                    "type": "slug",
+                    "slug": "single-source",
                 },
             }
         },
@@ -205,8 +205,8 @@ questions = {
                 "hint": """Some datasets should be published by a single organisation.""",
                 "prev": "existing-data",
                 "next": {
-                    "type": "url",
-                    "url": "is-a-data-standard-required",
+                    "type": "slug",
+                    "slug": "is-a-data-standard-required",
                 },
             }
         },
@@ -226,8 +226,8 @@ questions = {
                 "type": "textarea",
                 "hint": """Provide details on designation and de-designation.""",
                 "next": {
-                    "type": "url",
-                    "url": "how-is-data-created",
+                    "type": "slug",
+                    "slug": "how-is-data-created",
                 },
             }
         },
@@ -237,8 +237,8 @@ questions = {
                 "type": "textarea",
                 "hint": """What is the recipe? How do we think the publisher does this?""",
                 "next": {
-                    "type": "url",
-                    "url": "where-is-data-used",
+                    "type": "slug",
+                    "slug": "where-is-data-used",
                 },
                 "prev": "lifecycle",
             }
@@ -249,8 +249,8 @@ questions = {
                 "type": "textarea",
                 "hint": "Where do we expect the data to be used and for what purpose.",
                 "next": {
-                    "type": "url",
-                    "url": "related-planning-considerations",
+                    "type": "slug",
+                    "slug": "related-planning-considerations",
                 },
                 "prev": "how-is-data-created",
             }
@@ -261,8 +261,8 @@ questions = {
                 "type": "textarea",
                 "hint": "List the planning considerations it interacts with. Try to explain how.",
                 "next": {
-                    "type": "url",
-                    "url": "primary-users",
+                    "type": "slug",
+                    "slug": "primary-users",
                 },
                 "prev": "where-is-data-used",
             }
@@ -279,8 +279,8 @@ questions = {
                     "include how we expect each actor to actually use the data, what will they do with it and why?"
                 ),
                 "next": {
-                    "type": "url",
-                    "url": "user-and-data-needs",
+                    "type": "slug",
+                    "slug": "user-and-data-needs",
                 },
                 "prev": "related-planning-considerations",
             }
@@ -291,8 +291,8 @@ questions = {
                 "type": "textarea",
                 "hint": "Either capture the needs here or link to where the needs have been recorded.",
                 "next": {
-                    "type": "url",
-                    "url": "additional-users",
+                    "type": "slug",
+                    "slug": "additional-users",
                 },
                 "prev": "primary-users",
             }
@@ -303,8 +303,8 @@ questions = {
                 "type": "textarea",
                 "hint": "These are actors who may find the data useful, but are not the statutory user.",
                 "next": {
-                    "type": "url",
-                    "url": "use-cases",
+                    "type": "slug",
+                    "slug": "use-cases",
                 },
                 "prev": "user-and-data-needs",
             }
@@ -314,8 +314,8 @@ questions = {
                 "question": "What are some potential uses of {name} data?",
                 "type": "textarea",
                 "next": {
-                    "type": "url",
-                    "url": "value-to-platform",
+                    "type": "slug",
+                    "slug": "value-to-platform",
                 },
                 "prev": "additional-users",
             }
@@ -326,8 +326,8 @@ questions = {
                 "type": "textarea",
                 "hint": "Is there value in DLUHC investing time and effort in getting the data ready and re-publishing?",
                 "next": {
-                    "type": "url",
-                    "url": "risks",
+                    "type": "slug",
+                    "slug": "risks",
                 },
                 "prev": "use-cases",
             }

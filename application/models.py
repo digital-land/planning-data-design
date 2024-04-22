@@ -172,7 +172,8 @@ class Answer(DateModel):
     id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-    text: Mapped[str] = mapped_column(Text)
+
+    answer: Mapped[str] = mapped_column(MutableDict.as_mutable(JSONB))
 
     consideration_id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), ForeignKey("consideration.id")
