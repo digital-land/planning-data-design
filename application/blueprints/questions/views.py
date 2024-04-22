@@ -196,7 +196,7 @@ def save_answer(consideration_slug, stage, question_slug):
                 # In thef future, we might have multiple conditions to look through
                 condition = question.next["conditions"][0]
                 question_slug = question.next["default_slug"]
-                if answer.text == condition["value"]:
+                if answer.answer["choice"] == condition["value"]:
                     question_slug = condition["slug"]
 
             return redirect(
