@@ -39,6 +39,7 @@ class QuestionType(Enum):
     CHOOSE_ONE_FROM_LIST = "choose-one-from-list"
     CHOOSE_ONE_FROM_LIST_OTHER = "choose-one-from-list-other"
     INPUT = "input"
+    ADD_TO_A_LIST = "add-to-a-list"
 
 
 class DateModel(db.Model):
