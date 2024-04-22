@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, url_for
 
 from application.blueprints.questions.forms import (
+    ExistingDataForm,
     InputForm,
     SingleChoiceForm,
     SingleChoiceFormOther,
@@ -32,6 +33,9 @@ def index(consideration_slug, stage):
         questions=questions,
         starting_question=next(iter(questions)),
     )
+
+
+structured_data_forms = {"ExistingDataForm": ExistingDataForm}
 
 
 @questions.get("/<question_slug>")
@@ -81,6 +85,10 @@ def question(consideration_slug, stage, question_slug):
             ):
                 form.other.data = answer.answer["text"]
             template = "questions/single-choice.html"
+        case QuestionType.ADD_TO_A_LIST:
+            form = structured_data_forms[question.python_form]()
+            template = "questions/add-to-a-list.html"
+            print(form)
         case _:
             return redirect(
                 url_for(

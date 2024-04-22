@@ -194,6 +194,7 @@ class Question(DateModel):
     stage: Mapped[Stage] = mapped_column(ENUM(Stage))
     question_type: Mapped[QuestionType] = mapped_column(ENUM(QuestionType))
     hint: Mapped[Optional[str]] = mapped_column(Text)
+    python_form: Mapped[Optional[str]] = mapped_column(Text)
 
     next: Mapped[Optional[str]] = mapped_column(MutableDict.as_mutable(JSONB))
     previous: Mapped[Optional[str]] = mapped_column(Text)

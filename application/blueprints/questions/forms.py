@@ -44,8 +44,10 @@ class LifecycleStagesForm(FlaskForm):
 
 
 class ExistingDataForm(FlaskForm):
+    form_title = "Add existing data item"
+
     publisher = StringField("Publisher", description="Who publishes the data?")
-    url = URLField("URL", "A url for the data")
+    url = URLField("URL", description="A url for the data")
     fields = StringField(
         "Fields",
         description="List the fields included in the data. Separate the fields with a ;",

@@ -189,9 +189,10 @@ questions = {
         {
             "existing-data-examples": {
                 "question": "What {name} data is currently available?",
-                "type": "textarea",
+                "type": "add-to-a-list",
+                "form": "ExistingDataForm",
                 "hint": """Capture examples of any data currently available.""",
-                "prev": "is-it-consulted",
+                "prev": "existing-data",
                 "next": {
                     "type": "slug",
                     "slug": "single-source",

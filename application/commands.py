@@ -108,6 +108,7 @@ def load_questions():
             q = q[slug]
             question.text = q["question"]
             question.hint = q.get("hint", None)
+            question.python_form = q.get("form", None)
             question.order = q_order
             question.question_type = QuestionType(q["type"])
             question.next = q.get("next", None)
