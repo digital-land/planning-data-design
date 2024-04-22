@@ -124,49 +124,45 @@ def save_answer(consideration_slug, stage, question_slug):
     match question.question_type:
         case QuestionType.INPUT:
             form = InputForm()
-            data = form.input.data
         case QuestionType.TEXTAREA:
             form = TextareaForm()
-            data = form.input.data
         case QuestionType.CHOOSE_ONE_FROM_LIST:
             form = SingleChoiceForm()
-            form.choice.choices = [(choice, choice) for choice in question.choices]
-            data = form.choice.data
         case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
             form = SingleChoiceFormOther()
-            form.choice.choices = [(choice, choice) for choice in question.choices]
-            data = form.choice.data
-        case _:
-            return redirect(
-                url_for(
-                    "questions.index",
-                    consideration_slug=consideration_slug,
-                    stage=stage,
-                )
-            )
 
     if form.is_submitted():
-        data = None
+
         match question.question_type:
             case QuestionType.INPUT:
                 if form.input.data:
                     data = {"text": form.input.data}
+                else:
+                    data = None
             case QuestionType.TEXTAREA:
                 if form.input.data:
                     data = {"text": form.input.data}
+                else:
+                    data = None
             case QuestionType.CHOOSE_ONE_FROM_LIST:
                 if form.choice.data:
                     data = {"choice": form.choice.data}
+                else:
+                    data = None
             case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
                 if form.choice.data:
                     data = {"choice": form.choice.data}
-                if form.choice.data == "Other":
+                else:
+                    data = None
+                if data is not None and form.choice.data == "Other":
                     if form.other.data:
                         data["text"] = form.other.data
                     else:
                         data = None
+            case _:
+                data = None
 
-        if data is not None:
+        if data:
             answer = Answer.query.filter(
                 Answer.consideration_id == consideration.id,
                 Answer.question_slug == question.slug,
@@ -185,7 +181,7 @@ def save_answer(consideration_slug, stage, question_slug):
             db.session.add(consideration)
             db.session.commit()
 
-        if not data:
+        else:
             answer = Answer.query.filter(
                 Answer.consideration_id == consideration.id,
                 Answer.question_slug == question.slug,
@@ -195,13 +191,13 @@ def save_answer(consideration_slug, stage, question_slug):
                 db.session.commit()
 
         if question.next and request.args.get("next") is not None:
-            question_slug = question.next.get("url", None)
+            question_slug = question.next.get("slug", None)
             if question.next["type"] == "condition":
                 # In thef future, we might have multiple conditions to look through
                 condition = question.next["conditions"][0]
-                question_slug = question.next["default_url"]
+                question_slug = question.next["default_slug"]
                 if answer.text == condition["value"]:
-                    question_slug = condition["url"]
+                    question_slug = condition["slug"]
 
             return redirect(
                 url_for(
