@@ -11,15 +11,21 @@
     </strong>
   </div>
 
-  <form class="govuk-form" method="POST" action="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
+    {% for item in list_items %}
+      <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
+
+  <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
     {{ form.hidden_tag() }}
+
     {% if request.args.get('next') %}
       <input type="hidden" name="next" value="{{ request.args.get('next') }}"/>
     {% endif %}
     <span class="govuk-caption-xl">{{ consideration.name }}</span>
     <h1 class="govuk-heading-xl">{{ form.form_title }}</h1>
 
-    {% for field in form if field.name != 'csrf_token' %}
+    {% for field in form if field.name not in ['csrf_token', 'position']  %}
     <div class="govuk-form-group">
       {{ field.label(class='govuk-label') }}
 
@@ -47,7 +53,7 @@
     {% endfor %}
 
     <p class="govuk-body">
-      <a href="#" class="govuk-link">Add another</a>
+      <a href="{{ url_for('questions.add_to_list', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next)}}" class="govuk-link">Add another</a>
     </p>
 
     <div class="govuk-button-group">

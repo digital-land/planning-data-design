@@ -1,44 +1,36 @@
-{% extends 'layouts/question.html' %}
+{% extends 'layouts/base.html' %}
 {% from 'macros/textarea.html' import textareaComponent %}
 
-{% block beforeContent %}
-{% endblock beforeContent %}
+{% block content_primary %}
+<span class="govuk-caption-xl">{{ consideration.name }}</span>
+<h1 class="govuk-heading-xl">{{ form.input.label.text }}</h1>
 
-{% block question %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+<form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
+  {{ form.hidden_tag() }}
+  {% if request.args.get('next') %}
+    <input type="hidden" name="next" value="{{ request.args.get('next') }}"/>
+  {% endif %}
+  {{ textareaComponent({
+    'label': {
+      'text': question.question
+    },
+    'hint': {
+      'text': question.hint
+    },
+    'rows': '7',
+    'id': 'input',
+    'name': 'input',
+    'value': form.input.data,
+  }) }}
 
-    <span class="govuk-caption-xl">{{ consideration.name }}</span>
-    <h1 class="govuk-heading-xl">{{ form.input.label.text }}</h1>
-    <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
-      {{ form.hidden_tag() }}
-      {% if request.args.get('next') %}
-        <input type="hidden" name="next" value="{{ request.args.get('next') }}"/>
-      {% endif %}
-      {{ textareaComponent({
-        'label': {
-          'text': question.question
-        },
-        'hint': {
-          'text': question.hint
-        },
-        'rows': '7',
-        'id': 'input',
-        'name': 'input',
-        'value': form.input.data,
-      }) }}
-
-      <div class="govuk-button-group">
-        {% if next %}
-          <button class="govuk-button" type="submit">Save and continue</button>
-        {% else %}
-          <button class="govuk-button" type="submit">Save</button>
-        {% endif %}
-          <a class="govuk-link" href="{{ url_for('questions.index', consideration_slug=consideration.slug, stage=stage )}}">Cancel</a>
-      </div>
-
-    </form>
+  <div class="govuk-button-group">
+    {% if next %}
+      <button class="govuk-button" type="submit">Save and continue</button>
+    {% else %}
+      <button class="govuk-button" type="submit">Save</button>
+    {% endif %}
+      <a class="govuk-link" href="{{ url_for('questions.index', consideration_slug=consideration.slug, stage=stage )}}">Cancel</a>
   </div>
-</div>
 
-{% endblock question %}
+</form>
+{% endblock content_primary %}
