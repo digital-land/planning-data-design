@@ -1,8 +1,8 @@
-"""store answer itself in json
+"""answer text to json
 
-Revision ID: e4e19a30c8fa
-Revises: fadf7e3f5764
-Create Date: 2024-04-22 17:05:34.097568
+Revision ID: 1aa03adb00c0
+Revises: 36380da0dc7b
+Create Date: 2024-04-23 10:02:13.964742
 
 """
 import sqlalchemy as sa
@@ -10,8 +10,8 @@ from alembic import op
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'e4e19a30c8fa'
-down_revision = 'fadf7e3f5764'
+revision = '1aa03adb00c0'
+down_revision = '36380da0dc7b'
 branch_labels = None
 depends_on = None
 
