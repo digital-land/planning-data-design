@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block beforeContent %}
+{% block app_breadcrumbs %}
 {{ govukBreadcrumbs({
   'items': [
     {
@@ -21,7 +21,7 @@
   ]
 }) }}
 
-{% endblock beforeContent %}
+{% endblock app_breadcrumbs %}
 
 {% block content %}
 <div class="govuk-grid-row">

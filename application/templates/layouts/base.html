@@ -79,30 +79,52 @@
 {% endblock mastHead %}
 
 {% block beforeContent %}
-  <div class="govuk-phase-banner">
-    <p class="govuk-phase-banner__content">
-      <strong class="govuk-tag govuk-phase-banner__content__tag">
-      Proof of concept
-    </strong>
-      <span class="govuk-phase-banner__text">
-      This experimental service could be with withdrawn or unavailable without notice
-    </span>
-    </p>
-  </div>
-  {% if not isHomepage %}
-  {{ govukBreadcrumbs(breadcrumbs | default({
-    'items': [
-      {
-        'text': "Home",
-        'href': "/"
-      }
-    ]
-  })) }}
-  {% endif %}
+  {% block app_phase_banner %}
+    {% if showPhaseBanner %}
+      <div class="govuk-phase-banner">
+        <p class="govuk-phase-banner__content">
+          <strong class="govuk-tag govuk-phase-banner__content__tag">
+          Proof of concept
+        </strong>
+          <span class="govuk-phase-banner__text">
+          This experimental service could be with withdrawn or unavailable without notice
+        </span>
+        </p>
+      </div>
+    {% endif %}
+  {% endblock %}
+  {% block app_breadcrumbs %}
+    {% if not isHomepage %}
+      {{ govukBreadcrumbs(breadcrumbs | default({
+        'items': [
+          {
+            'text': "Home",
+            'href': "/"
+          }
+        ]
+      })) }}
+    {% endif %}
+  {% endblock %}
 {% endblock beforeContent %}
 
 {% block content %}
-  <h1 class="govuk-heading-xl">{{ title|default('Index') }}</h1>
+  {% set _content_primary_width = content_primary_width | default('two-thirds') %}
+  {% set _content_secondary_width = content_secondary_width | default('two-thirds') %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-{{ _content_primary_width }}">
+      {% block content_primary %}
+        <h1 class="govuk-heading-xl">{{ title|default('Index') }}</h1>
+      {% endblock content_primary %}
+    </div>
+    <!-- /.govuk-grid-column-{{ _content_primary_width }} -->
+    {% if content_primary_width != 'full' %}
+      <div class="govuk-grid-column-{{ _content_secondary_width }}">
+      {% block content_secondary %}{% endblock content_secondary %}
+    </div>
+    <!-- /.govuk-grid-column-{{ _content_secondary_width }} -->
+    {% endif %}
+  </div>
+  <!-- /.govuk-grid-row -->
 {% endblock content %}
 
 {% block govScripts %}
