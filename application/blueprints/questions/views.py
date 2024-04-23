@@ -139,16 +139,16 @@ def save_answer(consideration_slug, stage, question_slug):
 
         if question.next and request.args.get("next") is not None:
             question_slug = _get_next_question_slug(question, answer)
-
-            return redirect(
-                url_for(
-                    "questions.question",
-                    consideration_slug=consideration_slug,
-                    stage=stage,
-                    question_slug=question_slug,
-                    next=True,
+            if question_slug is not None:
+                return redirect(
+                    url_for(
+                        "questions.question",
+                        consideration_slug=consideration_slug,
+                        stage=stage,
+                        question_slug=question_slug,
+                        next=True,
+                    )
                 )
-            )
 
     return redirect(
         url_for("questions.index", consideration_slug=consideration.slug, stage=stage)
