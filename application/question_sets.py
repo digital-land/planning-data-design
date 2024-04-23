@@ -223,9 +223,23 @@ questions = {
     Stage.RESEARCH: [
         {
             "lifecycle": {
-                "question": "What is the (high-level) lifecycle of a {name}?",
-                "type": "textarea",
-                "hint": """Provide details on designation and de-designation.""",
+                "question": "Do we understand the lifecycle of a {name}?",
+                "type": "choose-one-from-list",
+                "choices": ["Yes", "No"],
+                "next": {
+                    "type": "condition",
+                    "conditions": [{"slug": "lifecycle-stages", "value": "Yes"}],
+                    "default_slug": "how-is-data-created",
+                },
+            }
+        },
+        {
+            "lifecycle-stages": {
+                "question": "Document a stage of the high-level lifecycle of a {name}",
+                "type": "add-to-a-list",
+                "form": "LifecycleStagesForm",
+                "hint": """Provide details of the stage""",
+                "prev": "lifecycle",
                 "next": {
                     "type": "slug",
                     "slug": "how-is-data-created",

@@ -3,6 +3,7 @@ from flask import Blueprint, redirect, render_template, url_for
 from application.blueprints.questions.forms import (
     ExistingDataForm,
     InputForm,
+    LifecycleStagesForm,
     SingleChoiceForm,
     SingleChoiceFormOther,
     TextareaForm,
@@ -35,7 +36,10 @@ def index(consideration_slug, stage):
     )
 
 
-structured_data_forms = {"ExistingDataForm": ExistingDataForm}
+structured_data_forms = {
+    "ExistingDataForm": ExistingDataForm,
+    "LifecycleStagesForm": LifecycleStagesForm,
+}
 
 
 @questions.get("/<question_slug>")
