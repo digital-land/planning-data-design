@@ -118,14 +118,18 @@ def save_answer(consideration_slug, stage, question_slug):
 
             if answer is None:
                 answer = Answer(
-                    answer=data,
                     consideration_id=consideration.id,
                     question_slug=question.slug,
                 )
                 consideration.answers.append(answer)
+
+            if isinstance(data, list):
+                for item in data:
+                    answer.add_to_list(item)
             else:
                 answer.answer = data
 
+            db.session.add(answer)
             db.session.add(consideration)
             db.session.commit()
         else:
@@ -155,10 +159,47 @@ def save_answer(consideration_slug, stage, question_slug):
     )
 
 
+@questions.get("/<question_slug>/add-to-list")
+def add_to_list(consideration_slug, stage, question_slug):
+    from flask import request
+
+    consideration = Consideration.query.filter(
+        Consideration.slug == consideration_slug
+    ).first()
+
+    question = Question.query.filter(
+        Question.stage == stage, Question.slug == question_slug
+    ).one_or_none()
+
+    if question is None:
+        return redirect(
+            url_for(
+                "questions.index", consideration_slug=consideration_slug, stage=stage
+            )
+        )
+
+    answer = consideration.get_answer(question)
+    list_items = answer.answer_list if answer.answer_list else []
+    form = STRUCTURED_DATA_FORMS[question.python_form]()
+    form.position.data = len(list_items)
+    template = "questions/add-to-a-list.html"
+
+    return render_template(
+        template,
+        consideration=consideration,
+        form=form,
+        question=question,
+        stage=stage,
+        next=request.args.get("next"),
+        list_items=list_items,
+    )
+
+
 def _populate_form(form, data):
-    for field in form:
-        if field.name in data:
-            field.data = data[field.name]
+    for d in data:
+        for field in form:
+            if field.name in d:
+                field.data = d[field.name]
 
 
 def _get_form_and_template(question, label, answer):
@@ -191,8 +232,8 @@ def _get_form_and_template(question, label, answer):
         case QuestionType.ADD_TO_A_LIST:
             form = STRUCTURED_DATA_FORMS[question.python_form]()
             template = "questions/add-to-a-list.html"
-            if answer.answer is not None:
-                _populate_form(form, answer.answer)
+            if answer is not None and answer.answer_list:
+                _populate_form(form, answer.answer_list)
 
     return form, template
 
@@ -242,7 +283,7 @@ def _get_form_data(question, form):
                 else:
                     data = None
         case QuestionType.ADD_TO_A_LIST:
-            data = form.data
+            data = [form.data]
     return data
 
 

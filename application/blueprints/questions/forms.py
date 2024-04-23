@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import RadioField, StringField, TextAreaField, URLField
+from wtforms import HiddenField, RadioField, StringField, TextAreaField, URLField
 
 
 class TextareaForm(FlaskForm):
@@ -41,6 +41,7 @@ class LifecycleStagesForm(FlaskForm):
     actors = StringField("Who is involved?")
     output = TextAreaField("What is produced?")
     impact = TextAreaField("Impact")
+    ordinal = HiddenField("ordinal")
 
 
 class ExistingDataForm(FlaskForm):
@@ -63,3 +64,4 @@ class ExistingDataForm(FlaskForm):
         "Coverage",
         description="Whats the coverage of the dataset? For example, national, partial, local authority area, etc",
     )
+    position = HiddenField("position", default=0)

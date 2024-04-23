@@ -172,17 +172,25 @@ class Answer(DateModel):
     id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
-
-    answer: Mapped[str] = mapped_column(MutableDict.as_mutable(JSONB))
-
+    answer: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))
+    answer_list: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
     consideration_id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), ForeignKey("consideration.id")
     )
     consideration: Mapped[Consideration] = relationship(back_populates="answers")
-
     question_slug: Mapped[str] = mapped_column(Text, ForeignKey("question.slug"))
-
     question: Mapped["Question"] = relationship(lazy=True)
+
+    def add_to_list(self, data):
+        if self.answer_list is None:
+            self.answer_list = []
+        position = int(data.get("position", 0))
+        if position < len(self.answer_list):
+            d = self.answer_list[position]
+            for key, value in data.items():
+                d[key] = value
+        else:
+            self.answer_list.append(data)
 
     def __repr__(self):
         return f"<Answer {self.text}>"
