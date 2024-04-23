@@ -108,12 +108,25 @@
 {% endblock beforeContent %}
 
 {% block content %}
+  {# use this to prepend things to content #}
+  {% block content_header %}{% endblock content_header %}
+  {#
+    setting a page variable of 'content_primary_width' or
+    'content_secondary_width' will change the class used within
+    the govuk grid layout.
+
+    defaults to 'two-thirds' + 'one-third'
+
+    setting 'content_primary_width' to 'full' will remove
+    content secondary from the dom.
+
+   #}
   {% set _content_primary_width = content_primary_width | default('two-thirds') %}
   {% set _content_secondary_width = content_secondary_width | default('one-third') %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-{{ _content_primary_width }}">
       {% block content_primary %}
-        <h1 class="govuk-heading-xl">{{ title|default('Index') }}</h1>
+        <h1 class="govuk-heading-xl">{{ title | default('Index') }}</h1>
       {% endblock content_primary %}
     </div>
     <!-- /.govuk-grid-column-{{ _content_primary_width }} -->
@@ -125,6 +138,8 @@
     {% endif %}
   </div>
   <!-- /.govuk-grid-row -->
+  {# use this to append things to content #}
+  {% block content_footer %}{% endblock content_footer %}
 {% endblock content %}
 
 {% block govScripts %}

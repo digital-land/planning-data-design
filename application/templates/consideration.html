@@ -1,22 +1,24 @@
 {% extends 'layouts/base.html' %}
 
-{% block beforeContent %}
-{{ govukBreadcrumbs({
-  'items': [
-    {
-      'text': "Home",
-      'href': url_for('main.index')
-    },
-    {
-      'text': "Planning consideration",
-      'href': url_for('planning_consideration.considerations')
-    },
-    {
-      'text': consideration.name
-    }
-  ]
-}) }}
-{% endblock beforeContent %}
+{% block app_breadcrumbs %}
+  {{
+    govukBreadcrumbs({
+      'items': [
+        {
+          'text': "Home",
+          'href': url_for('main.index')
+        },
+        {
+          'text': "Planning consideration",
+          'href': url_for('planning_consideration.considerations')
+        },
+        {
+          'text': consideration.name
+        }
+      ]
+    })
+  }}
+{% endblock app_breadcrumbs %}
 
 {% macro LinksList(params) %}
   {% if params.links is not none %}
@@ -33,295 +35,288 @@
   {% endif %}
 {% endmacro %}
 
-{% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
-    <span class="govuk-caption-xl">Planning consideration</span>
-    <h1 class="govuk-heading-xl">{{ consideration.name }}</h1>
-  </div>
-</div>
+{% block content_header %}
+  <span class="govuk-caption-xl">Planning consideration</span>
+  <h1 class="govuk-heading-xl">{{ consideration.name }}</h1>
+{% endblock %}
 
-
-<div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
-    <div id="details" class="govuk-summary-card">
-      <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">
-          Details
-        </h2>
-      </div>
-      <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Name
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{ consideration.name }}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Description
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{ consideration.description }}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration description</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Synonyms
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {%- if consideration.synonyms %}
-              <ul class="govuk-list govuk-list--bullet">
-                {% for synonym in consideration.synonyms %}
-                <li>
-                  {{ synonym }}
-                  {%- if session["user"] %}
-                  <span class="app-list__item__inline-action govuk-!-font-size-16"><a class="app-destructive-link" href="{{ url_for('planning_consideration.delete_synonym', slug=consideration.slug, synonym=synonym )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ synonym }} schema from list</span></span>
-                  {% endif -%}
-                </li>
-                {% endfor %}
-              </ul>
-              {% endif -%}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.add_synonym', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Github discussion
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {% set discussion_link = github_discussion_base_url + "/" + consideration.github_discussion_number|string if consideration.github_discussion_number is not none else github_discussion_base_url %}
-              {%- if consideration.github_discussion_number is not none %}
-              <a href="{{ discussion_link }}" class="govuk-link">{{ consideration.github_discussion_number }}</a>
-              {%- else -%}
-              <span class="app-missing-item">
-                <p class="govuk-!-margin-bottom-0">No discussion started</p>
-                <p class="govuk-!-font-size-16"><a href="{{ discussion_link }}" class="govuk-link">Create one now</a></p>
-              </span>
-              {% endif -%}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">{{ "Change" if consideration.github_discussion_number else "Add" }}<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Legislation
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {% if consideration.legislation %}
-                {% if consideration.legislation['link_url'] %}
-                <a href="{{ consideration.legislation['link_url'] }}" class="govuk-link">{{ consideration.legislation['link_text'] }}</a>
-                {% else %}
-                <p>{{ consideration.legislation['link_text'] }}</p>
-                <span class="app-missing-item">No url recorded</span>
-                {% endif %}
-              {% endif %}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.edit_legislation', slug=consideration.slug) }}">{{ "Change" if consideration.legislation else "Add" }}<span class="govuk-visually-hidden"> legislation</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Useful links
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {% if consideration.useful_links and consideration.useful_links|length %}
-              {{  LinksList({
-                  "links": consideration.useful_links,
-                  "consideration": consideration,
-                  "attr": "useful_links"
-                })
-              }}
-                {% if session["user"] %}
-                  <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
-                {% endif %}
-              {% endif %}
-            </dd>
-            {%- if consideration.useful_links is none or consideration.useful_links|length == 0 %}
-              {% if session["user"] %}
-                <dd class="govuk-summary-list__actions">
-                  <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
-                </dd>
-              {% endif %}
-            {% endif -%}
-          </div>
-        </dl>
-      </div>
+{% block content_primary %}
+  <div id="details" class="govuk-summary-card">
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        Details
+      </h2>
     </div>
-
-
-    <div id="data-related" class="govuk-summary-card">
-      <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">
-          Data related
-        </h2>
-      </div>
-      <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Specification
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {%- if consideration.specification %}
-              <a href="{{ consideration.specification['link_url'] }}" class="govuk-link">{{ consideration.specification['link_text'] }}</a>
-              {% endif -%}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.specification else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Schemas
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{  LinksList({
-                  "links": consideration.schemas,
-                  "consideration": consideration,
-                  "attr": "schemas"
-                })
-              }}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.add_schema', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> link to applicable schemas</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Expected number of records
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{ consideration.expected_number_of_records|commanum if consideration.expected_number_of_records is not none }}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.edit_estimated_size', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> expected number of records</span></a>
-              </dd>
-            {% endif %}
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Frequency of updates
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{ consideration.frequency_of_updates.value if consideration.frequency_of_updates is not none }}
-            </dd>
-            {% if session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.frequency', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
-              </dd>
-            {% endif %}
-          </div>
-        </dl>
-      </div>
-    </div>
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    <section id="design-process-stages">
-      <h2 class="govuk-heading-l">Design process stages</h2>
-      <p class="govuk-body">Each planning consideration we work on passes through the stages of our design process. At each stage we are trying to learn enough to more on to the next stage.</p>
-      <ul class="govuk-list">
-        <li><a href="{{ url_for('questions.index', stage=stages.BACKLOG, consideration_slug=consideration.slug )}}" class="govuk-link">Backlog</a></li>
-        <li><a href="{{ url_for('questions.index', stage=stages.SCREEN, consideration_slug=consideration.slug )}}" class="govuk-link">Screen</a></li>
-        <li><a href="{{ url_for('questions.index', stage=stages.RESEARCH, consideration_slug=consideration.slug )}}" class="govuk-link">Research</a></li>
-      </ul>
-    </section>
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    <span class="govuk-hint">{% if latest_change %}Last updated: {{ latest_change }}{% else %}No recent updates{% endif %}</span>
-
-  </div>
-
-  <div class="govuk-grid-column-one-third">
-    <div id="flags" class="govuk-summary-card">
-      <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">
-          Flags
-        </h2>
-      </div>
-      <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              <a href="{{ url_for('planning_consideration.stage', slug=consideration.slug) }}" class="govuk-link govuk-link--muted">Stage</a>
-              <br />
-              {% if session["user"] %}
-                <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-                  <a class="govuk-link" href="{{ url_for('planning_consideration.change_stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
-                </span>
-              {% endif %}
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{ consideration.stage.value }}
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Prioritised
-              <br />
-              {% if session["user"] %}
-                <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-                  <a class="govuk-link" href="{{ url_for('planning_consideration.prioritised', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
-                </span>
-              {% endif %}
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{ consideration.prioritised }}
-            </dd>
-          </div>
+    <div class="govuk-summary-card__content">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Name
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.name }}
+          </dd>
           {% if session["user"] %}
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Public
-              <br />
-              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
-              </span>
-            </dt>
-            <dd class="govuk-summary-list__value">
-              {{ consideration.public }}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
             </dd>
-          </div>
           {% endif %}
-        </dl>
-      </div>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Description
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.description }}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration description</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Synonyms
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {%- if consideration.synonyms %}
+            <ul class="govuk-list govuk-list--bullet">
+              {% for synonym in consideration.synonyms %}
+              <li>
+                {{ synonym }}
+                {%- if session["user"] %}
+                <span class="app-list__item__inline-action govuk-!-font-size-16"><a class="app-destructive-link" href="{{ url_for('planning_consideration.delete_synonym', slug=consideration.slug, synonym=synonym )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ synonym }} schema from list</span></span>
+                {% endif -%}
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif -%}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.add_synonym', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Github discussion
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% set discussion_link = github_discussion_base_url + "/" + consideration.github_discussion_number|string if consideration.github_discussion_number is not none else github_discussion_base_url %}
+            {%- if consideration.github_discussion_number is not none %}
+            <a href="{{ discussion_link }}" class="govuk-link">{{ consideration.github_discussion_number }}</a>
+            {%- else -%}
+            <span class="app-missing-item">
+              <p class="govuk-!-margin-bottom-0">No discussion started</p>
+              <p class="govuk-!-font-size-16"><a href="{{ discussion_link }}" class="govuk-link">Create one now</a></p>
+            </span>
+            {% endif -%}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">{{ "Change" if consideration.github_discussion_number else "Add" }}<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Legislation
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% if consideration.legislation %}
+              {% if consideration.legislation['link_url'] %}
+              <a href="{{ consideration.legislation['link_url'] }}" class="govuk-link">{{ consideration.legislation['link_text'] }}</a>
+              {% else %}
+              <p>{{ consideration.legislation['link_text'] }}</p>
+              <span class="app-missing-item">No url recorded</span>
+              {% endif %}
+            {% endif %}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.edit_legislation', slug=consideration.slug) }}">{{ "Change" if consideration.legislation else "Add" }}<span class="govuk-visually-hidden"> legislation</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Useful links
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% if consideration.useful_links and consideration.useful_links|length %}
+            {{  LinksList({
+                "links": consideration.useful_links,
+                "consideration": consideration,
+                "attr": "useful_links"
+              })
+            }}
+              {% if session["user"] %}
+                <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
+              {% endif %}
+            {% endif %}
+          </dd>
+          {%- if consideration.useful_links is none or consideration.useful_links|length == 0 %}
+            {% if session["user"] %}
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
+              </dd>
+            {% endif %}
+          {% endif -%}
+        </div>
+      </dl>
     </div>
-    {%- if session["user"] %}
-    <section class="app-actions">
-      <h3 class="govuk-heading-m">Actions</h3>
-      <a href="{{ url_for('planning_consideration.delete', slug=consideration.slug )}}" class="govuk-button govuk-button--warning">Delete</a>
-    </section>
-    {% endif -%}
   </div>
-</div>
 
+  <div id="data-related" class="govuk-summary-card">
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        Data related
+      </h2>
+    </div>
+    <div class="govuk-summary-card__content">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Specification
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {%- if consideration.specification %}
+            <a href="{{ consideration.specification['link_url'] }}" class="govuk-link">{{ consideration.specification['link_text'] }}</a>
+            {% endif -%}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.specification else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Schemas
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{  LinksList({
+                "links": consideration.schemas,
+                "consideration": consideration,
+                "attr": "schemas"
+              })
+            }}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.add_schema', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> link to applicable schemas</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Expected number of records
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.expected_number_of_records|commanum if consideration.expected_number_of_records is not none }}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.edit_estimated_size', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> expected number of records</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Frequency of updates
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.frequency_of_updates.value if consideration.frequency_of_updates is not none }}
+          </dd>
+          {% if session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.frequency', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
+            </dd>
+          {% endif %}
+        </div>
+      </dl>
+    </div>
+  </div>
 
-{% endblock content %}
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+  <section id="design-process-stages">
+    <h2 class="govuk-heading-l">Design process stages</h2>
+    <p class="govuk-body">Each planning consideration we work on passes through the stages of our design process. At each stage we are trying to learn enough to more on to the next stage.</p>
+    <ul class="govuk-list">
+      <li><a href="{{ url_for('questions.index', stage=stages.BACKLOG, consideration_slug=consideration.slug )}}" class="govuk-link">Backlog</a></li>
+      <li><a href="{{ url_for('questions.index', stage=stages.SCREEN, consideration_slug=consideration.slug )}}" class="govuk-link">Screen</a></li>
+      <li><a href="{{ url_for('questions.index', stage=stages.RESEARCH, consideration_slug=consideration.slug )}}" class="govuk-link">Research</a></li>
+    </ul>
+  </section>
+
+{% endblock content_primary %}
+
+{% block content_secondary %}
+  <div id="flags" class="govuk-summary-card">
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        Flags
+      </h2>
+    </div>
+    <div class="govuk-summary-card__content">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <a href="{{ url_for('planning_consideration.stage', slug=consideration.slug) }}" class="govuk-link govuk-link--muted">Stage</a>
+            <br />
+            {% if session["user"] %}
+              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
+                <a class="govuk-link" href="{{ url_for('planning_consideration.change_stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
+              </span>
+            {% endif %}
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.stage.value }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Prioritised
+            <br />
+            {% if session["user"] %}
+              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
+                <a class="govuk-link" href="{{ url_for('planning_consideration.prioritised', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+              </span>
+            {% endif %}
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.prioritised }}
+          </dd>
+        </div>
+        {% if session["user"] %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Public
+            <br />
+            <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
+            </span>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.public }}
+          </dd>
+        </div>
+        {% endif %}
+      </dl>
+    </div>
+  </div>
+  {%- if session["user"] %}
+  <section class="app-actions">
+    <h3 class="govuk-heading-m">Actions</h3>
+    <a href="{{ url_for('planning_consideration.delete', slug=consideration.slug )}}" class="govuk-button govuk-button--warning">Delete</a>
+  </section>
+  {% endif -%}
+{% endblock %}
+
+{% block content_footer %}
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  <span class="govuk-hint">{% if latest_change %}Last updated: {{ latest_change }}{% else %}No recent updates{% endif %}</span>
+{% endblock %}
