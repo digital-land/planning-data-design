@@ -109,7 +109,7 @@
 
 {% block content %}
   {% set _content_primary_width = content_primary_width | default('two-thirds') %}
-  {% set _content_secondary_width = content_secondary_width | default('two-thirds') %}
+  {% set _content_secondary_width = content_secondary_width | default('one-third') %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-{{ _content_primary_width }}">
       {% block content_primary %}
