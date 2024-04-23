@@ -17,6 +17,12 @@ questions = Blueprint(
 )
 
 
+STRUCTURED_DATA_FORMS = {
+    "ExistingDataForm": ExistingDataForm,
+    "LifecycleStagesForm": LifecycleStagesForm,
+}
+
+
 @questions.get("/")
 def index(consideration_slug, stage):
     consideration = Consideration.query.filter(
@@ -34,12 +40,6 @@ def index(consideration_slug, stage):
         questions=questions,
         starting_question=next(iter(questions)),
     )
-
-
-structured_data_forms = {
-    "ExistingDataForm": ExistingDataForm,
-    "LifecycleStagesForm": LifecycleStagesForm,
-}
 
 
 @questions.get("/<question_slug>")
@@ -64,6 +64,105 @@ def question(consideration_slug, stage, question_slug):
     label = question.format(consideration.name)
     answer = consideration.get_answer(question)
 
+    form, template = _get_form_and_template(question, label, answer)
+
+    if form is None:
+        return redirect(
+            url_for(
+                "questions.index",
+                consideration_slug=consideration_slug,
+                stage=stage,
+            )
+        )
+    else:
+        return render_template(
+            template,
+            consideration=consideration,
+            form=form,
+            question=question,
+            stage=stage,
+            next=request.args.get("next"),
+        )
+
+
+@questions.post("/<question_slug>")
+def save_answer(consideration_slug, stage, question_slug):
+    from flask import request
+
+    from application.extensions import db
+
+    consideration = Consideration.query.filter(
+        Consideration.slug == consideration_slug
+    ).one_or_404()
+
+    question = Question.query.filter(
+        Question.stage == stage, Question.slug == question_slug
+    ).one_or_none()
+
+    if question is None:
+        return redirect(
+            url_for(
+                "questions.index", consideration_slug=consideration_slug, stage=stage
+            )
+        )
+
+    form = _get_form(question)
+
+    if form.is_submitted():
+        data = _get_form_data(question, form)
+        if data:
+            answer = Answer.query.filter(
+                Answer.consideration_id == consideration.id,
+                Answer.question_slug == question.slug,
+            ).one_or_none()
+
+            if answer is None:
+                answer = Answer(
+                    answer=data,
+                    consideration_id=consideration.id,
+                    question_slug=question.slug,
+                )
+                consideration.answers.append(answer)
+            else:
+                answer.answer = data
+
+            db.session.add(consideration)
+            db.session.commit()
+        else:
+            answer = Answer.query.filter(
+                Answer.consideration_id == consideration.id,
+                Answer.question_slug == question.slug,
+            ).one_or_none()
+            if answer:
+                db.session.delete(answer)
+                db.session.commit()
+
+        if question.next and request.args.get("next") is not None:
+            question_slug = _get_next_question_slug(question, answer)
+
+            return redirect(
+                url_for(
+                    "questions.question",
+                    consideration_slug=consideration_slug,
+                    stage=stage,
+                    question_slug=question_slug,
+                    next=True,
+                )
+            )
+
+    return redirect(
+        url_for("questions.index", consideration_slug=consideration.slug, stage=stage)
+    )
+
+
+def _populate_form(form, data):
+    for field in form:
+        if field.name in data:
+            field.data = data[field.name]
+
+
+def _get_form_and_template(question, label, answer):
+    form, template = None, None
     match question.question_type:
         case QuestionType.INPUT:
             form = InputForm(label=label)
@@ -90,49 +189,16 @@ def question(consideration_slug, stage, question_slug):
                 form.other.data = answer.answer["text"]
             template = "questions/single-choice.html"
         case QuestionType.ADD_TO_A_LIST:
-            form = structured_data_forms[question.python_form]()
+            form = STRUCTURED_DATA_FORMS[question.python_form]()
             template = "questions/add-to-a-list.html"
-            print(form)
-        case _:
-            return redirect(
-                url_for(
-                    "questions.index",
-                    consideration_slug=consideration_slug,
-                    stage=stage,
-                )
-            )
+            if answer.answer is not None:
+                _populate_form(form, answer.answer)
 
-    return render_template(
-        template,
-        consideration=consideration,
-        form=form,
-        question=question,
-        stage=stage,
-        next=request.args.get("next"),
-    )
+    return form, template
 
 
-@questions.post("/<question_slug>")
-def save_answer(consideration_slug, stage, question_slug):
-    from flask import request
-
-    from application.extensions import db
-
-    consideration = Consideration.query.filter(
-        Consideration.slug == consideration_slug
-    ).one_or_404()
-
-    question = Question.query.filter(
-        Question.stage == stage, Question.slug == question_slug
-    ).one_or_none()
-
-    if question is None:
-        return redirect(
-            url_for(
-                "questions.index", consideration_slug=consideration_slug, stage=stage
-            )
-        )
-
+def _get_form(question):
+    form = None
     match question.question_type:
         case QuestionType.INPUT:
             form = InputForm()
@@ -142,85 +208,59 @@ def save_answer(consideration_slug, stage, question_slug):
             form = SingleChoiceForm()
         case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
             form = SingleChoiceFormOther()
+        case QuestionType.ADD_TO_A_LIST:
+            form = STRUCTURED_DATA_FORMS[question.python_form]()
+    return form
 
-    if form.is_submitted():
 
-        match question.question_type:
-            case QuestionType.INPUT:
-                if form.input.data:
-                    data = {"text": form.input.data}
-                else:
-                    data = None
-            case QuestionType.TEXTAREA:
-                if form.input.data:
-                    data = {"text": form.input.data}
-                else:
-                    data = None
-            case QuestionType.CHOOSE_ONE_FROM_LIST:
-                if form.choice.data:
-                    data = {"choice": form.choice.data}
-                else:
-                    data = None
-            case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
-                if form.choice.data:
-                    data = {"choice": form.choice.data}
-                else:
-                    data = None
-                if data is not None and form.choice.data == "Other":
-                    if form.other.data:
-                        data["text"] = form.other.data
-                    else:
-                        data = None
-            case _:
-                data = None
-
-        if data:
-            answer = Answer.query.filter(
-                Answer.consideration_id == consideration.id,
-                Answer.question_slug == question.slug,
-            ).one_or_none()
-
-            if answer is None:
-                answer = Answer(
-                    answer=data,
-                    consideration_id=consideration.id,
-                    question_slug=question.slug,
-                )
-                consideration.answers.append(answer)
+def _get_form_data(question, form):
+    data = None
+    match question.question_type:
+        case QuestionType.INPUT:
+            if form.input.data:
+                data = {"text": form.input.data}
             else:
-                answer.answer = data
+                data = None
+        case QuestionType.TEXTAREA:
+            if form.input.data:
+                data = {"text": form.input.data}
+            else:
+                data = None
+        case QuestionType.CHOOSE_ONE_FROM_LIST:
+            if form.choice.data:
+                data = {"choice": form.choice.data}
+            else:
+                data = None
+        case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
+            if form.choice.data:
+                data = {"choice": form.choice.data}
+            else:
+                data = None
+            if data is not None and form.choice.data == "Other":
+                if form.other.data:
+                    data["text"] = form.other.data
+                else:
+                    data = None
+        case QuestionType.ADD_TO_A_LIST:
+            data = form.data
+    return data
 
-            db.session.add(consideration)
-            db.session.commit()
 
+def _get_next_question_slug(question, answer):
+    question_slug = question.next.get("slug", None)
+    if question_slug is not None:
+        return question_slug
+    if (
+        question.next.get("type", None) is not None
+        and question.next.get("type") == "condition"
+    ):
+        for condition in question.next["conditions"]:
+            if (
+                answer.answer["choice"] == condition["value"]
+                and condition.get("slug") is not None
+            ):
+                return condition["slug"]
         else:
-            answer = Answer.query.filter(
-                Answer.consideration_id == consideration.id,
-                Answer.question_slug == question.slug,
-            ).one_or_none()
-            if answer:
-                db.session.delete(answer)
-                db.session.commit()
-
-        if question.next and request.args.get("next") is not None:
-            question_slug = question.next.get("slug", None)
-            if question.next["type"] == "condition":
-                # In thef future, we might have multiple conditions to look through
-                condition = question.next["conditions"][0]
-                question_slug = question.next["default_slug"]
-                if answer.answer["choice"] == condition["value"]:
-                    question_slug = condition["slug"]
-
-            return redirect(
-                url_for(
-                    "questions.question",
-                    consideration_slug=consideration_slug,
-                    stage=stage,
-                    question_slug=question_slug,
-                    next=True,
-                )
-            )
-
-    return redirect(
-        url_for("questions.index", consideration_slug=consideration.slug, stage=stage)
-    )
+            if question.next.get("default_slug") is not None:
+                return question.next["default_slug"]
+    return None
