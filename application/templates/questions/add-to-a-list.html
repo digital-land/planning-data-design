@@ -53,12 +53,12 @@
     {% endfor %}
 
     <p class="govuk-body">
-      <a href="{{ url_for('questions.add_to_list', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next)}}" class="govuk-link">Add another</a>
+      <button class="govuk-button govuk-button--secondary" value="add-another" name="submit_button" type="submit">Add another</button>
     </p>
 
     <div class="govuk-button-group">
       {% if next %}
-        <button class="govuk-button" type="submit">Save and continue</button>
+        <button class="govuk-button" name="submit_button" type="submit" value="save">Save and continue</button>
       {% else %}
         <button class="govuk-button" type="submit">Save</button>
       {% endif %}

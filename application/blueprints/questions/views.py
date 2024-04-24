@@ -142,6 +142,17 @@ def save_answer(consideration_slug, stage, question_slug):
                 db.session.delete(answer)
                 db.session.commit()
 
+        if request.form.get("submit_button") == "add-another":
+            return redirect(
+                url_for(
+                    "questions.add_to_list",
+                    consideration_slug=consideration_slug,
+                    stage=stage,
+                    question_slug=question_slug,
+                    next=request.args.get("next"),
+                )
+            )
+
         if question.next and request.args.get("next") is not None:
             question_slug = _get_next_question_slug(question, answer)
             if question_slug is not None:
