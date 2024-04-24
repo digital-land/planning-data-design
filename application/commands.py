@@ -125,7 +125,7 @@ def extract_values(d, result):
     for key, value in d.items():
         if isinstance(value, dict):
             extract_values(value, result)
-        elif key in ["url", "prev", "next", "default_url"]:
+        elif key in ["slug", "prev", "next", "default_slug"]:
             result.add(value)
 
 
