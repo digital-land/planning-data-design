@@ -294,6 +294,11 @@ def _get_next_question_slug(question, answer):
     question_slug = question.next.get("slug", None)
     if question_slug is not None:
         return question_slug
+    if answer is None:
+        if question.next.get("default_slug") is not None:
+            return question.next["default_slug"]
+        else:
+            return None
     if (
         question.next.get("type", None) is not None
         and question.next.get("type") == "condition"
