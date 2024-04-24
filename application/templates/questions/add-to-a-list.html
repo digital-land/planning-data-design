@@ -11,11 +11,6 @@
     </strong>
   </div>
 
-    {% for item in list_items %}
-      <li>{{ item }}</li>
-    {% endfor %}
-    </ul>
-
   <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
     {{ form.hidden_tag() }}
 
@@ -24,6 +19,49 @@
     {% endif %}
     <span class="govuk-caption-xl">{{ consideration.name }}</span>
     <h1 class="govuk-heading-xl">{{ form.form_title }}</h1>
+
+    {% if list_items|length %}
+    <h3 class="govuk-heading-m">Previously added</h3>
+    {% endif %}
+    <ul class="govuk-list">
+    {% for item in list_items %}
+      <li class="app-previous-item govuk-summary-card">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">
+            Item {{ loop.index }}
+          </h2>
+          <ul class="govuk-summary-card__actions">
+            <li class="govuk-summary-card__action">
+              <a class="govuk-link" href="#">Delete<span class="govuk-visually-hidden"> item {{ loop.index }}</span></a>
+            </li>
+            <li class="govuk-summary-card__action">
+              <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> item {{ loop.index }}</span></a>
+            </li>
+          </ul>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list govuk-summary-list--no-border">
+            {% for k,v in item.items() %}
+            {%- if k != "position" %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                {{ k }}
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ v }}
+              </dd>
+            </div>
+            {% endif -%}
+            {% endfor %}
+          </dl>
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
+
+    {% if list_items|length %}
+    <h3 class="govuk-heading-m">Add new</h3>
+    {% endif %}
 
     {% for field in form if field.name not in ['csrf_token', 'position']  %}
     <div class="govuk-form-group">

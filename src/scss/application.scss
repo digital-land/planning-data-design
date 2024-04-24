@@ -80,3 +80,29 @@ $govuk-new-link-styles: true;
 .govuk-notification-banner__content p:first-child {
   margin-top: 0;
 }
+
+// should we rename to govuk-summary-card--small
+.app-previous-item {
+  border-bottom: 1px solid $govuk-border-colour;
+
+  .govuk-summary-card__title-wrapper {
+    padding: 9px 12px;
+  }
+
+  .govuk-summary-card__title,
+  .govuk-summary-card__actions {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .govuk-summary-card__actions {
+    font-weight: 400;
+  }
+
+  .govuk-summary-list__key,
+  .govuk-summary-list__value {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    @include govuk-font($size: 16);
+  }
+}
