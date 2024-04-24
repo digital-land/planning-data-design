@@ -82,6 +82,7 @@ def question(consideration_slug, stage, question_slug):
             question=question,
             stage=stage,
             next=request.args.get("next"),
+            label=label,
         )
 
 

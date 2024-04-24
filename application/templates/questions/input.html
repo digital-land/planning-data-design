@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/question.html' %}
 
 {% block content_primary %}
   <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">

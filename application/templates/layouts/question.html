@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+
+{% block app_breadcrumbs %}
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': url_for('main.index')
+    },
+    {
+      'text': "Planning consideration",
+      'href': url_for('planning_consideration.considerations')
+    },
+    {
+      'text': consideration.name,
+      'href': url_for('planning_consideration.consideration', slug=consideration.slug)
+    },
+    {
+      'text': stage.value,
+      'href': url_for('questions.index', consideration_slug=consideration.slug, stage=stage)
+    },
+    {
+      'text': label
+    }
+  ]
+}) }}
+{% endblock %}
