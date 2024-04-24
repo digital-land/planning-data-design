@@ -179,6 +179,9 @@ def add_to_list(consideration_slug, stage, question_slug):
         )
 
     answer = consideration.get_answer(question)
+    if answer is None:
+        answer = Answer(consideration_id=consideration.id, question_slug=question.slug)
+        consideration.answers.append(answer)
     list_items = answer.answer_list if answer.answer_list else []
     form = STRUCTURED_DATA_FORMS[question.python_form]()
     form.position.data = len(list_items)

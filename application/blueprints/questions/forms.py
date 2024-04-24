@@ -41,7 +41,7 @@ class LifecycleStagesForm(FlaskForm):
     actors = StringField("Who is involved?")
     output = TextAreaField("What is produced?")
     impact = TextAreaField("Impact")
-    ordinal = HiddenField("ordinal")
+    position = HiddenField("position", default=0)
 
 
 class ExistingDataForm(FlaskForm):
