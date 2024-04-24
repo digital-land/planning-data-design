@@ -130,10 +130,13 @@ questions = {
                 "choices": ["Yes", "No"],
                 "hint": """Considerations can trigger a need to do something or a series of things.""",
                 "prev": "publishing-organisations",
-                # this needs a logic gate here
                 "next": {
-                    "type": "slug",
-                    "slug": "what-is-triggered",
+                    "type": "condition",
+                    "conditions": [
+                        {"slug": "what-is-triggered", "value": "Yes"},
+                        {"slug": "is-it-consulted", "value": "No"},
+                    ],
+                    "default_slug": "is-it-consulted",
                 },
             }
         },
@@ -141,7 +144,7 @@ questions = {
             "what-is-triggered": {
                 "question": "What is triggered by {name}?",
                 "type": "textarea",
-                "prev": "publishing-organisations",
+                "prev": "is-it-a-trigger",
                 "next": {
                     "type": "slug",
                     "slug": "is-it-consulted",
@@ -156,8 +159,12 @@ questions = {
                 "hint": """Some considerations are consulted when performing tasks within the planning system.""",
                 "prev": "is-it-a-trigger",
                 "next": {
-                    "type": "slug",
-                    "slug": "is-consulted",
+                    "type": "condition",
+                    "conditions": [
+                        {"slug": "is-consulted", "value": "Yes"},
+                        {"slug": "existing-data", "value": "No"},
+                    ],
+                    "default_slug": "existing-data",
                 },
             }
         },
@@ -179,10 +186,13 @@ questions = {
                 "type": "choose-one-from-list",
                 "choices": ["Yes", "No"],
                 "prev": "is-it-consulted",
-                # needs logic gate
                 "next": {
-                    "type": "slug",
-                    "slug": "existing-data-examples",
+                    "type": "condition",
+                    "conditions": [
+                        {"slug": "existing-data-examples", "value": "Yes"},
+                        {"slug": "single-source", "value": "No"},
+                    ],
+                    "default_slug": "single-source",
                 },
             }
         },
@@ -228,7 +238,10 @@ questions = {
                 "choices": ["Yes", "No"],
                 "next": {
                     "type": "condition",
-                    "conditions": [{"slug": "lifecycle-stages", "value": "Yes"}],
+                    "conditions": [
+                        {"slug": "lifecycle-stages", "value": "Yes"},
+                        {"slug": "how-is-data-created", "value": "No"},
+                    ],
                     "default_slug": "how-is-data-created",
                 },
             }
