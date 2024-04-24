@@ -298,7 +298,8 @@ def _get_form_data(question, form):
                 else:
                     data = None
         case QuestionType.ADD_TO_A_LIST:
-            data = [form.data]
+            if any([key != "position" and val != "" for key, val in form.data.items()]):
+                data = [form.data]
     return data
 
 
