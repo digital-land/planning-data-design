@@ -23,22 +23,46 @@ STRUCTURED_DATA_FORMS = {
 }
 
 
+def _get_next_question(question, consideration, stage):
+    answer = consideration.get_answer(question)
+    next_question_slug = _get_next_question_slug(question, answer)
+    return Question.query.filter(
+        Question.stage == stage, Question.slug == next_question_slug
+    ).one_or_none()
+
+
+def _get_questions_to_display(consideration, stage):
+    visible_questions = []
+    start_question = (
+        Question.query.filter(Question.stage == stage).order_by(Question.order).first()
+    )
+    visible_questions.append(start_question)
+
+    current_question = start_question
+    while current_question and current_question.next:
+        next_question = _get_next_question(current_question, consideration, stage)
+        visible_questions.append(next_question)
+        current_question = next_question
+
+    return visible_questions
+
+
 @questions.get("/")
 def index(consideration_slug, stage):
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
     ).first()
 
-    questions = (
-        Question.query.filter(Question.stage == stage).order_by(Question.order).all()
+    start_question = (
+        Question.query.filter(Question.stage == stage).order_by(Question.order).first()
     )
 
     return render_template(
         "questions/set.html",
         stage=stage,
         consideration=consideration,
-        questions=questions,
-        starting_question=next(iter(questions)),
+        questions=_get_questions_to_display(consideration, stage),
+        starting_question=start_question,
     )
 
 
