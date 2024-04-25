@@ -1,3 +1,12 @@
+.app-question-set .app-question-set {
+  margin-left: $govuk-gutter;
+
+  .app-question-set__item:first-child {
+    padding-top: 5px;
+    border-top: none;
+  }
+}
+
 .app-question-set__item {
   padding-top: $govuk-gutter-half;
   border-top: 1px solid $govuk-border-colour;

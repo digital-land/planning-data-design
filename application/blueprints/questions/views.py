@@ -23,6 +23,12 @@ STRUCTURED_DATA_FORMS = {
 }
 
 
+def _get_question_by_slug(slug, stage):
+    return Question.query.filter(
+        Question.stage == stage, Question.slug == slug
+    ).one_or_none()
+
+
 def _get_next_question(question, consideration, stage):
     answer = consideration.get_answer(question)
     next_question_slug = _get_next_question_slug(question, answer)
@@ -31,20 +37,35 @@ def _get_next_question(question, consideration, stage):
     ).one_or_none()
 
 
-def _get_questions_to_display(consideration, stage):
-    visible_questions = []
-    start_question = (
-        Question.query.filter(Question.stage == stage).order_by(Question.order).first()
-    )
-    visible_questions.append(start_question)
+def _get_question_group(start_question, consideration, stage, stop=None):
+    question_group = []
+    question_group.append(start_question)
 
     current_question = start_question
     while current_question and current_question.next:
+        # exit if at end of sub flow
         next_question = _get_next_question(current_question, consideration, stage)
-        visible_questions.append(next_question)
+        if next_question.slug == stop:
+            break
+
+        if current_question.next["type"] == "condition":
+            # this means we've entered a sub flow
+            if current_question.next["default_slug"] != next_question.slug:
+                nested_group = _get_question_group(
+                    next_question,
+                    consideration,
+                    stage,
+                    stop=current_question.next["default_slug"],
+                )
+                setattr(current_question, "sub_questions", nested_group)
+                # make sure nested questions aren't also included in main question group
+                next_question = _get_question_by_slug(
+                    current_question.next["default_slug"], stage
+                )
+        question_group.append(next_question)
         current_question = next_question
 
-    return visible_questions
+    return question_group
 
 
 @questions.get("/")
@@ -57,11 +78,13 @@ def index(consideration_slug, stage):
         Question.query.filter(Question.stage == stage).order_by(Question.order).first()
     )
 
+    questions_to_display = _get_question_group(start_question, consideration, stage)
+
     return render_template(
         "questions/set.html",
         stage=stage,
         consideration=consideration,
-        questions=_get_questions_to_display(consideration, stage),
+        questions=questions_to_display,
         starting_question=start_question,
     )
 

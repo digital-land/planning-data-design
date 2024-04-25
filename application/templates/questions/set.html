@@ -37,23 +37,44 @@
       <a href="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=starting_question.slug, stage=stage, next=True) }}" class="govuk-link">Answer all</a>
     </p>
     {% endif -%}
-    <ul class="govuk-list">
-      {% for question in questions %}
+
+    {% macro questionSet(params) %}
+    <ul class="govuk-list app-question-set">
+      {% for question in params.questions %}
         {% set answer = consideration.get_answer(question) %}
           <li class="app-question-set__item">
             <h3 class="govuk-heading-s">{{ question.format(consideration.name) }}</h3>
 
-            {% if question.question_type.value == "add-to-a-list" %}
-            {{ question.answer }}
-            {% endif %}
+            {%- if answer -%}
+              {% if question.question_type.value == "add-to-a-list" %}
+              {{ answer.answer_list }}
+              {% elif question.question_type.value == "textarea" %}
+              <p class="govuk-body">{% if answer %}{{ answer.answer.text }}{% endif %}</p>
+              {% elif question.question_type.value == "choose-one-from-list" %}
+              <p class="govuk-body">{% if answer %}{{ answer.answer.choice }}{% endif %}</p>
+              {% else %}
+              <p class="govuk-body">{% if answer %}{{ answer.answer }}{% endif %}</p>
+              {% endif %}
+            {%- endif -%}
 
-            <p class="govuk-body">{% if answer %}{{ answer.answer }}{% endif %}</p>
             {%- if session["user"] %}
             <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">{% if answer %}Edit{% else %}Provide an answer{% endif %}</a></p>
             {% endif -%}
+
+            {% if question.sub_questions %}
+            {{ questionSet({
+              "questions": question.sub_questions
+            })}}
+            {% endif %}
           </li>
       {% endfor %}
     </ul>
+
+    {% endmacro %}
+
+    {{ questionSet({
+      "questions": questions
+    })}}
   </div>
 </div>
 {% endblock %}
