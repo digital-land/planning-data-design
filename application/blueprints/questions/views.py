@@ -204,7 +204,10 @@ def save_answer(consideration_slug, stage, question_slug):
                 )
             )
 
-        if question.next and request.args.get("next") is not None:
+        if question.next and (
+            request.args.get("next") is not None
+            or request.form.get("submit_button") == "next"
+        ):
             question_slug = _get_next_question_slug(question, answer)
             if question_slug is not None:
                 return redirect(
@@ -213,7 +216,11 @@ def save_answer(consideration_slug, stage, question_slug):
                         consideration_slug=consideration_slug,
                         stage=stage,
                         question_slug=question_slug,
-                        next=True,
+                        next=(
+                            None
+                            if request.form.get("submit_button") == "next"
+                            else True
+                        ),
                     )
                 )
 
