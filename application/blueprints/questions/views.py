@@ -63,7 +63,9 @@ def question(consideration_slug, stage, question_slug):
 
     label = question.format(consideration.name)
     answer = consideration.get_answer(question)
-    list_items = answer.answer_list if answer.answer_list else []
+    list_items = []
+    if answer:
+        list_items = answer.answer_list if answer.answer_list else []
 
     form, template = _get_form_and_template(question, label, answer)
 
