@@ -3,7 +3,7 @@ import uuid
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import UUID4, BaseModel, Field
+from pydantic import UUID4, BaseModel, ConfigDict, Field
 from slugify import slugify
 from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text, event
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
@@ -225,22 +225,23 @@ class Question(DateModel):
 
 
 class StageModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     name: str
     value: str
-
-    class Config:
-        from_attributes = True
 
 
 class FrequencyOfUpdatesModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     name: str
     value: str
 
-    class Config:
-        from_attributes = True
-
 
 class ConsiderationModel(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
     name: str
     description: Optional[str]
     synonyms: Optional[List[str]]
@@ -256,14 +257,11 @@ class ConsiderationModel(BaseModel):
     legislation: Optional[dict]
     slug: Optional[str]
 
-    class Config:
-        from_attributes = True
-
 
 class AnswerModel(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
     text: str
     consideration_id: UUID4 = Field(exclude=True)
     question_slug: str
-
-    class Config:
-        from_attributes = True
