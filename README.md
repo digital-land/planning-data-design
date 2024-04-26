@@ -1,3 +1,5 @@
+![build](https://github.com/digital-land/dluhc-planning-considerations/actions/workflows/python-app.yml/badge.svg)
+
 # dluhc-planning-considerations
 Manage planning considerations through standards process
 
