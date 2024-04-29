@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, url_for
 
 from application.blueprints.questions.forms import (
+    ChooseMulitpleForm,
     ExistingDataForm,
     InputForm,
     LifecycleStagesForm,
@@ -368,6 +369,11 @@ def _get_form_and_template(question, label, answer):
             ):
                 form.other.data = answer.answer["text"]
             template = "questions/single-choice.html"
+        case QuestionType.CHOOSE_MULTIPLE_FROM_LIST:
+            form = ChooseMulitpleForm(label=label)
+            form.choice.choices = [(choice, choice) for choice in question.choices]
+            form.choice.data = answer.answer["choice"].split(";") if answer else None
+            template = "questions/multi-select.html"
         case QuestionType.ADD_TO_A_LIST:
             form = STRUCTURED_DATA_FORMS[question.python_form]()
             template = "questions/add-to-a-list.html"
@@ -388,6 +394,8 @@ def _get_form(question):
             form = SingleChoiceForm()
         case QuestionType.CHOOSE_ONE_FROM_LIST_OTHER:
             form = SingleChoiceFormOther()
+        case QuestionType.CHOOSE_MULTIPLE_FROM_LIST:
+            form = ChooseMulitpleForm()
         case QuestionType.ADD_TO_A_LIST:
             form = STRUCTURED_DATA_FORMS[question.python_form]()
     return form
@@ -421,6 +429,11 @@ def _get_form_data(question, form):
                     data["text"] = form.other.data
                 else:
                     data = None
+        case QuestionType.CHOOSE_MULTIPLE_FROM_LIST:
+            if form.choice.data:
+                data = {"choice": ";".join(form.choice.data)}
+            else:
+                data = None
         case QuestionType.ADD_TO_A_LIST:
             if any([key != "position" and val != "" for key, val in form.data.items()]):
                 data = [form.data]

@@ -1,0 +1,29 @@
+{% macro checkboxComponent(params) %}
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    {% set headingSize = params.pageHeading.size|default('m') if params.pageHeading else 'm' %}
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--{{ headingSize }}">
+      {%- if params.pageHeading and params.pageHeading.captionHTML %}
+      {{ params.pageHeading.captionHTML|safe }}
+      {% endif -%}
+      <h2 class="govuk-fieldset__heading">
+      {{ params.field.label.text }}
+      </h2>
+    </legend>
+    <div id="{{ params.field.id }}-hint" class="govuk-hint">
+      {{ params.field.description }}
+    </div>
+    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+      {% for choice in params.field.choices %}
+      <div class="govuk-checkboxes__item">
+        {%- set radioID = params.field.id + ('-'+loop.index|string) if loop.index %}
+        <input class="govuk-checkboxes__input" id="{{ radioID }}" name="{{ params.field.id }}" type="checkbox" value="{{ choice[0] }}" {% if choice[0] in params.field.data %} checked{% endif %}>
+        <label class="govuk-label govuk-checkboxes__label" for="{{ radioID }}">
+          {{ choice[1] }}
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+  </fieldset>
+</div>
+{% endmacro %}

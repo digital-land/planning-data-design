@@ -40,6 +40,7 @@ class QuestionType(Enum):
     CHOOSE_ONE_FROM_LIST_OTHER = "choose-one-from-list-other"
     INPUT = "input"
     ADD_TO_A_LIST = "add-to-a-list"
+    CHOOSE_MULTIPLE_FROM_LIST = "choose-one-or-more"
 
 
 class DateModel(db.Model):

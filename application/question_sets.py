@@ -33,7 +33,7 @@ questions = {
         {
             "which-focus-area-does-it-support": {
                 "question": "Which 2024 focus area does the request support?",
-                "type": "choose-one-from-list-other",
+                "type": "choose-one-or-more",
                 "choices": [
                     "Modern planning software",
                     "Faster local plans",

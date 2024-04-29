@@ -1,5 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import HiddenField, RadioField, StringField, TextAreaField, URLField
+from wtforms import (
+    HiddenField,
+    RadioField,
+    SelectMultipleField,
+    StringField,
+    TextAreaField,
+    URLField,
+)
 
 
 class TextareaForm(FlaskForm):
@@ -23,6 +30,14 @@ class SingleChoiceForm(FlaskForm):
 
     def __init__(self, label="Pick one", *args, **kwargs):
         super(SingleChoiceForm, self).__init__(*args, **kwargs)
+        self.choice.label.text = label
+
+
+class ChooseMulitpleForm(FlaskForm):
+    choice = SelectMultipleField("Pick one or more", description="Select one or more")
+
+    def __init__(self, label="Pick one or more", *args, **kwargs):
+        super(ChooseMulitpleForm, self).__init__(*args, **kwargs)
         self.choice.label.text = label
 
 

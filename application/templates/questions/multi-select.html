@@ -1,0 +1,20 @@
+{% extends 'layouts/question.html' %}
+{% from 'macros/checkboxes.html' import checkboxComponent %}
+
+{% block content_primary %}
+  <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
+    {{ form.hidden_tag() }}
+    {% if request.args.get('next') %}
+      <input type="hidden" name="next" value="{{ request.args.get('next') }}"/>
+    {% endif %}
+    {{ checkboxComponent({
+      "field": form.choice,
+      "pageHeading": {
+        "size": "xl",
+        "captionHTML": '<span class="govuk-caption-xl">' + consideration.name + '</span>'
+      }
+    }) }}
+
+    {% include 'questions/partials/button-group.html' %}
+  </form>
+{% endblock content_primary %}
