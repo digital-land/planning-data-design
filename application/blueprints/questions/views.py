@@ -10,7 +10,7 @@ from application.blueprints.questions.forms import (
 )
 from application.forms import DeleteForm
 from application.models import Answer, Consideration, Question, QuestionType
-from application.utils import true_false_to_bool
+from application.utils import login_required, true_false_to_bool
 
 questions = Blueprint(
     "questions",
@@ -140,6 +140,7 @@ def question(consideration_slug, stage, question_slug):
 
 
 @questions.post("/<question_slug>")
+@login_required
 def save_answer(consideration_slug, stage, question_slug):
     from flask import request
 
@@ -232,6 +233,7 @@ def save_answer(consideration_slug, stage, question_slug):
 
 
 @questions.get("/<question_slug>/add-to-list")
+@login_required
 def add_to_list(consideration_slug, stage, question_slug):
     from flask import request
 
@@ -273,6 +275,7 @@ def add_to_list(consideration_slug, stage, question_slug):
 @questions.route(
     "/<question_slug>/delete-from-list/<int:position>", methods=["GET", "POST"]
 )
+@login_required
 def delete_answer(consideration_slug, stage, question_slug, position):
 
     from application.extensions import db
