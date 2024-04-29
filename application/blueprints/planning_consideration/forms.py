@@ -67,15 +67,6 @@ class SynonymForm(FlaskForm):
     )
 
 
-class DeleteForm(FlaskForm):
-    confirm = RadioField(
-        "Are you sure you want to delete this?",
-        validators=[DataRequired()],
-        description="This is a destructive action. Be sure you want to permanently delete it.",
-        choices=[("True", "Yes"), ("False", "No")],
-    )
-
-
 class ConsiderationForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     github_discussion_number = IntegerField(

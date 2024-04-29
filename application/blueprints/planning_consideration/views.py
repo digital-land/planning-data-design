@@ -6,7 +6,6 @@ from slugify import slugify
 
 from application.blueprints.planning_consideration.forms import (
     ConsiderationForm,
-    DeleteForm,
     ExpectedSizeForm,
     FrequencyForm,
     LinkForm,
@@ -16,18 +15,15 @@ from application.blueprints.planning_consideration.forms import (
     SynonymForm,
 )
 from application.extensions import db
+from application.forms import DeleteForm
 from application.models import Consideration, FrequencyOfUpdates, Stage
-from application.utils import login_required
+from application.utils import login_required, true_false_to_bool
 
 planning_consideration = Blueprint(
     "planning_consideration",
     __name__,
     url_prefix="/planning-consideration",
 )
-
-
-def true_false_to_bool(s):
-    return s.lower() == "true"
 
 
 def _update_basic_consideration_attrs(consideration, form):
@@ -187,7 +183,14 @@ def delete(slug):
             return redirect(url_for("planning_consideration.considerations"))
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
-    return render_template("delete.html", consideration=consideration, form=form)
+    return render_template(
+        "delete.html",
+        caption="Planning consideration",
+        consideration=consideration,
+        to_delete=consideration.name,
+        form=form,
+        cancel_link=url_for("planning_consideration.consideration", slug=slug),
+    )
 
 
 @planning_consideration.route("/<slug>/edit-specification", methods=["GET", "POST"])

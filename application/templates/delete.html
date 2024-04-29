@@ -8,8 +8,8 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <span class="govuk-caption-xl">Planning consideration</span>
-    <h1 class="govuk-heading-xl">Delete {{ consideration.name }}</h1>
+    <span class="govuk-caption-xl">{{ caption }}</span>
+    <h1 class="govuk-heading-xl">Delete {{ to_delete }}</h1>
   </div>
 </div>
 
@@ -38,8 +38,7 @@
 
       <div class="govuk-button-group">
         <button class="govuk-button govuk-button--warning" type="submit">Delete</button>
-        {%- set cancelLink = url_for('planning_consideration.consideration', slug=consideration.slug) %}
-        <a class="govuk-link" href="{{ cancelLink }}">Cancel</a>
+        <a class="govuk-link" href="{{ cancel_link }}">Cancel</a>
       </div>
 
     </form>

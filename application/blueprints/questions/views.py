@@ -8,7 +8,9 @@ from application.blueprints.questions.forms import (
     SingleChoiceFormOther,
     TextareaForm,
 )
+from application.forms import DeleteForm
 from application.models import Answer, Consideration, Question, QuestionType
+from application.utils import true_false_to_bool
 
 questions = Blueprint(
     "questions",
@@ -265,6 +267,67 @@ def add_to_list(consideration_slug, stage, question_slug):
         stage=stage,
         next=request.args.get("next"),
         list_items=list_items,
+    )
+
+
+@questions.route(
+    "/<question_slug>/delete-from-list/<int:position>", methods=["GET", "POST"]
+)
+def delete_answer(consideration_slug, stage, question_slug, position):
+
+    from application.extensions import db
+
+    consideration = Consideration.query.filter(
+        Consideration.slug == consideration_slug
+    ).first()
+
+    form = DeleteForm()
+
+    if form.validate_on_submit():
+        if true_false_to_bool(form.confirm.data):
+            question = Question.query.filter(
+                Question.stage == stage, Question.slug == question_slug
+            ).one_or_none()
+
+        if question is None:
+            return redirect(
+                url_for(
+                    "questions.add_to_list",
+                    consideration_slug=consideration_slug,
+                    stage=stage,
+                    question_slug=question_slug,
+                )
+            )
+
+        answer = consideration.get_answer(question)
+        if answer is not None and answer.answer_list:
+            del answer.answer_list[position]
+            for i, item in enumerate(answer.answer_list):
+                item["position"] = i
+            db.session.add(answer)
+            db.session.commit()
+
+        return redirect(
+            url_for(
+                "questions.add_to_list",
+                consideration_slug=consideration_slug,
+                stage=stage,
+                question_slug=question_slug,
+            )
+        )
+
+    return render_template(
+        "delete.html",
+        caption="Delete answer",
+        consideration=consideration,
+        to_delete=f"answer {position + 1} from list",
+        form=form,
+        cancel_link=url_for(
+            "questions.add_to_list",
+            consideration_slug=consideration_slug,
+            stage=stage,
+            question_slug=question_slug,
+        ),
     )
 
 

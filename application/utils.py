@@ -29,3 +29,7 @@ class StageConverter(BaseConverter):
         stage = stage.name.lower()
         stage = stage.replace("_", "-")
         return stage
+
+
+def true_false_to_bool(s):
+    return s.lower() == "true"
