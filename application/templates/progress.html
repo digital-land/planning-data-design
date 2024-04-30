@@ -1,57 +1,53 @@
 {% extends 'layouts/base.html' %}
 
-
 {% block beforeContent %}
 <a href="{{ url_for('main.index') }}" class="govuk-back-link">Back</a>
 {% endblock beforeContent %}
 
-{% block content %}
-<div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
+{% block content_primary %}
+
     <h1 class="govuk-heading-l">Statistics</h1>
 
-    <h2 class="govuk-heading-m">Completeness</h2>
+    <h2 class="govuk-heading-m">Completeness 📊</h2>
 
-    <ul class="govuk-list">
-      <li class="dl-data-item">
-        <div class="dl-data-item__number">{{ data.total }}</div>
-        <div class="dl-data-item__label">Total planning considerations</div>
-      </li>
-      <li class="dl-data-item dl-data-item--inline">
-        <span class="dl-data-item__number">{{ data.with.legislation }}</span>
-        <span class="dl-data-item__label">with legislation</span>
-      </li>
-      <li class="dl-data-item dl-data-item--inline">
-        <span class="dl-data-item__number">{{ data.with.specification }}</span>
-        <span class="dl-data-item__label">with a specification</span>
-      </li>
-      <li class="dl-data-item dl-data-item--inline">
-        <span class="dl-data-item__number">{{ data.with.schemas }}</span>
-        <span class="dl-data-item__label">with associated schemas</span>
-      </li>
-      <li class="dl-data-item dl-data-item--inline">
-        <span class="dl-data-item__number">{{ data.with.github_discussion }}</span>
-        <span class="dl-data-item__label">with an active github discussion</span>
-      </li>
-      <li class="dl-data-item dl-data-item--inline">
-        <span class="dl-data-item__number">{{ data.with.useful_links }}</span>
-        <span class="dl-data-item__label">with useful links</span>
-      </li>
-    </ul>
+    <div class="app-stats">
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.total }}</div>
+        <div class="app-stats__value">Total planning considerations</div>
+      </div>
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.with.legislation }}</div>
+        <div class="app-stats__value">with legislation</div>
+      </div>
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.with.specification }}</div>
+        <div class="app-stats__value">with a specification</div>
+      </div>
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.with.schemas }}</div>
+        <div class="app-stats__value">with associated schemas</div>
+      </div>
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.with.github_discussion }}</div>
+        <div class="app-stats__value">with an active github discussion</div>
+      </div>
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.with.useful_links }}</div>
+        <div class="app-stats__value">with useful links</div>
+      </div>
+    </div>
 
-    <h2 class="govuk-heading-m">Progress</h2>
+    <h2 class="govuk-heading-m">Progress 📈</h2>
 
-    <ul class="govuk-list">
-      <li class="dl-data-item">
-        <div class="dl-data-item__number">{{ data.edits.total }}</div>
-        <div class="dl-data-item__label">Total updates to planning considerations</div>
-      </li>
-      <li class="dl-data-item dl-data-item--inline">
-        <span class="dl-data-item__number">{{ data.edits.recent }}</span>
-        <span class="dl-data-item__label">since {{ since.strftime('%Y-%m-%d') }}</span>
-      </li>
-    </ul>
-  </div>
-</div>
+    <div class="app-stats">
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.edits.total }}</div>
+        <div class="app-stats__value">Total updates to planning considerations</div>
+      </div>
+      <div class="app-stats__card">
+        <div class="app-stats__key">{{ data.edits.recent }}</div>
+        <div class="app-stats__value">since {{ since.strftime('%Y-%m-%d') }}</div>
+      </div>
+    </div>
 
-{% endblock content %}
+{% endblock content_primary %}

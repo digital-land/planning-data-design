@@ -1,0 +1,23 @@
+.app-stats {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  &:not(:last-of-type) {
+    @include govuk-responsive-margin(8, "bottom");
+  }
+  flex-wrap: wrap;
+  * {
+    box-sizing: border-box;;
+  }
+  &__card {
+    background: $govuk-brand-colour;
+    padding: 1em;
+    color: white;
+    margin: 0;
+    @include govuk-font(19);
+    flex-grow: 1;
+  }
+  &__key {
+    @include govuk-font(36, 'bold');
+  }
+}
