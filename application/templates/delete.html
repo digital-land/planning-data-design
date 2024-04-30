@@ -1,21 +1,17 @@
 {% extends 'layouts/base.html' %}
 {% from 'macros/radios.html' import radioComponent %}
 
-{% block beforeContent %}
-{% include 'questiontypes/question-page-breadcrumbs.html' %}
-{% endblock beforeContent %}
+{% block app_breadcrumbs %}
+  {# TODO: This doesn't work for this page. It shows 'edit' instead of 'delete' #}
+  {% include 'questiontypes/question-page-breadcrumbs.html' %}
+{% endblock app_breadcrumbs %}
 
-{% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
+{% block content_header %}
     <span class="govuk-caption-xl">{{ caption }}</span>
     <h1 class="govuk-heading-xl">Delete {{ to_delete }}</h1>
-  </div>
-</div>
+{% endblock %}
 
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+{% block content_primary %}
     <form class="govuk-form" method="POST">
       {{ form.hidden_tag() }}
 
@@ -42,7 +38,4 @@
       </div>
 
     </form>
-  </div>
-</div>
-
-{% endblock content %}
+{% endblock %}
