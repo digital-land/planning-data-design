@@ -32,9 +32,7 @@
 <a href="{{ url_for('main.index') }}" class="govuk-back-link">Back</a>
 {% endblock beforeContent %}
 
-{% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
+{% block content_primary %}
 
     <span class="govuk-caption-xl">What we're working on</span>
     <h1 class="govuk-heading-xl">Upcoming data standards</h1>
@@ -44,7 +42,7 @@
 
     <p class="govuk-body">We regularly ask our community to help us decide the things we need to work on and tell us what they need from the data. Read our <a href="https://github.com/digital-land/data-standards-backlog/discussions/47" class="govuk-link">code of conduct</a> to see how you can contribute.</p>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-9">Working on now</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-6">Working on now</h2>
 
     <p class="govuk-body">These are the planning considerations we are currently taking through our design process.</p>
 
@@ -68,11 +66,10 @@
       {% endfor %}
     </dl>
 
-  </div>
-</div>
+{% endblock content_primary %}
 
+{% block content_footer %}
 <p class="govuk-body">
   <a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">See our full backlog of planning considerations</a>.
 </p>
-{% endblock content %}
- s
+{% endblock %}
