@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block beforeContent %}
+{% block app_breadcrumbs %}
 {{ govukBreadcrumbs({
   'items': [
     {
@@ -23,19 +23,15 @@
 
 {% endblock %}
 
-{% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
+{% block content_header %}
     <span class="govuk-caption-xl">{{ consideration.name }}</span>
     <h1 class="govuk-heading-xl">Changes to Stage</h1>
-  </div>
-</div>
+{% endblock %}
 
 
+{% block content_primary %}
 {%- if stage_changes %}
 
-<div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
     <div class="moj-timeline">
       {% for change in stage_changes %}
       <div class="moj-timeline__item">
@@ -60,9 +56,9 @@
       </div>
       {% endfor %}
     </div>
+
     <p class="govuk-body govuk-hint">At the end of March 2024, we moved the planning consideration with the stage it had at the time. History had not previously been kept.</p>
-  </div>
-</div>
+
 {% endif %}
 
-{% endblock content %}
+{% endblock content_primary %}
