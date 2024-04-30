@@ -1,16 +1,6 @@
 {% extends 'layouts/question.html' %}
 
 {% block content_primary %}
-
-  <!-- remove once form is working -->
-  <div class="govuk-warning-text">
-    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-    <strong class="govuk-warning-text__text">
-      <span class="govuk-visually-hidden">Warning</span>
-      This form is not yet working
-    </strong>
-  </div>
-
   <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
     {{ form.hidden_tag() }}
 
