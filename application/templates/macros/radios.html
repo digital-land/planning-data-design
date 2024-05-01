@@ -10,9 +10,11 @@
       {{ params.field.label.text }}
       </h2>
     </legend>
+    {% if params.hint.text %}
     <div id="{{ params.field.id }}-hint" class="govuk-hint">
-      {{ params.field.description }}
+      {{ params.hint.text }}
     </div>
+    {% endif %}
     <div class="govuk-radios" data-module="govuk-radios">
       {% for choice in params.field.choices %}
       <div class="govuk-radios__item">

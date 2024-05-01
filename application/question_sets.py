@@ -89,7 +89,7 @@ questions = {
         },
         {
             "what-is-the-legislation-that-defines-designation": {
-                "question": "What is the legislation that describes how a '{name}' gets designated?",
+                "question": "What is the specific part of the legislation that describes how a '{name}' gets designated?",
                 "type": "textarea",
                 "hint": """We are looking for the legislation that specifically sets out who,
             where applicable, are the parties who are able to designate the planning consideration""",
@@ -102,7 +102,7 @@ questions = {
         },
         {
             "what-is-the-legislation-for-publication": {
-                "question": "What is the legislation that requires the publication of '{name}'?",
+                "question": "What is the specific part of the legislation that requires the publication of '{name}'?",
                 "type": "textarea",
                 "hint": """We are looking for the legislation that specifically
             mentions data/registers or other""",
@@ -142,7 +142,7 @@ questions = {
                 "question": "Is the {name} a trigger?",
                 "type": "choose-one-from-list",
                 "choices": ["Yes", "No"],
-                "hint": """Considerations can trigger a need to do something or a series of things.""",
+                "hint": """Considerations can trigger a need to do something or a series of things.""",  # it triggers a planning requirement
                 "prev": "publishing-organisations",
                 "next": {
                     "type": "condition",
@@ -156,7 +156,7 @@ questions = {
         },
         {
             "what-is-triggered": {
-                "question": "What is triggered by {name}?",
+                "question": "What needs to be done because {name} has acted as the trigger?",
                 "type": "textarea",
                 "prev": "is-it-a-trigger",
                 "next": {
@@ -167,7 +167,7 @@ questions = {
         },
         {
             "is-it-consulted": {
-                "question": "Is the {name} something to consult?",
+                "question": "Is the {name} something to consult during plan making?",
                 "type": "choose-one-from-list",
                 "choices": ["Yes", "No"],
                 "hint": """Some considerations are consulted when performing tasks within the planning system.""",
@@ -184,7 +184,7 @@ questions = {
         },
         {
             "is-consulted": {
-                "question": "Provide information about when {name} is consulted",
+                "question": "Provide information about when {name} is used during plan making",
                 "type": "textarea",
                 "hint": """Some considerations are consulted when performing tasks within the planning system.""",
                 "prev": "is-it-consulted",
@@ -239,6 +239,7 @@ questions = {
             "is-a-data-standard-required": {
                 "question": "Will a data standard be required?",
                 "type": "choose-one-from-list",
+                "hint": """We want to flag if we think we'll need to aggregate data from multiple providers.""",
                 "choices": ["Yes", "No"],
                 "prev": "single-source",
             }
