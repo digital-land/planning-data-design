@@ -11,11 +11,11 @@
 
     {% for field in form if field.name != 'csrf_token' %}
     <div class="govuk-form-group">
-      {%- if field.description %}
+      {% if question.hint %}
       <div id="" class="govuk-hint">
-        {{ field.description }}
+        {{ question.hint }}
       </div>
-      {% endif -%}
+      {% endif %}
 
       {{ field(class='govuk-input') }}
 
