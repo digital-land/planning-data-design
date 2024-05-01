@@ -6,6 +6,7 @@ questions = {
             "who-asked-for-it": {
                 "question": "Who asked for '{name}' data?",
                 "type": "input",
+                "hint": """Give a specific name and role. E.g. Eloise, policy.""",
                 "next": {
                     "type": "slug",
                     "slug": "what-is-the-driver",
@@ -15,13 +16,14 @@ questions = {
         {
             "what-is-the-driver": {
                 "question": "What is the driver for the request?",
-                "type": "choose-one-from-list",
+                "type": "choose-one-from-list",  # should it accept multiple?
                 "choices": [
                     "National policy change",
                     "Ministerial priority",
                     "Specific user requirement",
                     "LPA requirement",
                     "Existing planning requirement",
+                    "Other",
                 ],
                 "next": {
                     "type": "slug",
@@ -75,11 +77,23 @@ questions = {
         },
         {
             "what-is-the-legislation-that-defines": {
-                "question": "What is the legislation that defines how a '{name}' gets designated?",
+                "question": "What is the legislation that defines '{name}'?",
+                "type": "textarea",
+                "hint": """We are looking for the legislation that specifically sets what the consideration is and why it matters in planning.""",
+                "prev": "is-there-legislation",
+                "next": {
+                    "type": "slug",
+                    "slug": "what-is-the-legislation-that-defines-designation",
+                },
+            }
+        },
+        {
+            "what-is-the-legislation-that-defines-designation": {
+                "question": "What is the legislation that describes how a '{name}' gets designated?",
                 "type": "textarea",
                 "hint": """We are looking for the legislation that specifically sets out who,
             where applicable, are the parties who are able to designate the planning consideration""",
-                "prev": "is-there-legislation",
+                "prev": "what-is-the-legislation-that-defines",
                 "next": {
                     "type": "slug",
                     "slug": "what-is-the-legislation-for-publication",
@@ -92,7 +106,7 @@ questions = {
                 "type": "textarea",
                 "hint": """We are looking for the legislation that specifically
             mentions data/registers or other""",
-                "prev": "what-is-the-legislation-that-defines",
+                "prev": "what-is-the-legislation-that-defines-designation",
                 "next": {
                     "type": "slug",
                     "slug": "who-in-law-is-responsible-for-it",
