@@ -372,7 +372,7 @@ def _get_form_and_template(question, label, answer):
         case QuestionType.CHOOSE_MULTIPLE_FROM_LIST:
             form = ChooseMulitpleForm(label=label)
             form.choice.choices = [(choice, choice) for choice in question.choices]
-            form.choice.data = answer.answer["choice"].split(";") if answer else None
+            form.choice.data = answer.answer["choice"].split(";") if answer else []
             template = "questions/multi-select.html"
         case QuestionType.ADD_TO_A_LIST:
             form = STRUCTURED_DATA_FORMS[question.python_form]()
