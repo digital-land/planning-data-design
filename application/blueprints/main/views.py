@@ -12,6 +12,11 @@ def index():
     return render_template("index.html")
 
 
+@main.route("/data-design-process")
+def data_design_process():
+    return render_template("data-design-process.html")
+
+
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
 

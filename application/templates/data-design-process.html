@@ -1,0 +1,68 @@
+
+{% extends 'layouts/base.html' %}
+
+{% block app_breadcrumbs %}
+  {{
+    govukBreadcrumbs({
+      'items': [
+        {
+          'text': "Home",
+          'href': url_for('main.index')
+        },
+        {
+          'text': "Data design process"
+        }
+      ]
+    })
+  }}
+{% endblock app_breadcrumbs %}
+
+{% block content %}
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop'>
+    <h1 class="govuk-heading-xl">Data design process</h1>
+  </div>
+</div>
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+
+    <p class="govuk-body">Our data design process is split into stages.</p>
+    <p class="govuk-body">Having specific stages improves the visibility of our progress. We want to make it easy to see where a planning consideration is in our process and what we need to do to make progress.</p>
+
+    <p class="govuk-body">The stages of our data design process are:</p>
+
+    <h2 class="govuk-heading-m">Backlog</h2>
+
+    <p class="govuk body">This stage helps us to understand the planning data landscape.</p>
+
+    <h2 class="govuk-heading-m">Screen</h2>
+
+    <p class="govuk body">This stage helps us to verify that a consideration plays an important role in the planning system.</p>
+
+    <h2 class="govuk-heading-m">Research</h2>
+
+    <p class="govuk body">This stage is intended to help us to understand the planning need for a consideration.</p>
+
+    <h2 class="govuk-heading-m">Co-design</h2>
+
+    <p class="govuk body">This stage is focused on us designing the smallest data model that will satisfy the highest number of needs.</p>
+
+    <h2 class="govuk-heading-m">Test and iterate</h2>
+
+    <p class="govuk body">This stage helps us to build confidence in the data model, proving it is both feasible and will add value.</p>
+
+    <h2 class="govuk-heading-m">Go / no-go</h2>
+
+    <p class="govuk body">This stage helps us to get sign-off for any potential risks we have identified.</p>
+
+    <h2 class="govuk-heading-m">Prepare for platform</h2>
+
+    <p class="govuk body">This stage is focused on preparing for the productionisation of the dataset(s) for the consideration.</p>
+
+    <h2 class="govuk-heading-m">On the platform</h2>
+
+    <p class="govuk body">At this stage authoritative data will be collected and made available on <a href="https://www.planning.data.gov.uk/" class="govuk-link">planning.data.gov.uk</a>.</p>
+  </div>
+</div>
+{% endblock %}
