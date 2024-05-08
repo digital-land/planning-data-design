@@ -11,3 +11,7 @@ def map_to_tag_class_filter(s):
     if s in stage_to_class.keys():
         return stage_to_class[s]
     return "govuk-tag--blue"
+
+
+def choice_to_list_filter(s):
+    return s.split(";")

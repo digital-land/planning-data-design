@@ -53,7 +53,20 @@
               {% elif question.question_type.value == "choose-one-from-list" %}
               <p class="govuk-body">{% if answer %}{{ answer.answer.choice }}{% endif %}</p>
               {% else %}
-              <p class="govuk-body">{% if answer %}{{ answer.answer }}{% endif %}</p>
+              <p class="govuk-body">{% if answer %}
+              {% if answer.answer.text -%}
+                {{ answer.answer.text }}
+              {% elif answer.answer.choice %}
+                {% set choices = answer.answer.choice|choice_to_list %}
+                <ul class="govuk-list govuk-list--bullet">
+                {%- for choice in choices %}
+                  <li>{{ choice }}</li>
+                {% endfor -%}
+               </ul>
+              {%- else -%}
+                {{ answer.answer }}
+              {%- endif %}
+              {% endif %}</p>
               {% endif %}
             {%- endif -%}
 
