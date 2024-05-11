@@ -10,7 +10,7 @@
       {{ params.field.label.text }}
       </h2>
     </legend>
-    {% if params.hint.text %}
+    {% if params.hint and params.hint.text %}
     <div id="{{ params.field.id }}-hint" class="govuk-hint">
       {{ params.hint.text }}
     </div>
