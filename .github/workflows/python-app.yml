@@ -55,5 +55,5 @@ jobs:
 
     - name: test
       run: |
-        playwright install
+        playwright install webkit
         pytest
