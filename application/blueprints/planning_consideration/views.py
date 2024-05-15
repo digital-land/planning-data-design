@@ -69,7 +69,6 @@ def _extract_changes_of_type(consideration, attr_name):
 @planning_consideration.route("/")
 def considerations():
 
-    stage_param = request.args.get("stage")
     public_only = False if session.get("user") else True
     if public_only:
         query = Consideration.query.filter(Consideration.public == public_only)
@@ -80,9 +79,14 @@ def considerations():
     if not archived_param:
         query = query.filter(Consideration.stage != Stage("Archived"))
 
-    if stage_param:
-        stage = Stage(stage_param)
-        query = query.filter(Consideration.stage == stage)
+    stage_param = []
+    if "stage" in request.args:
+        stage_selections = [
+            Stage(selection) for selection in request.args.getlist("stage")
+        ]
+        stage_param = stage_selections
+        filter_condition = Consideration.stage.in_(stage_selections)
+        query = query.filter(filter_condition)
 
     legislation_param = request.args.get("legislation")
     if legislation_param:
@@ -108,7 +112,7 @@ def considerations():
         "considerations.html",
         considerations=considerations,
         stages=Stage,
-        stage_filter=slugify(stage.name) if stage_param else None,
+        stage_filter=[slugify(stage.name) for stage in stage_param],
         legislation_filter=legislation_param,
         include_archived=archived_param,
         llc_filter=llc_param,

@@ -1,4 +1,7 @@
 {% extends 'layouts/base.html' %}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
+{% from 'components/filter-checkboxes/macro.jinja' import dlFilterCheckboxes %}
+{%- from "components/filter-group/macro.jinja" import dlFilterGroup %}
 
 {% block content %}
 <div class="govuk-grid-row">
@@ -63,22 +66,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
-    <nav class="app-sub-navigation">
-      <h3 class="govuk-heading-s">Filter by stage</h3>
-      <ul class="app-sub-navigation__section">
-        {% for stage in stages %}
-        <li class="app-sub-navigation__section-item{% if stage_filter == stage.value %} app-sub-navigation__section-item--current{% endif %}">
-          <a href="?stage={{ stage.value }}" class="app-sub-navigation__link">{{ stage.value }}</a>
-        </li>
-        {% endfor %}
-      </ul>
-    </nav>
     {% include 'partials/consideration-filters.html' %}
   </div>
 
   <div class="govuk-grid-column-three-quarters">
   {%- if stage_filter %}
-  <p class="govuk-body">Filtered by <span class="govuk-tag {{ stage_filter|map_to_tag_class }}">{{ stage_filter }}</span> stage. <a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear filter</a>.</p>
+  <p class="govuk-body">Filtered by {% for stage in stage_filter %}
+    <span class="govuk-tag {{ stage|map_to_tag_class }}">{{ stage }}</span> stage.
+    {% endfor %}
+    <a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear filter(s)</a></p>
   {% endif -%}
 
     <div class="concerns-list__wrapper">

@@ -1,5 +1,33 @@
 
 <form class="govuk-form">
+
+<!-- filter by stage -->
+<div class="govuk-form-group">
+  {% set checkboxesHTML %}
+    {% set pa_checked = request.args.getlist("stage") %}
+    {% for stage in stages %}
+    <div class="govuk-checkboxes__item">
+      <input class="govuk-checkboxes__input" id="stage-{{ stage.value }}" name="stage" type="checkbox" value="{{ stage.value }}" {% if stage.value in pa_checked %}checked=checked{% endif %}>
+      <label class="govuk-label govuk-checkboxes__label" for="stage-{{ stage.value }}">
+        {{ stage.value }}
+      </label>
+    </div>
+    {% endfor %}
+  {% endset %}
+
+  {% call dlFilterGroup({
+    "title": "Stage",
+    "is_open": True,
+    "selected": 0
+  }) %}
+
+  {{ dlFilterCheckboxes({
+    "uniqueID": "167824",
+    "checkboxesHTML": checkboxesHTML
+  }) }}
+  {% endcall %}
+</div>
+
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
