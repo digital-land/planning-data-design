@@ -39,6 +39,6 @@ class TestConfig(Config):
     TESTING = True
     SERVER_NAME = "localhost"
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql://postgres:postgres@localhost/test-considerations"
+        "postgresql://postgres:postgres@localhost/test_considerations"
     )
     AUTHENTICATION_ON = False

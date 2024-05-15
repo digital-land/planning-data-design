@@ -48,7 +48,7 @@ jobs:
 
     - name: create database
       run: |
-        psql -h localhost -c "CREATE DATABASE test-considerations WITH TEMPLATE postgres" -U postgres
+        psql -h localhost -c "CREATE DATABASE test_considerations WITH TEMPLATE postgres" -U postgres
       env:
         PGPASSWORD: postgres
 
