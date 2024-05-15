@@ -53,7 +53,7 @@
     </form>
   </div>
   <div class="govuk-grid-column-one-third">
-    {% if session["user"] %}
+    {% if not config.AUTHENTICATION_ON or session["user"] %}
       <section class="app-list__actions">
         <a href="{{ url_for('planning_consideration.new' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add planning consideration</a>
       </section>
@@ -99,7 +99,7 @@
               {{ consideration['stage'].value }}
             </strong>
           </dd>
-          {% if session["user"] %}
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug )}}">
                 Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>

@@ -164,11 +164,6 @@ def receive_before_update(mapper, connection, target):
         print("Error logging changes")
 
 
-@event.listens_for(Consideration, "before_insert")
-def receive_before_insert(mapper, connection, target):
-    print("before_insert")
-
-
 class Answer(DateModel):
     id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4

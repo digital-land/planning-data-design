@@ -32,7 +32,7 @@
 
 <div class='govuk-grid-row'>
   <div class='govuk-grid-column-two-thirds'>
-    {%- if session["user"] %}
+    {%- if not config.AUTHENTICATION_ON or session["user"] %}
     <p class="govuk-body">
       <a href="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=starting_question.slug, stage=stage, next=True) }}" class="govuk-link">Answer all</a>
     </p>
@@ -70,7 +70,7 @@
               {% endif %}
             {%- endif -%}
 
-            {%- if session["user"] %}
+            {%- if not config.AUTHENTICATION_ON or session["user"] %}
             <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">{% if answer %}Edit{% else %}Provide an answer{% endif %}</a></p>
             {% endif -%}
 

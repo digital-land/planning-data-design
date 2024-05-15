@@ -8,13 +8,13 @@ alembic==1.13.1
     # via
     #   alembic-postgresql-enum
     #   flask-migrate
-alembic-postgresql-enum==1.1.2
+alembic-postgresql-enum==1.2.0
     # via -r requirements/requirements.in
 annotated-types==0.6.0
     # via pydantic
 authlib==1.3.0
     # via -r requirements/requirements.in
-blinker==1.7.0
+blinker==1.8.2
     # via
     #   flask
     #   flask-debugtoolbar
@@ -31,7 +31,7 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via flask
-cryptography==42.0.5
+cryptography==42.0.7
     # via
     #   authlib
     #   pyjwt
@@ -39,7 +39,7 @@ deprecated==1.2.14
     # via pygithub
 digital-land-frontend @ git+https://github.com/digital-land/digital-land-frontend.git
     # via -r requirements/requirements.in
-flask==3.0.2
+flask==3.0.3
     # via
     #   -r requirements/requirements.in
     #   flask-debugtoolbar
@@ -48,9 +48,9 @@ flask==3.0.2
     #   flask-sslify
     #   flask-wtf
     #   sentry-sdk
-flask-debugtoolbar==0.14.1
+flask-debugtoolbar==0.15.1
     # via -r requirements/requirements.in
-flask-migrate==4.0.5
+flask-migrate==4.0.7
     # via -r requirements/requirements.in
 flask-sqlalchemy==3.1.1
     # via
@@ -64,22 +64,22 @@ flask-wtf==1.2.1
     # via -r requirements/requirements.in
 govuk-frontend-jinja==3.0.0
     # via digital-land-frontend
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements/requirements.in
-idna==3.6
+idna==3.7
     # via requests
 is-safe-url==1.0
     # via -r requirements/requirements.in
-itsdangerous==2.1.2
+itsdangerous==2.2.0
     # via
     #   flask
     #   flask-debugtoolbar
     #   flask-wtf
-jinja2==3.1.3
+jinja2==3.1.4
     # via
     #   flask
     #   govuk-frontend-jinja
-mako==1.3.2
+mako==1.3.4
     # via alembic
 markupsafe==2.1.5
     # via
@@ -89,19 +89,19 @@ markupsafe==2.1.5
     #   sentry-sdk
     #   werkzeug
     #   wtforms
-packaging==23.2
+packaging==24.0
     # via
     #   flask-debugtoolbar
     #   gunicorn
 psycopg2-binary==2.9.9
     # via -r requirements/requirements.in
-pycparser==2.21
+pycparser==2.22
     # via cffi
-pydantic==2.6.4
+pydantic==2.7.1
     # via -r requirements/requirements.in
-pydantic-core==2.16.3
+pydantic-core==2.18.2
     # via pydantic
-pygithub==2.2.0
+pygithub==2.3.0
     # via -r requirements/requirements.in
 pyjwt[crypto]==2.8.0
     # via pygithub
@@ -113,30 +113,30 @@ python-slugify==8.0.4
     # via -r requirements/requirements.in
 requests==2.31.0
     # via pygithub
-sentry-sdk[flask]==1.40.4
+sentry-sdk[flask]==2.1.1
     # via -r requirements/requirements.in
-sqlalchemy==2.0.26
+sqlalchemy==2.0.30
     # via
     #   alembic
     #   alembic-postgresql-enum
     #   flask-sqlalchemy
 text-unidecode==1.3
     # via python-slugify
-typing-extensions==4.9.0
+typing-extensions==4.11.0
     # via
     #   alembic
     #   pydantic
     #   pydantic-core
     #   pygithub
     #   sqlalchemy
-urllib3==2.2.0
+urllib3==2.2.1
     # via
     #   pygithub
     #   requests
     #   sentry-sdk
-validators==0.22.0
+validators==0.28.1
     # via digital-land-frontend
-werkzeug==3.0.1
+werkzeug==3.0.3
     # via
     #   flask
     #   flask-debugtoolbar

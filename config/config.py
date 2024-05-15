@@ -31,10 +31,14 @@ class DevelopmentConfig(Config):
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_RECORD_QUERIES = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    AUTHENTICATION_ON = True
 
 
 class TestConfig(Config):
     ENV = "test"
     DEBUG = True
     TESTING = True
+    SERVER_NAME = "localhost"
+    SQLALCHEMY_DATABASE_URI = (
+        "postgresql://postgres:postgres@localhost/test-considerations"
+    )
+    AUTHENTICATION_ON = False
