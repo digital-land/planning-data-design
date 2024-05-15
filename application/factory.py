@@ -62,12 +62,14 @@ def register_filters(app):
     from application.filters import (
         choice_to_list_filter,
         map_to_tag_class_filter,
+        render_markdown_filter,
         slugify_filter,
     )
 
     app.add_template_filter(choice_to_list_filter, "choice_to_list")
     app.add_template_filter(slugify_filter, "slugify")
     app.add_template_filter(map_to_tag_class_filter, "map_to_tag_class")
+    app.add_template_filter(render_markdown_filter, "render_markdown")
 
     from digital_land_frontend.filters import commanum_filter
 

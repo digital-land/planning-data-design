@@ -16,3 +16,5 @@ Authlib
 python-slugify
 PyGithub
 pydantic
+Markdown
+beautifulsoup4

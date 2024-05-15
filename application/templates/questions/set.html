@@ -49,7 +49,7 @@
               {% if question.question_type.value == "add-to-a-list" %}
               {{ answer.answer_list }}
               {% elif question.question_type.value == "textarea" %}
-              <p class="govuk-body">{% if answer %}{{ answer.answer.text }}{% endif %}</p>
+              <p class="govuk-body">{% if answer %}{{ answer.answer.text|render_markdown }}{% endif %}</p>
               {% elif question.question_type.value == "choose-one-from-list" %}
               <p class="govuk-body">{% if answer %}{{ answer.answer.choice }}{% endif %}</p>
               {% else %}
