@@ -83,6 +83,8 @@ class Consideration(DateModel):
 
     changes: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
 
+    is_local_land_charge: Mapped[bool] = mapped_column(Boolean, default=False)
+
     def delete(self):
         self.deleted_date = datetime.date.today()
         db.session.add(self)
