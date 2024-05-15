@@ -9,6 +9,7 @@ from application.blueprints.planning_consideration.forms import (
     ExpectedSizeForm,
     FrequencyForm,
     LinkForm,
+    LLCForm,
     PriorityForm,
     PublicForm,
     StageForm,
@@ -90,6 +91,13 @@ def considerations():
         else:
             query = query.filter(Consideration.legislation.is_(None))
 
+    llc_param = request.args.get("is-llc")
+    if llc_param:
+        if llc_param == "true":
+            query = query.filter(Consideration.is_local_land_charge)
+        else:
+            query = query.filter(~Consideration.is_local_land_charge)
+
     considerations = (
         query.filter(Consideration.deleted_date.is_(None))
         .order_by(Consideration.name.asc())
@@ -103,6 +111,7 @@ def considerations():
         stage_filter=slugify(stage.name) if stage_param else None,
         legislation_filter=legislation_param,
         include_archived=archived_param,
+        llc_filter=llc_param,
     )
 
 
@@ -359,6 +368,27 @@ def public(slug):
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
     page = {"title": "Set public or private", "submit_text": "Set"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@planning_consideration.route("/<slug>/is-llc", methods=["GET", "POST"])
+@login_required
+def is_llc(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = LLCForm(obj=consideration)
+
+    if form.validate_on_submit():
+        consideration.is_local_land_charge = true_false_to_bool(
+            form.is_local_land_charge.data
+        )
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+    page = {"title": "Set 'Is local land charge'", "submit_text": "Set"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page

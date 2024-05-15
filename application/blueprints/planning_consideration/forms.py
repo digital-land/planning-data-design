@@ -41,6 +41,14 @@ class PublicForm(FlaskForm):
     )
 
 
+class LLCForm(FlaskForm):
+    is_local_land_charge = RadioField(
+        "Is this consideration also a type of local land charge?",
+        validators=[DataRequired()],
+        choices=[("True", "Yes"), ("False", "No")],
+    )
+
+
 class StageForm(FlaskForm):
     stage = RadioField(
         "What stage are we at with this planning consideration?",
