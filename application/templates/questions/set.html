@@ -1,4 +1,5 @@
 {% extends 'layouts/base.html' %}
+{% from 'macros/answer-list-item.html' import answerListItem %}
 
 {% block app_breadcrumbs %}
 {{ govukBreadcrumbs({
@@ -47,7 +48,17 @@
 
             {%- if answer -%}
               {% if question.question_type.value == "add-to-a-list" %}
-              {{ answer.answer_list }}
+              <ul class="govuk-list">
+              {% for item in answer.answer_list %}
+                {{- answerListItem({
+                  "item": item,
+                  "consideration": consideration,
+                  "question": question,
+                  "stage": stage,
+                  "next": next
+                }) -}}
+              {% endfor %}
+              </ul>
               {% elif question.question_type.value == "textarea" %}
               <p class="govuk-body">{% if answer %}{{ answer.answer.text|render_markdown }}{% endif %}</p>
               {% elif question.question_type.value == "choose-one-from-list" %}

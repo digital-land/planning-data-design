@@ -1,4 +1,5 @@
 {% extends 'layouts/question.html' %}
+{% from 'macros/answer-list-item.html' import answerListItem %}
 
 {% block content_primary %}
   <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
@@ -15,37 +16,13 @@
     {% endif %}
     <ul class="govuk-list">
     {% for item in list_items %}
-      <li class="app-previous-item govuk-summary-card">
-        <div class="govuk-summary-card__title-wrapper">
-          <h2 class="govuk-summary-card__title">
-            Item {{ item.position | int  + 1  }}
-          </h2>
-          <ul class="govuk-summary-card__actions">
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="{{ url_for('questions.delete_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, position=item.position, next=next) }}">Delete<span class="govuk-visually-hidden"> item {{ item.position | int  + 1  }}</span></a>
-            </li>
-            <li class="govuk-summary-card__action">
-              <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> item {{ item.position | int  + 1  }}</span></a>
-            </li>
-          </ul>
-        </div>
-        <div class="govuk-summary-card__content">
-          <dl class="govuk-summary-list govuk-summary-list--no-border">
-            {% for k,v in item.items() %}
-            {%- if k not in ["position", "csrf_token"] %}
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                {{ k }}
-              </dt>
-              <dd class="govuk-summary-list__value">
-                {{ v }}
-              </dd>
-            </div>
-            {% endif -%}
-            {% endfor %}
-          </dl>
-        </div>
-      </li>
+      {{- answerListItem({
+        "item": item,
+        "consideration": consideration,
+        "question": question,
+        "stage": stage,
+        "next": next
+      }) -}}
     {% endfor %}
     </ul>
 
