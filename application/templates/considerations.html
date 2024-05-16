@@ -77,6 +77,18 @@
     <a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear filter(s)</a></p>
   {% endif -%}
 
+  {% if llc_filter is not none %}
+  <div class="app-applied-filters">
+    <div class="app-applied-filter__group">
+      <span class="app-applied-filter__name govuk-!-font-weight-bold">Is a LLC:</span>
+      <span class="app-applied-filter__item">{{ llc_filter }}</span>
+    </div>
+    <div class="app-applied-filter__group">
+      <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>
+    </div>
+  </div>
+  {% endif %}
+
     <div class="concerns-list__wrapper">
 
       <div class="concerns-list__count__wrapper">
