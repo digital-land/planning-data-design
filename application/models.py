@@ -46,8 +46,8 @@ class QuestionType(Enum):
 class DateModel(db.Model):
     __abstract__ = True
 
-    created: Mapped[datetime.date] = mapped_column(
-        Date, default=datetime.datetime.today
+    created: Mapped[datetime.datetime] = mapped_column(
+        DateTime, default=datetime.datetime.now
     )
     updated: Mapped[Optional[datetime.datetime]] = mapped_column(
         DateTime, onupdate=datetime.datetime.now
