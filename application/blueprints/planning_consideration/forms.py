@@ -87,3 +87,7 @@ class ConsiderationForm(FlaskForm):
         choices=[("public", "Public"), ("private", "Private")],
         default="public",
     )
+
+
+class NoteForm(FlaskForm):
+    text = TextAreaField("Note", validators=[DataRequired()])

@@ -1,6 +1,15 @@
 import datetime
 
-from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from flask import (
+    Blueprint,
+    abort,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from markupsafe import Markup
 from slugify import slugify
 
@@ -10,6 +19,7 @@ from application.blueprints.planning_consideration.forms import (
     FrequencyForm,
     LinkForm,
     LLCForm,
+    NoteForm,
     PriorityForm,
     PublicForm,
     StageForm,
@@ -17,7 +27,7 @@ from application.blueprints.planning_consideration.forms import (
 )
 from application.extensions import db
 from application.forms import DeleteForm
-from application.models import Consideration, FrequencyOfUpdates, Stage
+from application.models import Consideration, FrequencyOfUpdates, Note, Stage
 from application.utils import login_required, true_false_to_bool
 
 planning_consideration = Blueprint(
@@ -513,3 +523,61 @@ def edit_legislation(slug):
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page
     )
+
+
+@planning_consideration.route("/<slug>/note", methods=["GET", "POST"])
+@login_required
+def add_note(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    form = NoteForm()
+
+    if form.validate_on_submit():
+        note = Note(text=form.text.data, author=session["user"]["name"])
+        if consideration.notes is None:
+            consideration.notes = []
+        consideration.notes.append(note)
+
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+    page = {"title": "Add note", "submit_text": "Save note"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@planning_consideration.route("/<slug>/note/<note_id>", methods=["GET", "POST"])
+@login_required
+def edit_note(slug, note_id):
+    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    note = Note.query.get(note_id)
+    if note is None or note.deleted_date is not None:
+        abort(404)
+
+    form = NoteForm(obj=note)
+
+    if form.validate_on_submit():
+        note.text = form.text.data
+        note.author = session["user"]["name"]
+
+        db.session.add(note)
+        db.session.commit()
+        return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+    page = {"title": "Edit note", "submit_text": "Update note"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@planning_consideration.get("/<slug>/note/<note_id>/delete")
+@login_required
+def delete_note(slug, note_id):
+    note = Note.query.get(note_id)
+    note.deleted_date = datetime.date.today()
+    db.session.add(note)
+    db.session.commit()
+    return redirect(url_for("planning_consideration.consideration", slug=slug))

@@ -84,6 +84,7 @@ class Consideration(DateModel):
     changes: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
 
     is_local_land_charge: Mapped[bool] = mapped_column(Boolean, default=False)
+    notes: Mapped[List["Note"]] = relationship(back_populates="consideration")
 
     def delete(self):
         self.deleted_date = datetime.date.today()
@@ -123,7 +124,7 @@ def receive_before_update(mapper, connection, target):
         modifications = {}
         state = db.inspect(target)
         for attr in state.attrs:
-            if attr.key not in ["changes", "udpated", "deleted_date"]:
+            if attr.key not in ["changes", "udpated", "deleted_date", "notes"]:
                 history = attr.load_history()
                 if history.has_changes():
                     c = {}
@@ -217,6 +218,22 @@ class Question(DateModel):
 
     def __repr__(self):
         return f"<Question {self.text}> <Stage {self.stage}>"
+
+
+class Note(DateModel):
+
+    id: Mapped[uuid.uuid4] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    text: Mapped[str] = mapped_column(Text)
+    consideration_id: Mapped[uuid.uuid4] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("consideration.id")
+    )
+    consideration: Mapped[Consideration] = relationship(back_populates="notes")
+    author: Mapped[str] = mapped_column(Text)
+
+    def __repr__(self):
+        return f"<Note {self.text}>"
 
 
 # pydantic models
