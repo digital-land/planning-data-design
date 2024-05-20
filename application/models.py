@@ -84,7 +84,9 @@ class Consideration(DateModel):
     changes: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
 
     is_local_land_charge: Mapped[bool] = mapped_column(Boolean, default=False)
-    notes: Mapped[List["Note"]] = relationship(back_populates="consideration")
+    notes: Mapped[List["Note"]] = relationship(
+        back_populates="consideration", order_by="asc(Note.created)"
+    )
 
     def delete(self):
         self.deleted_date = datetime.date.today()
