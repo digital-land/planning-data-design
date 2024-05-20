@@ -265,9 +265,8 @@
     </ul>
   </section>
 
-  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
   {% if not config.AUTHENTICATION_ON or session["user"] %}
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <section id="notes">
       <h2 class="govuk-heading-l">Notes</h2>
       <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
