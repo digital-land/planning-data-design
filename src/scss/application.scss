@@ -109,3 +109,7 @@ $govuk-new-link-styles: true;
     @include govuk-font($size: 16);
   }
 }
+
+.app-note__actions span {
+  margin-right: 5px;
+}

@@ -8581,3 +8581,6 @@ p + .govuk-heading-s,
       .app-previous-item .govuk-summary-list__value {
         font-size: 14pt;
         line-height: 1.2; } }
+
+.app-note__actions span {
+  margin-right: 5px; }

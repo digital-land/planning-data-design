@@ -544,7 +544,7 @@ def add_note(slug):
     page = {"title": "Add note", "submit_text": "Save note"}
 
     return render_template(
-        "questiontypes/input.html", consideration=consideration, form=form, page=page
+        "note-form.html", consideration=consideration, form=form, page=page
     )
 
 
@@ -569,7 +569,7 @@ def edit_note(slug, note_id):
     page = {"title": "Edit note", "submit_text": "Update note"}
 
     return render_template(
-        "questiontypes/input.html", consideration=consideration, form=form, page=page
+        "note-form.html", consideration=consideration, form=form, page=page, note=note
     )
 
 
