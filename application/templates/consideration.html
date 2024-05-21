@@ -274,7 +274,7 @@
         {% for note in consideration.notes %}
           {% if not note.deleted_date %}
             <li>
-              <span class="govuk-!-font-size-14">{{ note.author }} (created: {{ note.created }})</span>
+              <span class="govuk-!-font-size-14">{{ note.author }} (created: {{ note.created | short_date}})</span>
               <div class="app-note__content">{{ note.text|render_markdown }}</div>
               <div class="app-note__actions">
                 <span class="govuk-!-font-size-14">

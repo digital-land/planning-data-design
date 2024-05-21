@@ -63,6 +63,7 @@ def register_filters(app):
         choice_to_list_filter,
         map_to_tag_class_filter,
         render_markdown_filter,
+        short_date_filter,
         slugify_filter,
     )
 
@@ -70,6 +71,7 @@ def register_filters(app):
     app.add_template_filter(slugify_filter, "slugify")
     app.add_template_filter(map_to_tag_class_filter, "map_to_tag_class")
     app.add_template_filter(render_markdown_filter, "render_markdown")
+    app.add_template_filter(short_date_filter, "short_date")
 
     from digital_land_frontend.filters import commanum_filter
 

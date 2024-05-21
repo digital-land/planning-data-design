@@ -59,3 +59,9 @@ def _add_html_attrs(soup):
         tag["class"] = "govuk-section-break govuk-section-break--l"
     for tag in soup.select("code"):
         tag["class"] = "app-code"
+
+
+def short_date_filter(date):
+    if date is None:
+        return ""
+    return date.strftime("%d %B %Y")
