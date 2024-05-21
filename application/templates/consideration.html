@@ -269,26 +269,26 @@
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <section id="notes">
       <h2 class="govuk-heading-l">Notes</h2>
-      <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+      <a href="{{ url_for('planning_consideration.add_note', slug=consideration.slug)}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add note</a>
+      <ul class="govuk-list govuk-list--spaced">
         {% for note in consideration.notes %}
           {% if not note.deleted_date %}
             <li>
-              <p>{{ note.text }}</p>
-              <span class="govuk-!-font-size-14">author: {{ note.author }}</span>
-              <span class="govuk-!-font-size-14">added: {{ note.created }}</span>
-              <br>
-              <span class="govuk-!-font-size-14">
-                <a href="{{ url_for('planning_consideration.edit_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link" >Edit<span class="govuk-visually-hidden"> note</span></a>
-              </span>
-              <span class="govuk-!-font-size-14">
-                <a href="{{ url_for('planning_consideration.delete_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link
-                app-destructive-link" >Remove<span class="govuk-visually-hidden"> note</span></a>
-              </span>
+              <span class="govuk-!-font-size-14">{{ note.author }} (created: {{ note.created }})</span>
+              <div class="app-note__content">{{ note.text|render_markdown }}</div>
+              <div class="app-note__actions">
+                <span class="govuk-!-font-size-14">
+                  <a href="{{ url_for('planning_consideration.edit_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link" >Edit<span class="govuk-visually-hidden"> note</span></a>
+                </span>
+                <span class="govuk-!-font-size-14">
+                  <a href="{{ url_for('planning_consideration.delete_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link
+                  app-destructive-link" >Remove<span class="govuk-visually-hidden"> note</span></a>
+                </span>
+              </div>
             </li>
           {% endif %}
         {% endfor %}
       </ul>
-      <a href="{{ url_for('planning_consideration.add_note', slug=consideration.slug)}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add note</a>
     </section>
   {% endif %}
 
