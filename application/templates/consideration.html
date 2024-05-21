@@ -282,7 +282,7 @@
                 </span>
                 <span class="govuk-!-font-size-14">
                   <a href="{{ url_for('planning_consideration.delete_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link
-                  app-destructive-link" >Remove<span class="govuk-visually-hidden"> note</span></a>
+                  app-destructive-link" onclick="return confirm('Are you sure you want to remove this note?');">Remove<span class="govuk-visually-hidden"> note</span></a>
                 </span>
               </div>
             </li>
