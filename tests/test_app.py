@@ -51,4 +51,4 @@ def test_add_consideration(live_server, page, questions):
     expect(page.get_by_text("Someone")).to_be_visible()
     expect(page.get_by_text("National policy change")).to_be_visible()
     expect(page.get_by_text("Modern planning software")).to_be_visible()
-    page.get_by_role("link", name="Test consideration").click()
+    page.get_by_role("link", name="Go back to Test consideration summary").click()
