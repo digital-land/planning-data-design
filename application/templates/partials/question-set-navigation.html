@@ -1,0 +1,6 @@
+<p class="govuk-body">Stages</p>
+<ul class="govuk-list">
+  <li><a href="{{ url_for('questions.index', stage=stages.BACKLOG, consideration_slug=consideration.slug )}}" class="govuk-link">Backlog</a></li>
+  <li><a href="{{ url_for('questions.index', stage=stages.SCREEN, consideration_slug=consideration.slug )}}" class="govuk-link">Screen</a></li>
+  <li><a href="{{ url_for('questions.index', stage=stages.RESEARCH, consideration_slug=consideration.slug )}}" class="govuk-link">Research</a></li>
+</ul>

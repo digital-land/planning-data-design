@@ -10,7 +10,7 @@ from application.blueprints.questions.forms import (
     TextareaForm,
 )
 from application.forms import DeleteForm
-from application.models import Answer, Consideration, Question, QuestionType
+from application.models import Answer, Consideration, Question, QuestionType, Stage
 from application.utils import login_required, true_false_to_bool
 
 questions = Blueprint(
@@ -86,6 +86,7 @@ def index(consideration_slug, stage):
     return render_template(
         "questions/set.html",
         stage=stage,
+        stages=Stage,
         consideration=consideration,
         questions=questions_to_display,
         starting_question=start_question,

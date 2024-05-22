@@ -32,7 +32,16 @@
 </div>
 
 <div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
+
+  <div class="govuk-grid-column-one-quarter">
+    {% include 'partials/question-set-navigation.html' %}
+    <hr class="govuk-section-break-m">
+    <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}" class="govuk-back-link"><span class="govuk-visually-hidden">Go back to </span>{{ consideration.name }} summary</a>
+  </div>
+
+  <div class='govuk-grid-column-three-quarters'>
+    <p class="govuk-body-l">These are the questions we answer during the {{stage.value}} stage.</p>
+    <p class="govuk-body">Answering them wil help us learn more about the {{ consideration.name }} consideration, determine if a data standard is required and whether we know enough to move on to the next stage.</p>
     {%- if not config.AUTHENTICATION_ON or session["user"] %}
     <p class="govuk-body">
       <a href="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=starting_question.slug, stage=stage, next=True) }}" class="govuk-link">Answer all</a>
