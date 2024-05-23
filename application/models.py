@@ -194,7 +194,7 @@ class Answer(DateModel):
             self.answer_list.append(data)
 
     def __repr__(self):
-        return f"<Answer {self.text}>"
+        return f"<Answer {self.answer}>"
 
 
 class Question(DateModel):

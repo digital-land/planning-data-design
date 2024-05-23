@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, url_for
+from flask import Blueprint, abort, redirect, render_template, url_for
 
 from application.blueprints.questions.forms import (
     ChooseMulitpleForm,
@@ -129,6 +129,9 @@ def question(consideration_slug, stage, question_slug):
             )
         )
     else:
+        # if the template is add to a list then this will return the form with the data from the last entry
+        # populating form probably not what we want when editing - more like want to get to the add to list
+        # showing existing list and empty form
         return render_template(
             template,
             consideration=consideration,
@@ -189,14 +192,6 @@ def save_answer(consideration_slug, stage, question_slug):
             db.session.add(answer)
             db.session.add(consideration)
             db.session.commit()
-        else:
-            answer = Answer.query.filter(
-                Answer.consideration_id == consideration.id,
-                Answer.question_slug == question.slug,
-            ).one_or_none()
-            if answer:
-                db.session.delete(answer)
-                db.session.commit()
 
         if request.form.get("submit_button") == "add-another":
             return redirect(
@@ -336,6 +331,55 @@ def delete_answer(consideration_slug, stage, question_slug, position):
     )
 
 
+questions.route(
+    "/<string:question_slug>/<stage:stage>/edit-answer/<int:position>",
+    methods=["GET", "POST"],
+)
+
+
+@login_required
+def edit_answer(consideration_slug, stage, question_slug, position):
+    from application.extensions import db
+
+    consideration = Consideration.query.filter(
+        Consideration.slug == consideration_slug
+    ).one_or_404()
+
+    question = Question.query.filter(
+        Question.stage == stage, Question.slug == question_slug
+    ).one_or_404()
+
+    answer = consideration.get_answer(question)
+    if answer is None or not answer.answer_list or len(answer.answer_list) <= position:
+        abort(404)
+    else:
+        answer_item = answer.answer_list[position]
+        form = STRUCTURED_DATA_FORMS[question.python_form](data=answer_item)
+
+    if form.validate_on_submit():
+        for key, value in form.data.items():
+            answer.answer_list[position][key] = value
+        db.session.add(answer)
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "questions.index",
+                consideration_slug=consideration_slug,
+                stage=stage,
+            )
+        )
+
+    return render_template(
+        "questions/edit-answer.html",
+        consideration=consideration,
+        form=form,
+        question=question,
+        stage=stage,
+        position=position,
+    )
+
+
 def _populate_form(form, data):
     for d in data:
         for field in form:
@@ -376,6 +420,7 @@ def _get_form_and_template(question, label, answer):
             form.choice.data = answer.answer["choice"].split(";") if answer else []
             template = "questions/multi-select.html"
         case QuestionType.ADD_TO_A_LIST:
+            print(answer)
             form = STRUCTURED_DATA_FORMS[question.python_form]()
             template = "questions/add-to-a-list.html"
             if answer is not None and answer.answer_list:
