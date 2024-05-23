@@ -188,6 +188,8 @@ def save_answer(consideration_slug, stage, question_slug):
             db.session.add(answer)
             db.session.add(consideration)
             db.session.commit()
+        else:
+            answer = None
 
         if request.form.get("submit_button") == "add-another":
             return redirect(
