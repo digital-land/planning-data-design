@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, redirect, render_template, url_for
+from flask import Blueprint, abort, redirect, render_template, request, url_for
 
 from application.blueprints.questions.forms import (
     ChooseMulitpleForm,
@@ -95,7 +95,6 @@ def index(consideration_slug, stage):
 
 @questions.get("/<question_slug>")
 def question(consideration_slug, stage, question_slug):
-    from flask import request
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
@@ -129,9 +128,7 @@ def question(consideration_slug, stage, question_slug):
             )
         )
     else:
-        # if the template is add to a list then this will return the form with the data from the last entry
-        # populating form probably not what we want when editing - more like want to get to the add to list
-        # showing existing list and empty form
+
         return render_template(
             template,
             consideration=consideration,
@@ -147,7 +144,6 @@ def question(consideration_slug, stage, question_slug):
 @questions.post("/<question_slug>")
 @login_required
 def save_answer(consideration_slug, stage, question_slug):
-    from flask import request
 
     from application.extensions import db
 
@@ -232,7 +228,6 @@ def save_answer(consideration_slug, stage, question_slug):
 @questions.get("/<question_slug>/add-to-list")
 @login_required
 def add_to_list(consideration_slug, stage, question_slug):
-    from flask import request
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
