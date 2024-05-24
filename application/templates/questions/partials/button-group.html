@@ -7,7 +7,7 @@
   <a class="govuk-link" href="{{ url_for('questions.index', consideration_slug=consideration.slug, stage=stage )}}">Cancel</a>
 </div>
 {% if not next %}
-{% if question.next %}
-<button class="govuk-button--link" type="submit" value="next" name="submit_button">Save and continue to next question</button>
-{% endif %}
+  {% if question.next and not edit_single %}
+    <button class="govuk-button--link" type="submit" value="next" name="submit_button">Save and continue to next question</button>
+  {% endif %}
 {% endif %}

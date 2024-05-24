@@ -91,8 +91,8 @@
             {%- endif -%}
 
             {%- if not config.AUTHENTICATION_ON or session["user"] %}
-              {% if answer.answer_list %}
-               <p class="govuk-body"><a href="{{url_for('questions.add_to_list', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">Add</a></p>
+              {% if question.question_type.value == "add-to-a-list" or answer.answer_list %}
+                <p class="govuk-body"><a href="{{url_for('questions.add_to_list', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">{% if answer %}Add{% else %}Provide an answer{% endif %}</a></p>
               {% else %}
                 <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage)}}" class="govuk-link">{% if answer %}Edit{% else %}Provide an answer{% endif %}</a></p>
               {% endif %}

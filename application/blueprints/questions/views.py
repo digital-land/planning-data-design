@@ -178,13 +178,7 @@ def save_answer(consideration_slug, stage, question_slug):
                     question_slug=question.slug,
                 )
                 consideration.answers.append(answer)
-
-            if isinstance(data, list):
-                for item in data:
-                    answer.add_to_list(item)
-            else:
-                answer.answer = data
-
+            answer.answer = data
             db.session.add(answer)
             db.session.add(consideration)
             db.session.commit()
@@ -227,9 +221,11 @@ def save_answer(consideration_slug, stage, question_slug):
     )
 
 
-@questions.get("/<question_slug>/add-to-list")
+@questions.route("/<question_slug>/add-to-list", methods=["GET", "POST"])
 @login_required
 def add_to_list(consideration_slug, stage, question_slug):
+
+    from application.extensions import db
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
@@ -254,6 +250,58 @@ def add_to_list(consideration_slug, stage, question_slug):
     form = STRUCTURED_DATA_FORMS[question.python_form]()
     form.position.data = len(list_items)
     template = "questions/add-to-a-list.html"
+
+    if form.validate_on_submit():
+        data = _get_form_data(question, form)
+        if not data:
+            return redirect(
+                url_for(
+                    "questions.index",
+                    consideration_slug=consideration_slug,
+                    stage=stage,
+                )
+            )
+        else:
+            for item in data:
+                answer.add_to_list(item)
+            db.session.add(answer)
+            db.session.commit()
+
+        if request.form.get("submit_button") == "add-another":
+            return redirect(
+                url_for(
+                    "questions.add_to_list",
+                    consideration_slug=consideration_slug,
+                    stage=stage,
+                    question_slug=question_slug,
+                    next=request.args.get("next"),
+                )
+            )
+
+        if question.next and (
+            request.args.get("next") is not None
+            or request.form.get("submit_button") == "next"
+        ):
+            question_slug = _get_next_question_slug(question, answer)
+            if question_slug is not None:
+                return redirect(
+                    url_for(
+                        "questions.question",
+                        consideration_slug=consideration_slug,
+                        stage=stage,
+                        question_slug=question_slug,
+                        next=(
+                            None
+                            if request.form.get("submit_button") == "next"
+                            else True
+                        ),
+                    )
+                )
+        return redirect(
+            url_for(
+                "questions.index", consideration_slug=consideration_slug, stage=stage
+            )
+        )
 
     return render_template(
         template,
@@ -328,12 +376,7 @@ def delete_answer(consideration_slug, stage, question_slug, position):
     )
 
 
-questions.route(
-    "/<string:question_slug>/<stage:stage>/edit-answer/<int:position>",
-    methods=["GET", "POST"],
-)
-
-
+@questions.route("/<question_slug>/edit-answer/<int:position>", methods=["GET", "POST"])
 @login_required
 def edit_answer(consideration_slug, stage, question_slug, position):
     from application.extensions import db
@@ -354,26 +397,24 @@ def edit_answer(consideration_slug, stage, question_slug, position):
         form = STRUCTURED_DATA_FORMS[question.python_form](data=answer_item)
 
     if form.validate_on_submit():
-        for key, value in form.data.items():
-            answer.answer_list[position][key] = value
+        answer.update_list(position, form.data)
         db.session.add(answer)
         db.session.commit()
 
         return redirect(
             url_for(
-                "questions.index",
-                consideration_slug=consideration_slug,
-                stage=stage,
+                "questions.index", consideration_slug=consideration_slug, stage=stage
             )
         )
 
     return render_template(
-        "questions/edit-answer.html",
+        "questions/add-to-a-list.html",
         consideration=consideration,
         form=form,
         question=question,
         stage=stage,
         position=position,
+        edit_single=True,
     )
 
 

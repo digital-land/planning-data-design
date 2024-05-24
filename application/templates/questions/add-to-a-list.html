@@ -2,9 +2,8 @@
 {% from 'macros/answer-list-item.html' import answerListItem %}
 
 {% block content_primary %}
-  <form class="govuk-form" method="POST" action="{{ url_for('questions.save_answer', consideration_slug=consideration.slug, question_slug=question.slug, stage=stage, next=next) }}">
+  <form class="govuk-form" method="POST">
     {{ form.hidden_tag() }}
-
     {% if request.args.get('next') %}
       <input type="hidden" name="next" value="{{ request.args.get('next') }}"/>
     {% endif %}
@@ -57,9 +56,11 @@
     </div>
     {% endfor %}
 
-    <p class="govuk-body">
-      <button class="govuk-button govuk-button--secondary" value="add-another" name="submit_button" type="submit">Add another</button>
-    </p>
+    {% if not edit_single %}
+      <p class="govuk-body">
+        <button class="govuk-button govuk-button--secondary" value="add-another" name="submit_button" type="submit">Add another</button>
+      </p>
+    {% endif %}
 
     {% include 'questions/partials/button-group.html' %}
 

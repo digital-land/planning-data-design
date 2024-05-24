@@ -6,10 +6,10 @@
     </h2>
     <ul class="govuk-summary-card__actions">
       <li class="govuk-summary-card__action">
-        <a class="govuk-link" href="{{ url_for('questions.delete_answer', consideration_slug=params.consideration.slug, question_slug=params.question.slug, stage=params.stage, position=params.item.position, next=params.next) }}">Delete<span class="govuk-visually-hidden"> item {{ params.item.position | int  + 1  }}</span></a>
+        <a class="govuk-link" href="{{ url_for('questions.delete_answer', consideration_slug=params.consideration.slug, question_slug=params.question.slug, stage=params.stage, position=params.item.position) }}">Delete<span class="govuk-visually-hidden"> item {{ params.item.position | int  + 1  }}</span></a>
       </li>
       <li class="govuk-summary-card__action">
-        <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> item {{ params.item.position | int  + 1  }}</span></a>
+        <a class="govuk-link" href="{{ url_for('questions.edit_answer', consideration_slug=params.consideration.slug, question_slug=params.question.slug, stage=params.stage, position=params.item.position) }}">Edit<span class="govuk-visually-hidden"> item {{ params.item.position | int  + 1  }}</span></a>
       </li>
     </ul>
   </div>

@@ -32,4 +32,6 @@ class StageConverter(BaseConverter):
 
 
 def true_false_to_bool(s):
+    if isinstance(s, bool):
+        return s
     return s.lower() == "true"

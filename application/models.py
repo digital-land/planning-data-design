@@ -8,7 +8,7 @@ from slugify import slugify
 from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text, event
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
 from sqlalchemy.ext.mutable import MutableDict, MutableList
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, attributes, mapped_column, relationship
 
 from application.extensions import db
 
@@ -192,6 +192,11 @@ class Answer(DateModel):
                 d[key] = value
         else:
             self.answer_list.append(data)
+
+    def update_list(self, position, data):
+        for key, value in data.items():
+            self.answer_list[position][key] = value
+        attributes.flag_modified(self, "answer_list")
 
     def __repr__(self):
         return f"<Answer {self.answer}>"
