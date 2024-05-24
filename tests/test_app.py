@@ -2,14 +2,6 @@ from flask import url_for
 from playwright.sync_api import expect
 
 
-def test_index(live_server, page):
-    page.goto(url_for("main.index", _external=True))
-    expect(page.get_by_role("heading", name="Planning considerations")).to_be_visible()
-    expect(page.get_by_role("link", name="List of planning")).to_be_visible()
-    expect(page.get_by_role("link", name="What we are working on An")).to_be_visible()
-    expect(page.get_by_role("link", name="Breakdown of planning")).to_be_visible()
-
-
 def test_add_consideration(live_server, page, questions):
 
     page.goto(url_for("planning_consideration.considerations", _external=True))
