@@ -52,7 +52,11 @@ def register_context_processors(app):
 
     def global_variables_context_processor():
         return {
-            "github_discussion_base_url": "https://github.com/digital-land/data-standards-backlog/discussions"
+            "site_settings": {
+                "name": "Planning considerations",
+                "team_name": "Data Design team",
+            },
+            "github_discussion_base_url": "https://github.com/digital-land/data-standards-backlog/discussions",
         }
 
     app.context_processor(global_variables_context_processor)

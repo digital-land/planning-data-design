@@ -43,7 +43,7 @@
   <div class="govuk-header__container govuk-width-container">
     <div class="govuk-header__logo">
       <a href="{{ url_for('main.index') }}" class="govuk-header__link govuk-header__link--homepage">
-        DLUHC Planning considerations
+        {{ site_settings.name }}
       </a>
     </div>
     <div class="govuk-header__content">
@@ -52,7 +52,7 @@
         <ul id="navigation" class="govuk-header__navigation-list">
           <li class="govuk-header__navigation-item">
             <a class="govuk-header__link" href="{{ url_for('planning_consideration.considerations') }}">
-              Planning considerations
+              Backlog
             </a>
           </li>
           <li class="govuk-header__navigation-item">
