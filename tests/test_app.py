@@ -2,7 +2,122 @@ from flask import url_for
 from playwright.sync_api import expect
 
 
-def test_add_consideration(live_server, page, questions):
+def test_add_and_update_planning_consideration(live_server, page):
+    page.goto(url_for("planning_consideration.considerations", _external=True))
+    page.get_by_role("link", name="+Add planning consideration").click()
+    page.get_by_label("Name").click()
+    page.get_by_label("Name").fill("This is a test consideration")
+    page.get_by_label("Github disucssion number").click()
+    page.get_by_label("Github disucssion number").fill("22")
+    page.get_by_label("Description").click()
+    page.get_by_label("Description").fill("This is the description")
+    page.get_by_role("button", name="Create").click()
+    expect(
+        page.locator("#details").get_by_text("This is a test consideration")
+    ).to_be_visible()
+    expect(page.get_by_text("This is the description")).to_be_visible()
+    expect(page.get_by_role("link", name="22")).to_be_visible()
+
+    page.locator("#details").get_by_role(
+        "link", name="Change planning consideration name"
+    ).click()
+    page.get_by_label("Name").click()
+    page.get_by_label("Name").fill("This is a test consideration that is being updated")
+    page.get_by_role("button", name="Save changes").click()
+    expect(
+        page.locator("#details").get_by_text("This is a test consideration")
+    ).to_be_visible()
+
+    page.locator("#details").get_by_text("This is a test consideration").click()
+    page.get_by_role("link", name="Change planning consideration description").click()
+    page.get_by_label("Description").click()
+    page.get_by_label("Description").fill(
+        "This is the description that has been updated"
+    )
+    page.get_by_role("button", name="Save changes").click()
+    expect(page.get_by_text("This is the description that")).to_be_visible()
+
+    page.get_by_role("link", name="Add link to applicable specification").click()
+    page.get_by_label("Title").click()
+    page.get_by_label("Title").fill("this is the specification")
+    page.get_by_label("URL").fill("http://specification.com")
+    page.get_by_role("button", name="Save changes").click()
+    expect(page.get_by_role("link", name="this is the specification")).to_be_visible()
+    assert (
+        page.get_by_role("link", name="this is the specification").get_attribute("href")
+        == "http://specification.com"
+    )
+
+    page.get_by_role("link", name="Add link to applicable schemas").click()
+    page.get_by_label("Schema name").click()
+    page.get_by_label("Schema name").fill("this is the schema")
+    page.get_by_label("URL").click()
+    page.get_by_label("URL").fill("http://schema.com")
+    page.get_by_role("button", name="Save schema").click()
+    expect(page.get_by_role("link", name="this is the schema")).to_be_visible()
+    assert (
+        page.get_by_role("link", name="this is the schema").get_attribute("href")
+        == "http://schema.com"
+    )
+    expect(page.get_by_role("link", name="Remove")).to_be_visible()
+
+    page.get_by_role("link", name="Remove").click()
+    expect(
+        page.locator("#data-related dl div")
+        .filter(has_text="Schemas Add link to")
+        .get_by_role("definition")
+        .first
+    ).to_be_visible()
+
+    page.get_by_role("link", name="Change expected number of").click()
+    page.get_by_label("Expected number of records").click()
+    page.get_by_label("Expected number of records").fill("10000")
+    page.get_by_role("button", name="Save changes").click()
+    expect(page.get_by_text("10,000")).to_be_visible()
+    page.get_by_role("link", name="Change frequency of updates").click()
+    page.get_by_label("Annually").check()
+    page.get_by_role("button", name="Save").click()
+    expect(page.locator("#data-related")).to_contain_text("Annually")
+    page.get_by_role("link", name="Change frequency of updates").click()
+    page.get_by_label("Daily").check()
+    page.get_by_role("button", name="Save").click()
+    expect(page.locator("#data-related")).to_contain_text("Daily")
+
+    page.get_by_role("link", name="Change planning consideration stage").click()
+    page.get_by_label("Research").check()
+    page.get_by_role("button", name="Update").click()
+    expect(page.locator("#flags")).to_contain_text("Research")
+    page.locator("dt").filter(has_text="Prioritised Change planning").get_by_role(
+        "link"
+    ).click()
+    page.get_by_label("Yes").check()
+    page.get_by_role("button", name="Set prioritisation").click()
+    expect(page.locator("#flags")).to_contain_text("True")
+    page.locator("dt").filter(has_text="Public Change planning").get_by_role(
+        "link"
+    ).click()
+    page.get_by_label("No").check()
+    page.get_by_role("button", name="Set").click()
+    expect(page.locator("#flags")).to_contain_text("False")
+    page.locator("dt").filter(has_text="Public Change planning").get_by_role(
+        "link"
+    ).click()
+    page.get_by_label("Yes").check()
+    page.get_by_role("button", name="Set").click()
+    expect(page.locator("#flags")).to_contain_text("True")
+
+    page.get_by_role("link", name="+Add note").click()
+    page.get_by_label("Note").click()
+    page.get_by_label("Note").fill(
+        "This is a test of a note that should appear on the page."
+    )
+    page.get_by_role("button", name="Save note").click()
+    expect(page.locator("#notes")).to_contain_text(
+        "This is a test of a note that should appear on the page."
+    )
+
+
+def test_add_answer_backlog_questions(live_server, page, questions):
 
     page.goto(url_for("planning_consideration.considerations", _external=True))
     page.get_by_role("link", name="+Add planning consideration").click()

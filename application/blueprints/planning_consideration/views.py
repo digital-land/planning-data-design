@@ -431,7 +431,7 @@ def change_stage(slug):
         reason = {
             "reason": form.data["reason"],
             "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-            "user": session["user"]["name"],
+            "user": session.get("user", {}).get("name", None),
             "changes": {
                 "stage": {
                     "added": consideration.stage.value,
@@ -532,7 +532,10 @@ def add_note(slug):
     form = NoteForm()
 
     if form.validate_on_submit():
-        note = Note(text=form.text.data, author=session["user"]["name"])
+        note = Note(
+            text=form.text.data,
+            author=session.get("user", {}).get("name", "User not logged in"),
+        )
         if consideration.notes is None:
             consideration.notes = []
         consideration.notes.append(note)
