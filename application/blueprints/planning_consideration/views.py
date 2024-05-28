@@ -584,3 +584,10 @@ def delete_note(slug, note_id):
     db.session.add(note)
     db.session.commit()
     return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+
+@planning_consideration.route("/<slug>/change-log")
+@login_required
+def change_log(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    return render_template("change-log.html", consideration=consideration)

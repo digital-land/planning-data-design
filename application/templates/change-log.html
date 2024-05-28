@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+{% block app_breadcrumbs %}
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': url_for('main.index')
+    },
+    {
+      'text': "Planning consideration",
+      'href': url_for('planning_consideration.considerations')
+    },
+    {
+      'text': consideration.name,
+      'href': url_for('planning_consideration.consideration', slug=consideration.slug)
+    },
+    {
+      'text': "Change log"
+    }
+  ]
+}) }}
+
+{% endblock %}
+
+{% block content_header %}
+    <span class="govuk-caption-xl">{{ consideration.name }}</span>
+    <h1 class="govuk-heading-xl">Changes to consideration</h1>
+{% endblock %}
+
+
+{% block content_primary %}
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">Change log</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Field</th>
+        <th scope="col" class="govuk-table__header">From</th>
+        <th scope="col" class="govuk-table__header">To</th>
+        <th scope="col" class="govuk-table__header">Change date</th>
+        <th scope="col" class="govuk-table__header">Changed by</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% for change in consideration.changes %}
+        {% for field in change.changes %}
+            {% if change.changes[field]["deleted"] or change.changes[field]["added"] %}
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">{{ field }}</th>
+                <td class="govuk-table__cell">{{ change.changes[field]["deleted"] }}</td>
+                <td class="govuk-table__cell">{{ change.changes[field]["added"] }}</td>
+                <td class="govuk-table__cell">{{ change["date"] }}</td>
+                <td class="govuk-table__cell">{{ change["user"] }}</td>
+
+              </tr>
+            {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock content_primary %}
