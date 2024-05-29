@@ -81,11 +81,11 @@ class ConsiderationForm(FlaskForm):
         "Github disucssion number", validators=[Optional()]
     )
     description = TextAreaField("Description", validators=[Optional()])
-    public_or_private = RadioField(
+    public = RadioField(
         "Public or private",
         validators=[DataRequired()],
-        choices=[("public", "Public"), ("private", "Private")],
-        default="public",
+        choices=[("True", "Public"), ("False", "Private")],
+        default="True",
     )
 
 

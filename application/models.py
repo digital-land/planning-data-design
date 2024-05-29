@@ -106,6 +106,9 @@ class Consideration(DateModel):
         )
         return answer
 
+    def get_column_type(self, field_name):
+        return self.__table__.columns[field_name].type
+
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
 
@@ -123,47 +126,28 @@ def receive_before_update(mapper, connection, target):
     }
 
     try:
-        modifications = {}
         state = db.inspect(target)
         for attr in state.attrs:
-            if attr.key not in ["changes", "udpated", "deleted_date", "notes"]:
+            if attr.key not in ["id", "changes", "udpated", "deleted_date", "notes"]:
                 history = attr.load_history()
                 if history.has_changes():
-                    c = {}
-                    if history.added:
-                        c["added"] = history.added
-                    if history.deleted:
-                        c["deleted"] = history.deleted
-                    modifications[attr.key] = c
-
-                # handle field that need additional json serialization - stage, answers, frequency_of_updates
-                if attr.key in attr_to_model.keys():
-                    mods = modifications.get(attr.key, {})
-                    if mods:
-                        added = []
-                        deleted = []
-                        model_class = attr_to_model.get(attr.key)
-                        for a in mods.get("added", []):
-                            added.append(model_class.model_validate(a).model_dump())
-                        for d in mods.get("deleted", []):
-                            deleted.append(model_class.model_validate(d).model_dump())
-                        if added or deleted:
-                            modifications[attr.key] = {
-                                "added": added,
-                                "deleted": deleted,
-                            }
-
-        if modifications:
-            if target.changes is None:
-                target.changes = []
-
-            user_name = session.get("user", {}).get("name", None)
-            log = {
-                "user": user_name,
-                "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                "changes": modifications,
-            }
-            target.changes.append(log)
+                    log = {
+                        "field": attr.key,
+                        "added": history.added[0] if history.added else "",
+                        "deleted": history.deleted[0] if history.deleted else "",
+                        "user": session.get("username"),
+                        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+                    }
+                    if attr.key in attr_to_model.keys():
+                        log["added"] = attr_to_model[attr.key](
+                            value=log["added"]
+                        ).dict()
+                        log["deleted"] = attr_to_model[attr.key](
+                            value=log["deleted"]
+                        ).dict()
+                    if target.changes is None:
+                        target.changes = []
+                    target.changes.append(log)
     except Exception as e:
         print(e)
         print("Error logging changes")

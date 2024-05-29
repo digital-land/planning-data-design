@@ -37,12 +37,11 @@ planning_consideration = Blueprint(
 )
 
 
-def _update_basic_consideration_attrs(consideration, form):
+def _update_basic_consideration_attrs(form, consideration=None, is_new=False):
     # if a new consideration is needed
     if consideration is None:
         consideration = Consideration()
         consideration.stage = Stage("Backlog")
-        is_new = True
 
     # set attributes
     consideration.name = form.name.data
@@ -62,8 +61,68 @@ def _update_link(consideration, attr_name, form):
     _link["link_text"] = form.link_text.data
     _link["link_url"] = form.link_url.data
     setattr(consideration, attr_name, _link)
-    db.session.add(consideration)
-    db.session.commit()
+    return consideration
+
+
+def _create_or_update_consideration(form, attributes, is_new=False, consideration=None):
+
+    if consideration is None:
+        consideration = Consideration()
+        consideration.stage = Stage("Backlog")
+
+    for attribute in attributes:
+        match attribute:
+            case "name" | "github_discussion_number" | "description":
+                column_type = consideration.get_column_type(attribute)
+                if column_type.python_type == str:
+                    data = form.data.get(attribute, "").strip()
+                else:
+                    data = form.data.get(attribute)
+                if data != getattr(consideration, attribute):
+                    setattr(consideration, attribute, data)
+
+            case "public" | "is_local_land_charge":
+                column_type = consideration.get_column_type(attribute)
+                data = true_false_to_bool(form.data.get(attribute))
+                if data != getattr(consideration, attribute):
+                    setattr(consideration, attribute, data)
+
+            case "specification" | "legislation":
+                data = {
+                    "link_text": form.link_text.data,
+                    "link_url": form.link_url.data,
+                }
+                if data != getattr(consideration, attribute):
+                    setattr(consideration, attribute, data)
+
+            case "useful_links":
+                data = {
+                    "link_text": form.link_text.data,
+                    "link_url": form.link_url.data,
+                }
+                if getattr(consideration, attribute) is None:
+                    setattr(consideration, attribute, [])
+                if data not in getattr(consideration, attribute):
+                    getattr(consideration, attribute).append(data)
+
+            case "synonym":
+                field = f"{attribute}s"
+                if getattr(consideration, field) is None:
+                    setattr(consideration, field, [])
+
+                data = form.data.get(attribute).strip()
+                if data not in getattr(consideration, field):
+                    getattr(consideration, field).append(data)
+
+            case _:
+                data = None
+
+        if is_new:
+            consideration.set_slug()
+
+    # TODO create change log entry
+
+    return consideration
 
 
 def _extract_changes_of_type(consideration, attr_name):
@@ -165,7 +224,8 @@ def new():
     form = ConsiderationForm()
 
     if form.validate_on_submit():
-        consideration = _update_basic_consideration_attrs(None, form)
+        attributes = ["name", "github_discussion_number", "description", "public"]
+        consideration = _create_or_update_consideration(form, attributes, is_new=True)
         db.session.add(consideration)
         db.session.commit()
         return redirect(
@@ -178,13 +238,14 @@ def new():
 @planning_consideration.route("/<slug>/edit", methods=["GET", "POST"])
 @login_required
 def edit(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = ConsiderationForm(obj=consideration)
 
     if form.validate_on_submit():
-        consideration.name = form.name.data
-        consideration.github_discussion_number = form.github_discussion_number.data
-        consideration.description = form.description.data
+        attributes = ["name", "github_discussion_number", "description", "public"]
+        consideration = _create_or_update_consideration(
+            form, attributes, consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -223,7 +284,12 @@ def edit_specification(slug):
     form = LinkForm()
 
     if form.validate_on_submit():
-        _update_link(consideration, "specification", form)
+        consideration = _update_link(consideration, "specification", form)
+        consideration = _create_or_update_consideration(
+            form, ["specification"], consideration=consideration
+        )
+        db.session.add(consideration)
+        db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
     if consideration.specification is not None:
@@ -314,15 +380,13 @@ def edit_estimated_size(slug):
 @planning_consideration.route("/<slug>/add-synonym", methods=["GET", "POST"])
 @login_required
 def add_synonym(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = SynonymForm(obj=consideration)
 
     if form.validate_on_submit():
-        if consideration.synonyms is None:
-            consideration.synonyms = []
-        synonym = form.synonym.data.strip()
-        if synonym not in consideration.synonyms:
-            consideration.synonyms.append(synonym)
+        consideration = _create_or_update_consideration(
+            form, ["synonym"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -395,8 +459,8 @@ def is_llc(slug):
     form = LLCForm(obj=consideration)
 
     if form.validate_on_submit():
-        consideration.is_local_land_charge = true_false_to_bool(
-            form.is_local_land_charge.data
+        consideration = _create_or_update_consideration(
+            form, ["is_local_land_charge"], consideration=consideration
         )
         db.session.add(consideration)
         db.session.commit()
@@ -487,11 +551,9 @@ def add_useful_link(slug):
     form = LinkForm()
 
     if form.validate_on_submit():
-        link = {"link_url": form.link_url.data, "link_text": form.link_text.data}
-        if consideration.useful_links is None:
-            consideration.useful_links = []
-        consideration.useful_links.append(link)
-
+        consideration = _create_or_update_consideration(
+            form, ["useful_links"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -510,8 +572,11 @@ def edit_legislation(slug):
     form = LinkForm(url_required=False)
 
     if form.validate_on_submit():
-        # handle submitted form
-        _update_link(consideration, "legislation", form)
+        consideration = _create_or_update_consideration(
+            form, ["legislation"], consideration=consideration
+        )
+        db.session.add(consideration)
+        db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
     if consideration.legislation is not None:
@@ -590,4 +655,6 @@ def delete_note(slug, note_id):
 @login_required
 def change_log(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    if consideration.changes is None:
+        return abort(404)
     return render_template("change-log.html", consideration=consideration)
