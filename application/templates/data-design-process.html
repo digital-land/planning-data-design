@@ -43,6 +43,8 @@
     <p class="govuk-body">We then add it to the backlog and indicate where we think it fits with our programme objectives.</p>
     <p class="govuk-body">Once it’s on the backlog, this means we’re committed to looking at this consideration.</p>
 
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='Backlog')}}" class="govuk-link">See planning considerations in the Backlog stage</a>.</p>
+
     <h2 class="govuk-heading-l">2. Screen</h2>
 
     <p class="govuk body">This stage helps us to verify that a consideration plays an important role in the planning system.</p>
@@ -51,6 +53,8 @@
 
     <p class="govuk-body">We answer set questions in the screening stage to help us to understand the legal underpinnings of the consideration, where it is used and needed in the planning system and what, if any, data already exists.</p>
     <p class="govuk-body">At this stage, it is usually possible to tell if we can use an existing national dataset or whether a new standard is needed.</p>
+
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='Screen')}}" class="govuk-link">See planning considerations in the Screen stage</a>.</p>
 
     <h2 class="govuk-heading-l">3. Research</h2>
 
@@ -62,6 +66,8 @@
     <p class="govuk-body">We capture how and where the considerations are used, the size and scope of any potential data yield, assumed user needs, use-cases for the data and an expectation of who might be able to provide the required data.</p>
     <p class="govuk-body">This information is essential for data modelling.</p>
 
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='Research')}}" class="govuk-link">See planning considerations in the Research stage</a>.</p>
+
     <h2 class="govuk-heading-l">4. Co-design</h2>
 
     <p class="govuk body">This stage is focused on us designing the smallest data model that will satisfy the highest number of needs.</p>
@@ -71,6 +77,8 @@
     <p class="govuk-body">In the co-design stage we develop a draft data model.</p>
     <p class="govuk-body">Our approach is to start small and build up. So at this stage we’ll design a data model to capture the fewest data points needed to satisfy the clearest, most important use-cases.</p>
     <p class="govuk-body">The data model will be co-designed with users: people needing the data, people providing the data and stakeholders.</p>
+
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='Co-design')}}" class="govuk-link">See planning considerations in the Co-design stage</a>.</p>
 
     <h2 class="govuk-heading-l">5. Test and iterate</h2>
 
@@ -83,6 +91,8 @@
     <p class="govuk-body">This testing allows us to check the data will work in reality, that it's feasible to produce and provides value.</p>
     <p class="govuk-body">This stage may lead to changes to the data model.</p>
 
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='Test and iterate')}}" class="govuk-link">See planning considerations in the Test and iterate stage</a>.</p>
+
     <h2 class="govuk-heading-l">6. Go / no-go</h2>
 
     <p class="govuk body">This stage helps us to get sign-off for any potential risks we have identified.</p>
@@ -91,6 +101,8 @@
 
     <p class="govuk-body">We will summarise what we've learnt during the data design process and check off any associated risks.</p>
     <p class="govuk-body">This is a governance step for <a href="https://www.planning.data.gov.uk/" class="govuk-link">planning.data.gov.uk</a></p>
+
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='Ready for go/no-go')}}" class="govuk-link">See planning considerations in the Ready for go/no-go stage</a>.</p>
 
     <h2 class="govuk-heading-l">7. Prepare for platform</h2>
 
@@ -102,6 +114,8 @@
     <p class="govuk-body">We wouldn't expect to make any changes to the data model at this point.</p>
     <p class="govuk-body">We’ll articulate what to expect from an authoritative dataset - for example, who we expect to publish, what we expect them to publish and how often.</p>
 
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='Prepared for platform')}}" class="govuk-link">See planning considerations in the Prepare for platform stage</a>.</p>
+
     <h2 class="govuk-heading-l">8. On the platform</h2>
 
     <p class="govuk body">At this stage authoritative data will be collected and made available on <a href="https://www.planning.data.gov.uk/" class="govuk-link">planning.data.gov.uk</a>.</p>
@@ -111,6 +125,8 @@
     <p class="govuk-body">Work will shift from designing the data to collecting the data.</p>
     <p class="govuk-body">Some, less authoritative, data will be on the platform for data consumers to use. Over time we’ll collect more data from the dataset(s), increasing the quality and authority of the available data.</p>
     <p class="govuk-body">Feedback from providers and consumers will be collected and fed back to the data design team for future iterations of the standard.</p>
+
+    <p class="govuk-body"><a href="{{ url_for('planning_consideration.considerations', stage='On the platform')}}" class="govuk-link">See planning considerations in the On the platform stage</a>.</p>
 
     <hr class="govuk-section-break--xl">
     <h2 class="govuk-heading-l">Help improve our process</h2>
