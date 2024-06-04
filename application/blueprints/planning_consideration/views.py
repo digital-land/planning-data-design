@@ -30,6 +30,10 @@ from application.forms import DeleteForm
 from application.models import Consideration, FrequencyOfUpdates, Note, Stage
 from application.utils import login_required, true_false_to_bool
 
+enum_map = {
+    "frequency_of_updates": FrequencyOfUpdates,
+}
+
 planning_consideration = Blueprint(
     "planning_consideration",
     __name__,
@@ -72,7 +76,12 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
 
     for attribute in attributes:
         match attribute:
-            case "name" | "github_discussion_number" | "description":
+            case (
+                "name"
+                | "github_discussion_number"
+                | "description"
+                | "expected_number_of_records"
+            ):
                 column_type = consideration.get_column_type(attribute)
                 if column_type.python_type == str:
                     data = form.data.get(attribute, "").strip()
@@ -81,7 +90,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 if data != getattr(consideration, attribute):
                     setattr(consideration, attribute, data)
 
-            case "public" | "is_local_land_charge":
+            case "public" | "is_local_land_charge" | "prioritised":
                 column_type = consideration.get_column_type(attribute)
                 data = true_false_to_bool(form.data.get(attribute))
                 if data != getattr(consideration, attribute):
@@ -105,6 +114,17 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 if data not in getattr(consideration, attribute):
                     getattr(consideration, attribute).append(data)
 
+            case "schema":
+                field = f"{attribute}s"
+                if getattr(consideration, field) is None:
+                    setattr(consideration, field, [])
+                data = {
+                    "link_text": form.link_text.data,
+                    "link_url": form.link_url.data,
+                }
+                if data not in getattr(consideration, field):
+                    getattr(consideration, field).append(data)
+
             case "synonym":
                 field = f"{attribute}s"
                 if getattr(consideration, field) is None:
@@ -113,6 +133,30 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 data = form.data.get(attribute).strip()
                 if data not in getattr(consideration, field):
                     getattr(consideration, field).append(data)
+
+            case "frequency_of_updates":
+                enum = enum_map.get(attribute)
+                data = enum(form.data.get(attribute))
+                if data != getattr(consideration, attribute):
+                    setattr(consideration, attribute, data)
+
+            case "stage":
+                from_stage = consideration.stage
+                data = Stage(form.data.get(attribute))
+                if data != consideration.stage:
+                    setattr(consideration, attribute, data)
+                consideration.stage = Stage(form.stage.data)
+                log = {
+                    "field_changed": "stage",
+                    "from": from_stage.value,
+                    "to": consideration.stage.value,
+                    "reason": form.data["reason"],
+                    "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+                    "user": session.get("user", {}).get("name", None),
+                }
+                if consideration.changes is None:
+                    consideration.changes = []
+                consideration.changes.append(log)
 
             case _:
                 data = None
@@ -258,7 +302,7 @@ def edit(slug):
 @planning_consideration.route("/<slug>/delete", methods=["GET", "POST"])
 @login_required
 def delete(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = DeleteForm()
 
     if form.validate_on_submit():
@@ -280,11 +324,10 @@ def delete(slug):
 @planning_consideration.route("/<slug>/edit-specification", methods=["GET", "POST"])
 @login_required
 def edit_specification(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = LinkForm()
 
     if form.validate_on_submit():
-        consideration = _update_link(consideration, "specification", form)
         consideration = _create_or_update_consideration(
             form, ["specification"], consideration=consideration
         )
@@ -310,15 +353,14 @@ def edit_specification(slug):
 @planning_consideration.route("/<slug>/add-schema", methods=["GET", "POST"])
 @login_required
 def add_schema(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = LinkForm()
     form.link_text.label.text = "Schema name"
 
     if form.validate_on_submit():
-        link = {"link_url": form.link_url.data, "link_text": form.link_text.data}
-        if consideration.schemas is None:
-            consideration.schemas = []
-        consideration.schemas.append(link)
+        consideration = _create_or_update_consideration(
+            form, ["schema"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -336,7 +378,7 @@ def add_schema(slug):
 )
 @login_required
 def delete_attr_link(slug, attr_name, link_text):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
 
     # find matches
     has_changed = False
@@ -357,11 +399,13 @@ def delete_attr_link(slug, attr_name, link_text):
 @planning_consideration.route("/<slug>/edit-estimated-size", methods=["GET", "POST"])
 @login_required
 def edit_estimated_size(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = ExpectedSizeForm(obj=consideration)
 
     if form.validate_on_submit():
-        consideration.expected_number_of_records = form.expected_number_of_records.data
+        consideration = _create_or_update_consideration(
+            form, ["expected_number_of_records"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -407,7 +451,7 @@ def add_synonym(slug):
 )
 @login_required
 def delete_synonym(slug, synonym):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     consideration.synonyms.remove(synonym)
     db.session.add(consideration)
     db.session.commit()
@@ -417,11 +461,13 @@ def delete_synonym(slug, synonym):
 @planning_consideration.route("/<slug>/prioritised", methods=["GET", "POST"])
 @login_required
 def prioritised(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = PriorityForm(obj=consideration)
 
     if form.validate_on_submit():
-        consideration.prioritised = true_false_to_bool(form.prioritised.data)
+        consideration = _create_or_update_consideration(
+            form, ["prioritised"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -436,11 +482,13 @@ def prioritised(slug):
 @planning_consideration.route("/<slug>/public", methods=["GET", "POST"])
 @login_required
 def public(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = PublicForm(obj=consideration)
 
     if form.validate_on_submit():
-        consideration.public = true_false_to_bool(form.public.data)
+        consideration = _create_or_update_consideration(
+            form, ["public"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -455,7 +503,7 @@ def public(slug):
 @planning_consideration.route("/<slug>/is-llc", methods=["GET", "POST"])
 @login_required
 def is_llc(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = LLCForm(obj=consideration)
 
     if form.validate_on_submit():
@@ -475,7 +523,7 @@ def is_llc(slug):
 
 @planning_consideration.route("/<slug>/stage")
 def stage(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
 
     stage_changes = _extract_changes_of_type(consideration, "stage")
     return render_template(
@@ -486,26 +534,13 @@ def stage(slug):
 @planning_consideration.route("/<slug>/stage/change", methods=["GET", "POST"])
 @login_required
 def change_stage(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = StageForm()
 
     if form.validate_on_submit():
-        updated_stage = consideration.stage
-        consideration.stage = Stage(form.stage.data)
-        reason = {
-            "reason": form.data["reason"],
-            "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-            "user": session.get("user", {}).get("name", None),
-            "changes": {
-                "stage": {
-                    "added": consideration.stage.value,
-                    "deleted": updated_stage.value,
-                },
-            },
-        }
-        if consideration.changes is None:
-            consideration.changes = []
-        consideration.changes.append(reason)
+        consideration = _create_or_update_consideration(
+            form, ["stage"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
@@ -522,16 +557,18 @@ def change_stage(slug):
 @planning_consideration.route("/<slug>/edit-frequency", methods=["GET", "POST"])
 @login_required
 def frequency(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = FrequencyForm()
 
     if form.validate_on_submit():
-        consideration.frequency_of_updates = FrequencyOfUpdates(form.frequency.data)
+        consideration = _create_or_update_consideration(
+            form, ["frequency_of_updates"], consideration=consideration
+        )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
-    form.frequency.data = (
+    form.frequency_of_updates.data = (
         consideration.frequency_of_updates.value
         if consideration.frequency_of_updates
         else ""
@@ -547,7 +584,7 @@ def frequency(slug):
 @planning_consideration.route("/<slug>/add-useful-link", methods=["GET", "POST"])
 @login_required
 def add_useful_link(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = LinkForm()
 
     if form.validate_on_submit():
@@ -568,7 +605,7 @@ def add_useful_link(slug):
 @planning_consideration.route("/<slug>/edit-legislation", methods=["GET", "POST"])
 @login_required
 def edit_legislation(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = LinkForm(url_required=False)
 
     if form.validate_on_submit():
@@ -593,7 +630,7 @@ def edit_legislation(slug):
 @planning_consideration.route("/<slug>/note", methods=["GET", "POST"])
 @login_required
 def add_note(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = NoteForm()
 
     if form.validate_on_submit():
@@ -619,7 +656,7 @@ def add_note(slug):
 @planning_consideration.route("/<slug>/note/<note_id>", methods=["GET", "POST"])
 @login_required
 def edit_note(slug, note_id):
-    consideration = Consideration.query.filter(Consideration.slug == slug).first()
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     note = Note.query.get(note_id)
     if note is None or note.deleted_date is not None:
         abort(404)

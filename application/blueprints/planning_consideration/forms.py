@@ -60,7 +60,7 @@ class StageForm(FlaskForm):
 
 
 class FrequencyForm(FlaskForm):
-    frequency = RadioField(
+    frequency_of_updates = RadioField(
         "How often do we expect this data to change?",
         validators=[DataRequired()],
         choices=[(freq.value, freq.value) for freq in FrequencyOfUpdates],
