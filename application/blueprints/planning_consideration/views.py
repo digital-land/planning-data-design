@@ -41,33 +41,6 @@ planning_consideration = Blueprint(
 )
 
 
-def _update_basic_consideration_attrs(form, consideration=None, is_new=False):
-    # if a new consideration is needed
-    if consideration is None:
-        consideration = Consideration()
-        consideration.stage = Stage("Backlog")
-
-    # set attributes
-    consideration.name = form.name.data
-    consideration.github_discussion_number = form.github_discussion_number.data
-    consideration.description = form.description.data
-    if form.public_or_private.data == "private":
-        consideration.public = False
-
-    if is_new:
-        consideration.set_slug()
-
-    return consideration
-
-
-def _update_link(consideration, attr_name, form):
-    _link = {}
-    _link["link_text"] = form.link_text.data
-    _link["link_url"] = form.link_url.data
-    setattr(consideration, attr_name, _link)
-    return consideration
-
-
 def _create_or_update_consideration(form, attributes, is_new=False, consideration=None):
 
     if consideration is None:
