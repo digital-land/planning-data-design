@@ -78,7 +78,7 @@ class SynonymForm(FlaskForm):
 class ConsiderationForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     github_discussion_number = IntegerField(
-        "Github disucssion number", validators=[Optional()]
+        "Github discussion number", validators=[Optional()]
     )
     description = TextAreaField("Description", validators=[Optional()])
     public = RadioField(

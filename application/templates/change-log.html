@@ -35,8 +35,8 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Field</th>
-        <th scope="col" class="govuk-table__header">Deleted</th>
-        <th scope="col" class="govuk-table__header">Added</th>
+        <th scope="col" class="govuk-table__header">From</th>
+        <th scope="col" class="govuk-table__header">To</th>
         <th scope="col" class="govuk-table__header">Change date</th>
         <th scope="col" class="govuk-table__header">Changed by</th>
       </tr>
@@ -45,8 +45,8 @@
       {% for change in consideration.changes %}
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">{{ change["field"] }}</th>
-            <td class="govuk-table__cell">{{ change["deleted"] }}</td>
-            <td class="govuk-table__cell">{{ change["added"] }}</td>
+            <td class="govuk-table__cell">{{ change["from"] }}</td>
+            <td class="govuk-table__cell">{{ change["to"] }}</td>
             <td class="govuk-table__cell">{{ change["date"] }}</td>
             <td class="govuk-table__cell">{{ change["user"] }}</td>
           </tr>

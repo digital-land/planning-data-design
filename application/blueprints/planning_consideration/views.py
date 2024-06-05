@@ -1,4 +1,5 @@
 import datetime
+from enum import Enum
 
 from flask import (
     Blueprint,
@@ -48,6 +49,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
         consideration.stage = Stage("Backlog")
 
     for attribute in attributes:
+        from_value = None
         match attribute:
             case (
                 "name"
@@ -61,12 +63,14 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 else:
                     data = form.data.get(attribute)
                 if data != getattr(consideration, attribute):
+                    from_value = getattr(consideration, attribute)
                     setattr(consideration, attribute, data)
 
             case "public" | "is_local_land_charge" | "prioritised":
                 column_type = consideration.get_column_type(attribute)
                 data = true_false_to_bool(form.data.get(attribute))
                 if data != getattr(consideration, attribute):
+                    from_value = getattr(consideration, attribute)
                     setattr(consideration, attribute, data)
 
             case "specification" | "legislation":
@@ -75,6 +79,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     "link_url": form.link_url.data,
                 }
                 if data != getattr(consideration, attribute):
+                    from_value = getattr(consideration, attribute)
                     setattr(consideration, attribute, data)
 
             case "useful_links":
@@ -85,6 +90,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 if getattr(consideration, attribute) is None:
                     setattr(consideration, attribute, [])
                 if data not in getattr(consideration, attribute):
+                    from_value = getattr(consideration, attribute)
                     getattr(consideration, attribute).append(data)
 
             case "schema":
@@ -96,6 +102,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     "link_url": form.link_url.data,
                 }
                 if data not in getattr(consideration, field):
+                    from_value = getattr(consideration, field)
                     getattr(consideration, field).append(data)
 
             case "synonym":
@@ -105,39 +112,48 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
 
                 data = form.data.get(attribute).strip()
                 if data not in getattr(consideration, field):
+                    from_value = getattr(consideration, field)
                     getattr(consideration, field).append(data)
 
             case "frequency_of_updates":
                 enum = enum_map.get(attribute)
                 data = enum(form.data.get(attribute))
                 if data != getattr(consideration, attribute):
+                    from_value = getattr(consideration, attribute)
                     setattr(consideration, attribute, data)
 
             case "stage":
-                from_stage = consideration.stage
                 data = Stage(form.data.get(attribute))
                 if data != consideration.stage:
+                    from_value = consideration.stage
                     setattr(consideration, attribute, data)
                 consideration.stage = Stage(form.stage.data)
-                log = {
-                    "field_changed": "stage",
-                    "from": from_stage.value,
-                    "to": consideration.stage.value,
-                    "reason": form.data["reason"],
-                    "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                    "user": session.get("user", {}).get("name", None),
-                }
-                if consideration.changes is None:
-                    consideration.changes = []
-                consideration.changes.append(log)
 
             case _:
                 data = None
 
+        # TODO: using attribute for field name, is actually name on the model class
+        # which is a little unclear for users, create a map of field names to something
+        # more user friendly
+        if from_value is not None:
+            if isinstance(from_value, Enum):
+                from_value = from_value.value
+                data = data.value
+            log = {
+                "field": attribute,
+                "from": from_value,
+                "to": data,
+                "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+                "user": session.get("user", {}).get("name", None),
+            }
+            if attribute == "stage":
+                log["reason"] = form.reason.data
+            if consideration.changes is None:
+                consideration.changes = []
+            consideration.changes.append(log)
+
         if is_new:
             consideration.set_slug()
-
-    # TODO create change log entry
 
     return consideration
 

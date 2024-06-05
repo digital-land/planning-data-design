@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from pydantic import UUID4, BaseModel, ConfigDict, Field
 from slugify import slugify
-from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text, event
+from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
 from sqlalchemy.ext.mutable import MutableDict, MutableList
 from sqlalchemy.orm import Mapped, attributes, mapped_column, relationship
@@ -111,46 +111,6 @@ class Consideration(DateModel):
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
-
-
-@event.listens_for(Consideration, "before_update")
-def receive_before_update(mapper, connection, target):
-    from flask import session
-
-    from application.extensions import db
-
-    attr_to_model = {
-        "stage": StageModel,
-        "answers": AnswerModel,
-        "frequency_of_updates": FrequencyOfUpdatesModel,
-    }
-
-    try:
-        state = db.inspect(target)
-        for attr in state.attrs:
-            if attr.key not in ["id", "changes", "udpated", "deleted_date", "notes"]:
-                history = attr.load_history()
-                if history.has_changes():
-                    log = {
-                        "field": attr.key,
-                        "added": history.added[0] if history.added else "",
-                        "deleted": history.deleted[0] if history.deleted else "",
-                        "user": session.get("username"),
-                        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-                    }
-                    if attr.key in attr_to_model.keys():
-                        log["added"] = attr_to_model[attr.key](
-                            value=log["added"]
-                        ).dict()
-                        log["deleted"] = attr_to_model[attr.key](
-                            value=log["deleted"]
-                        ).dict()
-                    if target.changes is None:
-                        target.changes = []
-                    target.changes.append(log)
-    except Exception as e:
-        print(e)
-        print("Error logging changes")
 
 
 class Answer(DateModel):
