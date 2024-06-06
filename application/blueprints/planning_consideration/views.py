@@ -63,7 +63,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     data = form.data.get(attribute, "").strip()
                 else:
                     data = form.data.get(attribute)
-                if data != getattr(consideration, attribute):
+                if data != getattr(consideration, attribute) or not getattr(
+                    consideration, attribute
+                ):
                     from_value = getattr(consideration, attribute)
                     to_value = data
                     setattr(consideration, attribute, data)
@@ -71,7 +73,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
             case "public" | "is_local_land_charge" | "prioritised":
                 column_type = consideration.get_column_type(attribute)
                 data = true_false_to_bool(form.data.get(attribute))
-                if data != getattr(consideration, attribute):
+                if data != getattr(consideration, attribute) or not getattr(
+                    consideration, attribute
+                ):
                     from_value = getattr(consideration, attribute)
                     to_value = data
                     setattr(consideration, attribute, data)
@@ -81,7 +85,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     "link_text": form.link_text.data,
                     "link_url": form.link_url.data,
                 }
-                if data != getattr(consideration, attribute):
+                if data != getattr(consideration, attribute) or not getattr(
+                    consideration, attribute
+                ):
                     from_value = getattr(consideration, attribute)
                     to_value = data
                     setattr(consideration, attribute, data)
@@ -125,7 +131,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
             case "frequency_of_updates":
                 enum = enum_map.get(attribute)
                 data = enum(form.data.get(attribute))
-                if data != getattr(consideration, attribute):
+                if data != getattr(consideration, attribute) or not getattr(
+                    consideration, attribute
+                ):
                     from_value = getattr(consideration, attribute)
                     setattr(consideration, attribute, data)
                     to_value = data
@@ -144,9 +152,10 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
         # TODO: using attribute for field name, is actually name on the model class
         # which is a little unclear for users, create a map of field names to something
         # more user friendly
-        if from_value is not None:
-            if isinstance(from_value, Enum):
+        if from_value or to_value:
+            if from_value is not None and isinstance(from_value, Enum):
                 from_value = from_value.value
+            if to_value is not None and isinstance(to_value, Enum):
                 to_value = to_value.value
             log = {
                 "field": attribute,
