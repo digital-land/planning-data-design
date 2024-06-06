@@ -50,6 +50,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
 
     for attribute in attributes:
         from_value = None
+        to_value = None
         match attribute:
             case (
                 "name"
@@ -64,6 +65,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     data = form.data.get(attribute)
                 if data != getattr(consideration, attribute):
                     from_value = getattr(consideration, attribute)
+                    to_value = data
                     setattr(consideration, attribute, data)
 
             case "public" | "is_local_land_charge" | "prioritised":
@@ -71,6 +73,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 data = true_false_to_bool(form.data.get(attribute))
                 if data != getattr(consideration, attribute):
                     from_value = getattr(consideration, attribute)
+                    to_value = data
                     setattr(consideration, attribute, data)
 
             case "specification" | "legislation":
@@ -80,6 +83,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 }
                 if data != getattr(consideration, attribute):
                     from_value = getattr(consideration, attribute)
+                    to_value = data
                     setattr(consideration, attribute, data)
 
             case "useful_links":
@@ -90,8 +94,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 if getattr(consideration, attribute) is None:
                     setattr(consideration, attribute, [])
                 if data not in getattr(consideration, attribute):
-                    from_value = getattr(consideration, attribute)
+                    from_value = getattr(consideration, attribute).copy()
                     getattr(consideration, attribute).append(data)
+                    to_value = getattr(consideration, attribute)
 
             case "schema":
                 field = f"{attribute}s"
@@ -102,8 +107,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     "link_url": form.link_url.data,
                 }
                 if data not in getattr(consideration, field):
-                    from_value = getattr(consideration, field)
+                    from_value = getattr(consideration, field).copy()
                     getattr(consideration, field).append(data)
+                    to_value = getattr(consideration, field)
 
             case "synonym":
                 field = f"{attribute}s"
@@ -112,8 +118,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
 
                 data = form.data.get(attribute).strip()
                 if data not in getattr(consideration, field):
-                    from_value = getattr(consideration, field)
+                    from_value = getattr(consideration, field).copy()
                     getattr(consideration, field).append(data)
+                    to_value = getattr(consideration, field)
 
             case "frequency_of_updates":
                 enum = enum_map.get(attribute)
@@ -121,6 +128,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 if data != getattr(consideration, attribute):
                     from_value = getattr(consideration, attribute)
                     setattr(consideration, attribute, data)
+                    to_value = data
 
             case "stage":
                 data = Stage(form.data.get(attribute))
@@ -128,6 +136,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     from_value = consideration.stage
                     setattr(consideration, attribute, data)
                 consideration.stage = Stage(form.stage.data)
+                to_value = data
 
             case _:
                 data = None
@@ -138,11 +147,11 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
         if from_value is not None:
             if isinstance(from_value, Enum):
                 from_value = from_value.value
-                data = data.value
+                to_value = to_value.value
             log = {
                 "field": attribute,
                 "from": from_value,
-                "to": data,
+                "to": to_value,
                 "date": datetime.datetime.today().strftime("%Y-%m-%d"),
                 "user": session.get("user", {}).get("name", None),
             }
@@ -378,7 +387,19 @@ def delete_attr_link(slug, attr_name, link_text):
             has_changed = True
 
     if has_changed:
+        from_value = getattr(consideration, attr_name)
         setattr(consideration, attr_name, links)
+        to_value = getattr(consideration, attr_name)
+        log = {
+            "field": attr_name,
+            "from": from_value,
+            "to": to_value,
+            "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+            "user": session.get("user", {}).get("name", None),
+        }
+        if consideration.changes is None:
+            consideration.changes = []
+        consideration.changes.append(log)
         db.session.add(consideration)
         db.session.commit()
 
@@ -441,7 +462,21 @@ def add_synonym(slug):
 @login_required
 def delete_synonym(slug, synonym):
     consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    from_value = consideration.synonyms
     consideration.synonyms.remove(synonym)
+    to_value = consideration.synonyms
+
+    log = {
+        "field": "synonym",
+        "from": from_value,
+        "to": to_value,
+        "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+        "user": session.get("user", {}).get("name", None),
+    }
+    if consideration.changes is None:
+        consideration.changes = []
+    consideration.changes.append(log)
+
     db.session.add(consideration)
     db.session.commit()
     return redirect(url_for("planning_consideration.consideration", slug=slug))
