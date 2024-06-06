@@ -60,7 +60,7 @@ class StageForm(FlaskForm):
 
 
 class FrequencyForm(FlaskForm):
-    frequency = RadioField(
+    frequency_of_updates = RadioField(
         "How often do we expect this data to change?",
         validators=[DataRequired()],
         choices=[(freq.value, freq.value) for freq in FrequencyOfUpdates],
@@ -78,14 +78,14 @@ class SynonymForm(FlaskForm):
 class ConsiderationForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     github_discussion_number = IntegerField(
-        "Github disucssion number", validators=[Optional()]
+        "Github discussion number", validators=[Optional()]
     )
     description = TextAreaField("Description", validators=[Optional()])
-    public_or_private = RadioField(
+    public = RadioField(
         "Public or private",
         validators=[DataRequired()],
-        choices=[("public", "Public"), ("private", "Private")],
-        default="public",
+        choices=[("True", "Public"), ("False", "Private")],
+        default="True",
     )
 
 

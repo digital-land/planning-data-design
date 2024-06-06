@@ -43,19 +43,14 @@
     </thead>
     <tbody class="govuk-table__body">
       {% for change in consideration.changes %}
-        {% for field in change.changes %}
-            {% if change.changes[field]["deleted"] or change.changes[field]["added"] %}
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">{{ field }}</th>
-                <td class="govuk-table__cell">{{ change.changes[field]["deleted"] }}</td>
-                <td class="govuk-table__cell">{{ change.changes[field]["added"] }}</td>
-                <td class="govuk-table__cell">{{ change["date"] }}</td>
-                <td class="govuk-table__cell">{{ change["user"] }}</td>
-
-              </tr>
-            {% endif %}
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">{{ change["field"] }}</th>
+            <td class="govuk-table__cell">{{ change["from"] }}</td>
+            <td class="govuk-table__cell">{{ change["to"] }}</td>
+            <td class="govuk-table__cell">{{ change["date"] }}</td>
+            <td class="govuk-table__cell">{{ change["user"] }}</td>
+          </tr>
         {% endfor %}
-      {% endfor %}
     </tbody>
   </table>
 {% endblock content_primary %}

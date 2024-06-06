@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from pydantic import UUID4, BaseModel, ConfigDict, Field
 from slugify import slugify
-from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text, event
+from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
 from sqlalchemy.ext.mutable import MutableDict, MutableList
 from sqlalchemy.orm import Mapped, attributes, mapped_column, relationship
@@ -106,67 +106,11 @@ class Consideration(DateModel):
         )
         return answer
 
+    def get_column_type(self, field_name):
+        return self.__table__.columns[field_name].type
+
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
-
-
-@event.listens_for(Consideration, "before_update")
-def receive_before_update(mapper, connection, target):
-    from flask import session
-
-    from application.extensions import db
-
-    attr_to_model = {
-        "stage": StageModel,
-        "answers": AnswerModel,
-        "frequency_of_updates": FrequencyOfUpdatesModel,
-    }
-
-    try:
-        modifications = {}
-        state = db.inspect(target)
-        for attr in state.attrs:
-            if attr.key not in ["changes", "udpated", "deleted_date", "notes"]:
-                history = attr.load_history()
-                if history.has_changes():
-                    c = {}
-                    if history.added:
-                        c["added"] = history.added
-                    if history.deleted:
-                        c["deleted"] = history.deleted
-                    modifications[attr.key] = c
-
-                # handle field that need additional json serialization - stage, answers, frequency_of_updates
-                if attr.key in attr_to_model.keys():
-                    mods = modifications.get(attr.key, {})
-                    if mods:
-                        added = []
-                        deleted = []
-                        model_class = attr_to_model.get(attr.key)
-                        for a in mods.get("added", []):
-                            added.append(model_class.model_validate(a).model_dump())
-                        for d in mods.get("deleted", []):
-                            deleted.append(model_class.model_validate(d).model_dump())
-                        if added or deleted:
-                            modifications[attr.key] = {
-                                "added": added,
-                                "deleted": deleted,
-                            }
-
-        if modifications:
-            if target.changes is None:
-                target.changes = []
-
-            user_name = session.get("user", {}).get("name", None)
-            log = {
-                "user": user_name,
-                "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                "changes": modifications,
-            }
-            target.changes.append(log)
-    except Exception as e:
-        print(e)
-        print("Error logging changes")
 
 
 class Answer(DateModel):

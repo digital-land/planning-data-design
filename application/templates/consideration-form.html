@@ -48,7 +48,7 @@
           {{ field(class='govuk-textarea') }}
         {% elif field.type == "RadioField" %}
           {{ radioComponent({
-            "field": form.public_or_private,
+            "field": form.public,
             "pageHeading": {"size": "m"},
             })
           }}
