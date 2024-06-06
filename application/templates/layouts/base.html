@@ -60,11 +60,11 @@
               Design process
             </a>
           </li>
-          <li class="govuk-header__navigation-item">
+          <!-- <li class="govuk-header__navigation-item">
             <a class="govuk-header__link" href="/support">
               Support
             </a>
-          </li>
+          </li> -->
           <li class="govuk-header__navigation-item">
             {% if not config.AUTHENTICATION_ON or session["user"] %}
             <a class="govuk-header__link" href="{{url_for('auth.logout')}}">
