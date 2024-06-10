@@ -1,8 +1,11 @@
+import csv
 import datetime
+import io
 from enum import Enum
 
 from flask import (
     Blueprint,
+    Response,
     abort,
     flash,
     redirect,
@@ -28,7 +31,13 @@ from application.blueprints.planning_consideration.forms import (
 )
 from application.extensions import db
 from application.forms import DeleteForm
-from application.models import Consideration, FrequencyOfUpdates, Note, Stage
+from application.models import (
+    Consideration,
+    ConsiderationModel,
+    FrequencyOfUpdates,
+    Note,
+    Stage,
+)
 from application.utils import login_required, true_false_to_bool
 
 enum_map = {
@@ -236,6 +245,33 @@ def considerations():
         legislation_filter=legislation_param,
         include_archived=archived_param,
         llc_filter=llc_param,
+    )
+
+
+@planning_consideration.route("/planning-considerations.csv")
+def considerations_csv():
+
+    data = []
+    considerations = Consideration.query.filter(Consideration.public.is_(True)).all()
+    for consideration in considerations:
+        try:
+            model = ConsiderationModel.model_validate(consideration, strict=False)
+            data.append(model.model_dump(by_alias=True))
+        except Exception as e:
+            print(f"Error: {e}")
+
+    output = io.StringIO()
+    writer = csv.DictWriter(output, fieldnames=data[0].keys())
+    writer.writeheader()
+    for row in data:
+        writer.writerow(row)
+
+    return Response(
+        output.getvalue(),
+        mimetype="text/csv",
+        headers={
+            "Content-Disposition": "attachment;filename=planning-considerations.csv"
+        },
     )
 
 

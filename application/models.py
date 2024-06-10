@@ -3,7 +3,7 @@ import uuid
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import UUID4, BaseModel, ConfigDict, Field
+from pydantic import UUID4, BaseModel, ConfigDict, Field, field_serializer
 from slugify import slugify
 from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, Integer, Text
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, JSONB
@@ -206,22 +206,52 @@ class FrequencyOfUpdatesModel(BaseModel):
 
 class ConsiderationModel(BaseModel):
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(
+        from_attributes=True, alias_generator=lambda x: x.replace("_", "-")
+    )
 
     name: str
     description: Optional[str]
     synonyms: Optional[List[str]]
-    github_discussion_number: Optional[int]
-    stage: StageModel
-    public: bool
-    expected_number_of_records: Optional[int]
-    frequency_of_updates: Optional[FrequencyOfUpdatesModel]
-    prioritised: bool
+    github_discussion_number: Optional[int] = Field(
+        default=None, alias="github-discussion-number"
+    )
+    stage: Optional[StageModel]
+    public: Optional[bool]
+    expected_number_of_records: Optional[int] = Field(
+        default=None, alias="expected-number-of-records"
+    )
+    frequency_of_updates: Optional[FrequencyOfUpdatesModel] = Field(
+        default=None, alias="frequency-of-updates"
+    )
+    prioritised: Optional[bool]
     schemas: Optional[list]
-    specification_url: Optional[dict]
-    useful_links: Optional[list]
+    specification_url: Optional[dict] = Field(default=None, alias="specification")
+    useful_links: Optional[list] = Field(default=None, alias="useful-links")
     legislation: Optional[dict]
     slug: Optional[str]
+
+    @field_serializer("frequency_of_updates", "stage")
+    def serialize_enum(self, field: Enum):
+        if field is not None:
+            return field.value
+
+    @field_serializer("legislation", "specification_url", "schemas")
+    def serialize_links(self, data):
+        if isinstance(data, dict):
+            return data["link_url"]
+        if isinstance(data, list):
+            urls = []
+            for d in data:
+                urls.append(d["link_url"])
+            return ";".join(urls)
+        return None
+
+    @field_serializer("synonyms")
+    def serialize_synonyms(self, data):
+        if data is not None:
+            return ";".join(data)
+        return None
 
 
 class AnswerModel(BaseModel):
