@@ -17,6 +17,11 @@ def data_design_process():
     return render_template("data-design-process.html")
 
 
+@main.route("/how-to-contribute")
+def how_to_contribute():
+    return render_template("how-to-contribute.html")
+
+
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
 
