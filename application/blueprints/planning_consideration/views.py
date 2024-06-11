@@ -255,7 +255,7 @@ def considerations_csv():
     considerations = Consideration.query.filter(Consideration.public.is_(True)).all()
     for consideration in considerations:
         try:
-            model = ConsiderationModel.model_validate(consideration, strict=False)
+            model = ConsiderationModel.model_validate(consideration)
             data.append(model.model_dump(by_alias=True))
         except Exception as e:
             print(f"Error: {e}")

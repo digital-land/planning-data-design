@@ -207,7 +207,9 @@ class FrequencyOfUpdatesModel(BaseModel):
 class ConsiderationModel(BaseModel):
 
     model_config = ConfigDict(
-        from_attributes=True, alias_generator=lambda x: x.replace("_", "-")
+        from_attributes=True,
+        alias_generator=lambda x: x.replace("_", "-"),
+        populate_by_name=True,
     )
 
     name: str
