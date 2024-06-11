@@ -311,6 +311,9 @@ def new():
     form = ConsiderationForm()
 
     if form.validate_on_submit():
+        slug = slugify(form.name.data.strip())
+        if Consideration.query.filter(Consideration.slug == slug).count() > 0:
+            return redirect(url_for("planning_consideration.consideration", slug=slug))
         attributes = ["name", "github_discussion_number", "description", "public"]
         consideration = _create_or_update_consideration(form, attributes, is_new=True)
         db.session.add(consideration)
