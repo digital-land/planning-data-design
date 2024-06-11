@@ -25,7 +25,11 @@ jobs:
     - name: Commit and push changes
       run: |
         git add data/planning-considerations.csv
-        git commit -m "Add downloaded planning-considerations.csv file"
-        git push
+        if ! git diff-index --quiet HEAD --; then
+          git commit -m "Add downloaded planning-considerations.csv file"
+          git push
+        else
+          echo "No changes to commit"
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
