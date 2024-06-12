@@ -67,6 +67,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
     {% include 'partials/consideration-filters.html' %}
+    <hr class="govuk-section-break-m">
+    <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
+      <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
+    </p>
+    <hr class="govuk-section-break-m">
   </div>
 
   <div class="govuk-grid-column-three-quarters">
