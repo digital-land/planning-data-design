@@ -181,10 +181,13 @@ def save_answer(consideration_slug, stage, question_slug):
                 )
                 consideration.answers.append(answer)
             current_answer = answer.answer
-            answer.answer = data
+            if question.question_type == QuestionType.ADD_TO_A_LIST:
+                answer.answer_list = data
+            else:
+                answer.answer = data
             question_text = question.text.format(name=consideration.name)
             log = {
-                "field": f"Question: {question_text}",
+                "field": question_text,
                 "from": current_answer,
                 "to": data,
                 "date": datetime.datetime.today().strftime("%Y-%m-%d"),
@@ -279,7 +282,7 @@ def add_to_list(consideration_slug, stage, question_slug):
                 answer.add_to_list(item)
                 question_text = question.text.format(name=consideration.name)
                 log = {
-                    "field": f"Question: {question_text}",
+                    "field": question_text,
                     "from": previous_answers,
                     "to": answer.answer_list,
                     "date": datetime.datetime.today().strftime("%Y-%m-%d"),
@@ -358,23 +361,23 @@ def delete_answer(consideration_slug, stage, question_slug, position):
                 Question.stage == stage, Question.slug == question_slug
             ).one_or_none()
 
-        if question is None:
-            return redirect(
-                url_for(
-                    "questions.add_to_list",
-                    consideration_slug=consideration_slug,
-                    stage=stage,
-                    question_slug=question_slug,
+            if question is None:
+                return redirect(
+                    url_for(
+                        "questions.add_to_list",
+                        consideration_slug=consideration_slug,
+                        stage=stage,
+                        question_slug=question_slug,
+                    )
                 )
-            )
 
-        answer = consideration.get_answer(question)
-        if answer is not None and answer.answer_list:
-            del answer.answer_list[position]
-            for i, item in enumerate(answer.answer_list):
-                item["position"] = i
-            db.session.add(answer)
-            db.session.commit()
+            answer = consideration.get_answer(question)
+            if answer is not None and answer.answer_list:
+                del answer.answer_list[position]
+                for i, item in enumerate(answer.answer_list):
+                    item["position"] = i
+                db.session.add(answer)
+                db.session.commit()
 
         return redirect(
             url_for(
@@ -425,7 +428,7 @@ def edit_answer(consideration_slug, stage, question_slug, position):
         answer.update_list(position, form.data)
         question_text = question.text.format(name=consideration.name)
         log = {
-            "field": f"Question: {question_text}",
+            "field": question_text,
             "from": current_answer,
             "to": form.data,
             "date": datetime.datetime.today().strftime("%Y-%m-%d"),
