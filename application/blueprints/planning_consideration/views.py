@@ -766,4 +766,6 @@ def change_log(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     if consideration.changes is None:
         return abort(404)
-    return render_template("change-log.html", consideration=consideration)
+    return render_template(
+        "change-log.html", consideration=consideration, content_primary_width="full"
+    )

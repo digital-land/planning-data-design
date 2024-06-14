@@ -1,4 +1,6 @@
-from flask import Blueprint, abort, redirect, render_template, request, url_for
+import datetime
+
+from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 
 from application.blueprints.questions.forms import (
     ChooseMulitpleForm,
@@ -75,7 +77,7 @@ def _get_question_group(start_question, consideration, stage, stop=None):
 def index(consideration_slug, stage):
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
-    ).first()
+    ).one_or_404()
 
     start_question = (
         Question.query.filter(Question.stage == stage).order_by(Question.order).first()
@@ -98,7 +100,7 @@ def question(consideration_slug, stage, question_slug):
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
-    ).first()
+    ).one_or_404()
 
     question = Question.query.filter(
         Question.stage == stage, Question.slug == question_slug
@@ -178,7 +180,20 @@ def save_answer(consideration_slug, stage, question_slug):
                     question_slug=question.slug,
                 )
                 consideration.answers.append(answer)
-            answer.answer = data
+            current_answer = answer.answer
+            if question.question_type == QuestionType.ADD_TO_A_LIST:
+                answer.answer_list = data
+            else:
+                answer.answer = data
+            question_text = question.text.format(name=consideration.name)
+            log = {
+                "field": question_text,
+                "from": current_answer,
+                "to": data,
+                "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+                "user": session.get("user", {}).get("name", None),
+            }
+            consideration.changes.append(log)
             db.session.add(answer)
             db.session.add(consideration)
             db.session.commit()
@@ -229,7 +244,7 @@ def add_to_list(consideration_slug, stage, question_slug):
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
-    ).first()
+    ).one_or_404()
 
     question = Question.query.filter(
         Question.stage == stage, Question.slug == question_slug
@@ -262,8 +277,20 @@ def add_to_list(consideration_slug, stage, question_slug):
                 )
             )
         else:
+            previous_answers = answer.answer_list.copy() if answer.answer_list else None
             for item in data:
                 answer.add_to_list(item)
+                question_text = question.text.format(name=consideration.name)
+                log = {
+                    "field": question_text,
+                    "from": previous_answers,
+                    "to": answer.answer_list,
+                    "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+                    "user": session.get("user", {}).get("name", None),
+                }
+                consideration.changes.append(log)
+
+            db.session.add(consideration)
             db.session.add(answer)
             db.session.commit()
 
@@ -324,7 +351,7 @@ def delete_answer(consideration_slug, stage, question_slug, position):
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
-    ).first()
+    ).one_or_404()
 
     form = DeleteForm()
 
@@ -334,23 +361,23 @@ def delete_answer(consideration_slug, stage, question_slug, position):
                 Question.stage == stage, Question.slug == question_slug
             ).one_or_none()
 
-        if question is None:
-            return redirect(
-                url_for(
-                    "questions.add_to_list",
-                    consideration_slug=consideration_slug,
-                    stage=stage,
-                    question_slug=question_slug,
+            if question is None:
+                return redirect(
+                    url_for(
+                        "questions.add_to_list",
+                        consideration_slug=consideration_slug,
+                        stage=stage,
+                        question_slug=question_slug,
+                    )
                 )
-            )
 
-        answer = consideration.get_answer(question)
-        if answer is not None and answer.answer_list:
-            del answer.answer_list[position]
-            for i, item in enumerate(answer.answer_list):
-                item["position"] = i
-            db.session.add(answer)
-            db.session.commit()
+            answer = consideration.get_answer(question)
+            if answer is not None and answer.answer_list:
+                del answer.answer_list[position]
+                for i, item in enumerate(answer.answer_list):
+                    item["position"] = i
+                db.session.add(answer)
+                db.session.commit()
 
         return redirect(
             url_for(
@@ -397,8 +424,19 @@ def edit_answer(consideration_slug, stage, question_slug, position):
         form = STRUCTURED_DATA_FORMS[question.python_form](data=answer_item)
 
     if form.validate_on_submit():
+        current_answer = answer.answer_list[position]
         answer.update_list(position, form.data)
+        question_text = question.text.format(name=consideration.name)
+        log = {
+            "field": question_text,
+            "from": current_answer,
+            "to": form.data,
+            "date": datetime.datetime.today().strftime("%Y-%m-%d"),
+            "user": session.get("user", {}).get("name", None),
+        }
+        consideration.changes.append(log)
         db.session.add(answer)
+        db.session.add(consideration)
         db.session.commit()
 
         return redirect(
