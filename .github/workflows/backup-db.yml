@@ -37,8 +37,9 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add -f data/latest_backup.dump
+          git rm --cached data/latest_backup.dump
+          git add data/latest_backup.dump
           git commit -m "Committed latest database backup"
-          git push
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
