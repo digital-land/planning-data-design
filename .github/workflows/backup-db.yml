@@ -1,0 +1,38 @@
+name: Backup database
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+  run-heroku-cli-commands:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install # Adjust or remove this step based on your project
+
+      - name: Install Heroku CLI
+        run: curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Authenticate with Heroku
+        env:
+          HEROKU_OAUTH_TOKEN: ${{ secrets.HEROKU_OAUTH_TOKEN }}
+        run: |
+          echo "machine api.heroku.com" > ~/.netrc
+          echo "  login ${{ secrets.HEROKU_OAUTH_TOKEN }}" >> ~/.netrc
+          echo "  password ${{ secrets.HEROKU_OAUTH_TOKEN }}" >> ~/.netrc
+          echo "machine git.heroku.com" >> ~/.netrc
+          echo "  login ${{ secrets.HEROKU_OAUTH_TOKEN }}" >> ~/.netrc
+          echo "  password ${{ secrets.HEROKU_OAUTH_TOKEN }}" >> ~/.netrc
+
+      - name: Run Heroku pg:backups:download
+        run: heroku pg:backups:download --app dluhc-planning-considerations --output latest_backup.dump
