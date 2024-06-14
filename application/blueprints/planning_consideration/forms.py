@@ -1,5 +1,15 @@
+from flask import flash, url_for
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, RadioField, StringField, TextAreaField, URLField
+from markupsafe import Markup
+from slugify import slugify
+from wtforms import (
+    IntegerField,
+    RadioField,
+    StringField,
+    TextAreaField,
+    URLField,
+    ValidationError,
+)
 from wtforms.validators import DataRequired, Optional
 
 from application.models import FrequencyOfUpdates, Stage
@@ -75,8 +85,24 @@ class SynonymForm(FlaskForm):
     )
 
 
+def unique_name_validator(form, name):
+    from application.models import Consideration
+
+    slug = slugify(name.data)
+    consideration = Consideration.query.filter_by(slug=slug).one_or_none()
+    if consideration is not None:
+        url = url_for("planning_consideration.consideration", slug=slug)
+        message = Markup(
+            f"Go to existing consideration <a href='{url}'>{consideration.name}</a>"
+        )
+        flash(message)
+        raise ValidationError(
+            f"The consideration '{consideration.name}' already exists."
+        )
+
+
 class ConsiderationForm(FlaskForm):
-    name = StringField("Name", validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired(), unique_name_validator])
     github_discussion_number = IntegerField(
         "Github discussion number", validators=[Optional()]
     )

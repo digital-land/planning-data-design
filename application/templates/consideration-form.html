@@ -28,6 +28,23 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+          <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+              Consideration already exists
+            </h2>
+          </div>
+          <div class="govuk-notification-banner__content">
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endwith %}
+
     <span class="govuk-caption-xl">{{ "Edit p" if mode == "edit" else "P" }}lanning consideration</span>
     <h1 class="govuk-heading-xl">{{ consideration.name if mode == "edit" else "Add new" }}</h1>
   </div>
@@ -58,11 +75,11 @@
         {% endif %}
 
         {% if field.errors %}
-        <ul>
-        {% for error in field.errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-        </ul>
+          <ul class="govuk-list govuk-list--bullet govuk-error-message">
+            {% for error in field.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
         {% endif %}
       </div>
       {% endfor %}

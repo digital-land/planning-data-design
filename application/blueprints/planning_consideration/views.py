@@ -70,6 +70,8 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 column_type = consideration.get_column_type(attribute)
                 if column_type.python_type == str:
                     data = form.data.get(attribute, "").strip()
+                    if data and attribute == "name":
+                        data = data[0].upper() + data[1:].lower()
                 else:
                     data = form.data.get(attribute)
                 if data != getattr(consideration, attribute) or not getattr(
@@ -279,7 +281,7 @@ def considerations_csv():
 def consideration(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).first()
 
-    # handle rouge consideration slugs
+    # handle incorrect consideration slugs
     if consideration is None:
         message = Markup(
             (
@@ -311,9 +313,6 @@ def new():
     form = ConsiderationForm()
 
     if form.validate_on_submit():
-        slug = slugify(form.name.data.strip())
-        if Consideration.query.filter(Consideration.slug == slug).count() > 0:
-            return redirect(url_for("planning_consideration.consideration", slug=slug))
         attributes = ["name", "github_discussion_number", "description", "public"]
         consideration = _create_or_update_consideration(form, attributes, is_new=True)
         db.session.add(consideration)
