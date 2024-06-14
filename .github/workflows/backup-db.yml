@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install # Adjust or remove this step based on your project
@@ -36,4 +36,16 @@ jobs:
           echo "  password ${{ secrets.HEROKU_OAUTH_TOKEN }}" >> ~/.netrc
 
       - name: Run Heroku pg:backups:download
-        run: heroku pg:backups:download --app dluhc-planning-considerations --output latest_backup.dump
+        run: heroku pg:backups:download --app dluhc-planning-considerations --output data/latest_backup.dump
+
+      - name: Set up git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Commit and push changes
+        run: |
+          git add data/latest_backup.dump
+          git commit -m "Committed latest database backup"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
