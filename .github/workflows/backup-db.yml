@@ -37,6 +37,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git rm --cached data/latest_backup.dump
           git add data/latest_backup.dump
           git commit -m "Committed latest database backup"
           git push
