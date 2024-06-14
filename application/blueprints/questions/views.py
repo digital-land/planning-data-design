@@ -274,7 +274,7 @@ def add_to_list(consideration_slug, stage, question_slug):
                 )
             )
         else:
-            previous_answers = answer.answer_list.copy()
+            previous_answers = answer.answer_list.copy() if answer.answer_list else None
             for item in data:
                 answer.add_to_list(item)
                 question_text = question.text.format(name=consideration.name)
