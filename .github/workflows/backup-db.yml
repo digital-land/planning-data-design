@@ -47,5 +47,6 @@ jobs:
         run: |
           git add data/latest_backup.dump
           git commit -m "Committed latest database backup"
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
