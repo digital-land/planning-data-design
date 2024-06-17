@@ -86,25 +86,25 @@ def test_add_and_update_planning_consideration(live_server, page):
     page.get_by_role("link", name="Change planning consideration stage").click()
     page.get_by_label("Research").check()
     page.get_by_role("button", name="Update").click()
-    expect(page.locator("#flags")).to_contain_text("Research")
-    page.locator("dt").filter(has_text="Prioritised Change planning").get_by_role(
-        "link"
-    ).click()
+    expect(page.locator("#details")).to_contain_text("Research")
+    page.locator("dd").filter(
+        has_text="Change planning consideration prioritisation"
+    ).get_by_role("link").click()
     page.get_by_label("Yes").check()
     page.get_by_role("button", name="Set prioritisation").click()
-    expect(page.locator("#flags")).to_contain_text("True")
-    page.locator("dt").filter(has_text="Public Change planning").get_by_role(
-        "link"
-    ).click()
+    expect(page.locator("#details")).to_contain_text("True")
+    page.locator("dd").filter(
+        has_text="Change planning consideration public status"
+    ).get_by_role("link").click()
     page.get_by_label("No").check()
     page.get_by_role("button", name="Set").click()
-    expect(page.locator("#flags")).to_contain_text("False")
-    page.locator("dt").filter(has_text="Public Change planning").get_by_role(
-        "link"
-    ).click()
+    expect(page.locator("#details")).to_contain_text("False")
+    page.locator("dd").filter(
+        has_text="Change planning consideration public status"
+    ).get_by_role("link").click()
     page.get_by_label("Yes").check()
     page.get_by_role("button", name="Set").click()
-    expect(page.locator("#flags")).to_contain_text("True")
+    expect(page.locator("#details")).to_contain_text("True")
 
     page.get_by_role("link", name="+Add note").click()
     page.get_by_label("Note").click()
