@@ -1,51 +1,65 @@
 
 <form class="govuk-form">
 
-<!-- filter by stage -->
-<div class="govuk-form-group">
-  {% set checkboxesHTML %}
-    {% set pa_checked = request.args.getlist("stage") %}
-    {% for stage in stages %}
-    <div class="govuk-checkboxes__item">
-      <input class="govuk-checkboxes__input" id="stage-{{ stage.value }}" name="stage" type="checkbox" value="{{ stage.value }}" {% if stage.value in pa_checked %}checked=checked{% endif %}>
-      <label class="govuk-label govuk-checkboxes__label" for="stage-{{ stage.value }}">
-        {{ stage.value }}
-      </label>
-    </div>
-    {% endfor %}
-  {% endset %}
-
-  {% call dlFilterGroup({
-    "title": "Stage",
-    "is_open": True,
-    "selected": 0
-  }) %}
-
-  {{ dlFilterCheckboxes({
-    "uniqueID": "167824",
-    "checkboxesHTML": checkboxesHTML
-  }) }}
-  {% endcall %}
-</div>
-
+  <!-- include archived -->
   <div class="govuk-form-group">
+    {% call dlFilterGroup({
+      "title": "Archived",
+      "is_open": True,
+      "selected": 0
+    }) %}
+
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-        <h3 class="govuk-fieldset__heading">Show archived</h3>
-      </legend>
       <div class="govuk-checkboxes" data-module="govuk-checkboxes">
         <div class="govuk-checkboxes__item">
           <input class="govuk-checkboxes__input" id="include_archived" name="include_archived" type="checkbox" value="true" {% if include_archived %} checked{% endif %}>
           <label class="govuk-label govuk-checkboxes__label" for="include_archived">
-            Show
+            Include
           </label>
         </div>
       </div>
     </fieldset>
+
+    {% endcall %}
   </div>
+
+  <!-- filter by stage -->
   <div class="govuk-form-group">
+    {% set checkboxesHTML %}
+      {% set pa_checked = request.args.getlist("stage") %}
+      {% for stage in stages %}
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="stage-{{ stage.value }}" name="stage" type="checkbox" value="{{ stage.value }}" {% if stage.value in pa_checked %}checked=checked{% endif %}>
+        <label class="govuk-label govuk-checkboxes__label" for="stage-{{ stage.value }}">
+          {{ stage.value }}
+        </label>
+      </div>
+      {% endfor %}
+    {% endset %}
+
+    {% call dlFilterGroup({
+      "title": "Stage",
+      "is_open": True,
+      "selected": 0
+    }) %}
+
+    {{ dlFilterCheckboxes({
+      "uniqueID": "167824",
+      "checkboxesHTML": checkboxesHTML
+    }) }}
+    {% endcall %}
+  </div>
+
+  <!-- filter by legislation -->
+  <div class="govuk-form-group">
+    {% call dlFilterGroup({
+      "title": "Legislation",
+      "is_open": True,
+      "selected": 0
+    }) %}
+
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-visually-hidden">
         <h3 class="govuk-fieldset__heading">Legislation</h3>
       </legend>
       <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
@@ -63,11 +77,19 @@
         </div>
       </div>
     </fieldset>
+
+    {% endcall %}
   </div>
 
+  <!-- filter by if LLC -->
   <div class="govuk-form-group">
+    {% call dlFilterGroup({
+      "title": "Is Local land charge",
+      "is_open": True,
+      "selected": 0
+    }) %}
     <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-visually-hidden">
         <h3 class="govuk-fieldset__heading">Is a LLC?</h3>
       </legend>
       <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
@@ -85,6 +107,7 @@
         </div>
       </div>
     </fieldset>
+    {% endcall %}
   </div>
 
   <div class="govuk-button-group">
