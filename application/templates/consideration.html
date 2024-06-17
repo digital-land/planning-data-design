@@ -40,7 +40,27 @@
   <h1 class="govuk-heading-xl">{{ consideration.name }}</h1>
 {% endblock %}
 
+{% set content_primary_width = 'one-quarter' %}
+{% set content_secondary_width = 'three-quarters' %}
+
 {% block content_primary %}
+  <h3 class="govuk-heading-s">Contents</h3>
+  <ul class="govuk-list">
+    <li><a href="#details" class="govuk-link">Details</a></li>
+    <li><a href="#data-related" class="govuk-link">Data</a></li>
+    <li><a href="#design-process-stages" class="govuk-link">Design process</a></li>
+    <li><a href="#notes" class="govuk-link">Notes</a></li>
+  </ul>
+
+  {%- if not config.AUTHENTICATION_ON or session["user"] %}
+  <section class="app-actions">
+    <h3 class="govuk-heading-s">Actions</h3>
+    <a href="{{ url_for('planning_consideration.delete', slug=consideration.slug )}}" class="govuk-button govuk-button--warning">Delete</a>
+  </section>
+  {% endif -%}
+{% endblock %}
+
+{% block content_secondary %}
   <div id="details" class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
       <h2 class="govuk-summary-card__title">
@@ -178,6 +198,52 @@
             {% endif %}
           {% endif -%}
         </div>
+
+        <!-- stage -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Stage
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <span class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
+              {{ consideration['stage'].value }}
+            </span>
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.change_stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
+            </dd>
+          {% endif %}
+        </div>
+
+        <!-- prioritised -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Prioiritised
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.prioritised }}
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.prioritised', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration prioritisation</span></a>
+            </dd>
+          {% endif %}
+        </div>
+
+        {% if not config.AUTHENTICATION_ON or session["user"] %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Public
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.public }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ url_for('planning_consideration.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration public status</span></a>
+          </dd>
+        </div>
+        {% endif %}
       </dl>
     </div>
   </div>
@@ -292,69 +358,7 @@
     </section>
   {% endif %}
 
-{% endblock content_primary %}
-
-{% block content_secondary %}
-  <div id="flags" class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-      <h2 class="govuk-summary-card__title">
-        Flags
-      </h2>
-    </div>
-    <div class="govuk-summary-card__content">
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Stage
-            <br />
-            {% if not config.AUTHENTICATION_ON or session["user"] %}
-              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.change_stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
-              </span>
-            {% endif %}
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{ consideration.stage.value }}
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Prioritised
-            <br />
-            {% if not config.AUTHENTICATION_ON or session["user"] %}
-              <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.prioritised', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
-              </span>
-            {% endif %}
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{ consideration.prioritised }}
-          </dd>
-        </div>
-        {% if not config.AUTHENTICATION_ON or session["user"] %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Public
-            <br />
-            <span class="govuk-!-font-size-14 govuk-!-font-weight-regular">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.public', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
-            </span>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{ consideration.public }}
-          </dd>
-        </div>
-        {% endif %}
-      </dl>
-    </div>
-  </div>
-  {%- if not config.AUTHENTICATION_ON or session["user"] %}
-  <section class="app-actions">
-    <h3 class="govuk-heading-m">Actions</h3>
-    <a href="{{ url_for('planning_consideration.delete', slug=consideration.slug )}}" class="govuk-button govuk-button--warning">Delete</a>
-  </section>
-  {% endif -%}
-{% endblock %}
+{% endblock content_secondary %}
 
 {% block content_footer %}
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
