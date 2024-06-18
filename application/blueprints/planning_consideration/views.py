@@ -206,9 +206,14 @@ def considerations():
 
     stage_param = []
     if "stage" in request.args:
-        stage_selections = [
-            Stage(selection) for selection in request.args.getlist("stage")
-        ]
+        stage_selections = []
+        for selection in request.args.getlist("stage"):
+            try:
+                stage = Stage(selection)
+                stage_selections.append(stage)
+            except ValueError:
+                continue
+            stage_selections.append(stage)
         stage_param = stage_selections
         filter_condition = Consideration.stage.in_(stage_selections)
         query = query.filter(filter_condition)
