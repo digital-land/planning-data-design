@@ -23,7 +23,10 @@ class StageConverter(BaseConverter):
     def to_python(self, stage):
         stage = stage.upper()
         stage = stage.replace("-", "_")
-        return Stage[stage]
+        try:
+            return Stage[stage]
+        except KeyError:
+            return stage
 
     def to_url(self, stage):
         stage = stage.name.lower()
