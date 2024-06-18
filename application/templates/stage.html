@@ -37,7 +37,7 @@
       <div class="moj-timeline__item">
 
         <div class="moj-timeline__header">
-          <h2 class="moj-timeline__title">From <span class="govuk-tag {{ change.changes.stage.deleted|map_to_tag_class }}">{{ change.changes.stage.deleted }}</span> to <span class="govuk-tag {{ change.changes.stage.added|map_to_tag_class }}">{{ change.changes.stage.added }}</span></h2>
+          <h2 class="moj-timeline__title">From <span class="govuk-tag {{ change.from|map_to_tag_class }}">{{ change.from }}</span> to <span class="govuk-tag {{ change.to|map_to_tag_class }}">{{ change.to }}</span></h2>
 
           <p class="moj-timeline__byline">by {{ change.user }}</p>
 
