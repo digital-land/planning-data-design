@@ -190,11 +190,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
 def _extract_changes_of_type(consideration, attr_name):
     if consideration.changes is None:
         return None
-    return [
-        change
-        for change in consideration.changes
-        if attr_name in change["changes"].keys()
-    ]
+    return [change for change in consideration.changes if attr_name == change["field"]]
 
 
 @planning_consideration.route("/")
