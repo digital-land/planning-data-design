@@ -6,6 +6,9 @@
     <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug)}}" class="govuk-link govuk-link--text-colour">{{ consideration.name }}</a>
     <p class="govuk-!-margin-top-2 govuk-!-margin-bottom-0">
       <span class="govuk-tag govuk-tag--blue">{{ consideration.stage.value }}</span>
+      {%- if consideration.blocked_reason %}
+      <span class="govuk-tag govuk-tag--red">Blocked</span>
+      {% endif -%}
     </p>
   </dt>
   <dd class="govuk-summary-list__value">
@@ -23,7 +26,6 @@
     {%- else %}
     <p class="govuk-body govuk-hint">No focus areas set</p>
     {% endif -%}
-
 
   </dd>
   <dd class="govuk-summary-list__actions govuk-!-text-align-left">
