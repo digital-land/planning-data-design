@@ -100,6 +100,8 @@ class Consideration(DateModel):
             self.slug = slug
 
     def get_answer(self, question):
+        if isinstance(question, str):
+            question = Question.query.filter(Question.slug == question).first()
         answer = next(
             (a for a in self.answers if a.question_slug == question.slug),
             None,
