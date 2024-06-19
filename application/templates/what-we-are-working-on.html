@@ -10,12 +10,21 @@
   </dt>
   <dd class="govuk-summary-list__value">
     <p class="govuk-body">We think this supports:</p>
+
+    {# {%- set question = "which-focus-area-does-it-support" -%} #}
+    {%- set answer = consideration.get_answer("which-focus-area-does-it-support") -%}
+    {%- if answer %}
     <ul class="govuk-list govuk-list--bullet">
-      {# {%- set supports = consideration['What does it support'].split(";") -%}
+      {%- set supports = answer.answer['choice'].split(';') -%}
       {%- for goal in supports %}
       <li>{{ goal|lower }}</li>
-      {% endfor -%} #}
+      {% endfor -%}
     </ul>
+    {%- else %}
+    <p class="govuk-body govuk-hint">No focus areas set</p>
+    {% endif -%}
+
+
   </dd>
   <dd class="govuk-summary-list__actions govuk-!-text-align-left">
     <p class="govuk-body govuk-!-margin-bottom-0">
