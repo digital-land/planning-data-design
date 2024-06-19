@@ -18,6 +18,7 @@ from markupsafe import Markup
 from slugify import slugify
 
 from application.blueprints.planning_consideration.forms import (
+    BlockedForm,
     ConsiderationForm,
     ExpectedSizeForm,
     FrequencyForm,
@@ -756,6 +757,39 @@ def delete_note(slug, note_id):
     note = Note.query.get(note_id)
     note.deleted_date = datetime.date.today()
     db.session.add(note)
+    db.session.commit()
+    return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+
+@planning_consideration.route("/<slug>/block", methods=["GET", "POST"])
+@login_required
+def block(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    form = BlockedForm()
+
+    if form.validate_on_submit():
+
+        if consideration.blocked_reason is None:
+            consideration.blocked_reason = form.reason.data
+        # To do: handle if reason is already captured
+
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+    page = {"title": "Mark as blocked", "submit_text": "Block"}
+
+    return render_template(
+        "block-form.html", consideration=consideration, form=form, page=page
+    )
+
+
+@planning_consideration.get("/<slug>/unblock")
+@login_required
+def unblock(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    consideration.blocked_reason = None
+    db.session.add(consideration)
     db.session.commit()
     return redirect(url_for("planning_consideration.consideration", slug=slug))
 

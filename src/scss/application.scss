@@ -113,3 +113,16 @@ $govuk-new-link-styles: true;
 .app-note__actions span {
   margin-right: 5px;
 }
+
+// extending the govuk banner component
+
+.govuk-notification-banner--issue {
+  border-color: $govuk-error-colour;
+
+  background-color: $govuk-error-colour;
+
+  .govuk-notification-banner__link,
+  .govuk-link {
+    @include govuk-link-style-error;
+  }
+}

@@ -56,11 +56,33 @@
   <section class="app-actions">
     <h3 class="govuk-heading-s">Actions</h3>
     <a href="{{ url_for('planning_consideration.delete', slug=consideration.slug )}}" class="govuk-button govuk-button--warning">Delete</a>
+    {% if consideration.blocked_reason is none %}
+    <br />
+    <a href="{{ url_for('planning_consideration.block', slug=consideration.slug) }}">Mark as blocked</a>
+    {% endif %}
+
   </section>
   {% endif -%}
 {% endblock %}
 
 {% block content_secondary %}
+
+  {% if consideration.blocked_reason %}
+  <div class="govuk-notification-banner govuk-notification-banner--issue" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        Blocked
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      {{ consideration.blocked_reason|render_markdown }}
+      {%- if not config.AUTHENTICATION_ON or session["user"] %}
+      <p class="govuk-body"><a href="{{ url_for('planning_consideration.unblock', slug=consideration.slug) }}" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0">Mark as unblocked</a></p>
+      {% endif -%}
+    </div>
+  </div>
+  {% endif %}
+
   <div id="details" class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
       <h2 class="govuk-summary-card__title">
