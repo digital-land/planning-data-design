@@ -91,3 +91,10 @@ class ConsiderationForm(FlaskForm):
 
 class NoteForm(FlaskForm):
     text = TextAreaField("Note", validators=[DataRequired()])
+
+
+class BlockedForm(FlaskForm):
+    reason = TextAreaField(
+        "Reason for marking planning consideration as blocked",
+        validators=[DataRequired()],
+    )

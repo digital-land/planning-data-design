@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+{% block beforeContent %}
+
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': "/"
+    },
+    {
+      'text': "Planning consideration",
+      'href': "/"
+    },
+    {
+        'text': consideration.name,
+        'href': url_for('planning_consideration.consideration', slug=consideration.slug)
+      },
+    {
+      'text': "Mark as blocked",
+    }
+  ]
+}) }}
+
+{% endblock beforeContent %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-xl">{{ consideration.name }}</span>
+    <h1 class="govuk-heading-xl">{{ page.title }}</h1>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+
+    <form class="govuk-form" method="POST" action="{{ post_url }}">
+      {{ form.hidden_tag() }}
+      <div class="govuk-form-group">
+        {{ form.reason.label(class='govuk-label') }}
+        {{ form.reason(class='govuk-textarea', rows=8) }}
+        {% if form.errors %}
+            <ul>
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+      </div>
+      <div class="govuk-button-group">
+        <button class="govuk-button govuk-button--warning" type="submit">{{ page.submit_text }}</button>
+        <a class="govuk-link" href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
