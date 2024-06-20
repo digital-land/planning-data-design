@@ -62,6 +62,7 @@ class LifecycleStagesForm(FlaskForm):
 class ExistingDataForm(FlaskForm):
     form_title = "Add existing data item"
 
+    name = StringField("Name", description="The name of the dataset")
     publisher = StringField("Publisher", description="Who publishes the data?")
     url = URLField("URL", description="A url for the data")
     fields = StringField(
@@ -79,4 +80,5 @@ class ExistingDataForm(FlaskForm):
         "Coverage",
         description="Whats the coverage of the dataset? For example, national, partial, local authority area, etc",
     )
+    metadata_url = URLField("Metadata URL", description="A url for the metadata")
     position = HiddenField("position", default=0)
