@@ -706,11 +706,10 @@ def edit_legislation(slug):
 def add_note(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = NoteForm()
-
     if form.validate_on_submit():
         note = Note(
             text=form.text.data,
-            author=session.get("user", {}).get("name", "User not logged in"),
+            author=session.get("user", "unknown"),
         )
         if consideration.notes is None:
             consideration.notes = []
@@ -739,7 +738,7 @@ def edit_note(slug, note_id):
 
     if form.validate_on_submit():
         note.text = form.text.data
-        note.author = session["user"]["name"]
+        note.author = session.get("user", "unknown")
 
         db.session.add(note)
         db.session.commit()
