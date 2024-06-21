@@ -39,12 +39,12 @@ def authorize():
         )
         resp = requests.get(url, headers=headers)
         if resp.status_code == HTTPStatus.NO_CONTENT:
-            if "name" in user_profile:
+            if user_profile.get("name", None) is not None:
                 user = user_profile["name"]
-            elif "login" in user_profile:
+            elif user_profile.get("login", None) is not None:
                 user = user_profile["login"]
-            elif "email" in user_profile:
-                user = user_profile["email"]
+            elif user_profile.get("email", None) is not None:
+                user = user_profile["email"].split("@")[0]
             else:
                 user = "unknown"
             session["user"] = user
