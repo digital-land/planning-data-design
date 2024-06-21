@@ -49,7 +49,7 @@
     <li><a href="#details" class="govuk-link">Details</a></li>
     <li><a href="#data-related" class="govuk-link">Data</a></li>
     <li><a href="#design-process-stages" class="govuk-link">Design process</a></li>
-    <li><a href="#notes" class="govuk-link">Notes</a></li>
+    <li><a href="#notes" class="govuk-link">Notes ({{ consideration.notes|length }})</a></li>
   </ul>
 
   {%- if not config.AUTHENTICATION_ON or session["user"] %}
