@@ -39,7 +39,15 @@ def authorize():
         )
         resp = requests.get(url, headers=headers)
         if resp.status_code == HTTPStatus.NO_CONTENT:
-            session["user"] = user_profile
+            if "name" in user_profile:
+                user = user_profile["name"]
+            elif "login" in user_profile:
+                user = user_profile["login"]
+            elif "email" in user_profile:
+                user = user_profile["email"]
+            else:
+                user = "unknown"
+            session["user"] = user
             next_url = _make_next_url_safe(next_url)
             return redirect(next_url)
         else:
