@@ -224,7 +224,7 @@
         <!-- stage -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
-            Stage
+            <a href="{{ url_for('planning_consideration.stage', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">Stage</a>
           </dt>
           <dd class="govuk-summary-list__value">
             <span class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
