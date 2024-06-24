@@ -305,9 +305,21 @@ questions = {
                 "hint": "List the planning considerations it interacts with. Try to explain how.",
                 "next": {
                     "type": "slug",
-                    "slug": "primary-users",
+                    "slug": "statutory-consultees",
                 },
                 "prev": "where-is-data-used",
+            }
+        },
+        {
+            "statutory-consultees": {
+                "question": "Who are the statutory consultees for {name}?",
+                "type": "textarea",
+                "hint": "Create a list of the consultees and link to information about them where appropriate",
+                "next": {
+                    "type": "slug",
+                    "slug": "primary-users",
+                },
+                "prev": "related-planning-considerations",
             }
         },
         {
@@ -325,7 +337,7 @@ questions = {
                     "type": "slug",
                     "slug": "user-and-data-needs",
                 },
-                "prev": "related-planning-considerations",
+                "prev": "statutory-consultees",
             }
         },
         {
