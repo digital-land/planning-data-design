@@ -174,7 +174,7 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 "from": from_value,
                 "to": to_value,
                 "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                "user": session.get("user", {}).get("name", None),
+                "user": session.get("user", "unknown user"),
             }
             if attribute == "stage":
                 log["reason"] = form.reason.data
