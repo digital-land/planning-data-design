@@ -49,7 +49,7 @@
     <li><a href="#details" class="govuk-link">Details</a></li>
     <li><a href="#data-related" class="govuk-link">Data</a></li>
     <li><a href="#design-process-stages" class="govuk-link">Design process</a></li>
-    <li><a href="#notes" class="govuk-link">Notes ({{ consideration.notes|length }})</a></li>
+    <li><a href="#notes" class="govuk-link">Notes ({{ notes | length }})</a></li>
   </ul>
 
   {%- if not config.AUTHENTICATION_ON or session["user"] %}
@@ -359,8 +359,7 @@
       <h2 class="govuk-heading-l">Notes</h2>
       <a href="{{ url_for('planning_consideration.add_note', slug=consideration.slug)}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add note</a>
       <ul class="govuk-list govuk-list--spaced">
-        {% for note in consideration.notes %}
-          {% if not note.deleted_date %}
+        {% for note in notes %}
             <li>
               <span class="govuk-!-font-size-14">{{ note.author }} (created: {{ note.created | short_date}})</span>
               <div class="app-note__content">{{ note.text|render_markdown }}</div>
@@ -374,7 +373,6 @@
                 </span>
               </div>
             </li>
-          {% endif %}
         {% endfor %}
       </ul>
     </section>

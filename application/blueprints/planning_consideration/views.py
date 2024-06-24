@@ -301,11 +301,14 @@ def consideration(slug):
         change_dates = [change["date"] for change in consideration.changes]
         latest_change = max(change_dates)
 
+    notes = [note for note in consideration.notes if note.deleted_date is None]
+
     return render_template(
         "consideration.html",
         consideration=consideration,
         latest_change=latest_change,
         stages=Stage,
+        notes=notes,
     )
 
 
