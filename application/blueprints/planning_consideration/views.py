@@ -444,7 +444,7 @@ def delete_attr_link(slug, attr_name, link_text):
             "from": from_value,
             "to": to_value,
             "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-            "user": session.get("user", {}).get("name", None),
+            "user": session.get("user", "unknown user"),
         }
         if consideration.changes is None:
             consideration.changes = []
@@ -520,7 +520,7 @@ def delete_synonym(slug, synonym):
         "from": from_value,
         "to": to_value,
         "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-        "user": session.get("user", {}).get("name", None),
+        "user": session.get("user", "unknown user"),
     }
     if consideration.changes is None:
         consideration.changes = []

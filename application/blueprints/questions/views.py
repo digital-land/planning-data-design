@@ -191,7 +191,7 @@ def save_answer(consideration_slug, stage, question_slug):
                 "from": current_answer,
                 "to": data,
                 "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                "user": session.get("user", {}).get("name", None),
+                "user": session.get("user", "unknown user"),
             }
             consideration.changes.append(log)
             db.session.add(answer)
@@ -286,7 +286,7 @@ def add_to_list(consideration_slug, stage, question_slug):
                     "from": previous_answers,
                     "to": answer.answer_list,
                     "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                    "user": session.get("user", {}).get("name", None),
+                    "user": session.get("user", "unknown user"),
                 }
                 consideration.changes.append(log)
 
@@ -432,7 +432,7 @@ def edit_answer(consideration_slug, stage, question_slug, position):
             "from": current_answer,
             "to": form.data,
             "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-            "user": session.get("user", {}).get("name", None),
+            "user": session.get("user", "unknown user"),
         }
         consideration.changes.append(log)
         db.session.add(answer)
