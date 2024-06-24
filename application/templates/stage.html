@@ -57,8 +57,9 @@
       {% endfor %}
     </div>
 
-    <p class="govuk-body govuk-hint">At the end of March 2024, we moved the planning consideration with the stage it had at the time. History had not previously been kept.</p>
-
-{% endif %}
+  {%- else %}
+  <p class="govuk-body govuk-hint">No changes of Stage recorded</p>
+  {% endif %}
+  <p class="govuk-body govuk-hint">At the end of March 2024, we moved this planning consideration into planning data design. We moved it with the stage it had at the time. Therefore, we are only able to show history from that point.</p>
 
 {% endblock content_primary %}
