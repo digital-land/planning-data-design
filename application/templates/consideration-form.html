@@ -30,7 +30,7 @@
   <div class="govuk-grid-column-three-quarters">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner govuk-notification-banner--issue" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
           <div class="govuk-notification-banner__header">
             <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
               Consideration already exists
@@ -56,7 +56,7 @@
       {{ form.hidden_tag() }}
 
       {% for field in form if field.name != 'csrf_token' %}
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{{ ' govuk-form-group--error' if field.errors }}">
         {% if field.type == "IntegerField" %}
           {{ field.label(class='govuk-label') }}
           {{ field(class='govuk-input govuk-input--width-4') }}
@@ -75,11 +75,11 @@
         {% endif %}
 
         {% if field.errors %}
-          <ul class="govuk-list govuk-list--bullet govuk-error-message">
-            {% for error in field.errors %}
-              <li>{{ error }}</li>
-            {% endfor %}
-          </ul>
+          {%- for error in field.errors -%}
+          <p class="govuk-error-message govuk-!-margin-top-1">
+            <span class="govuk-visually-hidden">Error:</span> {{ error }}
+          </p>
+          {%- endfor -%}
         {% endif %}
       </div>
       {% endfor %}
