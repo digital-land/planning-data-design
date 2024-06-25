@@ -91,18 +91,29 @@ def unique_name_validator(form, name):
     slug = slugify(name.data)
     consideration = Consideration.query.filter_by(slug=slug).one_or_none()
     if consideration is not None:
-        url = url_for("planning_consideration.consideration", slug=slug)
-        message = Markup(
-            (
-                f"The planning consideration might have been archived. "
-                f"Go to existing consideration <a href='{url}'>{consideration.name}</a> "
-                "and change the stage to bring it back."
+        if all(
+            [
+                form[p].data
+                == (
+                    str(getattr(consideration, p))
+                    if p == "public"
+                    else getattr(consideration, p)
+                )
+                for p in ["github_discussion_number", "public", "description"]
+            ]
+        ):
+            url = url_for("planning_consideration.consideration", slug=slug)
+            message = Markup(
+                (
+                    f"The planning consideration might have been archived. "
+                    f"Go to existing consideration <a href='{url}'>{consideration.name}</a> "
+                    "and change the stage to bring it back."
+                )
             )
-        )
-        flash(message)
-        raise ValidationError(
-            f"The consideration '{consideration.name}' already exists."
-        )
+            flash(message)
+            raise ValidationError(
+                f"The consideration '{consideration.name}' already exists."
+            )
 
 
 class ConsiderationForm(FlaskForm):
