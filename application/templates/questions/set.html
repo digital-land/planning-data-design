@@ -53,7 +53,7 @@
       {% for question in params.questions %}
         {% set answer = consideration.get_answer(question) %}
           <li class="app-question-set__item">
-            <h3 class="govuk-heading-s">{{ question.format(consideration.name) }}</h3>
+            <h3 id="{{ question.slug }}" class="govuk-heading-s">{{ question.format(consideration.name) }}</h3>
 
             {%- if answer -%}
               {% if question.question_type.value == "add-to-a-list" %}
