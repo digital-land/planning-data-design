@@ -111,6 +111,9 @@
             <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
               {{ consideration['stage'].value }}
             </strong>
+            {%- if consideration.blocked_reason %}
+            <span class="govuk-tag govuk-tag--red">Blocked</span>
+            {% endif -%}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
