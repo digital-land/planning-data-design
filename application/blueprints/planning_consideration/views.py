@@ -16,6 +16,7 @@ from flask import (
 )
 from markupsafe import Markup
 from slugify import slugify
+from sqlalchemy import and_
 
 from application.blueprints.planning_consideration.forms import (
     BlockedForm,
@@ -235,6 +236,15 @@ def considerations():
         else:
             query = query.filter(~Consideration.is_local_land_charge)
 
+    blocked_param = request.args.get("show_only_blocked")
+    if blocked_param:
+        query = query.filter(
+            and_(
+                Consideration.blocked_reason.isnot(None),
+                Consideration.blocked_reason != "",
+            )
+        )
+
     considerations = (
         query.filter(Consideration.deleted_date.is_(None))
         .order_by(Consideration.name.asc())
@@ -249,6 +259,7 @@ def considerations():
         legislation_filter=legislation_param,
         include_archived=archived_param,
         llc_filter=llc_param,
+        show_only_blocked=blocked_param,
     )
 
 

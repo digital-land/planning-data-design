@@ -23,6 +23,29 @@
     {% endcall %}
   </div>
 
+
+  <!-- show only blocked -->
+  <div class="govuk-form-group">
+    {% call dlFilterGroup({
+      "title": "Show only",
+      "is_open": True,
+      "selected": 0
+    }) %}
+
+    <fieldset class="govuk-fieldset">
+      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+        <div class="govuk-checkboxes__item">
+          <input class="govuk-checkboxes__input" id="show_only_blocked" name="show_only_blocked" type="checkbox" value="true" {% if show_only_blocked %} checked{% endif %}>
+          <label class="govuk-label govuk-checkboxes__label" for="show_only_blocked">
+            Blocked
+          </label>
+        </div>
+      </div>
+    </fieldset>
+
+    {% endcall %}
+  </div>
+
   <!-- filter by stage -->
   <div class="govuk-form-group">
     {% set checkboxesHTML %}
