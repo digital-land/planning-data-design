@@ -15,7 +15,7 @@ jobs:
 
     - name: Download file
       run: |
-        curl -o  data/planning-considerations.csv https://considerations.planning-data.dev/planning-consideration/planning-considerations.csv
+        curl -o  data/planning-considerations.csv https://design.planning.data.gov.uk/planning-consideration/planning-considerations.csv
 
     - name: Set up git
       run: |
