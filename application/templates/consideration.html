@@ -283,34 +283,22 @@
             Datasets
           </dt>
           <dd class="govuk-summary-list__value">
-            <div class="app-dataset-card">
-              <header class="app-dataset-card__head">
-                <h4 class="govuk-heading-xs app-dataset-card__title"><a href="#" class="govuk-link govuk-link--text-colour">example-schema</a></h4>
-              </header>
-              <section class="app-dataset-card__body">
-                <p><a href="#" class="govuk-link">See dataset on planning.data</a></p>
-                <p><a href="#" class="govuk-link">Manage dataset in planning dataset editor</a></p>
-              </section>
-              <footer class="app-dataset-card__foot">
-                <a class="app-destructive-link" href="#" class="govuk-link">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>
-              </footer>
-            </div>
-            <div class="app-dataset-card">
-              <header class="app-dataset-card__head">
-                <h4 class="govuk-heading-xs app-dataset-card__title">
-                  <span class="app-dataset-card__head__error" title="unable to find the schema for this dataset"></span>
-                  <span class="govuk-visually-hidden">Error: unable to find the schema for this dataset</span>
-                  <a href="#" class="govuk-link govuk-link--text-colour">example-schema</a>
-                </h4>
-              </header>
-              <!--<section class="app-dataset-card__body">
-                <p><a href="#" class="govuk-link">See dataset on planning.data</a></p>
-                <p><a href="#" class="govuk-link">Manage dataset in planning dataset editor</a></p>
-              </section>-->
-              <footer class="app-dataset-card__foot">
-                <a class="app-destructive-link" href="#" class="govuk-link">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>
-              </footer>
-            </div>
+            {% if consideration.datasets %}
+              {% for dataset in consideration.datasets %}
+                <div class="app-dataset-card">
+                  <header class="app-dataset-card__head">
+                    <h4 class="govuk-heading-xs app-dataset-card__title"><a href="{{ dataset['schema_url'] }}" class="govuk-link govuk-link--text-colour">{{ dataset["name"] }}</a></h4>
+                  </header>
+                  <section class="app-dataset-card__body">
+                    {% if dataset['platform_url'] %}<p><a href="{{ dataset['platform_url'] }}" class="govuk-link">See dataset on planning.data</a></p>{% endif %}
+                    {% if dataset['dataset_editor_url'] %}<p><a href="{{ dataset['dataset_editor_url'] }}" class="govuk-link">Manage dataset in planning dataset editor</a></p>{% endif %}
+                  </section>
+                  <footer class="app-dataset-card__foot">
+                    <a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>
+                  </footer>
+                </div>
+              {% endfor %}
+            {% endif %}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">

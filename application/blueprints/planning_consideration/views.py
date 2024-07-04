@@ -2,6 +2,7 @@ import csv
 import datetime
 import io
 from enum import Enum
+from urllib.parse import urlparse
 
 from flask import (
     Blueprint,
@@ -20,6 +21,7 @@ from slugify import slugify
 from application.blueprints.planning_consideration.forms import (
     BlockedForm,
     ConsiderationForm,
+    DatasetForm,
     ExpectedSizeForm,
     FrequencyForm,
     LinkForm,
@@ -116,13 +118,21 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     getattr(consideration, attribute).append(data)
                     to_value = getattr(consideration, attribute)
 
-            case "schema":
+            case "dataset":
                 field = f"{attribute}s"
                 if getattr(consideration, field) is None:
                     setattr(consideration, field, [])
+
+                dataset_schema_url = form.data.get(attribute)
+                parsed_url = urlparse(dataset_schema_url)
+                name = parsed_url.path.split("/")[-1].replace(".md", "")
+
                 data = {
-                    "link_text": form.link_text.data,
-                    "link_url": form.link_url.data,
+                    "name": name,
+                    "label": None,
+                    "schema_url": dataset_schema_url,
+                    "platform_url": None,
+                    "dataset_editor_url": None,
                 }
                 if data not in getattr(consideration, field):
                     from_value = getattr(consideration, field).copy()
@@ -404,22 +414,34 @@ def edit_specification(slug):
 @login_required
 def add_schema(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
-    form = LinkForm()
-    form.link_text.label.text = "Schema name"
+    form = DatasetForm()
 
     if form.validate_on_submit():
         consideration = _create_or_update_consideration(
-            form, ["schema"], consideration=consideration
+            form, ["dataset"], consideration=consideration
         )
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
-    page = {"title": "Add new schema", "submit_text": "Save schema"}
+    page = {"title": "Add dataset schema url", "submit_text": "Save"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page
     )
+
+
+@planning_consideration.get("/<slug>/remove-schema/<dataset_name>")
+@login_required
+def remove_schema(slug, dataset_name):
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    for dataset in consideration.datasets:
+        if dataset["name"] == dataset_name:
+            consideration.datasets.remove(dataset)
+            db.session.add(consideration)
+            db.session.commit()
+            break
+    return redirect(url_for("planning_consideration.consideration", slug=slug))
 
 
 @planning_consideration.route(
