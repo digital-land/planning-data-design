@@ -287,7 +287,7 @@
               {% for dataset in consideration.datasets %}
                 <div class="app-dataset-card">
                   <header class="app-dataset-card__head">
-                    <h4 class="govuk-heading-xs app-dataset-card__title"><a href="{{ dataset['schema_url'] }}" class="govuk-link govuk-link--text-colour">{{ dataset["name"] }}</a></h4>
+                    <h4 class="govuk-heading-xs app-dataset-card__title"><a href="{{ dataset['schema_url'] }}" class="govuk-link govuk-link--text-colour">{% if dataset["label"] %}{{ dataset["label"] }}{% else %}{{ dataset["name"] }}{% endif %}</a></h4>
                   </header>
                   <section class="app-dataset-card__body">
                     {% if dataset['platform_url'] %}<p><a href="{{ dataset['platform_url'] }}" class="govuk-link">See dataset on planning.data</a></p>{% endif %}
