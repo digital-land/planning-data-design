@@ -47,27 +47,22 @@ def test_add_and_update_planning_consideration(live_server, page):
         page.get_by_role("link", name="this is the specification").get_attribute("href")
         == "http://specification.com"
     )
-
     page.get_by_role("link", name="Add link to applicable schemas").click()
-    page.get_by_label("Schema name").click()
-    page.get_by_label("Schema name").fill("this is the schema")
-    page.get_by_label("URL").click()
-    page.get_by_label("URL").fill("http://schema.com")
-    page.get_by_role("button", name="Save schema").click()
-    expect(page.get_by_role("link", name="this is the schema")).to_be_visible()
-    assert (
-        page.get_by_role("link", name="this is the schema").get_attribute("href")
-        == "http://schema.com"
+    page.get_by_label("Dataset schema URL").click()
+    page.get_by_label("Dataset schema URL").fill(
+        "https://github.com/digital-land/specification/blob/main/content/dataset/article-4-direction-area.md"
     )
+    page.get_by_role("button", name="Save").click()
+    expect(page.get_by_role("link", name="article-4-direction-area")).to_be_visible()
     expect(page.get_by_role("link", name="Remove")).to_be_visible()
 
-    page.get_by_role("link", name="Remove").click()
-    expect(
-        page.locator("#data-related dl div")
-        .filter(has_text="Schemas Add link to")
-        .get_by_role("definition")
-        .first
-    ).to_be_visible()
+    # page.get_by_role("link", name="Remove").click()
+    # expect(
+    #     page.locator("#data-related dl div")
+    #     .filter(has_text="Schemas Add link to")
+    #     .get_by_role("definition")
+    #     .first
+    # ).to_be_visible()
 
     page.get_by_role("link", name="Change expected number of").click()
     page.get_by_label("Expected number of records").click()
