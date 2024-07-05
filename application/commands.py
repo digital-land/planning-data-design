@@ -1,6 +1,9 @@
 import os
 
+import frontmatter
+import requests
 from flask.cli import AppGroup
+from sqlalchemy.orm.attributes import flag_modified
 
 from application.models import Question, QuestionType
 
@@ -48,7 +51,7 @@ def load_data():
                 "heroku",
                 "pg:backups:download",
                 "-a",
-                "dluhc-planning-considerations",
+                "planning-data-design",
                 "-o",
                 path,
             ]
@@ -69,7 +72,7 @@ def load_data():
                 "-h",
                 "localhost",
                 "-d",
-                "dluhc-planning-considerations",
+                "planning-data-design",
                 path,
             ]
         )
@@ -148,3 +151,69 @@ def check_questions():
 
         else:
             print(f"Next/prev/default slugs are valid for {stage}\n")
+
+
+@consider_cli.command("check-dataset-links")
+def check_dataset_links():
+
+    from application.extensions import db
+    from application.models import Consideration
+
+    platform_base_url = "https://www.planning.data.gov.uk/dataset/{name}"
+    dataset_editor_base_url = "https://dluhc-datasets.planning-data.dev/dataset/{name}"
+
+    for consideration in db.session.query(Consideration).all():
+        if consideration.datasets:
+            for i, dataset in enumerate(consideration.datasets):
+                if "github" not in dataset["schema_url"]:
+                    continue
+                url = dataset["schema_url"].replace("?plain=1", "")
+                markdown_url = f"{url}?raw=1"
+                markdown = requests.get(markdown_url, allow_redirects=True)
+                try:
+                    markdown.raise_for_status()
+                    front = frontmatter.loads(markdown.text)
+                    if dataset["label"] is None:
+                        dataset["label"] = front["name"]
+                        flag_modified(consideration, "datasets")
+
+                    if dataset["platform_url"] is None:
+                        platform_url = _set_url_if_found(
+                            platform_base_url.format(name=dataset["name"])
+                        )
+                        if platform_url is not None:
+                            dataset["platform_url"] = platform_url
+                            flag_modified(consideration, "datasets")
+
+                    if dataset["dataset_editor_url"] is None:
+                        dataset_editor_url = _set_url_if_found(
+                            dataset_editor_base_url.format(name=dataset["name"])
+                        )
+                        if dataset_editor_url is not None:
+                            dataset["dataset_editor_url"] = dataset_editor_url
+                            flag_modified(consideration, "datasets")
+
+                    if db.session.is_modified(consideration):
+                        consideration.datasets[i] = dataset
+                    else:
+                        print(f"No changes for {consideration.name} datasets")
+
+                except requests.exceptions.HTTPError as e:
+                    if markdown.status_code.starts_with("5"):
+                        print(f"Error fetching@@@  {markdown_url}: {e}")
+                except Exception as e:
+                    print(f"Error parsing {markdown_url}: {e}")
+
+            if db.session.is_modified(consideration):
+                db.session.add(consideration)
+                db.session.commit()
+                print(f"Updated {consideration.name} datasets")
+
+
+def _set_url_if_found(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return url
+    except requests.exceptions.HTTPError:
+        return None
