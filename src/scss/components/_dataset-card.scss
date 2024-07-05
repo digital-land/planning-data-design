@@ -1,0 +1,51 @@
+.app-dataset-cards {
+  & > .app-dataset-card:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.app-dataset-card {
+  border: 1px solid $govuk-border-colour;
+  @include govuk-responsive-margin(3, "bottom");
+}
+
+.app-dataset-card__head,
+.app-dataset-card__body {
+  padding: $govuk-gutter-half;
+}
+
+.app-dataset-card__head {
+  background-color: govuk-colour('light-grey');
+}
+
+.app-dataset-card__title {
+  margin: 0;
+}
+
+.app-dataset-card__head__error {
+  --circle-size: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  width: var(--circle-size);
+  height: var(--circle-size);
+  background: govuk-colour('red');
+  margin-right: calc(var(--circle-size) / 2);
+}
+
+.app-dataset-card__body {
+  & > p {
+    @include govuk-font(16);
+    margin-bottom: 10px;
+  }
+
+  & > p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.app-dataset-card__foot {
+  padding: 7px $govuk-gutter-half;
+  background-color: govuk-colour('light-grey');
+  @include govuk-font(14);
+  text-align: right;
+}

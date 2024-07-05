@@ -280,6 +280,34 @@
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
+            Datasets
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% if consideration.datasets %}
+              {% for dataset in consideration.datasets %}
+                <div class="app-dataset-card">
+                  <header class="app-dataset-card__head">
+                    <h4 class="govuk-heading-xs app-dataset-card__title"><a href="{{ dataset['schema_url'] }}" class="govuk-link govuk-link--text-colour">{% if dataset["label"] %}{{ dataset["label"] }}{% else %}{{ dataset["name"] }}{% endif %}</a></h4>
+                  </header>
+                  <section class="app-dataset-card__body">
+                    {% if dataset['platform_url'] %}<p><a href="{{ dataset['platform_url'] }}" class="govuk-link">See dataset on planning.data</a></p>{% endif %}
+                    {% if dataset['dataset_editor_url'] %}<p><a href="{{ dataset['dataset_editor_url'] }}" class="govuk-link">Manage dataset in planning dataset editor</a></p>{% endif %}
+                  </section>
+                  <footer class="app-dataset-card__foot">
+                    <a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>
+                  </footer>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.add_schema', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> link to applicable schemas</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
             Specification
           </dt>
           <dd class="govuk-summary-list__value">
@@ -290,24 +318,6 @@
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('planning_consideration.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.specification else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
-            </dd>
-          {% endif %}
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Schemas
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{  LinksList({
-                "links": consideration.schemas,
-                "consideration": consideration,
-                "attr": "schemas"
-              })
-            }}
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.add_schema', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> link to applicable schemas</span></a>
             </dd>
           {% endif %}
         </div>

@@ -73,7 +73,7 @@ class Consideration(DateModel):
         ENUM(FrequencyOfUpdates)
     )
     prioritised: Mapped[bool] = mapped_column(Boolean, default=False)
-    schemas: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
+    datasets: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
     specification: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))
     useful_links: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
     legislation: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))

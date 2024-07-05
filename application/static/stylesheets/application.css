@@ -8187,6 +8187,81 @@ p + .govuk-heading-s,
       font-size: 14pt;
       line-height: 1.15; } }
 
+.app-dataset-cards > .app-dataset-card:last-child {
+  margin-bottom: 0; }
+
+.app-dataset-card {
+  border: 1px solid #b1b4b6;
+  margin-bottom: 15px; }
+
+.app-dataset-card__head,
+.app-dataset-card__body {
+  padding: 15px; }
+
+.app-dataset-card__head {
+  background-color: #f3f2f1; }
+
+.app-dataset-card__title {
+  margin: 0; }
+
+.app-dataset-card__head__error {
+  --circle-size: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  width: var(--circle-size);
+  height: var(--circle-size);
+  background: #d4351c;
+  margin-right: calc(var(--circle-size) / 2); }
+
+.app-dataset-card__body > p {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 14px;
+  font-size: 0.875rem;
+  line-height: 1.14286;
+  margin-bottom: 10px; }
+  @media print {
+    .app-dataset-card__body > p {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .app-dataset-card__body > p {
+      font-size: 16px;
+      font-size: 1rem;
+      line-height: 1.25; } }
+  @media print {
+    .app-dataset-card__body > p {
+      font-size: 14pt;
+      line-height: 1.2; } }
+
+.app-dataset-card__body > p:last-child {
+  margin-bottom: 0; }
+
+.app-dataset-card__foot {
+  padding: 7px 15px;
+  background-color: #f3f2f1;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  text-align: right; }
+  @media print {
+    .app-dataset-card__foot {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .app-dataset-card__foot {
+      font-size: 14px;
+      font-size: 0.875rem;
+      line-height: 1.42857; } }
+  @media print {
+    .app-dataset-card__foot {
+      font-size: 12pt;
+      line-height: 1.2; } }
+
 .app-masthead {
   padding-top: 20px;
   padding-bottom: 20px;

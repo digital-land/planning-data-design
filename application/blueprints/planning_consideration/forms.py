@@ -1,3 +1,4 @@
+import requests
 from flask import flash, url_for
 from flask_wtf import FlaskForm
 from markupsafe import Markup
@@ -13,6 +14,20 @@ from wtforms import (
 from wtforms.validators import DataRequired, Optional
 
 from application.models import FrequencyOfUpdates, Stage
+
+
+class DatasetForm(FlaskForm):
+    dataset = URLField("Dataset schema URL", validators=[DataRequired()])
+
+    def validate_dataset(self, field):
+        resp = requests.head(field.data)
+        try:
+            resp.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            print(f"Error: {e}")
+            raise ValidationError(
+                "This URL isn't reachable. Please check it's correct."
+            )
 
 
 class LinkForm(FlaskForm):
