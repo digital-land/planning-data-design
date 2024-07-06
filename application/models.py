@@ -230,7 +230,7 @@ class ConsiderationModel(BaseModel):
         default=None, alias="frequency-of-updates"
     )
     prioritised: Optional[bool]
-    schemas: Optional[list]
+    datasets: Optional[list]
     specification_url: Optional[dict] = Field(default=None, alias="specification")
     useful_links: Optional[list] = Field(default=None, alias="useful-links")
     legislation: Optional[dict]
@@ -242,7 +242,16 @@ class ConsiderationModel(BaseModel):
         if field is not None:
             return field.value
 
-    @field_serializer("legislation", "specification_url", "schemas")
+    @field_serializer("datasets")
+    def serialze_datasets(self, data):
+        if data is not None:
+            urls = []
+            for d in data:
+                urls.append(d["schema_url"])
+            return ";".join(urls)
+        return None
+
+    @field_serializer("legislation", "specification_url")
     def serialize_links(self, data):
         if isinstance(data, dict):
             return data["link_url"]
