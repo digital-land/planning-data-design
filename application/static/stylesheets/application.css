@@ -7838,6 +7838,9 @@ p + .govuk-heading-s,
   display: none;
   visibility: hidden; }
 
+:root {
+  --department-colour: rgb(0, 98, 94); }
+
 /* ==========================================================================
    #TIMELINE
    ========================================================================== */
@@ -8266,7 +8269,7 @@ p + .govuk-heading-s,
   padding-top: 20px;
   padding-bottom: 20px;
   color: #ffffff;
-  background-color: #012169;
+  background-color: var(--department-colour);
   margin-top: -10px;
   position: relative;
   z-index: 1; }

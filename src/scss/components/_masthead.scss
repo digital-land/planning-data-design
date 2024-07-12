@@ -3,7 +3,7 @@
   @include govuk-responsive-padding($_padding, "top");
   @include govuk-responsive-padding($_padding, "bottom");
   color: #ffffff;
-  background-color: #012169;
+  background-color: var(--department-colour);
   margin-top: -10px;
   position: relative;
   z-index: 1;
