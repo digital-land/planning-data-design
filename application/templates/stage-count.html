@@ -27,13 +27,16 @@
   <div class="govuk-grid-column-full">
     <ul class="govuk-list app-report" style="--max-count: {{ data['max_active'] }}">
       {% for stage in ["SCREEN", "RESEARCH", "CO_DESIGN", "TEST_AND_ITERATE", "READY_FOR_GO_NO_GO", "PREPARED_FOR_PLATFORM"] %}
-      {% set stage_data = data['stages'][stage] %}
-      <li class="app-report-bar" style="--bar-width: {{ stage_data['considerations']|length if stage_data['considerations'] else 0 }}">
+      {%- set stage_data = data['stages'][stage] if stage in data['stages'] else {'name': stage} %}
+      {%- set stage_consideration_count = stage_data['considerations']|length if stage_data['considerations'] else 0 %}
+      {% if stage_consideration_count > 0 %}
+      <li class="app-report-bar" style="--bar-width: {{ stage_consideration_count }}">
         <a href="{{ url_for('planning_consideration.considerations', stage=stage_data['name'])}}">
           <div class="app-report-bar__colour-mask"></div>
-          <div class="app-report-bar__label">{{ stage_data['considerations']|length if stage_data['considerations'] else 0 }} planning considerations in {{ stage_data['name'] }}</div>
+          <div class="app-report-bar__label">{{ stage_consideration_count }} planning considerations in {{ stage_data['name'] }}</div>
         </a>
       </li>
+      {% endif %}
       {% endfor %}
       <li class="app-report-bar app-report-bar--blocked" style="--bar-width: {{ data['blocked_count'] }}">
         <a href="{{ url_for('planning_consideration.considerations', show_only_blocked=true)}}">
