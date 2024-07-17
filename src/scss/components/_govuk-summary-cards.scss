@@ -1,3 +1,5 @@
+// app tweaks to the govuk-summary-list component
+
 .app-specification-row--empty {
   background: govuk-colour('light-grey');
   border-bottom-style: dashed;
@@ -9,5 +11,17 @@
 
   .app-summary-list__row--empty-content {
     @include govuk-font($size: 16);
+  }
+}
+
+.app-summary-list__key__hint {
+  @include govuk-font($size: 16);
+  margin-top: govuk-spacing(1);
+  margin-bottom: govuk-spacing(3);
+  color: $govuk-secondary-text-colour;
+
+  a {
+    @include govuk-link-common;
+    @include govuk-link-style-muted;
   }
 }

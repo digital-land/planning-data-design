@@ -315,13 +315,14 @@
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             OS declaration
+            <p class="app-summary-list__key__hint"><a href="{{ url_for('help.os_declaration_options') }}">What are the OS declaration options?</a></p>
           </dt>
           <dd class="govuk-summary-list__value">
             {%- if consideration.os_declaration %}
               {{ consideration.os_declaration['status'] }}
             {% endif -%}
             {% if consideration.os_declaration and consideration.os_declaration['further_information_url'] %}
-            <p class="app-further-info-link"><a href="{{ consideration.os_declaration['further_information_url'] }}">See further information about OS declaration</a></p>
+            <p class="app-further-info-link"><a href="{{ consideration.os_declaration['further_information_url'] }}">See further information about this OS declaration</a></p>
             {% endif %}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}

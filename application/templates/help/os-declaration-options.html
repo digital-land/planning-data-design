@@ -1,0 +1,48 @@
+{% extends 'layouts/base.html' %}
+
+{% block app_breadcrumbs %}
+  {{
+    govukBreadcrumbs({
+      'items': [
+        {
+          'text': "Home",
+          'href': url_for('main.index')
+        },
+        {
+          'text': "Help"
+        },
+        {
+          'text': "OS declaration options"
+        }
+      ]
+    })
+  }}
+{% endblock app_breadcrumbs %}
+
+{% block content %}
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop'>
+    <h1 class="govuk-heading-xl">OS declaration options</h1>
+  </div>
+</div>
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-two-thirds'>
+    <p class="govuk-body">Some of the data we are asking data providers to create includes spatial elments. For example, a boundary or outline of something in the physical world.</p>
+    <p class="govuk-body">Data providers often create this data using software that uses Ordnance Survey base maps.</p>
+    <p class="govuk-body">The <a href="https://www.ordnancesurvey.co.uk/customers/public-sector/public-sector-geospatial-agreement" class="govuk-link">Public Sector Geospatial Agreement (PGSA)</a> means more often than not this is fine. However, we want to make sure that is the case and that everyone involved agrees.</p>
+    <p class="govuk-body">We will, therefore, check what we are asking for meets the terms of the PSGA and check our assessment with Ordnance Survey.</p>
+    <p class="govuk-body">We will do that as part of our data deisgn process.</p>
+    <p class="govuk-body">We will set an OS declaration status for each planning consideration that has a spatial data element.</p>
+    <p class="govuk-body">The status options are:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><span class="govuk-!-font-weight-bold">unknown</span> - we haven’t done anything yet</li>
+      <li><span class="govuk-!-font-weight-bold">checking with OS</span> - we are doing the work and check with OS</li>
+      <li><span class="govuk-!-font-weight-bold">free to use</span> - we think it falls under this category</li>
+      <li><span class="govuk-!-font-weight-bold">presumption to publish</span> - we check this and OS agreed its okay to publish</li>
+      <li><span class="govuk-!-font-weight-bold">exemption</span> - we’ve asked for an exemption and OS have agreed</li>
+      <li><span class="govuk-!-font-weight-bold">other licence needed</span> - we are working on an alternative</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
