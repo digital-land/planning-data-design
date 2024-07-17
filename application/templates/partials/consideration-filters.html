@@ -4,7 +4,7 @@
   <!-- include archived -->
   <div class="govuk-form-group">
     {% call dlFilterGroup({
-      "title": "Archived",
+      "title": "Include",
       "is_open": True,
       "selected": 0
     }) %}
@@ -14,7 +14,7 @@
         <div class="govuk-checkboxes__item">
           <input class="govuk-checkboxes__input" id="include_archived" name="include_archived" type="checkbox" value="true" {% if include_archived %} checked{% endif %}>
           <label class="govuk-label govuk-checkboxes__label" for="include_archived">
-            Include
+            Archived
           </label>
         </div>
       </div>
