@@ -79,6 +79,9 @@ class Consideration(DateModel):
     legislation: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))
     slug: Mapped[Optional[str]] = mapped_column(Text)
     blocked_reason: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    os_declaration: Mapped[Optional[dict]] = mapped_column(
+        MutableDict.as_mutable(JSONB)
+    )
 
     answers: Mapped[List["Answer"]] = relationship(back_populates="consideration")
 
@@ -236,6 +239,7 @@ class ConsiderationModel(BaseModel):
     legislation: Optional[dict]
     slug: Optional[str]
     blocked_reason: Optional[str]
+    os_declaration: Optional[dict]
 
     @field_serializer("frequency_of_updates", "stage")
     def serialize_enum(self, field: Enum):
