@@ -314,6 +314,19 @@
         }) }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
+            OS declaration
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ consideration.os_declaration }}
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.change_os_declaration', slug=consideration.slug) }}">Update<span class="govuk-visually-hidden"> OS declaration</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
             Expected number of records
           </dt>
           <dd class="govuk-summary-list__value">

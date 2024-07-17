@@ -12,7 +12,7 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Optional
 
-from application.models import FrequencyOfUpdates, Stage
+from application.models import FrequencyOfUpdates, OSDeclarationStatus, Stage
 
 
 class DatasetForm(FlaskForm):
@@ -71,6 +71,16 @@ class StageForm(FlaskForm):
         choices=[(stage.value, stage.value) for stage in Stage],
     )
     reason = TextAreaField("Reason for changing the stage", validators=[Optional()])
+
+
+class OSDeclarationForm(FlaskForm):
+    status = RadioField(
+        "What is the status of the OS declaration?",
+        validators=[DataRequired()],
+        description="The declaration should match what we've discussed with OS",
+        choices=[(status.value, status.value) for status in OSDeclarationStatus],
+    )
+    further_information_url = URLField("URL to further information")
 
 
 class FrequencyForm(FlaskForm):
