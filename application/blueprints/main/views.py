@@ -60,8 +60,17 @@ def stage_count():
         )
         data["stages"][consideration.stage.name]["considerations"].append(consideration)
 
+    # size of bars based on largest count
     data["largest_count"] = max(
         [len(stage["considerations"]) for stage in data["stages"].values()]
+    )
+    # how many considerations are blocked
+    data["blocked_count"] = len(
+        [
+            consideration
+            for consideration in considerations
+            if consideration.blocked_reason is not None
+        ]
     )
     active_considerations = [
         len(stage["considerations"])

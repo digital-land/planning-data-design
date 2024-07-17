@@ -30,13 +30,17 @@
       {% set stage_data = data['stages'][stage] %}
       <li class="app-report-bar" style="--bar-width: {{ stage_data['considerations']|length }}">
         <a href="{{ url_for('planning_consideration.considerations', stage=stage_data['name'])}}">
-          <!-- <div class="app-report-bar__bg1"></div>
-          <div class="app-report-bar__bg2"></div> -->
           <div class="app-report-bar__colour-mask"></div>
           <div class="app-report-bar__label">{{ stage_data['considerations']|length }} planning considerations in {{ stage_data['name'] }}</div>
         </a>
       </li>
       {% endfor %}
+      <li class="app-report-bar app-report-bar--blocked" style="--bar-width: {{ data['blocked_count'] }}">
+        <a href="{{ url_for('planning_consideration.considerations', show_only_blocked=true)}}">
+          <div class="app-report-bar__colour-mask"></div>
+          <div class="app-report-bar__label">{{ data['blocked_count'] }} planning consideration{{ '' if data['blocked_count'] == 1 else 's' }} are blocked</div>
+        </a>
+      </li>
     </ul>
   </div>
 </div>

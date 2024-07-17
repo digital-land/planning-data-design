@@ -95,3 +95,13 @@
     background: govuk-shade(govuk-colour('green'), 10);
   }
 }
+
+.app-report-bar--blocked {
+  .app-report-bar__colour-mask {
+    background: govuk-colour('red');
+  }
+
+  &:hover .app-report-bar__colour-mask {
+    background: govuk-shade(govuk-colour('red'), 10);
+  }
+}

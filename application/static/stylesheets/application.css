@@ -8411,6 +8411,12 @@ p + .govuk-heading-s,
 .app-report-bar--on-the-platform:hover .app-report-bar__colour-mask {
   background: #006536; }
 
+.app-report-bar--blocked .app-report-bar__colour-mask {
+  background: #d4351c; }
+
+.app-report-bar--blocked:hover .app-report-bar__colour-mask {
+  background: #bf3019; }
+
 .app-sub-navigation {
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
