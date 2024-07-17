@@ -317,7 +317,12 @@
             OS declaration
           </dt>
           <dd class="govuk-summary-list__value">
-            {{ consideration.os_declaration }}
+            {%- if consideration.os_declaration %}
+              {{ consideration.os_declaration['status'] }}
+            {% endif -%}
+            {% if consideration.os_declaration and consideration.os_declaration['further_information_url'] %}
+            <p class="app-further-info-link"><a href="{{ consideration.os_declaration['further_information_url'] }}">See further information about OS declaration</a></p>
+            {% endif %}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
