@@ -43,6 +43,15 @@ class QuestionType(Enum):
     CHOOSE_MULTIPLE_FROM_LIST = "choose-one-or-more"
 
 
+class OSDeclarationStatus(Enum):
+    UNKNOWN = "Unknown"
+    CHECKING_WITH_OS = "Checking with OS"
+    FREE_TO_USE = "Free to use"
+    PRESUMPTION_TO_PUBLISH = "Presumption to publish"
+    EXEMPTION = "Exemption"
+    OTHER_LICENCE_NEEDED = "Other licence needed"
+
+
 class DateModel(db.Model):
     __abstract__ = True
 
