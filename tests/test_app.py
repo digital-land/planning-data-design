@@ -37,24 +37,20 @@ def test_add_and_update_planning_consideration(live_server, page):
     page.get_by_role("button", name="Save changes").click()
     expect(page.get_by_text("This is the description that")).to_be_visible()
 
-    page.get_by_role("link", name="Add link to applicable specification").click()
-    page.get_by_label("Title").click()
-    page.get_by_label("Title").fill("this is the specification")
-    page.get_by_label("URL").fill("http://specification.com")
-    page.get_by_role("button", name="Save changes").click()
-    expect(page.get_by_role("link", name="this is the specification")).to_be_visible()
-    assert (
-        page.get_by_role("link", name="this is the specification").get_attribute("href")
-        == "http://specification.com"
-    )
     page.get_by_role("link", name="Add link to applicable schemas").click()
     page.get_by_label("Dataset schema URL").click()
     page.get_by_label("Dataset schema URL").fill(
-        "https://github.com/digital-land/specification/blob/main/content/dataset/article-4-direction-area.md"
+        "https://github.com/digital-land/specification/blob/main/content/dataset/ancient-woodland.md"
     )
     page.get_by_role("button", name="Save").click()
-    expect(page.get_by_role("link", name="article-4-direction-area")).to_be_visible()
+    expect(page.get_by_role("link", name="ancient-woodland")).to_be_visible()
+    assert (
+        page.get_by_role("link", name="ancient-woodland").get_attribute("href")
+        == "https://github.com/digital-land/specification/blob/main/content/dataset/ancient-woodland.md"
+    )
     expect(page.get_by_role("link", name="Remove")).to_be_visible()
+
+    # need to add tests to handle different states of specification row
 
     # page.get_by_role("link", name="Remove").click()
     # expect(
