@@ -1,0 +1,29 @@
+{% macro specificationRow(params) %}
+{#- lets us work out if we've answered the question -#}
+{%- set standard_needed_answer = params.consideration.get_answer("is-a-data-standard-required") %}
+{%- set standard_needed = True if standard_needed_answer and standard_needed_answer.answer.choice == "Yes" else False %}
+
+{% if standard_needed or params.logged_in_user %}
+<div class="govuk-summary-list__row{{ ' app-specification-row--empty' if params.consideration.specification is none }}">
+  <dt class="govuk-summary-list__key">
+    Specification
+  </dt>
+  <dd class="govuk-summary-list__value">
+
+    {%- if params.consideration.specification %}
+    <a href="{{ params.consideration.specification['link_url'] }}" class="govuk-link">{{ params.consideration.specification['link_text'] }}</a>
+    {%- elif not standard_needed -%}
+    <p class="app-summary-list__row--empty-content">No specification required. <a href="{{ url_for('questions.index', stage=params.stages.SCREEN, consideration_slug=params.consideration.slug, _anchor='is-a-data-standard-required' )}}" class="govuk-link govuk-link--text-colour">Update question</a></p>
+    {% else %}
+    <p class="app-summary-list__row--empty-content">No specification created yet</p>
+    {% endif -%}
+
+  </dd>
+  {% if standard_needed and params.logged_in_user %}
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="{{ url_for('planning_consideration.edit_specification', slug=params.consideration.slug) }}">{{ "Change" if params.consideration.specification else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
+    </dd>
+  {% endif %}
+</div>
+{% endif %}
+{% endmacro %}

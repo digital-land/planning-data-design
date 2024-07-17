@@ -1,0 +1,13 @@
+.app-specification-row--empty {
+  background: govuk-colour('light-grey');
+  border-bottom-style: dashed;
+  @include govuk-font($size: 16);
+
+  .govuk-summary-list__key {
+    font-weight: 400;
+  }
+
+  .app-summary-list__row--empty-content {
+    @include govuk-font($size: 16);
+  }
+}
