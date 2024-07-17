@@ -306,25 +306,6 @@
             </dd>
           {% endif %}
         </div>
-        <!-- <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Specification
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {#- lets us work out if we've answered the question -#}
-            {%- set standard_needed_answer = consideration.get_answer("is-a-data-standard-required") %}
-            {%- set standard_needed = True if standard_needed_answer and standard_needed_answer.choice == "Yes" else False %}
-            {{ standard_needed }}
-            {%- if consideration.specification %}
-            <a href="{{ consideration.specification['link_url'] }}" class="govuk-link">{{ consideration.specification['link_text'] }}</a>
-            {% endif -%}
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.edit_specification', slug=consideration.slug) }}">{{ "Change" if consideration.specification else "Add" }}<span class="govuk-visually-hidden"> link to applicable specification</span></a>
-            </dd>
-          {% endif %}
-        </div> -->
         {% from 'components/specification-row.html' import specificationRow %}
         {{specificationRow({
           "consideration": consideration,
