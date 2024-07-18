@@ -28,6 +28,7 @@ def create_app(config_filename):
 
 def register_blueprints(app):
     from application.blueprints.auth.views import auth
+    from application.blueprints.help.views import help
     from application.blueprints.main.views import main
     from application.blueprints.planning_consideration.views import (
         planning_consideration,
@@ -38,6 +39,7 @@ def register_blueprints(app):
     app.register_blueprint(main)
     app.register_blueprint(planning_consideration)
     app.register_blueprint(questions)
+    app.register_blueprint(help)
 
 
 def register_context_processors(app):

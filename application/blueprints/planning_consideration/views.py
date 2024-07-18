@@ -28,6 +28,7 @@ from application.blueprints.planning_consideration.forms import (
     LinkForm,
     LLCForm,
     NoteForm,
+    OSDeclarationForm,
     PriorityForm,
     PublicForm,
     StageForm,
@@ -40,6 +41,7 @@ from application.models import (
     ConsiderationModel,
     FrequencyOfUpdates,
     Note,
+    OSDeclarationStatus,
     Stage,
 )
 from application.utils import login_required, true_false_to_bool
@@ -99,6 +101,18 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 data = {
                     "link_text": form.link_text.data,
                     "link_url": form.link_url.data,
+                }
+                if data != getattr(consideration, attribute) or not getattr(
+                    consideration, attribute
+                ):
+                    from_value = getattr(consideration, attribute)
+                    to_value = data
+                    setattr(consideration, attribute, data)
+
+            case "os_declaration":
+                data = {
+                    "status": form.status.data,
+                    "further_information_url": form.further_information_url.data,
                 }
                 if data != getattr(consideration, attribute) or not getattr(
                     consideration, attribute
@@ -657,6 +671,34 @@ def change_stage(slug):
     form.stage.data = consideration.stage.value
 
     page = {"title": "Update stage", "submit_text": "Update"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@planning_consideration.route("/<slug>/os-declaration", methods=["GET", "POST"])
+@login_required
+def change_os_declaration(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    form = OSDeclarationForm()
+
+    if form.validate_on_submit():
+        print(OSDeclarationStatus(form.status.data))
+        consideration = _create_or_update_consideration(
+            form, ["os_declaration"], consideration=consideration
+        )
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+    form.status.data = (
+        consideration.os_declaration["status"]
+        if consideration.os_declaration
+        else OSDeclarationStatus.UNKNOWN.value
+    )
+
+    page = {"title": "Update OS declaration", "submit_text": "Update"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page

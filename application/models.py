@@ -43,6 +43,15 @@ class QuestionType(Enum):
     CHOOSE_MULTIPLE_FROM_LIST = "choose-one-or-more"
 
 
+class OSDeclarationStatus(Enum):
+    UNKNOWN = "Unknown"
+    CHECKING_WITH_OS = "Checking with OS"
+    FREE_TO_USE = "Free to use"
+    PRESUMPTION_TO_PUBLISH = "Presumption to publish"
+    EXEMPTION = "Exemption"
+    OTHER_LICENCE_NEEDED = "Other licence needed"
+
+
 class DateModel(db.Model):
     __abstract__ = True
 
@@ -79,6 +88,9 @@ class Consideration(DateModel):
     legislation: Mapped[Optional[dict]] = mapped_column(MutableDict.as_mutable(JSONB))
     slug: Mapped[Optional[str]] = mapped_column(Text)
     blocked_reason: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    os_declaration: Mapped[Optional[dict]] = mapped_column(
+        MutableDict.as_mutable(JSONB)
+    )
 
     answers: Mapped[List["Answer"]] = relationship(back_populates="consideration")
 
@@ -236,6 +248,7 @@ class ConsiderationModel(BaseModel):
     legislation: Optional[dict]
     slug: Optional[str]
     blocked_reason: Optional[str]
+    os_declaration: Optional[dict]
 
     @field_serializer("frequency_of_updates", "stage")
     def serialize_enum(self, field: Enum):

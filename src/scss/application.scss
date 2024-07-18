@@ -133,3 +133,12 @@ $govuk-new-link-styles: true;
     @include govuk-link-style-error;
   }
 }
+
+.app-further-info-link {
+  padding: 5px 0;
+  @include govuk-font($size: 16);
+
+  a {
+    @include govuk-link-common;
+  }
+}
