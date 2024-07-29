@@ -337,6 +337,7 @@ def consideration(slug):
         latest_change = max(change_dates)
 
     notes = [note for note in consideration.notes if note.deleted_date is None]
+    notes.sort(key=lambda note: (note.created), reverse=True)
 
     return render_template(
         "consideration.html",
