@@ -373,30 +373,32 @@
     </ul>
   </section>
 
-  {% if not config.AUTHENTICATION_ON or session["user"] %}
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    <section id="notes">
-      <h2 class="govuk-heading-l">Notes</h2>
-      <a href="{{ url_for('planning_consideration.add_note', slug=consideration.slug)}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add note</a>
-      <ul class="govuk-list govuk-list--spaced">
-        {% for note in notes %}
-            <li>
-              <span class="govuk-!-font-size-14">{{ note.author }} (created: {{ note.created | short_date}})</span>
-              <div class="app-note__content">{{ note.text|render_markdown }}</div>
-              <div class="app-note__actions">
-                <span class="govuk-!-font-size-14">
-                  <a href="{{ url_for('planning_consideration.edit_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link" >Edit<span class="govuk-visually-hidden"> note</span></a>
-                </span>
-                <span class="govuk-!-font-size-14">
-                  <a href="{{ url_for('planning_consideration.delete_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link
-                  app-destructive-link" onclick="return confirm('Are you sure you want to remove this note?');">Remove<span class="govuk-visually-hidden"> note</span></a>
-                </span>
-              </div>
-            </li>
-        {% endfor %}
-      </ul>
-    </section>
-  {% endif %}
+
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  <section id="notes">
+    <h2 class="govuk-heading-l">Notes</h2>
+    <a href="{{ url_for('planning_consideration.add_note', slug=consideration.slug)}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add note</a>
+    <ul class="govuk-list govuk-list--spaced">
+      {% for note in notes %}
+          <li>
+            <span class="govuk-!-font-size-14">{{ note.author }} (created: {{ note.created | short_date}})</span>
+            <div class="app-note__content">{{ note.text|render_markdown }}</div>
+            {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <div class="app-note__actions">
+              <span class="govuk-!-font-size-14">
+                <a href="{{ url_for('planning_consideration.edit_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link" >Edit<span class="govuk-visually-hidden"> note</span></a>
+              </span>
+              <span class="govuk-!-font-size-14">
+                <a href="{{ url_for('planning_consideration.delete_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link
+                app-destructive-link" onclick="return confirm('Are you sure you want to remove this note?');">Remove<span class="govuk-visually-hidden"> note</span></a>
+              </span>
+            </div>
+            {% endif %}
+          </li>
+      {% endfor %}
+    </ul>
+  </section>
+
 
 {% endblock content_secondary %}
 
