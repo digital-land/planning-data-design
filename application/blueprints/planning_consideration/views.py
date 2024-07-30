@@ -693,10 +693,16 @@ def change_os_declaration(slug):
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
+    # populate form with existing values
     form.status.data = (
         consideration.os_declaration["status"]
         if consideration.os_declaration
         else OSDeclarationStatus.UNKNOWN.value
+    )
+    form.further_information_url.data = (
+        consideration.os_declaration["further_information_url"]
+        if consideration.os_declaration
+        else None
     )
 
     page = {"title": "Update OS declaration", "submit_text": "Update"}
