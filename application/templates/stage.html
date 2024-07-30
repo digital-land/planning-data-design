@@ -49,7 +49,7 @@
 
         {% if change.reason %}
         <div class="moj-timeline__description">
-          <p>{{ change.reason }}</p>
+          <p>{{ change.reason|render_markdown }}</p>
         </div>
         {% endif %}
 
