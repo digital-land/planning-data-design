@@ -1,7 +1,9 @@
 import datetime
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, jsonify, render_template, request
+from sqlalchemy import func
 
+from application.extensions import db
 from application.models import Consideration, Stage
 
 main = Blueprint("main", __name__)
@@ -149,3 +151,76 @@ def progress_report():
         "edits": {"total": len(all_changes), "recent": len(recent_changes)},
     }
     return render_template("progress.html", data=data, since=since)
+
+
+@main.route("/performance")
+def performance():
+
+    performance = {}
+
+    result = (
+        db.session.query(Consideration.stage, func.count())
+        .group_by(Consideration.stage)
+        .all()
+    )
+    considerations_by_stage = {stage.value: count for stage, count in result}
+    performance["considerations_by_stage"] = considerations_by_stage
+
+    # default time frame to the last week if not specified
+    # in query
+    timeframe = request.args.get("timeframe", "week")
+
+    now = datetime.datetime.today()
+    if timeframe == "week":
+        start_date = now - datetime.timedelta(weeks=1)
+    elif timeframe == "month":
+        start_date = now - datetime.timedelta(days=30)
+    elif timeframe == "quarter":
+        start_date = now - datetime.timedelta(days=90)
+    elif timeframe == "year":
+        start_date = now - datetime.timedelta(days=365)
+    else:
+        return jsonify({"error": "Invalid timeframe"}), 400
+
+    considerations_added = (
+        db.session.query(func.count(Consideration.id))
+        .filter(Consideration.created >= start_date)
+        .scalar()
+    )
+
+    since = start_date.strftime("%Y-%m-%d")
+
+    performance["considerations_added"] = {
+        "timeframe": timeframe,
+        "number": considerations_added,
+        "since": since,
+    }
+
+    blocked_considerations = (
+        db.session.query(func.count(Consideration.id))
+        .filter(Consideration.blocked_reason.isnot(None))
+        .scalar()
+    )
+
+    performance["blocked_considerations"] = blocked_considerations
+
+    considerations_with_changes = (
+        db.session.query(Consideration).filter(Consideration.changes.is_not(None)).all()
+    )
+    considerations_archived = sum(
+        1
+        for consideration in considerations_with_changes
+        if any(
+            change.get("to") == "Archived"
+            and datetime.datetime.strptime(change.get("date"), "%Y-%m-%d") >= start_date
+            for change in consideration.changes
+        )
+    )
+
+    performance["considerations_archived"] = {
+        "timeframe": timeframe,
+        "number": considerations_archived,
+        "since": since,
+    }
+
+    return jsonify(performance)
