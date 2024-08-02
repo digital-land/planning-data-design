@@ -5,7 +5,8 @@ import requests
 from flask.cli import AppGroup
 from sqlalchemy.orm.attributes import flag_modified
 
-from application.models import Question, QuestionType
+from application.extensions import db
+from application.models import Consideration, Performance, Question, QuestionType, Stage
 
 consider_cli = AppGroup("consider")
 
@@ -217,3 +218,33 @@ def _set_url_if_found(url):
         return url
     except requests.exceptions.HTTPError:
         return None
+
+
+@consider_cli.command("generate-performance")
+def generate_performance():
+
+    performance = Performance()
+
+    total_considerations = db.session.query(db.func.count(Consideration.id)).scalar()
+    performance.considerations = total_considerations
+
+    for stage in Stage:
+        count = (
+            db.session.query(db.func.count(Consideration.id))
+            .filter(Consideration.stage == stage)
+            .scalar()
+        )
+        setattr(performance, stage.name.lower(), count)
+
+    blocked_count = (
+        db.session.query(db.func.count(Consideration.id))
+        .filter(Consideration.blocked_reason.isnot(None))
+        .scalar()
+    )
+
+    performance.blocked = blocked_count
+
+    db.session.add(performance)
+    db.session.commit()
+
+    print("Performance record created")

@@ -202,6 +202,26 @@ class Note(DateModel):
         return f"<Note {self.text}>"
 
 
+class Performance(db.Model):
+    id: Mapped[uuid.uuid4] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    considerations: Mapped[int] = mapped_column(Integer)
+    backlog: Mapped[int] = mapped_column(Integer)
+    screen: Mapped[int] = mapped_column(Integer)
+    research: Mapped[int] = mapped_column(Integer)
+    co_design: Mapped[int] = mapped_column(Integer)
+    test_and_iterate: Mapped[int] = mapped_column(Integer)
+    ready_for_go_no_go: Mapped[int] = mapped_column(Integer)
+    prepared_for_platform: Mapped[int] = mapped_column(Integer)
+    on_the_platform: Mapped[int] = mapped_column(Integer)
+    archived: Mapped[int] = mapped_column(Integer)
+    blocked: Mapped[int] = mapped_column(Integer)
+    date: Mapped[datetime.datetime] = mapped_column(
+        DateTime, default=datetime.datetime.now
+    )
+
+
 # pydantic models
 
 
@@ -289,3 +309,25 @@ class AnswerModel(BaseModel):
     text: str
     consideration_id: UUID4 = Field(exclude=True)
     question_slug: str
+
+
+class PerformanceModel(BaseModel):
+
+    model_config = ConfigDict(from_attributes=True)
+
+    considerations: int
+    backlog: int
+    screen: int
+    research: int
+    co_design: int
+    test_and_iterate: int
+    ready_for_go_no_go: int
+    prepared_for_platform: int
+    on_the_platform: int
+    archived: int
+    blocked: int
+    date: datetime.datetime
+
+    @field_serializer("date")
+    def serialize_date(self, value):
+        return value.strftime("%Y-%m-%d")
