@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, abort, jsonify, render_template, request
 
 from application.models import Consideration, Performance, PerformanceModel, Stage
 
@@ -155,10 +155,13 @@ def progress_report():
 def performance():
     performances = Performance.query.order_by(Performance.date.desc()).all()
 
+    if not performances:
+        abort(404)
+
     table = []
 
     for performance in performances:
         model = PerformanceModel.model_validate(performance)
         table.append(model.model_dump())
 
-    return jsonify({"table": table})
+    return jsonify({"performance": table})
