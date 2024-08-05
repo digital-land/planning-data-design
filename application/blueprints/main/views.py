@@ -153,15 +153,29 @@ def progress_report():
 
 @main.route("/performance")
 def performance():
-    performances = Performance.query.order_by(Performance.date.desc()).all()
-
-    if not performances:
+    current = Performance.query.order_by(Performance.date.desc()).first()
+    if not current:
         abort(404)
+    model = PerformanceModel.model_validate(current).model_dump()
 
-    table = []
+    data = {"current": model}
 
-    for performance in performances:
-        model = PerformanceModel.model_validate(performance)
-        table.append(model.model_dump())
-
-    return jsonify({"performance": table})
+    dates = {
+        "week": datetime.timedelta(weeks=1),
+        "month": datetime.timedelta(days=30),
+        "quarter": datetime.timedelta(days=90),
+        "year": datetime.timedelta(days=365),
+    }
+    for label, date in dates.items():
+        d = {}
+        for i in current.indicators():
+            change = current.change_since(i, date)
+            if change is None:
+                data[f"change in last {label}"] = "no data"
+                break
+            else:
+                d[i] = change
+            d["date"] = (datetime.datetime.now() - date).strftime("%Y-%m-%d")
+        if d:
+            data[f"change in last {label}"] = d
+    return jsonify(data)

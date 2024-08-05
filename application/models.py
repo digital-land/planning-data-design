@@ -217,9 +217,31 @@ class Performance(db.Model):
     on_the_platform: Mapped[int] = mapped_column(Integer)
     archived: Mapped[int] = mapped_column(Integer)
     blocked: Mapped[int] = mapped_column(Integer)
-    date: Mapped[datetime.datetime] = mapped_column(
-        DateTime, default=datetime.datetime.now
-    )
+    date: Mapped[datetime.date] = mapped_column(Date, default=datetime.date.today)
+
+    def indicators(self):
+        excluded_fields = ["id", "date"]
+        return [
+            field
+            for field in self.__table__.columns.keys()
+            if field not in excluded_fields
+        ]
+
+    def change_since(self, property_name: str, date: datetime.date):
+        current_value = getattr(self, property_name)
+
+        today = datetime.datetime.now().date()
+        compare_date = today - date
+
+        previous = (
+            db.session.query(getattr(Performance, property_name))
+            .filter(Performance.date == compare_date)
+            .scalar()
+        )
+        if previous is None:
+            return None
+
+        return current_value - previous
 
 
 # pydantic models
