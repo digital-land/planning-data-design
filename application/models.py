@@ -64,7 +64,7 @@ class DateModel(db.Model):
     deleted_date: Mapped[Optional[datetime.date]] = mapped_column(Date)
 
 
-class Consideration(DateModel):
+class Consideration(db.Model):
     id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
     )
@@ -100,6 +100,12 @@ class Consideration(DateModel):
     notes: Mapped[List["Note"]] = relationship(
         back_populates="consideration", order_by="asc(Note.created)"
     )
+
+    created: Mapped[datetime.date] = mapped_column(Date, default=datetime.date.today)
+    updated: Mapped[Optional[datetime.datetime]] = mapped_column(
+        DateTime, onupdate=datetime.datetime.now
+    )
+    deleted_date: Mapped[Optional[datetime.date]] = mapped_column(Date)
 
     def delete(self):
         self.deleted_date = datetime.date.today()
