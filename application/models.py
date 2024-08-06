@@ -233,22 +233,6 @@ class Performance(db.Model):
             if field not in excluded_fields
         ]
 
-    def change_since(self, property_name: str, date: datetime.date):
-        current_value = getattr(self, property_name)
-
-        today = datetime.datetime.now().date()
-        compare_date = today - date
-
-        previous = (
-            db.session.query(getattr(Performance, property_name))
-            .filter(Performance.date == compare_date)
-            .scalar()
-        )
-        if previous is None:
-            return None
-
-        return current_value - previous
-
 
 # pydantic models
 

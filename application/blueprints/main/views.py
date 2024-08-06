@@ -166,16 +166,13 @@ def performance():
         "quarter": datetime.timedelta(days=90),
         "year": datetime.timedelta(days=365),
     }
+
     for label, date in dates.items():
-        d = {}
-        for i in current.indicators():
-            change = current.change_since(i, date)
-            if change is None:
-                data[f"change in last {label}"] = "no data"
-                break
-            else:
-                d[i] = change
-            d["date"] = (datetime.datetime.now() - date).strftime("%Y-%m-%d")
-        if d:
-            data[f"change in last {label}"] = d
+        ago = current.date - date
+        previous = Performance.query.filter(Performance.date == ago).one_or_none()
+        if previous is not None:
+            previous_model = PerformanceModel.model_validate(previous).model_dump()
+            data[f"last_{label}"] = previous_model
+        else:
+            data[f"last_{label}"] = "No data"
     return jsonify(data)
