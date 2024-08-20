@@ -8590,6 +8590,9 @@ p + .govuk-heading-s,
         font-size: 24pt;
         line-height: 1.05; } }
 
+.app-header .govuk-header__container {
+  border-color: var(--department-colour); }
+
 .app-specification-row--empty {
   background: #f3f2f1;
   border-bottom-style: dashed;
