@@ -39,15 +39,13 @@
 {% endblock %}
 
 {% block mastHead %}
-<header class="govuk-header " role="banner" data-module="govuk-header">
+<header class="govuk-header dl-header" role="banner" data-module="govuk-header">
   <div class="govuk-header__container govuk-width-container">
-    <div class="govuk-header__logo">
-      <a href="{{ url_for('main.index') }}" class="govuk-header__link govuk-header__link--homepage">
-        {{ site_settings.name }}
-      </a>
-    </div>
+    <a href="{{ url_for('main.index') }}" class="govuk-header__link govuk-header__link--service-name">
+      {{ site_settings.name }}
+    </a>
     <div class="govuk-header__content">
-      <nav aria-label="Menu" class="govuk-header__navigation govuk-header__navigation--end">
+      <nav aria-label="Menu" class="govuk-header__navigation">
         <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide menu" hidden>Menu</button>
         <ul id="navigation" class="govuk-header__navigation-list">
           <li class="govuk-header__navigation-item">
@@ -65,6 +63,11 @@
               Support
             </a>
           </li> -->
+          <li class="govuk-header__navigation-item">
+            <a class="govuk-header__link" href="https://www.planning.data.gov.uk/">
+              Find data
+            </a>
+          </li>
           <li class="govuk-header__navigation-item">
             {% if not config.AUTHENTICATION_ON or session["user"] %}
             <a class="govuk-header__link" href="{{url_for('auth.logout')}}">

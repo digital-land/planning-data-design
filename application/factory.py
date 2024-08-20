@@ -55,7 +55,7 @@ def register_context_processors(app):
     def global_variables_context_processor():
         return {
             "site_settings": {
-                "name": "Design planning data",
+                "name": "Designing planning and housing data",
                 "team_name": "Data Design team",
             },
             "github_discussion_base_url": "https://github.com/digital-land/data-standards-backlog/discussions",
