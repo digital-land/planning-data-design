@@ -195,6 +195,23 @@
           </dd>
           {% endif %}
         </div>
+
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Is data used for local plans?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{ "Yes" if consideration.is_local_plan_data else "No" }}
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ url_for('planning_consideration.is_local_plan_data', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> if consideration is a local land charge</span></a>
+          </dd>
+          {% endif %}
+        </div>
+
+
+
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             Useful links

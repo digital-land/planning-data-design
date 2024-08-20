@@ -63,6 +63,14 @@ class LLCForm(FlaskForm):
     )
 
 
+class LocalPlanDataForm(FlaskForm):
+    is_local_plan_data = RadioField(
+        "Is this consideration used in local plans?",
+        validators=[DataRequired()],
+        choices=[("True", "Yes"), ("False", "No")],
+    )
+
+
 class StageForm(FlaskForm):
     stage = RadioField(
         "What stage are we at with this planning consideration?",

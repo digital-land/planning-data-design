@@ -27,6 +27,7 @@ from application.blueprints.planning_consideration.forms import (
     FrequencyForm,
     LinkForm,
     LLCForm,
+    LocalPlanDataForm,
     NoteForm,
     OSDeclarationForm,
     PriorityForm,
@@ -87,7 +88,9 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                     to_value = data
                     setattr(consideration, attribute, data)
 
-            case "public" | "is_local_land_charge" | "prioritised":
+            case (
+                "public" | "is_local_land_charge" | "prioritised" | "is_local_plan_data"
+            ):
                 column_type = consideration.get_column_type(attribute)
                 data = true_false_to_bool(form.data.get(attribute))
                 if data != getattr(consideration, attribute) or not getattr(
@@ -639,6 +642,27 @@ def is_llc(slug):
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
     page = {"title": "Set 'Is local land charge'", "submit_text": "Set"}
+
+    return render_template(
+        "questiontypes/input.html", consideration=consideration, form=form, page=page
+    )
+
+
+@planning_consideration.route("/<slug>/is-local-plan-data", methods=["GET", "POST"])
+@login_required
+def is_local_plan_data(slug):
+    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
+    form = LocalPlanDataForm(obj=consideration)
+
+    if form.validate_on_submit():
+        consideration = _create_or_update_consideration(
+            form, ["is_local_plan_data"], consideration=consideration
+        )
+        db.session.add(consideration)
+        db.session.commit()
+        return redirect(url_for("planning_consideration.consideration", slug=slug))
+
+    page = {"title": "Set 'Is local plan data'", "submit_text": "Set"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page
