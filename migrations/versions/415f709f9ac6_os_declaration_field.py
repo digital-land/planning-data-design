@@ -1,7 +1,7 @@
 """add os_declaration field
 
 Revision ID: 415f709f9ac6
-Revises: 895642322125
+Revises: c732726fc3b4
 Create Date: 2024-07-17 16:35:27.265534
 
 """
@@ -11,7 +11,7 @@ from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision = '415f709f9ac6'
-down_revision = '895642322125'
+down_revision = 'c732726fc3b4'
 branch_labels = None
 depends_on = None
 
