@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A tool to manage DLUCH planning considerations",
   "engines": {
-    "node": ">=18.x"
+    "node": "==18.x"
   },
   "scripts": {
     "flask": "flask run",
