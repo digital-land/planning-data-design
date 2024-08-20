@@ -263,6 +263,13 @@ def considerations():
         else:
             query = query.filter(~Consideration.is_local_land_charge)
 
+    local_plan_data_param = request.args.get("is-local-plan-data")
+    if local_plan_data_param:
+        if local_plan_data_param == "true":
+            query = query.filter(Consideration.is_local_plan_data)
+        else:
+            query = query.filter(~Consideration.is_local_plan_data)
+
     blocked_param = request.args.get("show_only_blocked")
     if blocked_param:
         query = query.filter(
@@ -287,6 +294,7 @@ def considerations():
         include_archived=archived_param,
         llc_filter=llc_param,
         show_only_blocked=blocked_param,
+        local_plan_data_filter=local_plan_data_param,
     )
 
 

@@ -133,6 +133,36 @@
     {% endcall %}
   </div>
 
+    <!-- filter by if Local plan data -->
+    <div class="govuk-form-group">
+      {% call dlFilterGroup({
+        "title": "Is Local plan data",
+        "is_open": True,
+        "selected": 0
+      }) %}
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-visually-hidden">
+          <h3 class="govuk-fieldset__heading">Is Local plan data?</h3>
+        </legend>
+        <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="is-local-plan-data-filter" name="is-local-plan-data" type="radio" value="true" {% if local_plan_data_filter == "true" %} checked{% endif %}>
+            <label class="govuk-label govuk-radios__label" for="is-local-plan-data-filter">
+              Yes
+            </label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="is-local-plan-data-filter-2" name="is-local-plan-data" type="radio" value="false" {% if local_plan_data_filter == "false" %} checked{% endif %}>
+            <label class="govuk-label govuk-radios__label" for="is-local-plan-data-filter-2">
+              No
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      {% endcall %}
+    </div>
+
+
   <div class="govuk-button-group">
     <button class="govuk-button" type="submit">Filter</button>
     <a class="govuk-link" href="{{ url_for('planning_consideration.considerations') }}">Clear</a>
