@@ -97,6 +97,8 @@ class Consideration(db.Model):
     changes: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
 
     is_local_land_charge: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_local_plan_data: Mapped[bool] = mapped_column(Boolean, default=False)
+
     notes: Mapped[List["Note"]] = relationship(
         back_populates="consideration", order_by="asc(Note.created)"
     )
