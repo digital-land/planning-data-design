@@ -6,7 +6,14 @@ from flask.cli import AppGroup
 from sqlalchemy.orm.attributes import flag_modified
 
 from application.extensions import db
-from application.models import Consideration, Performance, Question, QuestionType, Stage
+from application.models import (
+    ChangeLog,
+    Consideration,
+    Performance,
+    Question,
+    QuestionType,
+    Stage,
+)
 
 consider_cli = AppGroup("consider")
 
@@ -248,3 +255,48 @@ def generate_performance():
     db.session.commit()
 
     print("Performance record created")
+
+
+@consider_cli.command("migrate-changelog")
+def migrate_changelog():
+    from datetime import datetime
+
+    considerations = db.session.query(Consideration).all()
+    for consideration in considerations:
+        # if consideration.change_log is not None:
+        #     continue
+
+        if consideration.changes:
+            for change in consideration.changes:
+
+                if "from" not in change:
+                    from_ = None
+                else:
+                    from_ = change["from"]
+
+                field = change["field"]
+                to = change["to"]
+                user = change.get("user")
+                date = change["date"]
+                reason = change.get("reason", None)
+                if user is None:
+                    user = "unknown"
+                if isinstance(user, dict):
+                    user = "unknown"
+
+                created = datetime.strptime(date, "%Y-%m-%d")
+
+                change_log = ChangeLog(
+                    consideration_id=consideration.id,
+                    field=field,
+                    change={"from": from_, "to": to},
+                    user=user,
+                    created=created,
+                    reason=reason,
+                )
+                db.session.add(change_log)
+                db.session.commit()
+
+        print(f"Created changelog for {consideration.name}")
+
+    print("Migration complete")

@@ -95,6 +95,9 @@ class Consideration(db.Model):
     answers: Mapped[List["Answer"]] = relationship(back_populates="consideration")
 
     changes: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
+    change_log: Mapped[List["ChangeLog"]] = relationship(
+        back_populates="consideration", order_by="asc(ChangeLog.created)"
+    )
 
     is_local_land_charge: Mapped[bool] = mapped_column(Boolean, default=False)
     is_local_plan_data: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -134,6 +137,26 @@ class Consideration(db.Model):
 
     def __repr__(self):
         return f"<Consideration {self.name}> <Description {self.description}> <Stage {self.stage}>"
+
+
+class ChangeLog(db.Model):
+    id: Mapped[uuid.uuid4] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    field: Mapped[str] = mapped_column(Text, nullable=False)
+    change: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    reason: Mapped[str] = mapped_column(Text, nullable=True)
+    consideration_id: Mapped[uuid.uuid4] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("consideration.id")
+    )
+    consideration: Mapped[Consideration] = relationship(back_populates="change_log")
+    created: Mapped[datetime.datetime] = mapped_column(
+        DateTime, default=datetime.datetime.now
+    )
+    user: Mapped[str] = mapped_column(Text, nullable=False)
+
+    def __repr__(self):
+        return f"<ChangeLog {self.field}> <from: {self.from_value}> <to: {self.to_value}> <created: {self.created}>"
 
 
 class Answer(DateModel):

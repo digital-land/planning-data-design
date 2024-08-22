@@ -65,3 +65,9 @@ def short_date_filter(date):
     if date is None:
         return ""
     return date.strftime("%d %B %Y")
+
+
+def date_time_filter(date):
+    if date is None:
+        return ""
+    return date.strftime("%Y-%m-%d %H:%M:%S")

@@ -38,6 +38,7 @@ from application.blueprints.planning_consideration.forms import (
 from application.extensions import db
 from application.forms import DeleteForm
 from application.models import (
+    ChangeLog,
     Consideration,
     ConsiderationModel,
     FrequencyOfUpdates,
@@ -197,18 +198,19 @@ def _create_or_update_consideration(form, attributes, is_new=False, consideratio
                 from_value = from_value.value
             if to_value is not None and isinstance(to_value, Enum):
                 to_value = to_value.value
-            log = {
-                "field": attribute,
-                "from": from_value,
-                "to": to_value,
-                "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                "user": session.get("user", "unknown user"),
-            }
-            if attribute == "stage":
-                log["reason"] = form.reason.data
-            if consideration.changes is None:
+            user = session.get("user", "unknown user")
+
+            change_log = ChangeLog(
+                field=attribute,
+                change={"from": from_value, "to": to_value},
+                user=user,
+                reason=form.reason.data if attribute == "stage" else None,
+            )
+
+            if consideration.change_log is None:
                 consideration.changes = []
-            consideration.changes.append(log)
+
+            consideration.change_log.append(change_log)
 
         if is_new:
             consideration.set_slug()
@@ -501,16 +503,14 @@ def delete_attr_link(slug, attr_name, link_text):
         from_value = getattr(consideration, attr_name)
         setattr(consideration, attr_name, links)
         to_value = getattr(consideration, attr_name)
-        log = {
-            "field": attr_name,
-            "from": from_value,
-            "to": to_value,
-            "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-            "user": session.get("user", "unknown user"),
-        }
-        if consideration.changes is None:
+        user = session.get("user", "unknown user")
+
+        change_log = ChangeLog(
+            field=attr_name, change={"from": from_value, "to": to_value}, user=user
+        )
+        if consideration.change_log is None:
             consideration.changes = []
-        consideration.changes.append(log)
+        consideration.change_log.append(change_log)
         db.session.add(consideration)
         db.session.commit()
 
@@ -576,17 +576,15 @@ def delete_synonym(slug, synonym):
     from_value = consideration.synonyms
     consideration.synonyms.remove(synonym)
     to_value = consideration.synonyms
+    user = session.get("user", "unknown user")
 
-    log = {
-        "field": "synonym",
-        "from": from_value,
-        "to": to_value,
-        "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-        "user": session.get("user", "unknown user"),
-    }
-    if consideration.changes is None:
+    change_log = ChangeLog(
+        field="synonym", change={"from": from_value, "to": to_value}, user=user
+    )
+    if consideration.change_log is None:
         consideration.changes = []
-    consideration.changes.append(log)
+
+    consideration.change_log.append(change_log)
 
     db.session.add(consideration)
     db.session.commit()
@@ -914,7 +912,7 @@ def unblock(slug):
 @login_required
 def change_log(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
-    if consideration.changes is None:
+    if consideration.change_log is None:
         return abort(404)
     return render_template(
         "change-log.html", consideration=consideration, content_primary_width="full"

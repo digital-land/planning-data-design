@@ -42,15 +42,15 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
-      {% for change in consideration.changes %}
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">{{ change["field"] }}</th>
-            <td class="govuk-table__cell">{{ change["from"] }}</td>
-            <td class="govuk-table__cell">{{ change["to"] }}</td>
-            <td class="govuk-table__cell">{{ change["date"] }}</td>
-            <td class="govuk-table__cell">{{ change["user"] }}</td>
-          </tr>
-        {% endfor %}
+      {% for change_log in consideration.change_log %}
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">{{ change_log.field }}</th>
+          <td class="govuk-table__cell">{{ change_log.change["from"] }}</td>
+          <td class="govuk-table__cell">{{ change_log.change["to"] }}</td>
+          <td class="govuk-table__cell">{{ change_log.created | date_time}}</td>
+          <td class="govuk-table__cell">{{ change_log.user}}</td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
 {% endblock content_primary %}

@@ -1,5 +1,3 @@
-import datetime
-
 from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 
 from application.blueprints.questions.forms import (
@@ -12,7 +10,14 @@ from application.blueprints.questions.forms import (
     TextareaForm,
 )
 from application.forms import DeleteForm
-from application.models import Answer, Consideration, Question, QuestionType, Stage
+from application.models import (
+    Answer,
+    ChangeLog,
+    Consideration,
+    Question,
+    QuestionType,
+    Stage,
+)
 from application.utils import login_required, true_false_to_bool
 
 questions = Blueprint(
@@ -186,14 +191,17 @@ def save_answer(consideration_slug, stage, question_slug):
             else:
                 answer.answer = data
             question_text = question.text.format(name=consideration.name)
-            log = {
-                "field": question_text,
-                "from": current_answer,
-                "to": data,
-                "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                "user": session.get("user", "unknown user"),
-            }
-            consideration.changes.append(log)
+            user = session.get("user", "unknown user")
+
+            change_log = ChangeLog(
+                field=question_text,
+                change={"from": current_answer, "to": data},
+                user=user,
+            )
+            if consideration.change_log is None:
+                consideration.change_log = []
+            consideration.change_log.append(change_log)
+
             db.session.add(answer)
             db.session.add(consideration)
             db.session.commit()
@@ -278,17 +286,19 @@ def add_to_list(consideration_slug, stage, question_slug):
             )
         else:
             previous_answers = answer.answer_list.copy() if answer.answer_list else None
+            user = session.get("user", "unknown user")
+
             for item in data:
                 answer.add_to_list(item)
                 question_text = question.text.format(name=consideration.name)
-                log = {
-                    "field": question_text,
-                    "from": previous_answers,
-                    "to": answer.answer_list,
-                    "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-                    "user": session.get("user", "unknown user"),
-                }
-                consideration.changes.append(log)
+                change_log = ChangeLog(
+                    field=question_text,
+                    change={"from": previous_answers, "to": answer.answer_list},
+                    user=user,
+                )
+                if consideration.change_log is None:
+                    consideration.change_log = []
+                consideration.change_log.append(change_log)
 
             db.session.add(consideration)
             db.session.add(answer)
@@ -427,14 +437,17 @@ def edit_answer(consideration_slug, stage, question_slug, position):
         current_answer = answer.answer_list[position]
         answer.update_list(position, form.data)
         question_text = question.text.format(name=consideration.name)
-        log = {
-            "field": question_text,
-            "from": current_answer,
-            "to": form.data,
-            "date": datetime.datetime.today().strftime("%Y-%m-%d"),
-            "user": session.get("user", "unknown user"),
-        }
-        consideration.changes.append(log)
+        user = session.get("user", "unknown user")
+
+        change_log = ChangeLog(
+            field=question_text,
+            change={"from": current_answer, "to": form.data},
+            user=user,
+        )
+        if consideration.change_log is None:
+            consideration.change_log = []
+        consideration.change_log.append(change_log)
+
         db.session.add(answer)
         db.session.add(consideration)
         db.session.commit()
