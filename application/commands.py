@@ -207,7 +207,7 @@ def check_dataset_links():
                         print(f"No changes for {consideration.name} datasets")
 
                 except requests.exceptions.HTTPError as e:
-                    print(f"Error fetching@@@  {markdown_url}: {e}")
+                    print(f"Error fetching {markdown_url}: {e}")
                 except Exception as e:
                     print(f"Error parsing {markdown_url}: {e}")
 
