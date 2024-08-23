@@ -345,8 +345,8 @@ def consideration(slug):
         return redirect(url_for("planning_consideration.considerations"))
 
     latest_change = None
-    if consideration.changes is not None and len(consideration.changes) > 0:
-        change_dates = [change["date"] for change in consideration.changes]
+    if consideration.change_log is not None and len(consideration.change_log) > 0:
+        change_dates = [change.created for change in consideration.change_log]
         latest_change = max(change_dates)
 
     notes = [note for note in consideration.notes if note.deleted_date is None]

@@ -421,5 +421,5 @@
 
 {% block content_footer %}
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-  <span class="govuk-hint">{%- if latest_change %}<a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">Last updated: {{ latest_change }}</a>{% else %}No recent updates{% endif -%}</span>
+  <span class="govuk-hint">{%- if latest_change %}<a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">Last updated: {{ latest_change | date_time }}</a>{% else %}No recent updates{% endif -%}</span>
 {% endblock %}

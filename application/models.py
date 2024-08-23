@@ -93,8 +93,6 @@ class Consideration(db.Model):
     )
 
     answers: Mapped[List["Answer"]] = relationship(back_populates="consideration")
-
-    changes: Mapped[Optional[list]] = mapped_column(MutableList.as_mutable(JSONB))
     change_log: Mapped[List["ChangeLog"]] = relationship(
         back_populates="consideration", order_by="asc(ChangeLog.created)"
     )
