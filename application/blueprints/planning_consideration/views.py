@@ -668,7 +668,7 @@ def is_local_plan_data(slug):
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
-    page = {"title": "Set 'Is local plan data'", "submit_text": "Set"}
+    page = {"title": "Set 'related to local plans'", "submit_text": "Set"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page

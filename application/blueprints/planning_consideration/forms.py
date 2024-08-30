@@ -65,7 +65,7 @@ class LLCForm(FlaskForm):
 
 class LocalPlanDataForm(FlaskForm):
     is_local_plan_data = RadioField(
-        "Is this consideration used in local plans?",
+        "Is this consideration related to local plans?",
         validators=[DataRequired()],
         choices=[("True", "Yes"), ("False", "No")],
     )
