@@ -82,7 +82,7 @@
     <a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear filter(s)</a></p>
   {% endif -%}
 
-  {% if llc_filter is not none %}
+  {% if llc_filter %}
   <div class="app-applied-filters">
     <div class="app-applied-filter__group">
       <span class="app-applied-filter__name govuk-!-font-weight-bold">Is a LLC:</span>
@@ -94,11 +94,23 @@
   </div>
   {% endif %}
 
-  {% if local_plan_data_filter is not none %}
+  {% if local_plan_data_filter %}
   <div class="app-applied-filters">
     <div class="app-applied-filter__group">
       <span class="app-applied-filter__name govuk-!-font-weight-bold">Is Local plan data:</span>
       <span class="app-applied-filter__item">{{ local_plan_data_filter }}</span>
+    </div>
+    <div class="app-applied-filter__group">
+      <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if publishing_orgs_filter %}
+  <div class="app-applied-filters">
+    <div class="app-applied-filter__group">
+      <span class="app-applied-filter__name govuk-!-font-weight-bold">Publishing organisations:</span>
+      <span class="app-applied-filter__item">{{ publishing_orgs_filter }}</span>
     </div>
     <div class="app-applied-filter__group">
       <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>

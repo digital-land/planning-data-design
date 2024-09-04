@@ -284,7 +284,7 @@ def considerations():
         )
 
     publishing_orgs_param = request.args.getlist("publishing-organisations")
-    if publishing_orgs_param is not None:
+    if publishing_orgs_param:
         query = query.filter(
             Consideration.answers.any(
                 and_(
@@ -316,6 +316,7 @@ def considerations():
         show_only_blocked=blocked_param,
         local_plan_data_filter=local_plan_data_param,
         publishing_organisations=publishing_organisations,
+        publishing_orgs_filter=publishing_orgs_param,
     )
 
 
