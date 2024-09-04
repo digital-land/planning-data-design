@@ -17,7 +17,7 @@ from flask import (
 )
 from markupsafe import Markup
 from slugify import slugify
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 
 from application.blueprints.planning_consideration.forms import (
     BlockedForm,
@@ -38,6 +38,7 @@ from application.blueprints.planning_consideration.forms import (
 from application.extensions import db
 from application.forms import DeleteForm
 from application.models import (
+    Answer,
     ChangeLog,
     Consideration,
     ConsiderationModel,
@@ -46,6 +47,7 @@ from application.models import (
     OSDeclarationStatus,
     Stage,
 )
+from application.question_sets import publishing_organisations
 from application.utils import login_required, true_false_to_bool
 
 enum_map = {
@@ -281,6 +283,22 @@ def considerations():
             )
         )
 
+    publishing_orgs_param = request.args.getlist("publishing-organisations")
+    if publishing_orgs_param is not None:
+        query = query.filter(
+            Consideration.answers.any(
+                and_(
+                    Answer.question_slug == "publishing-organisations",
+                    or_(
+                        *[
+                            Answer.answer["choice"].astext.ilike(f"%{org}%")
+                            for org in publishing_orgs_param
+                        ]
+                    ),
+                )
+            )
+        )
+
     considerations = (
         query.filter(Consideration.deleted_date.is_(None))
         .order_by(Consideration.name.asc())
@@ -297,6 +315,7 @@ def considerations():
         llc_filter=llc_param,
         show_only_blocked=blocked_param,
         local_plan_data_filter=local_plan_data_param,
+        publishing_organisations=publishing_organisations,
     )
 
 

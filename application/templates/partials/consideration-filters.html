@@ -48,6 +48,7 @@
 
   <!-- filter by stage -->
   <div class="govuk-form-group">
+    {% set random_stage_filter_id = range(1000,9999) | random() %}
     {% set checkboxesHTML %}
       {% set pa_checked = request.args.getlist("stage") %}
       {% for stage in stages %}
@@ -67,7 +68,7 @@
     }) %}
 
     {{ dlFilterCheckboxes({
-      "uniqueID": "167824",
+      "uniqueID": random_stage_filter_id,
       "checkboxesHTML": checkboxesHTML
     }) }}
     {% endcall %}
@@ -161,6 +162,35 @@
       </fieldset>
       {% endcall %}
     </div>
+
+      <!-- filter by publishing organisations -->
+  <div class="govuk-form-group">
+    {% set random_org_filter_id = range(10000,99999) | random() %}
+    {% set checkboxesHTML %}
+      {% set org_checked = request.args.getlist("publishing-organisations") %}
+      {% for org in publishing_organisations %}
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="{{ org }}" name="publishing-organisations" type="checkbox" value="{{ org }}" {% if org in org_checked %}checked=checked{% endif %}>
+        <label class="govuk-label govuk-checkboxes__label" for="{{ org }}">
+          {{ org }}
+        </label>
+      </div>
+      {% endfor %}
+    {% endset %}
+
+    {% call dlFilterGroup({
+      "title": "Publishing organisations",
+      "is_open": True,
+      "selected": 0
+    }) %}
+
+    {{ dlFilterCheckboxes({
+      "uniqueID": random_org_filter_id,
+      "checkboxesHTML": checkboxesHTML
+    }) }}
+    {% endcall %}
+  </div>
+
 
 
   <div class="govuk-button-group">
