@@ -32,6 +32,10 @@ class FrequencyOfUpdates(Enum):
     QUARTERLY = "Quarterly"
     ANNUALLY = "Annually"
     AD_HOC = "Ad hoc"
+    EVERY_6_WEEKS = "Every 6 weeks"
+    EVERY_6_MONTHS = "Every 6 months"
+    EVERY_2_YEARS = "Every 2 years"
+    UNKNOWN = "Unknown"
 
 
 class QuestionType(Enum):
