@@ -28,6 +28,7 @@ class Stage(Enum):
 class FrequencyOfUpdates(Enum):
     DAILY = "Daily"
     WEEKLY = "Weekly"
+    FORTNIGHTLY = "Fortnightly"
     MONTHLY = "Monthly"
     EVERY_6_WEEKS = "Every 6 weeks"
     QUARTERLY = "Quarterly"
