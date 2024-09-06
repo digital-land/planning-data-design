@@ -29,12 +29,12 @@ class FrequencyOfUpdates(Enum):
     DAILY = "Daily"
     WEEKLY = "Weekly"
     MONTHLY = "Monthly"
-    QUARTERLY = "Quarterly"
-    ANNUALLY = "Annually"
-    AD_HOC = "Ad hoc"
     EVERY_6_WEEKS = "Every 6 weeks"
+    QUARTERLY = "Quarterly"
     EVERY_6_MONTHS = "Every 6 months"
+    ANNUALLY = "Annually"
     EVERY_2_YEARS = "Every 2 years"
+    AD_HOC = "Ad hoc"
     UNKNOWN = "Unknown"
 
 
