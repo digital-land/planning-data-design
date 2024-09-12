@@ -53,7 +53,7 @@ Biosphere reserves,Areas where local people model how we can live with nature an
 BLDGS (Buildings),Tall buildings over 50m,,,Backlog,True,,,False,,,,,bldgs,,
 Borehole scans,"Scanned images of the records of all onshore Great Britain (or near shore) boreholes, trial pits, shafts and wells",Wellmaster hydrogeological database index,,Archived,True,,,False,,,,,borehole-scans,,
 Britpits mines & quarries,"BritPits (an abbreviation of British Pits), include both surface and underground mineral workings, such as mines, quarries, oil wells, gas wells, ash and desulphogypsum plants.",,,Backlog,True,,,False,,,,,britpits-mines-quarries,,
-Playing fields,Land in the open air provided for physical education or recreation,,64,Screen,True,,Every 6 months,False,,,,,playing-fields,,
+Playing fields,Land in the open air provided for physical education or recreation,,64,Co-design,True,,Every 6 months,False,,,,,playing-fields,,
 Religious grounds,,,,Screen,True,,Every 6 months,False,,,,,religious-grounds,,
 Canals,Human-made waterways that allow boats and ships to pass from one body of water to another ,Watercourses,,Backlog,True,,,False,,,,,canals,,
 Public Transport Accessibility Levels (PTAL),"A detailed and accurate measure of the accessibility of a point to the public transport network, taking into account walk access time and service availability",,,Backlog,True,,,False,,,,,public-transport-accessibility-levels,,
