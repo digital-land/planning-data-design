@@ -30,6 +30,7 @@ publishing_organisations = [
     "Regional park authorities",
     "Regulator of Social Housing",
     "Royal Mail",
+    "Sport England",
     "The Coal Authority",
     "The National Grid",
     "UK Air (Defra)",
