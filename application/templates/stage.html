@@ -33,23 +33,23 @@
 {%- if stage_changes %}
 
     <div class="moj-timeline">
-      {% for change in stage_changes %}
+      {% for stage_change in stage_changes %}
       <div class="moj-timeline__item">
 
         <div class="moj-timeline__header">
-          <h2 class="moj-timeline__title">From <span class="govuk-tag {{ change.from|map_to_tag_class }}">{{ change.from }}</span> to <span class="govuk-tag {{ change.to|map_to_tag_class }}">{{ change.to }}</span></h2>
+          <h2 class="moj-timeline__title">From <span class="govuk-tag {{ stage_change.change.from|map_to_tag_class }}">{{ stage_change.change.from }}</span> to <span class="govuk-tag {{ stage_change.change.to|map_to_tag_class }}">{{ stage_change.change.to }}</span></h2>
 
-          <p class="moj-timeline__byline">by {{ change.user }}</p>
+          <p class="moj-timeline__byline">by {{ stage_change.user }}</p>
 
         </div>
 
         <p class="moj-timeline__date">
-          <time datetime="2019-06-14T14:01:00.000Z">{{ change.date }}</time>
+          <time datetime="2019-06-14T14:01:00.000Z">{{ stage_change.date }}</time>
         </p>
 
-        {% if change.reason %}
+        {% if stage_change.reason %}
         <div class="moj-timeline__description">
-          <p>{{ change.reason|render_markdown }}</p>
+          <p>{{ stage_change.reason|render_markdown }}</p>
         </div>
         {% endif %}
 
