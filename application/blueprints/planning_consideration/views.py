@@ -26,8 +26,6 @@ from application.blueprints.planning_consideration.forms import (
     ExpectedSizeForm,
     FrequencyForm,
     LinkForm,
-    LLCForm,
-    LocalPlanDataForm,
     NoteForm,
     OSDeclarationForm,
     PriorityForm,
@@ -647,48 +645,6 @@ def public(slug):
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
     page = {"title": "Set public or private", "submit_text": "Set"}
-
-    return render_template(
-        "questiontypes/input.html", consideration=consideration, form=form, page=page
-    )
-
-
-@planning_consideration.route("/<slug>/is-llc", methods=["GET", "POST"])
-@login_required
-def is_llc(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
-    form = LLCForm(obj=consideration)
-
-    if form.validate_on_submit():
-        consideration = _create_or_update_consideration(
-            form, ["is_local_land_charge"], consideration=consideration
-        )
-        db.session.add(consideration)
-        db.session.commit()
-        return redirect(url_for("planning_consideration.consideration", slug=slug))
-
-    page = {"title": "Set 'Is local land charge'", "submit_text": "Set"}
-
-    return render_template(
-        "questiontypes/input.html", consideration=consideration, form=form, page=page
-    )
-
-
-@planning_consideration.route("/<slug>/is-local-plan-data", methods=["GET", "POST"])
-@login_required
-def is_local_plan_data(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
-    form = LocalPlanDataForm(obj=consideration)
-
-    if form.validate_on_submit():
-        consideration = _create_or_update_consideration(
-            form, ["is_local_plan_data"], consideration=consideration
-        )
-        db.session.add(consideration)
-        db.session.commit()
-        return redirect(url_for("planning_consideration.consideration", slug=slug))
-
-    page = {"title": "Set 'related to local plans'", "submit_text": "Set"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page

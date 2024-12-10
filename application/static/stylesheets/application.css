@@ -8710,6 +8710,12 @@ p + .govuk-heading-s,
   .app-missing-item *:last-child {
     margin-bottom: 0; }
 
+.app-list__item li {
+  margin-bottom: 10px; }
+
+.app-list__item a {
+  margin-left: 10px; }
+
 .app-list__item__inline-action {
   display: block; }
 

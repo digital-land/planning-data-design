@@ -56,8 +56,16 @@ $govuk-new-link-styles: true;
   }
 }
 
+.app-list__item {
+  li {
+    margin-bottom: 10px;
+  }
+  a {
+    margin-left: 10px;
+  }
+}
+
 .app-list__item__inline-action {
-  //margin-left: 5px;
   display: block;
 }
 

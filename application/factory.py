@@ -34,11 +34,13 @@ def register_blueprints(app):
         planning_consideration,
     )
     from application.blueprints.questions.views import questions
+    from application.blueprints.tags.views import tags
 
     app.register_blueprint(auth)
     app.register_blueprint(main)
     app.register_blueprint(planning_consideration)
     app.register_blueprint(questions)
+    app.register_blueprint(tags)
     app.register_blueprint(help)
 
 

@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+{% set isHomepage = False %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Tags</h1>
+        {% if not config.AUTHENTICATION_ON or session["user"] %}
+         <a href="{{ url_for('tags.add' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add tag</a>
+      {% endif %}
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <ul class="govuk-list app-list__item">
+        {% for tag in tags %}
+            <li>
+                <span class="govuk-tag">{{ tag.name }}</span>
+                <span class="govuk-link govuk-link--no-visited-state">
+                    <a href="{{ url_for('tags.tag', tag_id=tag.id) }}">Edit</a>
+                </span>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
