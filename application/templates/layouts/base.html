@@ -58,11 +58,11 @@
               Design process
             </a>
           </li>
-          <!-- <li class="govuk-header__navigation-item">
-            <a class="govuk-header__link" href="/support">
-              Support
+          <li class="govuk-header__navigation-item">
+            <a class="govuk-header__link" href="{{ url_for('tags.index') }}">
+              Tags
             </a>
-          </li> -->
+          </li>
           <li class="govuk-header__navigation-item">
             <a class="govuk-header__link" href="https://www.planning.data.gov.uk/">
               Find data
@@ -147,8 +147,10 @@
   </div>
   <!-- /.govuk-grid-row -->
   {# use this to append things to content #}
-  {% block content_footer %}{% endblock content_footer %}
+  {% block content_footer %}
+  {% endblock content_footer %}
 {% endblock content %}
+
 
 {% block govScripts %}
   {{ super() }}

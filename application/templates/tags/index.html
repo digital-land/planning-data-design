@@ -17,7 +17,7 @@
             <li>
                 <span class="govuk-tag">{{ tag.name }}</span>
                 <span class="govuk-link govuk-link--no-visited-state">
-                    <a href="{{ url_for('tags.tag', tag_id=tag.id) }}">Edit</a>
+                    <a href="{{ url_for('tags.edit_tag', tag_id=tag.id) }}">Edit</a>
                 </span>
             </li>
         {% endfor %}

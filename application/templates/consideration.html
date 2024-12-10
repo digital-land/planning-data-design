@@ -253,6 +253,7 @@
           </dd>
         </div>
         {% endif %}
+        <!-- tags -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
            Tags
@@ -260,13 +261,18 @@
           <dd class="govuk-summary-list__value">
             <ul class="govuk-list">
             {% for tag in consideration.tags %}
-              <li><span class="govuk-tag govuk-tag--small">{{ tag.name }}</span></li>
+              <li><span class="govuk-tag govuk-tag--small">{{ tag.name }}</span>
+                <span class="app-list__item__inline-action govuk-!-font-size-16">
+                  <a class="app-destructive-link" href="{{ url_for('tags.remove_tag', consideration_id=consideration.id, tag_id=tag.id) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this tag?');">Remove</a>
+                  <span class="govuk-visually-hidden"> {{ tag.name }} tag from list</span>
+                </span>
+              </li>
             {% endfor %}
             </ul>
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden">Change</span></a>
+            <a class="govuk-link" href="{{ url_for('tags.tag_consideration', consideration_id=consideration.id) }}">Add<span class="govuk-visually-hidden">Add</span></a>
           </dd>
           {% endif %}
         </div>

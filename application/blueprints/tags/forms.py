@@ -1,6 +1,9 @@
+from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField, ValidationError
+from wtforms import SelectField, StringField, ValidationError
 from wtforms.validators import DataRequired
+
+from application.models import Tag
 
 
 class TagForm(FlaskForm):
@@ -15,11 +18,16 @@ class TagForm(FlaskForm):
 
     def validate_name(self, field):
         self.sanitize_tag_name(field)
-        # Check if tag with this name already exists
-        from application.models import Tag
-
         existing_tag = Tag.query.filter(Tag.name == field.data).first()
         if existing_tag:
-            raise ValidationError("A tag with this name already exists")
+            # If we're editing an existing tag (URL has tag_id) and the name hasn't changed,
+            # then this is valid - it's the same tag
+            tag_id = request.view_args.get("tag_id")
+            if not tag_id or str(existing_tag.id) != tag_id:
+                raise ValidationError("A tag with this name already exists")
 
     name = StringField("Name", validators=[DataRequired()])
+
+
+class AddTagForm(FlaskForm):
+    tags = SelectField("Name", validators=[DataRequired()])
