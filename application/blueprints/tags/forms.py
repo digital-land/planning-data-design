@@ -1,7 +1,7 @@
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import HiddenField, StringField, ValidationError
-from wtforms.validators import DataRequired, Optional
+from wtforms import SelectField, StringField, ValidationError
+from wtforms.validators import DataRequired
 
 from application.models import Tag
 
@@ -27,8 +27,7 @@ class TagForm(FlaskForm):
                 raise ValidationError("A tag with this name already exists")
 
     name = StringField("Name", validators=[DataRequired()])
-    next_url = HiddenField("next_url")
 
 
 class AddTagForm(FlaskForm):
-    tags = StringField("Name", validators=[Optional()])
+    new_tag = SelectField("New tag", validators=[DataRequired()])

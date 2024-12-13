@@ -282,6 +282,12 @@ class Tag(db.Model):
         secondary="consideration_tags", back_populates="tags"
     )
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
+
 
 # pydantic models
 

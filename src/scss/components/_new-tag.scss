@@ -1,0 +1,51 @@
+[data-module="flexible-select"] {
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.new-tag {
+  margin-top: -30px;
+  padding-bottom: 30px;
+
+  [data-new-tag='request'],
+  [data-new-tag='result'] {
+    display: none;
+    padding: 15px;
+  }
+
+  [data-new-tag="request"] {
+    background-color: lighten(govuk-colour("light-blue"), 25);
+  }
+
+  [data-new-tag='result'] {
+    background-color: lighten(govuk-colour("light-green"), 25);
+  }
+
+  p {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  [data-new-tag="name"] {
+    font-family: monospace;
+    font-weight: 700;
+  }
+
+  &.new-tag__mode--request {
+    [data-new-tag='request'] {
+      display: block;
+    }
+  }
+
+  &.new-tag__mode--result {
+    [data-new-tag='result'] {
+      display: block;
+    }
+  }
+}

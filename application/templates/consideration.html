@@ -263,21 +263,16 @@
             {% for tag in consideration.tags %}
               <li><span class="govuk-tag">{{ tag.name }}</span>
                 <span class="app-list__item__inline-action govuk-!-font-size-16">
-                  <span class="govuk-visually-hidden"> {{ tag.name }} tag from list</span>
+                  <a href="{{ url_for('tags.remove_tag', consideration=consideration.slug, tag_id=tag.id) }}" class="govuk-link app-destructive-link">Remove<span class="govuk-visually-hidden"> {{ tag.name }} tag from list</span></a>
                 </span>
               </li>
             {% endfor %}
             </ul>
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
-          <dd class="govuk-summary-list__actions">
-            {% set action_text = "Change" if consideration.tags else "Add" %}
-            {% if consideration.tags %}
-              <a class="govuk-link" href="{{ url_for('tags.update_tag_consideration', consideration=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration tags</span></a>
-            {% else %}
+            <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('tags.add_tag_consideration', consideration=consideration.slug) }}">Add<span class="govuk-visually-hidden"> planning consideration tags</span></a>
-            {% endif %}
-          </dd>
+            </dd>
           {% endif %}
         </div>
       </dl>
