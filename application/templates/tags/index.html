@@ -6,22 +6,34 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">Tags</h1>
         {% if not config.AUTHENTICATION_ON or session["user"] %}
-         <a href="{{ url_for('tags.add' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add tag</a>
-      {% endif %}
+        <a href="{{ url_for('tags.add' )}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add
+            tag</a>
+        {% endif %}
     </div>
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <ul class="govuk-list app-list__item">
-        {% for tag in tags %}
-            <li>
-                <span class="govuk-tag">{{ tag.name }}</span>
-                <span class="govuk-link govuk-link--no-visited-state">
-                    <a href="{{ url_for('tags.edit_tag', tag_id=tag.id) }}">Edit</a>
-                </span>
-            </li>
-        {% endfor %}
-        </ul>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Tag name</th>
+                    <th scope="col" class="govuk-table__header">Considerations tagged</th>
+                    <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Edit tag</span></th>
+                    <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Delete tag</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                {% for tag in tags %}
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">{{ tag.name }}</th>
+                        <td class="govuk-table__cell">{{ tag.considerations | count }}</td>
+                        <td class="govuk-table__cell"><a href="{{ url_for('tags.edit_tag', tag_id=tag.id) }}" class="govuk-link govuk-link--no-visited-state">Edit</a></td>
+                        <td class="govuk-table__cell"><a href="{{ url_for('tags.delete', tag_id=tag.id) }}" class="govuk-link app-destructive-link govuk-link--no-visited-state" onclick="return confirm('This will remove the tag from all considerations and delete it. Are you sure?')">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

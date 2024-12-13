@@ -60,6 +60,16 @@ def edit_tag(tag_id):
     )
 
 
+@tags.get("/<string:tag_id>/delete")
+def delete(tag_id):
+    tag = Tag.query.get(tag_id)
+    if tag is None:
+        abort(404)
+    db.session.delete(tag)
+    db.session.commit()
+    return redirect(url_for("tags.index"))
+
+
 @tags.route("/<string:consideration>/add", methods=["GET", "POST"])
 def add_tag_consideration(consideration):
     consideration = Consideration.query.filter(
