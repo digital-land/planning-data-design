@@ -17,7 +17,7 @@
       'href': url_for('planning_consideration.consideration', slug=consideration.slug)
     },
     {
-      'text': "Add Tag",
+      'text': "Tags",
     },
   ]
 }) }}
@@ -25,45 +25,71 @@
 {% endblock beforeContent %}
 
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
-    <h1 class="govuk-heading-xl">Add tag to {{ consideration.name }}</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-xl">{{ consideration.name }} tags</h1>
+    </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    {% if form.errors %}
-    <div class="govuk-error-summary" data-module="govuk-error-summary">
-      <div role="alert">
-        <h2 class="govuk-error-summary__title">
-          There was a problem
-        </h2>
-        <div class="govuk-error-summary__body">
-          <ul class="govuk-list govuk-error-summary__list">
-            {% for error in form.errors %}
-              <li>
-                <a href="#{{ error}}">{{ form.errors[error][0] }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if form.errors %}
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">
+            There was a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              {% for error in form.errors %}
+                <li>
+                  <a href="#{{ error}}">{{ form.errors[error][0] }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  {% endif %}
-
+    {% endif %}
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
     <form class="govuk-form" method="POST" action="{{ action_url }}">
       {{ form.hidden_tag() }}
-      <div class="govuk-form-group">
-        {{ form.tags.label(class='govuk-label') }}
-        {{ form.tags(class='govuk-select') }}
-      </div>
+
+        <div class="app-tags-select" data-module="multi-select">
+          <div class="govuk-form-group" data-multi-select="form-group">
+            {{ form.tags.label(class='govuk-label') }}
+            {{ form.tags(class='govuk-input') }}
+          </div>
+          <div class="app-hidden">
+            <select name="tags-select" id="tags-select" data-multi-select="select">
+              {% for choice in form.tags.choices %}
+                <option value="{{ choice[0] }}">{{ choice[1] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
       <div class="govuk-button-group">
         <button class="govuk-button" type="submit">Save</button>
         <a class="govuk-link" href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}">Cancel</a>
       </div>
     </form>
+
+    <p class="govuk-body">
+      Can't find the tag you're looking for? <a href="{{ url_for('tags.add', next_url=request.url) }}" class="govuk-link">Create a new tag</a>
+    </p>
   </div>
 </div>
 
 {% endblock content %}
+
+
+{% block pageScripts %}
+<script src="{{ assetPath | default('/static') }}/javascripts/vendor/accessible-autocomplete.min.js"></script>
+<script>
+  const $multiSelectModule = document.querySelector('[data-module="multi-select"]')
+  const multiSelectModule = new dptp.MultiSelect($multiSelectModule).init({selectedClass: 'govuk-tag'})
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+.multi-select__select-panel {
+  margin-top: -30px;
+  margin-bottom: 30px;
+  padding: 10px;
+  background-color: govuk-colour('light-grey');
+
+  ul {
+    padding-left: 0;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .multi-select__item-label {
+    @include govuk-font(19);
+  }
+
+  .multi-select__item-value {
+    @extend .govuk-hint;
+    @include govuk-font(16);
+    margin-left: 10px;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  &.multi-select__select-panel--none {
+    background-color: lighten(govuk-colour('yellow'), 25);
+  }
+
+  &.multi-select__select-panel--selection {
+    .govuk-hint {
+      display: none;
+    }
+  }
+}

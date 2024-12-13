@@ -34,7 +34,7 @@
 
 {% block stylesheets %}
   <link rel="stylesheet" href="/static/stylesheets/application.css">
-  {# <link rel="stylesheet" href="/static/stylesheets/vendor/accessible-autocomplete.css"> #}
+  <link rel="stylesheet" href="/static/stylesheets/vendor/accessible-autocomplete.css">
   {% block pageStylesheets %}{% endblock pageStylesheets %}
 {% endblock %}
 
@@ -160,3 +160,6 @@
   {{ super() }}
   <script src="{{ assetPath | default('/static') }}/javascripts/application.js"></script>
 {%- endblock %}
+
+{% block pageScripts %}
+{% endblock %}
