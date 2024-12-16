@@ -3,21 +3,24 @@ from flask import Blueprint, abort, jsonify, redirect, render_template, request,
 from application.blueprints.tags.forms import AddTagForm, TagForm
 from application.extensions import db
 from application.models import Consideration, Tag
+from application.utils import login_required
 
 tags = Blueprint(
     "tags",
     __name__,
-    url_prefix="/tags",
+    url_prefix="/admin",
 )
 
 
-@tags.route("/")
+@tags.route("/tags")
+@login_required
 def index():
     tags = Tag.query.order_by(Tag.name).all()
     return render_template("tags/index.html", tags=tags)
 
 
-@tags.route("/add", methods=["GET", "POST"])
+@tags.route("/tags/add", methods=["GET", "POST"])
+@login_required
 def add():
     form = TagForm()
     action_url = url_for("tags.add")
@@ -33,6 +36,7 @@ def add():
 
 
 @tags.route("/<string:tag_id>/edit", methods=["GET", "POST"])
+@login_required
 def edit_tag(tag_id):
     tag = Tag.query.get(tag_id)
     if tag is None:
@@ -55,6 +59,7 @@ def edit_tag(tag_id):
 
 
 @tags.get("/<string:tag_id>/delete")
+@login_required
 def delete(tag_id):
     tag = Tag.query.get(tag_id)
     if tag is None:
@@ -65,6 +70,7 @@ def delete(tag_id):
 
 
 @tags.route("/<string:consideration>/add", methods=["GET", "POST"])
+@login_required
 def add_tag_consideration(consideration):
     consideration = Consideration.query.filter(
         Consideration.slug == consideration
@@ -99,6 +105,7 @@ def add_tag_consideration(consideration):
 
 
 @tags.get("/<string:consideration>/<string:tag_id>/remove")
+@login_required
 def remove_tag(consideration, tag_id):
     consideration = Consideration.query.filter(
         Consideration.slug == consideration
@@ -117,6 +124,7 @@ def remove_tag(consideration, tag_id):
 
 
 @tags.route("/add-ajax", methods=["POST"])
+@login_required
 def ajax_add_event():
     data = request.json
     name = data["name"].strip().title()
