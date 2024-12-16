@@ -44,6 +44,7 @@ from application.models import (
     Note,
     OSDeclarationStatus,
     Stage,
+    Tag,
 )
 from application.question_sets import publishing_organisations
 from application.utils import login_required, true_false_to_bool
@@ -258,19 +259,9 @@ def considerations():
         else:
             query = query.filter(Consideration.legislation.is_(None))
 
-    llc_param = request.args.get("is-llc")
-    if llc_param:
-        if llc_param == "true":
-            query = query.filter(Consideration.is_local_land_charge)
-        else:
-            query = query.filter(~Consideration.is_local_land_charge)
-
-    local_plan_data_param = request.args.get("is-local-plan-data")
-    if local_plan_data_param:
-        if local_plan_data_param == "true":
-            query = query.filter(Consideration.is_local_plan_data)
-        else:
-            query = query.filter(~Consideration.is_local_plan_data)
+    tags_param = request.args.getlist("tag")
+    if tags_param:
+        query = query.filter(Consideration.tags.any(Tag.name.in_(tags_param)))
 
     blocked_param = request.args.get("show_only_blocked")
     if blocked_param:
@@ -303,6 +294,8 @@ def considerations():
         .all()
     )
 
+    tags = Tag.query.order_by(Tag.name).all()
+
     return render_template(
         "considerations.html",
         considerations=considerations,
@@ -310,11 +303,11 @@ def considerations():
         stage_filter=[slugify(stage.name) for stage in stage_param],
         legislation_filter=legislation_param,
         include_archived=archived_param,
-        llc_filter=llc_param,
         show_only_blocked=blocked_param,
-        local_plan_data_filter=local_plan_data_param,
         publishing_organisations=publishing_organisations,
         publishing_orgs_filter=publishing_orgs_param,
+        tags=tags,
+        tags_filter=tags_param,
     )
 
 
