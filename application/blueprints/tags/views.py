@@ -13,6 +13,7 @@ tags = Blueprint(
 
 
 @tags.route("/tags")
+@tags.route("/")
 @login_required
 def index():
     tags = Tag.query.order_by(Tag.name).all()
