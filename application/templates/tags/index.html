@@ -27,7 +27,7 @@
                 {% for tag in tags %}
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">{{ tag.name }}</th>
-                        <td class="govuk-table__cell">{{ tag.considerations | count }}</td>
+                        <td class="govuk-table__cell">{{ tag.active_considerations_count }}</td>
                         <td class="govuk-table__cell"><a href="{{ url_for('tags.edit_tag', tag_id=tag.id) }}" class="govuk-link govuk-link--no-visited-state">Edit</a></td>
                         <td class="govuk-table__cell"><a href="{{ url_for('tags.delete', tag_id=tag.id) }}" class="govuk-link app-destructive-link govuk-link--no-visited-state" onclick="return confirm('This will remove the tag from all considerations and delete it. Are you sure?')">Delete</a></td>
                     </tr>

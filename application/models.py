@@ -288,6 +288,10 @@ class Tag(db.Model):
             "name": self.name,
         }
 
+    @property
+    def active_considerations_count(self):
+        return len([c for c in self.considerations if c.stage != Stage.ARCHIVED])
+
 
 # pydantic models
 
