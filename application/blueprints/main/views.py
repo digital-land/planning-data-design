@@ -22,6 +22,11 @@ def how_to_contribute():
     return render_template("how-to-contribute.html")
 
 
+@main.route("/advisory-group")
+def advisory_group():
+    return render_template("advisory-group.html")
+
+
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
 
