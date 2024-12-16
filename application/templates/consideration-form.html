@@ -55,34 +55,67 @@
     <form class="govuk-form" method="POST">
       {{ form.hidden_tag() }}
 
-      {% for field in form if field.name != 'csrf_token' %}
-      <div class="govuk-form-group{{ ' govuk-form-group--error' if field.errors }}">
-        {% if field.type == "IntegerField" %}
-          {{ field.label(class='govuk-label') }}
-          {{ field(class='govuk-input govuk-input--width-4') }}
-        {% elif field.type == "TextAreaField" %}
-          {{ field.label(class='govuk-label') }}
-          {{ field(class='govuk-textarea') }}
-        {% elif field.type == "RadioField" %}
-          {{ radioComponent({
-            "field": form.public,
-            "pageHeading": {"size": "m"},
-            })
-          }}
-        {% else %}
-          {{ field.label(class='govuk-label') }}
-          {{ field(class='govuk-input') }}
-        {% endif %}
-
-        {% if field.errors %}
-          {%- for error in field.errors -%}
+      <div class="govuk-form-group">
+        {{ form.name.label(class='govuk-label') }}
+        {{ form.name(class='govuk-input') }}
+        {% if form.name.errors %}
+          {%- for error in form.name.errors -%}
           <p class="govuk-error-message govuk-!-margin-top-1">
             <span class="govuk-visually-hidden">Error:</span> {{ error }}
           </p>
           {%- endfor -%}
         {% endif %}
       </div>
-      {% endfor %}
+
+      <div class="govuk-form-group">
+        {{ form.github_discussion_number.label(class='govuk-label')   }}
+        {{ form.github_discussion_number(class='govuk-input') }}
+
+        {% if form.github_discussion_number.errors %}
+          {%- for error in form.github_discussion_number.errors -%}
+          <p class="govuk-error-message govuk-!-margin-top-1">
+            <span class="govuk-visually-hidden">Error:</span> {{ error }}
+          </p>
+          {%- endfor -%}
+        {% endif %}
+      </div>
+
+      <div class="govuk-form-group">
+        {{ form.description.label(class='govuk-label') }}
+        {{ form.description(class='govuk-textarea') }}
+
+        {% if form.description.errors %}
+          {%- for error in form.description.errors -%}
+          <p class="govuk-error-message govuk-!-margin-top-1">
+            <span class="govuk-visually-hidden">Error:</span> {{ error }}
+          </p>
+          {%- endfor -%}
+        {% endif %}
+      </div>
+
+    <div class="app-tags-select" data-module="multi-select">
+
+      <div class="govuk-form-group" data-multi-select="form-group">
+
+          {{ form.tags.label(class='govuk-label') }}
+          {{ form.tags(class='govuk-input') }}
+
+      </div>
+      <div class="app-hidden">
+        <select name="tag_select" id="tag_select" data-multi-select="select">
+          {% for tag in form.tags.choices %}
+            <option value="{{ tag[0] }}">{{ tag[1] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+    </div>
+
+      {{ radioComponent({
+        "field": form.public,
+        "pageHeading": {"size": "m"},
+        })
+      }}
 
       <div class="govuk-button-group">
         <button class="govuk-button" type="submit">{{ "Save changes" if mode == "edit" else "Create" }}</button>
@@ -99,3 +132,12 @@
 </div>
 
 {% endblock content %}
+
+{% block pageScripts %}
+  <script src="{{ assetPath | default('/static') }}/javascripts/vendor/accessible-autocomplete.min.js"></script>
+  <script>
+    const $multiSelectModule = document.querySelector('[data-module="multi-select"]')
+    const multiSelectModule = new dptp.MultiSelect($multiSelectModule).init({ selectedClass: 'govuk-tag' })
+    console.log(multiSelectModule)
+  </script>
+{% endblock pageScripts %}

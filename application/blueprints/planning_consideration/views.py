@@ -377,9 +377,19 @@ def consideration(slug):
 def new():
     form = ConsiderationForm()
 
+    form.tags.choices = [(" ", " ")] + [
+        (tag.id, tag.name) for tag in Tag.query.order_by(Tag.name).all()
+    ]
+
     if form.validate_on_submit():
         attributes = ["name", "github_discussion_number", "description", "public"]
         consideration = _create_or_update_consideration(form, attributes, is_new=True)
+        tag_choices = form.tags.data.split(",")
+        if tag_choices and any(tag_choice.strip() for tag_choice in tag_choices):
+            for tag_id in tag_choices:
+                tag = Tag.query.get(tag_id)
+                if tag is not None:
+                    consideration.tags.append(tag)
         db.session.add(consideration)
         db.session.commit()
         return redirect(

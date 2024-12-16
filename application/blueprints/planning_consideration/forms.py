@@ -134,6 +134,7 @@ class ConsiderationForm(FlaskForm):
         choices=[("True", "Public"), ("False", "Private")],
         default="True",
     )
+    tags = StringField("Tags", validators=[Optional()])
 
 
 class NoteForm(FlaskForm):
