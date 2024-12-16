@@ -261,7 +261,7 @@
           <dd class="govuk-summary-list__value">
             <ul class="govuk-list">
             {% for tag in consideration.tags %}
-              <li><span class="govuk-tag">{{ tag.name }}</span>
+              <li><a href="{{ url_for('planning_consideration.considerations', tag=tag.name) }}"><span class="govuk-tag">{{ tag.name }}</span></a>
                 <span class="app-list__item__inline-action govuk-!-font-size-16">
                   <a href="{{ url_for('tags.remove_tag', consideration=consideration.slug, tag_id=tag.id) }}" class="govuk-link app-destructive-link">Remove<span class="govuk-visually-hidden"> {{ tag.name }} tag from list</span></a>
                 </span>
