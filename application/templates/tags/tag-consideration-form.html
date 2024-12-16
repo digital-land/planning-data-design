@@ -1,0 +1,111 @@
+{% extends 'layouts/base.html' %}
+
+{% block beforeContent %}
+
+{{ govukBreadcrumbs({
+'items': [
+{
+'text': "Home",
+'href': "/"
+},
+{
+'text': "Planning Considerations",
+'href': url_for('main.index')
+},
+{
+'text': consideration.name,
+'href': url_for('planning_consideration.consideration', slug=consideration.slug)
+},
+{
+'text': "Tags",
+},
+]
+}) }}
+
+{% endblock beforeContent %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-xl">{{ consideration.name }} tags</h1>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if form.errors %}
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">
+            There was a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              {% for error in form.errors %}
+              <li>
+                <a href="#{{ error}}">{{ form.errors[error][0] }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="govuk-form" method="POST" action="{{ action_url }}">
+        {{ form.hidden_tag() }}
+
+        <div data-module="select-or-new">
+          <div class="govuk-form-group" id="new-tag-form-group">
+            {{ form.new_tag.label(class='govuk-label') }}
+            {{ form.new_tag(class='govuk-select') }}
+          </div>
+        </div>
+
+        <div class="govuk-form-group" data-module="flexible-select">
+          {{ form.new_tag(class='govuk-input') }}
+        </div>
+
+        <div class="govuk-button-group">
+          <button class="govuk-button" type="submit">Save</button>
+          <a class="govuk-link"
+            href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <template id="action-panel-template">
+    <div class="new-tag app-action-panel">
+      <div data-new-tag="request">
+        <p class="govuk-body"><span data-new-record="name">Test test</span> isn't in the current list of tags. Do you want to add it?</p>
+        <button>Yes, add it</button>
+      </div>
+      <div data-new-tag="result">
+        <p class="govuk-body"><span data-new-tag="name">Test test</span> has been added to the tag list.</p>
+      </div>
+    </div>
+  </template>
+
+  {% endblock content %}
+
+
+  {% block pageScripts %}
+  <script src="{{ assetPath | default('/static') }}/javascripts/vendor/accessible-autocomplete.min.js"></script>
+  <script>
+    // const $multiSelectModule = document.querySelector('[data-module="multi-select"]')
+    // const multiSelectModule = new dptp.MultiSelect($multiSelectModule).init({ selectedClass: 'govuk-tag' })
+
+    const $selectContainer = document.querySelector('[data-module="select-or-new"]')
+    const selectModule = new dptp.SelectOrNew(
+      $selectContainer,
+      'new_tag',
+      "action-panel-template",
+      "new-tag-form-group"
+    ).init()
+  </script>
+  {% endblock %}

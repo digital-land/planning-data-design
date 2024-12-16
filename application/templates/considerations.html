@@ -76,35 +76,26 @@
 
   <div class="govuk-grid-column-three-quarters">
   {%- if stage_filter %}
-  <p class="govuk-body">Filtered by {% for stage in stage_filter %}
-    <span class="govuk-tag {{ stage|map_to_tag_class }}">{{ stage }}</span> stage.
+  <p class="govuk-body">Filtered by stage{% if stage_filter|length > 1 %}s{% endif %}: {% for stage in stage_filter %}
+    <span class="govuk-tag {{ stage|map_to_tag_class }}">{{ stage }}</span>{% if not loop.last %}, {% endif %}
     {% endfor %}
-    <a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear filter(s)</a></p>
+    {% set args = request.args.to_dict(flat=False) %}
+    {% if 'stage' in args %}
+      {% set _ = args.pop('stage') %}
+    {% endif %}
+    <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear stage filter(s)</a></p>
   {% endif -%}
 
-  {% if llc_filter %}
-  <div class="app-applied-filters">
-    <div class="app-applied-filter__group">
-      <span class="app-applied-filter__name govuk-!-font-weight-bold">Is a LLC:</span>
-      <span class="app-applied-filter__item">{{ llc_filter }}</span>
-    </div>
-    <div class="app-applied-filter__group">
-      <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>
-    </div>
-  </div>
-  {% endif %}
-
-  {% if local_plan_data_filter %}
-  <div class="app-applied-filters">
-    <div class="app-applied-filter__group">
-      <span class="app-applied-filter__name govuk-!-font-weight-bold">Is Local plan data:</span>
-      <span class="app-applied-filter__item">{{ local_plan_data_filter }}</span>
-    </div>
-    <div class="app-applied-filter__group">
-      <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>
-    </div>
-  </div>
-  {% endif %}
+  {%- if tags_filter %}
+    <p class="govuk-body">Filtered by {% if tags_filter|length > 1 %}tags{% else %}tag{% endif %}: {% for tag in tags_filter %}
+      <span class="govuk-tag">{{ tag }}</span>{% if not loop.last %}, {% endif %}
+      {% endfor %}
+      {% set args = request.args.to_dict(flat=False) %}
+      {% if 'tag' in args %}
+        {% set _ = args.pop('tag') %}
+      {% endif %}
+      <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear tag filter(s)</a></p>
+    {% endif -%}
 
   {% if publishing_orgs_filter %}
   <div class="app-applied-filters">

@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+{% block beforeContent %}
+
+{{ govukBreadcrumbs({
+  'items': [
+    {
+      'text': "Home",
+      'href': "/"
+    },
+    {
+      'text': "Tags",
+    },
+  ]
+}) }}
+
+{% endblock beforeContent %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">{{ action_text }}</h1>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% if form.errors %}
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There was a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            {% for error in form.errors %}
+              <li>
+                <a href="#{{ error}}">{{ form.errors[error][0] }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+    <form class="govuk-form" method="POST" action="{{ action_url }}">
+      {{ form.hidden_tag() }}
+      <div class="govuk-form-group">
+        {{ form.name.label(class='govuk-label') }}
+        {{ form.name(class='govuk-input') }}
+      </div>
+      <div class="govuk-button-group">
+        <button class="govuk-button" type="submit">Save</button>
+        <a class="govuk-link" href="{{ url_for('tags.index') }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

@@ -57,6 +57,13 @@ class OSDeclarationStatus(Enum):
     OTHER_LICENCE_NEEDED = "Other licence needed"
 
 
+consideration_tags = db.Table(
+    "consideration_tags",
+    db.Column("consideration_id", UUID(as_uuid=True), ForeignKey("consideration.id")),
+    db.Column("tag_id", UUID(as_uuid=True), ForeignKey("tag.id")),
+)
+
+
 class DateModel(db.Model):
     __abstract__ = True
 
@@ -104,6 +111,10 @@ class Consideration(db.Model):
 
     is_local_land_charge: Mapped[bool] = mapped_column(Boolean, default=False)
     is_local_plan_data: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    tags: Mapped[List["Tag"]] = relationship(
+        secondary="consideration_tags", back_populates="considerations"
+    )
 
     notes: Mapped[List["Note"]] = relationship(
         back_populates="consideration", order_by="asc(Note.created)"
@@ -260,6 +271,26 @@ class Performance(db.Model):
             for field in self.__table__.columns.keys()
             if field not in excluded_fields
         ]
+
+
+class Tag(db.Model):
+    id: Mapped[uuid.uuid4] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    name: Mapped[str] = mapped_column(Text, unique=True)
+    considerations: Mapped[List[Consideration]] = relationship(
+        secondary="consideration_tags", back_populates="tags"
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+        }
+
+    @property
+    def active_considerations_count(self):
+        return len([c for c in self.considerations if c.stage != Stage.ARCHIVED])
 
 
 # pydantic models

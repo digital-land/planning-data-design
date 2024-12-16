@@ -105,65 +105,36 @@
     {% endcall %}
   </div>
 
-  <!-- filter by if LLC -->
-  <div class="govuk-form-group">
-    {% call dlFilterGroup({
-      "title": "Is Local land charge",
-      "is_open": True,
-      "selected": 0
-    }) %}
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-visually-hidden">
-        <h3 class="govuk-fieldset__heading">Is a LLC?</h3>
-      </legend>
-      <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="is-llc-filter" name="is-llc" type="radio" value="true" {% if llc_filter == "true" %} checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="is-llc-filter">
-            Yes
-          </label>
-        </div>
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="is-llc-filter-2" name="is-llc" type="radio" value="false" {% if llc_filter == "false" %} checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="is-llc-filter-2">
-            No
-          </label>
-        </div>
-      </div>
-    </fieldset>
-    {% endcall %}
-  </div>
-
-    <!-- filter by if Local plan data -->
+    <!-- filter by tags -->
     <div class="govuk-form-group">
+      {% set random_tag_filter_id = range(10000,99999) | random() %}
+      {% set checkboxesHTML %}
+        {% set tags_checked = request.args.getlist("tag") %}
+          {% for tag in tags %}
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="{{ tag.name }}" name="tag" type="checkbox" value="{{ tag.name }}" {% if tag.name in tags_checked %}checked=checked{% endif %}>
+              <label class="govuk-label govuk-checkboxes__label" for="{{ tag.name }}">
+                {{ tag.name }}
+              </label>
+            </div>
+          {% endfor %}
+      {% endset %}
+
       {% call dlFilterGroup({
-        "title": "Is related to Local plans",
+        "title": "Tags",
         "is_open": True,
         "selected": 0
       }) %}
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-visually-hidden">
-          <h3 class="govuk-fieldset__heading">Is related to Local plans?</h3>
-        </legend>
-        <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
-          <div class="govuk-radios__item">
-            <input class="govuk-radios__input" id="is-local-plan-data-filter" name="is-local-plan-data" type="radio" value="true" {% if local_plan_data_filter == "true" %} checked{% endif %}>
-            <label class="govuk-label govuk-radios__label" for="is-local-plan-data-filter">
-              Yes
-            </label>
-          </div>
-          <div class="govuk-radios__item">
-            <input class="govuk-radios__input" id="is-local-plan-data-filter-2" name="is-local-plan-data" type="radio" value="false" {% if local_plan_data_filter == "false" %} checked{% endif %}>
-            <label class="govuk-label govuk-radios__label" for="is-local-plan-data-filter-2">
-              No
-            </label>
-          </div>
-        </div>
-      </fieldset>
+
+      {{ dlFilterCheckboxes({
+        "uniqueID": random_tag_filter_id,
+        "checkboxesHTML": checkboxesHTML
+      }) }}
       {% endcall %}
     </div>
 
-      <!-- filter by publishing organisations -->
+
+  <!-- filter by publishing organisations -->
   <div class="govuk-form-group">
     {% set random_org_filter_id = range(10000,99999) | random() %}
     {% set checkboxesHTML %}

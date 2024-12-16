@@ -26,8 +26,6 @@ from application.blueprints.planning_consideration.forms import (
     ExpectedSizeForm,
     FrequencyForm,
     LinkForm,
-    LLCForm,
-    LocalPlanDataForm,
     NoteForm,
     OSDeclarationForm,
     PriorityForm,
@@ -46,6 +44,7 @@ from application.models import (
     Note,
     OSDeclarationStatus,
     Stage,
+    Tag,
 )
 from application.question_sets import publishing_organisations
 from application.utils import login_required, true_false_to_bool
@@ -241,14 +240,14 @@ def considerations():
 
     stage_param = []
     if "stage" in request.args:
-        stage_selections = []
+        stage_selections = set([])
         for selection in request.args.getlist("stage"):
             try:
                 stage = Stage(selection)
-                stage_selections.append(stage)
+                stage_selections.add(stage)
             except ValueError:
                 continue
-            stage_selections.append(stage)
+            stage_selections.add(stage)
         stage_param = stage_selections
         filter_condition = Consideration.stage.in_(stage_selections)
         query = query.filter(filter_condition)
@@ -260,19 +259,9 @@ def considerations():
         else:
             query = query.filter(Consideration.legislation.is_(None))
 
-    llc_param = request.args.get("is-llc")
-    if llc_param:
-        if llc_param == "true":
-            query = query.filter(Consideration.is_local_land_charge)
-        else:
-            query = query.filter(~Consideration.is_local_land_charge)
-
-    local_plan_data_param = request.args.get("is-local-plan-data")
-    if local_plan_data_param:
-        if local_plan_data_param == "true":
-            query = query.filter(Consideration.is_local_plan_data)
-        else:
-            query = query.filter(~Consideration.is_local_plan_data)
+    tags_param = request.args.getlist("tag")
+    if tags_param:
+        query = query.filter(Consideration.tags.any(Tag.name.in_(tags_param)))
 
     blocked_param = request.args.get("show_only_blocked")
     if blocked_param:
@@ -305,6 +294,8 @@ def considerations():
         .all()
     )
 
+    tags = Tag.query.order_by(Tag.name).all()
+
     return render_template(
         "considerations.html",
         considerations=considerations,
@@ -312,11 +303,11 @@ def considerations():
         stage_filter=[slugify(stage.name) for stage in stage_param],
         legislation_filter=legislation_param,
         include_archived=archived_param,
-        llc_filter=llc_param,
         show_only_blocked=blocked_param,
-        local_plan_data_filter=local_plan_data_param,
         publishing_organisations=publishing_organisations,
         publishing_orgs_filter=publishing_orgs_param,
+        tags=tags,
+        tags_filter=tags_param,
     )
 
 
@@ -647,48 +638,6 @@ def public(slug):
         return redirect(url_for("planning_consideration.consideration", slug=slug))
 
     page = {"title": "Set public or private", "submit_text": "Set"}
-
-    return render_template(
-        "questiontypes/input.html", consideration=consideration, form=form, page=page
-    )
-
-
-@planning_consideration.route("/<slug>/is-llc", methods=["GET", "POST"])
-@login_required
-def is_llc(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
-    form = LLCForm(obj=consideration)
-
-    if form.validate_on_submit():
-        consideration = _create_or_update_consideration(
-            form, ["is_local_land_charge"], consideration=consideration
-        )
-        db.session.add(consideration)
-        db.session.commit()
-        return redirect(url_for("planning_consideration.consideration", slug=slug))
-
-    page = {"title": "Set 'Is local land charge'", "submit_text": "Set"}
-
-    return render_template(
-        "questiontypes/input.html", consideration=consideration, form=form, page=page
-    )
-
-
-@planning_consideration.route("/<slug>/is-local-plan-data", methods=["GET", "POST"])
-@login_required
-def is_local_plan_data(slug):
-    consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
-    form = LocalPlanDataForm(obj=consideration)
-
-    if form.validate_on_submit():
-        consideration = _create_or_update_consideration(
-            form, ["is_local_plan_data"], consideration=consideration
-        )
-        db.session.add(consideration)
-        db.session.commit()
-        return redirect(url_for("planning_consideration.consideration", slug=slug))
-
-    page = {"title": "Set 'related to local plans'", "submit_text": "Set"}
 
     return render_template(
         "questiontypes/input.html", consideration=consideration, form=form, page=page

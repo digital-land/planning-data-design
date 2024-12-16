@@ -22,9 +22,19 @@ $govuk-new-link-styles: true;
 @import "components/subnavigation";
 @import "components/stats";
 @import "components/header";
-
+@import "components/multi-select";
+@import "components/new-tag";
 //  tweaks to existing components
 @import "components/govuk-summary-cards";
+
+
+.js-hidden {
+  display: none !important;
+}
+
+.app-hidden {
+  display: none
+}
 
 
 // used in buttons like "add new planning consideration"
@@ -56,8 +66,16 @@ $govuk-new-link-styles: true;
   }
 }
 
+.app-list__item {
+  li {
+    margin-bottom: 10px;
+  }
+  a {
+    margin-left: 10px;
+  }
+}
+
 .app-list__item__inline-action {
-  //margin-left: 5px;
   display: block;
 }
 
@@ -141,5 +159,37 @@ $govuk-new-link-styles: true;
 
   a {
     @include govuk-link-common;
+  }
+}
+
+.app-tags-select {
+  &__container {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  &__input-container {
+    flex-grow: 1;
+
+    // Style the autocomplete container
+    .autocomplete__wrapper {
+      width: 100%;
+    }
+  }
+
+  &__button-container {
+    flex-shrink: 0;
+    margin-top: 0;
+  }
+}
+
+// Ensure the autocomplete doesn't break our layout
+.autocomplete__wrapper {
+  position: relative;
+
+  .autocomplete__input {
+    width: 100%;
   }
 }
