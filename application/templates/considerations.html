@@ -52,7 +52,11 @@
   <div class='govuk-grid-column-two-thirds'>
     <form class="govuk-!-margin-bottom-9" data-filter="form">
       <label class="dl-list-filter__label govuk-label govuk-!-font-weight-bold" for="filter-considerations-list">I'm looking for</label>
-      <input class="dl-list-filter__input govuk-input" type="text" id="filter-considerations-list" placeholder="For example, Planning conditions">
+      <input class="dl-list-filter__input govuk-input" type="text"
+             id="filter-considerations-list"
+             name="list_filter"
+             value="{{ request.args.get('list_filter', '') }}"
+             placeholder="For example, Planning conditions">
     </form>
   </div>
   <div class="govuk-grid-column-one-third">
@@ -152,9 +156,90 @@
 <script>
   // initialise list filter
   const $form = document.querySelector('[data-filter="form"]');
-  new window.DLFrontend.ListFilter($form).init({
+  const listFilter = new window.DLFrontend.ListFilter($form);
+
+  listFilter.init({
     list_section_selector: '.concerns-list__wrapper',
     count_wrapper_selector: '.concerns-list__count__wrapper'
-  })
+  });
+
+  // Update URL with filter value without reloading page
+  const $input = document.querySelector('#filter-considerations-list');
+  const $serverFilterForm = document.querySelector('.govuk-form');
+
+  $input.addEventListener('keyup', function(e) {
+    const newUrl = new URL(window.location);
+    if (e.target.value) {
+      newUrl.searchParams.set('list_filter', e.target.value);
+    } else {
+      newUrl.searchParams.delete('list_filter');
+    }
+    window.history.pushState({}, '', newUrl);
+
+    // If enter key is pressed, trigger server form submission
+    if (e.key === 'Enter' && $serverFilterForm) {
+      // Get current URL and form data
+      const url = new URL($serverFilterForm.action || window.location.href);
+      const formData = new FormData($serverFilterForm);
+
+      // Add all form data to URL parameters
+      for (const [key, value] of formData.entries()) {
+        url.searchParams.append(key, value);
+      }
+
+      // Add the list filter value
+      if (e.target.value) {
+        url.searchParams.set('list_filter', e.target.value);
+      }
+
+      // Navigate to the URL with all parameters
+      window.location.href = url.toString();
+    }
+  });
+
+  // Prevent the list filter form from submitting
+  $form.addEventListener('submit', function(e) {
+    e.preventDefault();
+  });
+
+  // Handle server form submission to preserve list filter
+  if ($serverFilterForm) {
+    $serverFilterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get current URL and form data
+      const url = new URL($serverFilterForm.action || window.location.href);
+      const formData = new FormData($serverFilterForm);
+
+      // Add all form data to URL parameters
+      for (const [key, value] of formData.entries()) {
+        url.searchParams.append(key, value);
+      }
+
+      // Add the list filter if it exists
+      const listFilterValue = $input.value;
+      if (listFilterValue) {
+        url.searchParams.set('list_filter', listFilterValue);
+      }
+
+      // Navigate to the URL with all parameters
+      window.location.href = url.toString();
+    });
+  }
+
+  // If there's a filter value in the URL, trigger the filter
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterValue = urlParams.get('list_filter');
+  if (filterValue) {
+    $input.value = filterValue;
+    // Create and dispatch a keyup event since that's what the ListFilter expects
+    const keyupEvent = new KeyboardEvent('keyup', {
+      bubbles: true,
+      cancelable: true,
+      key: 'dummy',
+      keyCode: 0
+    });
+    $input.dispatchEvent(keyupEvent);
+  }
 </script>
 {% endblock %}
