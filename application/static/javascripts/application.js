@@ -181,7 +181,7 @@
     };
     const boundPostNewTagSuccess = this.postNewTagSuccess.bind(this);
     utils.postToBackend(
-      '/tags/add-ajax', tag, boundPostNewTagSuccess
+      '/admin/tags/add-ajax', tag, boundPostNewTagSuccess
     );
   };
 

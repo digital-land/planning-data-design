@@ -124,9 +124,9 @@ def remove_tag(consideration, tag_id):
     )
 
 
-@tags.route("/add-ajax", methods=["POST"])
+@tags.route("/tags/add-ajax", methods=["POST"])
 @login_required
-def ajax_add_event():
+def ajax_add_tag():
     data = request.json
     name = data["name"].strip().title()
     tag = Tag.query.filter(Tag.name == name).one_or_none()
