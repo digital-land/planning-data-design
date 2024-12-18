@@ -82,11 +82,11 @@
   <template id="action-panel-template">
     <div class="new-tag app-action-panel">
       <div data-new-tag="request">
-        <p class="govuk-body"><span data-new-record="name">Test test</span> isn't in the current list of tags. Do you want to add it?</p>
+        <p class="govuk-body"><span data-new-tag="name">Placeholder</span> isn't in the current list of tags. Do you want to add it?</p>
         <button>Yes, add it</button>
       </div>
       <div data-new-tag="result">
-        <p class="govuk-body"><span data-new-tag="name">Test test</span> has been added to the tag list.</p>
+        <p class="govuk-body"><span data-new-tag="name">Placeholder</span> has been added to the tag list.</p>
       </div>
     </div>
   </template>
@@ -106,6 +106,6 @@
       'new_tag',
       "action-panel-template",
       "new-tag-form-group"
-    ).init()
+    ).init({new_backend_endpoint: '/admin/tags/add-ajax'})
   </script>
   {% endblock %}

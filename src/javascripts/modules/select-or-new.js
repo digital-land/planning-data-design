@@ -8,7 +8,10 @@ function SelectOrNew ($selectContainer, selectId, templateId) {
   this.templateId = templateId
 }
 
-SelectOrNew.prototype.init = function () {
+SelectOrNew.prototype.init = function (params) {
+  params = params || {}
+  this.options = {}
+  this.options.new_backend_endpoint = params.new_backend_endpoint || false
   this.$selectFormGroup = this.$selectContainer.querySelector('.govuk-form-group')
   this.$select = document.getElementById(this.selectId)
   this.$label = this.$selectFormGroup.querySelector('label')
@@ -125,10 +128,13 @@ SelectOrNew.prototype.postNewTag = function () {
     name: this.lastInputValue,
   }
   const boundPostNewTagSuccess = this.postNewTagSuccess.bind(this)
-  utils.postToBackend(
-    '/admin/tags/add-ajax', tag, boundPostNewTagSuccess
-  )
-}
+  if (this.options.new_backend_endpoint) {
+    utils.postToBackend(
+      this.options.new_backend_endpoint, tag, boundPostNewTagSuccess
+    )
+  } else {
+    console.log('no new backend endpoint')
+  }
 
 SelectOrNew.prototype.postNewTagSuccess = function (data) {
   this.showResultPanel()
