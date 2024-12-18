@@ -135,6 +135,7 @@ SelectOrNew.prototype.postNewTag = function () {
   } else {
     console.log('no new backend endpoint')
   }
+}
 
 SelectOrNew.prototype.postNewTagSuccess = function (data) {
   this.showResultPanel()
