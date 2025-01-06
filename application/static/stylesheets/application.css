@@ -8682,6 +8682,36 @@ p + .govuk-heading-s,
   .new-tag.new-tag__mode--result [data-new-tag='result'] {
     display: block; }
 
+.app-synonyms-list {
+  margin: 0;
+  padding: 5px 0 0;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 1.25; }
+  @media print {
+    .app-synonyms-list {
+      font-family: sans-serif; } }
+  @media (min-width: 40.0625em) {
+    .app-synonyms-list {
+      font-size: 14px;
+      font-size: 0.875rem;
+      line-height: 1.42857; } }
+  @media print {
+    .app-synonyms-list {
+      font-size: 12pt;
+      line-height: 1.2; } }
+  .app-synonyms-list::before {
+    content: 'Synonyms: '; }
+  .app-synonyms-list li {
+    display: inline;
+    list-style: none; }
+    .app-synonyms-list li:not(:last-child)::after {
+      content: ", "; }
+
 .app-specification-row--empty {
   background: #f3f2f1;
   border-bottom-style: dashed;

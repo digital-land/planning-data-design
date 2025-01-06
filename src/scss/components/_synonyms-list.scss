@@ -1,0 +1,19 @@
+.app-synonyms-list {
+  margin: 0;
+  padding: 5px 0 0;
+
+  @include govuk-font($size: 14);
+
+  &::before {
+    content: 'Synonyms: '
+  }
+
+  li {
+    display: inline;
+    list-style: none;
+
+    &:not(:last-child)::after {
+      content: ", ";
+    }
+  }
+}

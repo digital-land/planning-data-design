@@ -124,11 +124,11 @@
               class="govuk-link govuk-link--text-colour"
               id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
               {% if consideration.synonyms %}
-                <span class="govuk-visually-hidden"
+                <span class=""
                     role="complementary"
                     aria-labelledby="consideration-{{ consideration.slug }}"
                     aria-label="Alternative terms for {{ consideration['name'] }}">
-                  <ul>
+                  <ul class="app-synonyms-list">
                     {% for synonym in consideration.synonyms %}
                       <li>{{ synonym }}</li>
                     {% endfor %}
