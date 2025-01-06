@@ -120,7 +120,21 @@
         {% for consideration in considerations -%}
         <div class="govuk-summary-list__row" data-filter="item">
           <dt class="govuk-summary-list__key" data-filter="match-content">
-            <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">{{ consideration['name'] }}</a>
+            <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
+              class="govuk-link govuk-link--text-colour"
+              id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
+              {% if consideration.synonyms %}
+                <span class="govuk-visually-hidden"
+                    role="complementary"
+                    aria-labelledby="consideration-{{ consideration.slug }}"
+                    aria-label="Alternative terms for {{ consideration['name'] }}">
+                  <ul>
+                    {% for synonym in consideration.synonyms %}
+                      <li>{{ synonym }}</li>
+                    {% endfor %}
+                  </ul>
+                </span>
+              {% endif -%}
           </dt>
           <dd class="govuk-summary-list__value">
             <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
