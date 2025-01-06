@@ -1,4 +1,5 @@
 .app-synonyms-list {
+  display: none;
   margin: 0;
   padding: 5px 0 0;
 
@@ -15,5 +16,11 @@
     &:not(:last-child)::after {
       content: ", ";
     }
+  }
+}
+
+.dl-list-filter__filtered-listed {
+  .app-synonyms-list {
+    display: block;
   }
 }
