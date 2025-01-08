@@ -28,7 +28,7 @@ flake8==7.1.1
     # via -r requirements/dev-requirements.in
 flask==3.0.3
     # via
-    #   -c requirements/requirements.in
+    #   -c /Users/adams/repos/mhclg/planning-data-design/requirements/requirements.in
     #   pytest-flask
 greenlet==3.0.3
     # via playwright
@@ -90,7 +90,7 @@ pytest-playwright==0.5.1
     # via -r requirements/dev-requirements.in
 python-slugify==8.0.4
     # via
-    #   -c requirements/requirements.in
+    #   -c /Users/adams/repos/mhclg/planning-data-design/requirements/requirements.in
     #   pytest-playwright
 pyyaml==6.0.2
     # via pre-commit

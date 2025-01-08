@@ -33,30 +33,44 @@ MultiSelect.prototype.init = function (params) {
 }
 
 MultiSelect.prototype.autoCompleteOnConfirm = function (inputValue) {
-  console.log(inputValue)
   if (inputValue) {
+    // First try to find a matching option
     const option = this.findOption(inputValue, 'name')
-    // if matching option
+
     if (option.length) {
-      // check it isn't already selected
+      // Existing behavior for matching options
       if (!this.currentlySelected.includes(option[0][1])) {
         this.currentlySelected.push(option[0][1])
-        // show in selected panel
         this.displaySelectedItem(option[0])
       }
-      // update the original input
-      this.updateInput()
+    } else {
+      // New behavior: Allow non-matching values
+      const newOption = [inputValue, inputValue]
+
+      // Check against display value (first element) to prevent duplicates
+      const isDuplicate = this.currentlySelected.some(selected => {
+        const existingOption = this.findOption(selected, 'value')
+        return existingOption.length ?
+          existingOption[0][0].toLowerCase() === inputValue.toLowerCase() :
+          selected.toLowerCase() === inputValue.toLowerCase()
+      })
+
+      if (!isDuplicate) {
+        this.currentlySelected.push(inputValue)
+        this.displaySelectedItem(newOption)
+      }
     }
-    // once processed, empty input if option set
+
+    // Update the original input
+    this.updateInput()
+
+    // Clear the typeahead input if option set
     if (this.options.emptyInputOnConfirm) {
       const $typeAheadInput = this.$typeAheadContainer.querySelector('.autocomplete__input')
-      // hacky because autocomplete component calls setState after executing callback
-      // so need to wait
       setTimeout(function () {
         $typeAheadInput.value = ''
       }, 150)
     }
-    console.log(option)
   }
 }
 
@@ -64,11 +78,17 @@ MultiSelect.prototype.createSelectedItem = function (optionPair) {
   const $item = document.createElement('li')
   const $content = document.createElement('div')
   const $label = document.createElement('span')
-  $label.classList.add('multi-select__item-label')
+  $label.classList.add(this.options.selectedClass)
   $label.textContent = optionPair[0]
+
   const $val = document.createElement('span')
   $val.classList.add('multi-select__item-value')
   $val.textContent = optionPair[1]
+
+  // Only show value if it's a UUID (existing tag)
+  if (!this.isUUID(optionPair[1])) {
+    $val.style.display = 'none'
+  }
 
   const $cancelBtn = document.createElement('a')
   $cancelBtn.classList.add('govuk-link')
@@ -90,15 +110,20 @@ MultiSelect.prototype.onDeselectItem = function (e) {
   e.preventDefault()
   const $deselectBtn = e.currentTarget
   const $item = $deselectBtn.closest('li')
-  const val = $item.querySelector('.multi-select__item-value').textContent
+  const $label = $item.querySelector('.' + this.options.selectedClass)
+  const $val = $item.querySelector('.multi-select__item-value')
+
+  // Use the value if it's a UUID (existing tag), otherwise use the label (new tag)
+  const valueToRemove = $val.style.display === 'none' ? $label.textContent : $val.textContent
+
   $item.remove()
-  console.log('deselect from input', val)
-  this.currentlySelected = this.currentlySelected.filter(item => item !== val)
+  this.currentlySelected = this.currentlySelected.filter(item => item !== valueToRemove)
   this.updateInput()
   this.updatePanelContent()
 }
 
 MultiSelect.prototype.createSelectedPanel = function () {
+
   const $panel = document.createElement('div')
   $panel.classList.add('multi-select__select-panel')
 
@@ -128,7 +153,6 @@ MultiSelect.prototype.displaySelected = function () {
 }
 
 MultiSelect.prototype.displaySelectedItem = function (option) {
-  console.log(option)
   const $list = this.$selectedPanel.querySelector('ul')
   $list.append(this.createSelectedItem(option))
   this.updatePanelContent()
@@ -146,18 +170,16 @@ MultiSelect.prototype.getSelectionsFromString = function (str) {
 
 MultiSelect.prototype.initAccessibleAutocomplete = function ($container) {
   const boundAutoCompleteOnConfirm = this.autoCompleteOnConfirm.bind(this)
-  console.log('setup', this.selectOptionList)
   accessibleAutocomplete({
     element: $container.querySelector('.autocomplete-container'),
-    id: $container.querySelector('label').htmlFor, // To match it to the existing <label>.
+    id: $container.querySelector('label').htmlFor,
     source: this.selectOptionLabels,
-    showNoOptionsFound: false,
-    onConfirm: boundAutoCompleteOnConfirm
+    showNoOptionsFound: true,
+    onConfirm: boundAutoCompleteOnConfirm,
   })
 }
 
 MultiSelect.prototype.initiallySelected = function () {
-  debugger
   const inputString = this.$input.value
   this.currentlySelected = this.getSelectionsFromString(inputString)
 }
@@ -174,15 +196,23 @@ MultiSelect.prototype.setUpTypeAhead = function () {
   this.$module.append(this.$typeAheadContainer)
 
   this.initAccessibleAutocomplete(this.$typeAheadContainer)
+  this.$typeAheadInput = this.$typeAheadContainer.querySelector('.autocomplete__input')
 }
 
 // this keeps the hidden input updated
+// ... existing code ...
 MultiSelect.prototype.updateInput = function () {
-  this.$input.value = this.currentlySelected.join(this.options.separator)
+  if (this.currentlySelected.length === 0) {
+    this.$input.value = ''
+  } else {
+    // Join all selected values with the separator
+    this.$input.value = this.currentlySelected.join(this.options.separator)
+  }
 }
 
+// ... rest of existing code ...
+
 MultiSelect.prototype.updatePanelContent = function () {
-  console.log('update panel content')
   // if no items selected then show no selection msg
   if (this.currentlySelected.length > 0) {
     this.$selectedPanel.classList.remove('multi-select__select-panel--none')
@@ -197,9 +227,16 @@ MultiSelect.prototype.setupOptions = function (params) {
   params = params || {}
   this.options = {}
   this.options.separator = params.separator || ';'
-  this.options.nameOfThingSelecting = params.nameOfThingSelecting || 'organistions'
+  this.options.nameOfThingSelecting = params.nameOfThingSelecting || 'tags'
   this.options.hiddenClass = params.hiddenClass || 'app-hidden'
   this.options.emptyInputOnConfirm = params.emptyInputOnConfirm || true
+  this.options.selectedClass = params.selectedClass || 'multi-select__item-label'
+}
+
+// Add a helper method to check if a string is a UUID
+MultiSelect.prototype.isUUID = function (str) {
+  const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  return uuidPattern.test(str)
 }
 
 export default MultiSelect
