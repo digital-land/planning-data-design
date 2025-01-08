@@ -27,7 +27,7 @@ def add():
     action_url = url_for("tags.add")
     action_text = "Add tag"
     if form.validate_on_submit():
-        tag = Tag(name=form.name.data)
+        tag = Tag(name=form.name.data.lower())
         db.session.add(tag)
         db.session.commit()
         return redirect(url_for("tags.index"))
@@ -46,7 +46,7 @@ def edit_tag(tag_id):
     action_url = url_for("tags.edit_tag", tag_id=tag_id)
     action_text = "Edit tag"
     if form.validate_on_submit():
-        tag.name = form.name.data
+        tag.name = form.name.data.lower()
         db.session.add(tag)
         db.session.commit()
         return redirect(url_for("tags.index"))
@@ -128,7 +128,7 @@ def remove_tag(consideration, tag_id):
 @login_required
 def ajax_add_tag():
     data = request.json
-    name = data["name"].strip().title()
+    name = data["name"].strip().lower()
     tag = Tag.query.filter(Tag.name == name).one_or_none()
     if tag is None:
         tag = Tag(name=name)
