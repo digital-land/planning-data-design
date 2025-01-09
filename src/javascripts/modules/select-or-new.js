@@ -35,22 +35,22 @@ SelectOrNew.prototype.init = function (params) {
 }
 
 SelectOrNew.prototype.autoCompleteOnConfirm = function (e) {
-  const inputValue = this.$typeAheadInput.value
+  const inputValue = this.$typeAheadInput.value.trim()
   this.lastInputValue = inputValue
-  // const $input = this.$autocompleteContainer.querySelector('.autocomplete__wrapper input')
+
+  if (inputValue === '') {
+    return
+  }
+
   // when user clicks on option e is set to value
   if (this.selectOptionList.includes(e) || this.selectOptionList.includes(inputValue)) {
     // value exists so set select to this option
-    console.log('existing value')
     const optLabel = e || inputValue
     const selectedOption = this.getSelectedOption(optLabel)
     this.selectOption(selectedOption[0][1])
   } else {
-    if (inputValue !== '') {
-      //this.newRecordName = this.$typeAheadInput.value
-      console.log(this.lastInputValue)
-      this.showRequestAction(this.lastInputValue)
-    }
+    // Handle non-matching input value - same flow as blur
+    this.showRequestAction(inputValue)
   }
 }
 
@@ -159,6 +159,24 @@ SelectOrNew.prototype.setUpTypeAhead = function () {
   this.$selectContainer.insertBefore(this.$typeAheadContainer, this.$actionPanel)
 
   this.initAccessibleAutocomplete()
+
+  // Handle enter key to show confirmation flow for new tags
+  this.$typeAheadInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      const inputValue = this.$typeAheadInput.value.trim()
+
+      if (inputValue === '') {
+        return
+      }
+
+      if (!this.selectOptionList.includes(inputValue)) {
+        // Show the confirmation panel for new tags
+        this.lastInputValue = inputValue
+        this.showRequestAction(inputValue)
+      }
+    }
+  })
 }
 
 SelectOrNew.prototype.showRequestAction = function (val) {
