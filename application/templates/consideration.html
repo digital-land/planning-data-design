@@ -305,7 +305,7 @@
                     {% if dataset['dataset_editor_url'] %}<p><a href="{{ dataset['dataset_editor_url'] }}" class="govuk-link">Manage dataset in planning dataset editor</a></p>{% endif %}
                   </section>
                   <footer class="app-dataset-card__foot">
-                    <a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this dataset?');">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>
+                    {% if not config.AUTHENTICATION_ON or session["user"] %}<a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this dataset?');">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>{% endif %}
                   </footer>
                 </div>
               {% endfor %}
@@ -388,7 +388,9 @@
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
   <section id="notes">
     <h2 class="govuk-heading-l">{{ notes | length }} note{{ "" if notes|length == 1 else "s" }}</h2>
-    <a href="{{ url_for('planning_consideration.add_note', slug=consideration.slug)}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add note</a>
+    {% if not config.AUTHENTICATION_ON or session["user"] %}
+      <a href="{{ url_for('planning_consideration.add_note', slug=consideration.slug)}}" class="govuk-button govuk-button--secondary"><i class="app-icon">+</i>Add note</a>
+    {% endif %}
     <ul class="govuk-list govuk-list--spaced">
       {% for note in notes %}
           <li>
@@ -399,10 +401,12 @@
               <span class="govuk-!-font-size-14">
                 <a href="{{ url_for('planning_consideration.edit_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link" >Edit<span class="govuk-visually-hidden"> note</span></a>
               </span>
-              <span class="govuk-!-font-size-14">
-                <a href="{{ url_for('planning_consideration.delete_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link
-                app-destructive-link" onclick="return confirm('Are you sure you want to remove this note?');">Remove<span class="govuk-visually-hidden"> note</span></a>
-              </span>
+              {% if not config.AUTHENTICATION_ON or session["user"] %}
+                <span class="govuk-!-font-size-14">
+                  <a href="{{ url_for('planning_consideration.delete_note', slug=consideration.slug, note_id=note.id )}}" class="govuk-link
+                  app-destructive-link" onclick="return confirm('Are you sure you want to remove this note?');">Remove<span class="govuk-visually-hidden"> note</span></a>
+                </span>
+              {% endif %}
             </div>
             {% endif %}
           </li>
