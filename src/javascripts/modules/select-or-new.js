@@ -15,15 +15,13 @@ SelectOrNew.prototype.init = function (params) {
   this.$selectFormGroup = this.$selectContainer.querySelector('.govuk-form-group')
   this.$select = document.getElementById(this.selectId)
   this.$label = this.$selectFormGroup.querySelector('label')
+  this.$form = this.$selectContainer.closest('form')
 
   this.typeAheadId = this.selectId + '-typeAhead'
-  //this.selectOptionList = this.getSelectOptions()
   this.getSelectOptions()
-  //this.currentOptions = this.orginalOptions
   this.$actionPanelTemplate = document.getElementById(this.templateId)
 
   this.newRecordName = ''
-  // gets updated when user confirm or blur has happened
   this.lastInputValue = ''
 
   // hide original select group
@@ -32,6 +30,15 @@ SelectOrNew.prototype.init = function (params) {
   // insert action panel first so that can use insertBefore for typeahead
   this.$actionPanel = this.setUpActionPanel()
   this.setUpTypeAhead()
+
+  // Prevent form submission when confirmation panel is shown
+  if (this.$form) {
+    this.$form.addEventListener('submit', (e) => {
+      if (this.$actionPanel.classList.contains('new-tag__mode--request')) {
+        e.preventDefault()
+      }
+    })
+  }
 }
 
 SelectOrNew.prototype.autoCompleteOnConfirm = function (e) {
@@ -160,12 +167,25 @@ SelectOrNew.prototype.setUpTypeAhead = function () {
 
   this.initAccessibleAutocomplete()
 
-  // Handle enter key to show confirmation flow for new tags
-  this.$typeAheadInput.addEventListener('keydown', (e) => {
+  // Handle enter key for input, confirmation panel, and form submission
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      const inputValue = this.$typeAheadInput.value.trim()
 
+      // If confirmation panel is showing, handle "Yes, add it" action
+      if (this.$actionPanel.classList.contains('new-tag__mode--request')) {
+        this.onConfirmRequest(e)
+        return
+      }
+
+      // If result panel is showing, submit the form
+      if (this.$actionPanel.classList.contains('new-tag__mode--result')) {
+        this.$form.submit()
+        return
+      }
+
+      // Otherwise handle the input value
+      const inputValue = this.$typeAheadInput.value.trim()
       if (inputValue === '') {
         return
       }
