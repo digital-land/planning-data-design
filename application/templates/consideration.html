@@ -152,7 +152,9 @@
             {%- else -%}
             <span class="app-missing-item">
               <p class="govuk-!-margin-bottom-0">No discussion started</p>
-              <p class="govuk-!-font-size-16"><a href="{{ discussion_link }}" class="govuk-link">Create one now</a></p>
+              {% if not config.AUTHENTICATION_ON or session["user"] %}
+                <p class="govuk-!-font-size-16"><a href="{{ discussion_link }}" class="govuk-link">Create one now</a></p>
+              {% endif %}
             </span>
             {% endif -%}
           </dd>
@@ -172,7 +174,7 @@
               <a href="{{ consideration.legislation['link_url'] }}" class="govuk-link">{{ consideration.legislation['link_text'] }}</a>
               {% else %}
               <p>{{ consideration.legislation['link_text'] }}</p>
-              <span class="app-missing-item">No url recorded</span>
+                <span class="app-missing-item">No url recorded</span>
               {% endif %}
             {% endif %}
           </dd>
