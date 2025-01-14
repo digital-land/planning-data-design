@@ -201,7 +201,7 @@
     // Get reference to the form
     const $form = $selectContainer.closest('form');
 
-    // Handle enter key for input, confirmation panel, and form submission
+    // Handle enter key for confirmation panel and form submission
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -217,36 +217,6 @@
           $form.submit();
           return;
         }
-
-        // Otherwise handle the input value
-        const inputValue = multiSelectModule.$typeaheadInput.value.trim();
-        if (inputValue === '') {
-          return;
-        }
-
-        const matchingOption = multiSelectModule.selectOptions.find(opt => opt.text === inputValue);
-        if (matchingOption) {
-          multiSelectModule.addTag(matchingOption);
-        } else {
-          // Show confirmation panel for new tags
-          multiSelectModule.showNewTagConfirmation(inputValue);
-        }
-      }
-    });
-
-    // Handle blur events
-    multiSelectModule.$typeaheadInput.addEventListener('blur', () => {
-      const inputValue = multiSelectModule.$typeaheadInput.value.trim();
-      if (inputValue === '') {
-        return;
-      }
-
-      const matchingOption = multiSelectModule.selectOptions.find(opt => opt.text === inputValue);
-      if (matchingOption) {
-        multiSelectModule.addTag(matchingOption);
-      } else {
-        // Show confirmation panel for new tags
-        multiSelectModule.showNewTagConfirmation(inputValue);
       }
     });
 
