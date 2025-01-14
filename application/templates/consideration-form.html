@@ -93,14 +93,23 @@
         {% endif %}
       </div>
 
-      <div class="app-tags-select" data-module="select-or-new">
+      <div class="app-tags-select" data-module="multi-select-or-new">
         <div class="govuk-form-group" id="new-tag-form-group">
           {{ form.tags.label(class='govuk-label') }}
-          <select class="govuk-select" id="tags" name="tags">
+          <div class="govuk-form-group">
+            <div id="tag-typeahead-container"></div>
+          </div>
+          <select class="govuk-select govuk-visually-hidden" id="tags" name="tags" aria-hidden="true">
             {% for value, label in form.tags.choices %}
               <option value="{{ value }}">{{ label }}</option>
             {% endfor %}
           </select>
+          <div id="selected-tags" class="govuk-!-margin-top-2">
+            <input type="hidden" name="selected-tags" id="selected-tags-input" value="{% if consideration and consideration.tags %}{{ consideration.tags|map(attribute='id')|join(',') }}{% endif %}">
+            <div class="app-selected-tags govuk-!-margin-top-2">
+              <!-- Selected tags will appear here -->
+            </div>
+          </div>
         </div>
       </div>
 
@@ -141,12 +150,25 @@
 {% block pageScripts %}
   <script src="{{ assetPath | default('/static') }}/javascripts/vendor/accessible-autocomplete.min.js"></script>
   <script>
-    const $selectContainer = document.querySelector('[data-module="select-or-new"]')
-    const selectModule = new dptp.SelectOrNew(
-      $selectContainer,
-      'tags',
-      "action-panel-template",
-      "tags-form-group"
-    ).init({new_backend_endpoint: '/admin/tags/add-ajax'})
+    const $selectContainer = document.querySelector('[data-module="multi-select-or-new"]');
+
+    // Initialize with existing tags if in edit mode
+    const initialTags = [
+      {% if consideration and consideration.tags %}
+        {% for tag in consideration.tags %}
+          {
+            text: "{{ tag.name }}",
+            value: "{{ tag.id }}"
+          }{% if not loop.last %},{% endif %}
+        {% endfor %}
+      {% endif %}
+    ];
+
+    const multiSelectModule = new dptp.MultiSelectOrNew($selectContainer)
+      .init({
+        actionPanelTemplateId: 'action-panel-template',
+        newTagEndpoint: '/admin/tags/add-ajax',
+        initialTags: initialTags
+      });
   </script>
 {% endblock pageScripts %}

@@ -423,11 +423,13 @@ def edit(slug):
 
         # Update tags
         consideration.tags = []
-        tag_id = form.tags.data
-        if tag_id:
-            tag = Tag.query.get(tag_id)
-            if tag is not None:
-                consideration.tags.append(tag)
+        selected_tags = request.form.getlist("selected-tags")
+        if selected_tags:
+            for tag_id in selected_tags[0].split(","):
+                if tag_id:
+                    tag = Tag.query.get(tag_id)
+                    if tag is not None:
+                        consideration.tags.append(tag)
 
         db.session.add(consideration)
         db.session.commit()
