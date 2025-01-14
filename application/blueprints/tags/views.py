@@ -27,7 +27,10 @@ def add():
     action_url = url_for("tags.add")
     action_text = "Add tag"
     if form.validate_on_submit():
-        tag = Tag(name=form.name.data.lower())
+        # Sanitize the tag name:
+        name = form.name.data.lower().strip()
+        name = " ".join(name.split())
+        tag = Tag(name=name)
         db.session.add(tag)
         db.session.commit()
         return redirect(url_for("tags.index"))
@@ -127,12 +130,33 @@ def remove_tag(consideration, tag_id):
 @tags.route("/tags/add-ajax", methods=["POST"])
 @login_required
 def ajax_add_tag():
-    data = request.json
-    name = data["name"].strip().lower()
-    tag = Tag.query.filter(Tag.name == name).one_or_none()
-    if tag is None:
-        tag = Tag(name=name)
-        db.session.add(tag)
-        db.session.commit()
-    result = {"status": "success", "tag": tag.to_dict()}
-    return jsonify(result)
+    if not request.is_json:
+        return (
+            jsonify(
+                {"status": "error", "message": "Content-Type must be application/json"}
+            ),
+            400,
+        )
+
+    try:
+        data = request.get_json()
+        if not data or "name" not in data:
+            return (
+                jsonify({"status": "error", "message": "Missing name parameter"}),
+                400,
+            )
+
+        # Sanitize the tag name:
+        name = data["name"].lower().strip()
+        name = " ".join(name.split())
+
+        tag = Tag.query.filter(Tag.name == name).one_or_none()
+        if tag is None:
+            tag = Tag(name=name)
+            db.session.add(tag)
+            db.session.commit()
+
+        result = {"status": "success", "tag": tag.to_dict()}
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
