@@ -30,4 +30,4 @@ class TagForm(FlaskForm):
 
 
 class AddTagForm(FlaskForm):
-    new_tag = SelectField("New tag", validators=[DataRequired()])
+    tags = SelectField("New tag", validators=[DataRequired()])

@@ -93,23 +93,16 @@
         {% endif %}
       </div>
 
-    <div class="app-tags-select" data-module="multi-select">
-
-      <div class="govuk-form-group" data-multi-select="form-group">
-
+      <div class="app-tags-select" data-module="select-or-new">
+        <div class="govuk-form-group" id="new-tag-form-group">
           {{ form.tags.label(class='govuk-label') }}
-          {{ form.tags(class='govuk-input') }}
-
+          <select class="govuk-select" id="tags" name="tags">
+            {% for value, label in form.tags.choices %}
+              <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
       </div>
-      <div class="app-hidden">
-        <select name="tag_select" id="tag_select" data-multi-select="select">
-          {% for tag in form.tags.choices %}
-            <option value="{{ tag[0] }}">{{ tag[1] }}</option>
-          {% endfor %}
-        </select>
-      </div>
-
-    </div>
 
       {{ radioComponent({
         "field": form.public,
@@ -131,13 +124,29 @@
   </div>
 </div>
 
+<template id="action-panel-template">
+  <div class="new-tag app-action-panel">
+    <div data-new-tag="request">
+      <p class="govuk-body"><span data-new-tag="name">Placeholder</span> isn't in the current list of tags. Do you want to add it?</p>
+      <button>Yes, add it</button>
+    </div>
+    <div data-new-tag="result">
+      <p class="govuk-body"><span data-new-tag="name">Placeholder</span> has been added to the tag list.</p>
+    </div>
+  </div>
+</template>
+
 {% endblock content %}
 
 {% block pageScripts %}
   <script src="{{ assetPath | default('/static') }}/javascripts/vendor/accessible-autocomplete.min.js"></script>
   <script>
-    const $multiSelectModule = document.querySelector('[data-module="multi-select"]')
-    const multiSelectModule = new dptp.MultiSelect($multiSelectModule).init({ selectedClass: 'govuk-tag' })
-    console.log(multiSelectModule)
+    const $selectContainer = document.querySelector('[data-module="select-or-new"]')
+    const selectModule = new dptp.SelectOrNew(
+      $selectContainer,
+      'tags',
+      "action-panel-template",
+      "tags-form-group"
+    ).init({new_backend_endpoint: '/admin/tags/add-ajax'})
   </script>
 {% endblock pageScripts %}

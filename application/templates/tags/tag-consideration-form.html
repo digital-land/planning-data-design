@@ -61,13 +61,13 @@
 
         <div data-module="select-or-new">
           <div class="govuk-form-group" id="new-tag-form-group">
-            {{ form.new_tag.label(class='govuk-label') }}
-            {{ form.new_tag(class='govuk-select') }}
+            {{ form.tags.label(class='govuk-label') }}
+            {{ form.tags(class='govuk-select') }}
           </div>
         </div>
 
         <div class="govuk-form-group" data-module="flexible-select">
-          {{ form.new_tag(class='govuk-input') }}
+          {{ form.tags(class='govuk-input') }}
         </div>
 
         <div class="govuk-button-group">
@@ -103,9 +103,9 @@
     const $selectContainer = document.querySelector('[data-module="select-or-new"]')
     const selectModule = new dptp.SelectOrNew(
       $selectContainer,
-      'new_tag',
+      'tags',
       "action-panel-template",
-      "new-tag-form-group"
+      "tags-form-group"
     ).init({new_backend_endpoint: '/admin/tags/add-ajax'})
   </script>
   {% endblock %}

@@ -80,12 +80,12 @@ def add_tag_consideration(consideration):
         abort(404)
 
     form = AddTagForm()
-    form.new_tag.choices = [
+    form.tags.choices = [
         (tag.id, tag.name) for tag in Tag.query.order_by(Tag.name).all()
     ]
 
     if form.validate_on_submit():
-        tag_id = form.new_tag.data
+        tag_id = form.tags.data
         if tag_id:
             tag = Tag.query.get(tag_id)
             if tag not in consideration.tags:

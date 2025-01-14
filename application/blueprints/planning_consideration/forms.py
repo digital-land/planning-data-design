@@ -5,6 +5,7 @@ from slugify import slugify
 from wtforms import (
     IntegerField,
     RadioField,
+    SelectField,
     StringField,
     TextAreaField,
     URLField,
@@ -134,7 +135,7 @@ class ConsiderationForm(FlaskForm):
         choices=[("True", "Public"), ("False", "Private")],
         default="True",
     )
-    tags = StringField("Tags", validators=[Optional()])
+    tags = SelectField("Tags", validators=[Optional()])
 
 
 class NoteForm(FlaskForm):
