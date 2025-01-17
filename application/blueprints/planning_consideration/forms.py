@@ -5,6 +5,7 @@ from slugify import slugify
 from wtforms import (
     IntegerField,
     RadioField,
+    SelectField,
     StringField,
     TextAreaField,
     URLField,
@@ -92,34 +93,33 @@ class SynonymForm(FlaskForm):
 
 
 def unique_name_validator(form, name):
+    from flask import request
+
     from application.models import Consideration
 
     slug = slugify(name.data)
     consideration = Consideration.query.filter_by(slug=slug).one_or_none()
-    if consideration is not None:
-        if all(
-            [
-                form[p].data
-                == (
-                    str(getattr(consideration, p))
-                    if p == "public"
-                    else getattr(consideration, p)
-                )
-                for p in ["github_discussion_number", "public", "description"]
-            ]
-        ):
-            url = url_for("planning_consideration.consideration", slug=slug)
-            message = Markup(
-                (
-                    f"The planning consideration might have been archived. "
-                    f"Go to existing consideration <a href='{url}'>{consideration.name}</a> "
-                    "and change the stage to bring it back."
-                )
-            )
-            flash(message)
-            raise ValidationError(
-                f"The consideration '{consideration.name}' already exists."
-            )
+
+    # If no consideration exists with this slug, it's valid
+    if consideration is None:
+        return
+
+    # If we're editing (URL has a slug) and it's the same consideration, it's valid
+    current_slug = request.view_args.get("slug")
+    if current_slug and current_slug == consideration.slug:
+        return
+
+    # Otherwise, it's a duplicate name
+    url = url_for("planning_consideration.consideration", slug=consideration.slug)
+    message = Markup(
+        (
+            f"The planning consideration might have been archived. "
+            f"Go to existing consideration <a href='{url}'>{consideration.name}</a> "
+            "and change the stage to bring it back."
+        )
+    )
+    flash(message)
+    raise ValidationError(f"The consideration '{consideration.name}' already exists.")
 
 
 class ConsiderationForm(FlaskForm):
@@ -134,7 +134,7 @@ class ConsiderationForm(FlaskForm):
         choices=[("True", "Public"), ("False", "Private")],
         default="True",
     )
-    tags = StringField("Tags", validators=[Optional()])
+    tags = SelectField("Tags", validators=[Optional()])
 
 
 class NoteForm(FlaskForm):

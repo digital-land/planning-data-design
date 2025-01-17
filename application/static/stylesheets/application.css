@@ -11467,4 +11467,26 @@ p + .govuk-heading-s,
   width: 100%;
 }
 
+.app-tag-remove {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 0.5em;
+  padding: 0 0.25em;
+}
+.app-tag-remove:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.app-selected-tags {
+  min-height: 2rem;
+}
+
+.govuk-tag {
+  display: inline-flex;
+  align-items: center;
+}
+
 /*# sourceMappingURL=application.css.map */

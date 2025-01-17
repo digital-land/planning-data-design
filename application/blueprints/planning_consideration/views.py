@@ -377,19 +377,19 @@ def consideration(slug):
 def new():
     form = ConsiderationForm()
 
-    form.tags.choices = [(" ", " ")] + [
-        (tag.id, tag.name) for tag in Tag.query.order_by(Tag.name).all()
+    # Set up tag choices
+    form.tags.choices = [
+        (str(tag.id), tag.name) for tag in Tag.query.order_by(Tag.name).all()
     ]
 
     if form.validate_on_submit():
         attributes = ["name", "github_discussion_number", "description", "public"]
         consideration = _create_or_update_consideration(form, attributes, is_new=True)
-        tag_choices = form.tags.data.split(",")
-        if tag_choices and any(tag_choice.strip() for tag_choice in tag_choices):
-            for tag_id in tag_choices:
-                tag = Tag.query.get(tag_id)
-                if tag is not None:
-                    consideration.tags.append(tag)
+        tag_id = form.tags.data
+        if tag_id:
+            tag = Tag.query.get(tag_id)
+            if tag is not None:
+                consideration.tags.append(tag)
         db.session.add(consideration)
         db.session.commit()
         return redirect(
@@ -405,11 +405,32 @@ def edit(slug):
     consideration = Consideration.query.filter(Consideration.slug == slug).one_or_404()
     form = ConsiderationForm(obj=consideration)
 
+    # Set up tag choices
+    form.tags.choices = [
+        (str(tag.id), tag.name) for tag in Tag.query.order_by(Tag.name).all()
+    ]
+
+    # Set initial tag selection
+    if not form.is_submitted():
+        if consideration.tags:
+            form.tags.data = str(consideration.tags[0].id)
+
     if form.validate_on_submit():
         attributes = ["name", "github_discussion_number", "description", "public"]
         consideration = _create_or_update_consideration(
             form, attributes, consideration=consideration
         )
+
+        # Update tags
+        consideration.tags = []
+        selected_tags = request.form.getlist("selected-tags")
+        if selected_tags:
+            for tag_id in selected_tags[0].split(","):
+                if tag_id:
+                    tag = Tag.query.get(tag_id)
+                    if tag is not None:
+                        consideration.tags.append(tag)
+
         db.session.add(consideration)
         db.session.commit()
         return redirect(url_for("planning_consideration.consideration", slug=slug))
