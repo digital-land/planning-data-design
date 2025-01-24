@@ -27,6 +27,13 @@ def advisory_group():
     return render_template("advisory-group.html")
 
 
+@main.route("/how-to-get-existing-datasets-on-to-planning-data-gov-uk")
+def existing_data_how_to():
+    return render_template(
+        "how-to-get-existing-datasets-on-to-planning-data-gov-uk.html"
+    )
+
+
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
 
