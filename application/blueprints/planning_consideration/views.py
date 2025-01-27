@@ -234,10 +234,6 @@ def considerations():
     else:
         query = Consideration.query
 
-    archived_param = request.args.get("include_archived")
-    if not archived_param:
-        query = query.filter(Consideration.stage != Stage("Archived"))
-
     stage_param = []
     if "stage" in request.args:
         stage_selections = set([])
@@ -251,6 +247,10 @@ def considerations():
         stage_param = stage_selections
         filter_condition = Consideration.stage.in_(stage_selections)
         query = query.filter(filter_condition)
+
+    archived_param = request.args.get("include_archived")
+    if not archived_param and Stage.ARCHIVED not in stage_param:
+        query = query.filter(Consideration.stage != Stage("Archived"))
 
     legislation_param = request.args.get("legislation")
     if legislation_param:
