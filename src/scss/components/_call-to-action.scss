@@ -1,0 +1,22 @@
+// replace with official colour
+$panel-colour: #f3f2f1;
+$govuk-gutter-one-third: ($govuk-gutter / 3);
+$govuk-gutter-two-thirds: 2 * ($govuk-gutter / 3);
+
+.app-call-to-action {
+  margin: 2em 0;
+  background: $panel-colour none no-repeat 98% $govuk-gutter-two-thirds;
+  padding: 2em;
+  position: relative;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  ol {
+    @include govuk-media-query($from: desktop) {
+      list-style-position: outside;
+    }
+  }
+}
