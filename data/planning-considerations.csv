@@ -49,6 +49,7 @@ National forest inventory,"All forest and woodland area over 0.5 hectare with a 
 We should reach out to the Forestry Commission to see if they can add one.
 [See github discussion for more details](https://design.planning.data.gov.uk/planning-consideration/air-quality-management-areas/screen/).",
 Mine entry,The entrances into a mine,,,Archived,True,,,False,,,,,mine-entry,,
+Certificate of immunity,A guarantee that a building or buildings will not be newly listed or given a building preservation notice for the next 5 years,,93,Research,True,,Fortnightly,False,https://github.com/digital-land/specification/blob/main/content/dataset/certificate-of-immunity.md?plain=1,,"[{'link_url': 'https://historicengland.org.uk/listing/protect-historic-places/building-preservation-notices-and-certificates-of-immunity/#COIs', 'link_text': 'Guidance on applying to Historic England'}]",https://www.legislation.gov.uk/ukpga/1990/9/contents,certificate-of-immunity,,
 Species data,Curated database of UK wildlife taxonomy ,,,Archived,True,,,False,,,,,species-data,,
 Local air quality action plan,Plan that outlines local action to improve air quality,,200,Backlog,True,,,False,,,,https://www.legislation.gov.uk/ukpga/1995/25/contents,local-air-quality-action-plan,,
 Price paid data,Information on all property sales in England and Wales that are sold for value,,,Archived,True,,,False,,,"[{'link_url': 'https://www.gov.uk/government/collections/uk-house-price-index-reports#about-the-uk-hpi', 'link_text': 'National dataset documentation page'}]",,price-paid-data,,
@@ -98,7 +99,6 @@ Greater london archaeological priority areas,Areas of Greater London where there
 Canals,Human-made waterways that allow boats and ships to pass from one body of water to another,Watercourses,125,Backlog,True,,,False,,,,,canals,,
 Coal authority mine water treatment schemes,Locations where mine water is treated to improve water quality in polluted rivers,,126,Backlog,True,,,False,,,,,coal-authority-mine-water-treatment-schemes,,
 Existing railway network,The existing railway network.,,160,Backlog,True,,,False,,,,,existing-railway-network,,
-Minerals and waste plan,Locations for future minerals extraction (such as sand and gravel pits or crushed rock quarries) and for the development of waste management facilities (such as recycling centres),,212,Backlog,True,,,False,,,,,minerals-and-waste-plan,,
 National chargepoint register,Database of public electric vehicle chargepoints  in the UK,,214,Backlog,True,,,False,,,,,national-chargepoint-register,,
 National cycle network,"The UK-wide network of signed paths and routes for walking, wheeling, and cycling outdoors",,215,Backlog,True,,,False,,,,,national-cycle-network,,
 Local Environment Record Centre boundaries,Local Environmental Records Centre (LERC) areas,LERC,,Backlog,True,,,False,,,,,local-environment-record-centre-boundaries,,
@@ -118,6 +118,7 @@ Nuclear consultation zone,Consultation zones to limit the radiological consequen
 Nuclear power stations,Power plants that use the process of nuclear fission to generate electricity,,222,Backlog,True,,,False,,,,,nuclear-power-stations,,
 Explosive and ordnance storage,,,,Archived,True,,,False,,,"[{'link_url': 'https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit#heading=h.lb9do641w06g', 'link_text': 'Fact sheet url'}]",,explosive-and-ordnance-storage,,
 Planning application consultations,The period of consultation where views on the proposed development can be communicated,,225,Backlog,True,,,False,,,,,planning-application-consultations,,
+Minerals and waste plan,Locations for future minerals extraction (such as sand and gravel pits or crushed rock quarries) and for the development of waste management facilities (such as recycling centres),,212,Research,True,,,False,,,,,minerals-and-waste-plan,,
 Coalfield,A coal mining area that could contain unrecorded hazards,,128,Backlog,True,,,False,,,,,coalfield,,
 Coalfield consultation area,Areas where the Coal Authority recommends a mining search report is required for property conveyancing or development,,129,Backlog,True,,,False,,,,,coalfield-consultation-area,,
 Coastal storm surge flood risk areas,A storm surge is a change in sea level that is caused by a storm. They can lead to extensive flooding and are dangerous for people living in many coastal areas.,,131,Backlog,True,,,False,,,,,coastal-storm-surge-flood-risk-areas,,
@@ -349,7 +350,6 @@ Energy performance certificates,"Certificates that contain:
 - information about a property’s energy use and typical energy costs
 - recommendations about how to reduce energy use and save money
 - an energy efficiency rating from A (most efficient) to G (least efficient), valid for 10 years",EPC,155,Backlog,True,,,False,,,,,energy-performance-certificates,,
-Certificate of immunity,A guarantee that a building or buildings will not be newly listed or given a building preservation notice for the next 5 years,,93,Research,True,,Fortnightly,False,https://github.com/digital-land/specification/blob/main/content/dataset/certificate-of-immunity.md?plain=1,,,https://www.legislation.gov.uk/ukpga/1990/9/contents,certificate-of-immunity,,
 Enterprise zone,Areas where commercial and industrial businesses can get incentives to set up or expand,,157,Backlog,True,,,False,,,,,enterprise-zone,,
 Environmental outcome reports,"A system of assessing environmental impacts from development, plans, projects and policies",,158,Backlog,True,,,False,,,,,environmental-outcome-reports,,
 Special educational needs and disabilities (send),"Special educational needs and disabilities (SEND) can affect a child or young person’s ability to learn. Mainstream schools must provide access to services and extra support for SEND pupils, and there are also SEND-specific schools",,257,Backlog,True,,,False,,,,,special-educational-needs-and-disabilities,,
