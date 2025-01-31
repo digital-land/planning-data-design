@@ -32,6 +32,17 @@
 {%- from 'govuk_frontend_jinja/components/warning-text/macro.html' import govukWarningText -%}
 {%- from "digital-land-frontend/components/sub-nav-tabs/macro.jinja" import dlSubNavTabs %}
 
+{% block headEnd %}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FP5XLLSXXS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FP5XLLSXXS');
+  </script>
+{% endblock %}
+
 {% block stylesheets %}
   <link rel="stylesheet" href="/static/stylesheets/application.css">
   <link rel="stylesheet" href="/static/stylesheets/vendor/accessible-autocomplete.css">
@@ -157,15 +168,6 @@
 {%- endblock %}
 
 {% block pageScripts %}
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FP5XLLSXXS"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-FP5XLLSXXS');
-  </script>
 {% endblock %}
 
 {% block footer %}
