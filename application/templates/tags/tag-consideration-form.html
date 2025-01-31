@@ -95,17 +95,18 @@
 
 
   {% block pageScripts %}
-  <script src="{{ assetPath | default('/static') }}/javascripts/vendor/accessible-autocomplete.min.js"></script>
-  <script>
-    // const $multiSelectModule = document.querySelector('[data-module="multi-select"]')
-    // const multiSelectModule = new dptp.MultiSelect($multiSelectModule).init({ selectedClass: 'govuk-tag' })
+    {{ super() }}
+    <script src="{{ assetPath | default('/static') }}/javascripts/vendor/accessible-autocomplete.min.js"></script>
+    <script>
+      // const $multiSelectModule = document.querySelector('[data-module="multi-select"]')
+      // const multiSelectModule = new dptp.MultiSelect($multiSelectModule).init({ selectedClass: 'govuk-tag' })
 
-    const $selectContainer = document.querySelector('[data-module="select-or-new"]')
-    const selectModule = new dptp.SelectOrNew(
-      $selectContainer,
-      'tags',
-      "action-panel-template",
-      "tags-form-group"
-    ).init({new_backend_endpoint: '/admin/tags/add-ajax'})
-  </script>
+      const $selectContainer = document.querySelector('[data-module="select-or-new"]')
+      const selectModule = new dptp.SelectOrNew(
+        $selectContainer,
+        'tags',
+        "action-panel-template",
+        "tags-form-group"
+      ).init({new_backend_endpoint: '/admin/tags/add-ajax'})
+    </script>
   {% endblock %}

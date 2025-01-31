@@ -190,6 +190,7 @@
 {% endblock content %}
 
 {% block pageScripts %}
+{{ super() }}
 <script>
   // initialise list filter
   const $form = document.querySelector('[data-filter="form"]');
