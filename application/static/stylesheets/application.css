@@ -10328,6 +10328,22 @@ p + .govuk-heading-s,
   }
 }
 
+.app-call-to-action {
+  margin: 2em 0;
+  background: #f3f2f1 none no-repeat 98% 20px;
+  padding: 2em;
+  position: relative;
+}
+.app-call-to-action p {
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 48.0625em) {
+  .app-call-to-action ol {
+    list-style-position: outside;
+  }
+}
+
 .app-content-list__list {
   list-style-type: none;
   margin: 0;

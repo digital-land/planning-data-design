@@ -1,6 +1,6 @@
 /* global accessibleAutocomplete */
 
-import utils from '../utils'
+import utils from './utils'
 
 function MultiSelectOrNew($module) {
   this.$module = $module

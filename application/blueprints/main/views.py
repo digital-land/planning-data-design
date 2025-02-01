@@ -12,6 +12,11 @@ def index():
     return render_template("index.html")
 
 
+@main.route("/cookies")
+def cookies():
+    return render_template("cookies.html")
+
+
 @main.route("/data-design-process")
 def data_design_process():
     return render_template("data-design-process.html")

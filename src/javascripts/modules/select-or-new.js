@@ -1,6 +1,6 @@
 /* global accessibleAutocomplete */
 
-import utils from '../utils'
+import utils from './utils'
 
 function SelectOrNew ($selectContainer, selectId, templateId) {
   this.$selectContainer = $selectContainer

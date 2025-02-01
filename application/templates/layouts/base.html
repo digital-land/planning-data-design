@@ -50,6 +50,10 @@
   {% block pageStylesheets %}{% endblock pageStylesheets %}
 {% endblock %}
 
+{% block cookieBanner %}
+  {% include 'partials/cookie-banner.html' %}
+{% endblock %}
+
 {% block mastHead %}
 <header class="govuk-header dl-header app-header" role="banner" data-module="govuk-header">
   <div class="govuk-header__container govuk-width-container">
@@ -176,16 +180,23 @@
   <div class="govuk-width-container">
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-        {% if config.AUTHENTICATION_ON and session["user"] %}
+
           <h2 class="govuk-visually-hidden">Admin links</h2>
           <ul class="govuk-footer__inline-list">
             <li class="govuk-footer__inline-list-item">
-              <a class="govuk-footer__link" href="{{ url_for('tags.index') }}">
-                Tags
+              <a class="govuk-footer__link" href="{{ url_for('main.cookies') }}">
+                Cookies
               </a>
             </li>
+            {% if config.AUTHENTICATION_ON and session["user"] %}
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="{{ url_for('tags.index') }}">
+                  Tags
+                </a>
+              </li>
+            {% endif %}
           </ul>
-        {% endif %}
+
         <div class="govuk-footer__meta-custom">
           The <a class="govuk-footer__link" href="https://github.com/digital-land/digital-land/">software</a> and <a class="govuk-footer__link" href="https://github.com/digital-land/digital-land/">data</a> used to build these pages is <a class="govuk-footer__link" href="https://github.com/digital-land/digital-land/blob/master/LICENSE">open source</a>.
         </div>
