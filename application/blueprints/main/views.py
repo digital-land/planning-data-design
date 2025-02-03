@@ -14,7 +14,11 @@ def index():
 
 @main.route("/cookies")
 def cookies():
-    return render_template("cookies.html")
+    # Get the cookie preferences from the request cookies
+    cookies_policy = request.cookies.get(
+        "cookies_policy", '{"essential":true,"usage":false}'
+    )
+    return render_template("cookies.html", cookies_policy=cookies_policy)
 
 
 @main.route("/data-design-process")
