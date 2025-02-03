@@ -827,10 +827,21 @@
   }
 
   function setTrackingCookies() {
-    JSON.parse(getCookie('cookies_policy'));
-    {
+    var cookiesPolicy = JSON.parse(getCookie('cookies_policy'));
+    var doNotTrack = cookiesPolicy == null || !cookiesPolicy.usage;
+    if (doNotTrack) {
       if(window.gaMeasurementId){
         window[`ga-disable-${window.gaMeasurementId}`] = true;
+      }
+    } else {
+      if(window.gaMeasurementId){
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', window.gaMeasurementId);
+        window[`ga-disable-${window.gaMeasurementId}`] = false;
+      } else {
+        console.warn('Google Analytics: No measurement ID specified');
       }
     }
   }
