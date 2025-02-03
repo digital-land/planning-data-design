@@ -32,18 +32,6 @@
 {%- from 'govuk_frontend_jinja/components/warning-text/macro.html' import govukWarningText -%}
 {%- from "digital-land-frontend/components/sub-nav-tabs/macro.jinja" import dlSubNavTabs %}
 
-{% block headEnd %}
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-44YZ3YEF1Q"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-44YZ3YEF1Q');
-    window.gaMeasurementId = 'G-44YZ3YEF1Q';
-  </script>
-{% endblock %}
-
 {% block stylesheets %}
   <link rel="stylesheet" href="/static/stylesheets/application.css">
   <link rel="stylesheet" href="/static/stylesheets/vendor/accessible-autocomplete.css">
@@ -169,7 +157,16 @@
 
 {% block digitalLandScripts -%}
   {{ super() }}
-  <script src="{{ assetPath | default('/static') }}/javascripts/application.js"></script>
+    <script src="{{ assetPath | default('/static') }}/javascripts/application.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-44YZ3YEF1Q"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-44YZ3YEF1Q');
+      window.gaMeasurementId = 'G-44YZ3YEF1Q';
+    </script>
 {%- endblock %}
 
 {% block pageScripts %}
