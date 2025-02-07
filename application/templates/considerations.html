@@ -112,6 +112,10 @@
 
     {% if publishing_orgs_filter %}
       <div class="app-applied-filter__group">
+        {% set args = request.args.to_dict(flat=False) %}
+        {% if 'publishing-organisations' in args %}
+          {% set _ = args.pop('publishing-organisations') %}
+        {% endif %}
         <span class="app-applied-filter__name govuk-!-font-weight-bold">Publishing organisations:</span>
         <span class="app-applied-filter__item">{{ publishing_orgs_filter }}</span>
         <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> organisation filter</span></a></p>
