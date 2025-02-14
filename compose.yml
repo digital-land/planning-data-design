@@ -1,0 +1,40 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5050:5050"
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /code
+    depends_on:
+      - db
+    environment:
+      SECRET_KEY: "replaceinprod"
+      DATABASE_URL: "postgresql://postgres:password@db/planning-data-design"
+  db:
+    image: postgres:16-bullseye
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: planning-data-design
+    expose:
+    - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  migrations:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrations
+    container_name: "migrations"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@db/planning-data-design"
+
+volumes:
+  pgdata:
