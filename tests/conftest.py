@@ -7,7 +7,7 @@ from application.models import Question, QuestionType
 
 @pytest.fixture(scope="session")
 def app():
-    application = create_app("config.TestConfig")
+    application = create_app("application.config.TestConfig")
 
     with application.app_context():
         db.create_all()
