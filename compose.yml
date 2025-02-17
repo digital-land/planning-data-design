@@ -8,11 +8,20 @@ services:
         - action: sync
           path: .
           target: /code
+          ignore:
+            - node_modules/
+            - .git/
+        - action: rebuild
+          path: requirements.txt
+    volumes:
+      - .:/code
     depends_on:
       - db
     environment:
       SECRET_KEY: "replaceinprod"
       DATABASE_URL: "postgresql://postgres:password@db/planning-data-design"
+      FLASK_DEBUG: 1
+      PYTHONDONTWRITEBYTECODE: 1
     networks:
       - app-network
 
@@ -34,8 +43,35 @@ services:
     networks:
       - app-network
 
+  assets:
+    build:
+      context: .
+      dockerfile: Dockerfile.assets
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - SHELL=/bin/bash
+    command: npm run watch
+    depends_on:
+      - web
+
+  # Optional one-time build service
+  assets-build:
+    build:
+      context: .
+      dockerfile: Dockerfile.assets
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: npm run postinstall
+    profiles:
+      - build
+
 volumes:
   pgdata:
+  node_modules: # Persist node_modules to avoid reinstalling on every restart
 
 networks:
   app-network:

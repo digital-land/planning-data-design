@@ -1,0 +1,26 @@
+FROM node:18-slim
+
+# Install rsync
+RUN apt-get update && \
+    apt-get install -y rsync && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Create necessary directories
+RUN mkdir -p src/javascripts \
+    src/scss \
+    application/static/javascripts \
+    application/static/stylesheets
+
+# Set shell environment variable
+ENV SHELL=/bin/bash
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies without running scripts
+RUN npm install --ignore-scripts
+
+# Set default command
+CMD ["npm", "run", "watch"]

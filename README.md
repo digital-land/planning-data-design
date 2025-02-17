@@ -10,27 +10,44 @@ Manage planning considerations through standards process
     node 18
     postgresql
 
-For loading data into db:
+
+## Running the app locally with docker
+
+### First time setup or when you need to rebuild assets
+
+    docker compose run --rm assets-build
+
+### Regular development (starts everything)
+
+    docker compose up
+
+### When you need to restore the database
+
+    docker compose down -v
+    docker compose up
+
+
+## To run the app locally without docker
+
+    createdb dluhc-planning-considerations
+    make init
+
+### Apply db migrations
+    flask db upgrade
+
+
+### For loading data into db you'll need the heroku-cli
 
     heroku-cli
 
 [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli)
 
 
-## Get started
-
-    createdb dluhc-planning-considerations
-    make init
-
-## Apply db migrations
-    flask db upgrade
-
-
-## Load/update consideration data
+### Load/update consideration data
 
     flask consider load-data
 
-## Load/update questions
+### Load/update questions
 
 Questions are [here](application/question_sets.py)
 
@@ -42,12 +59,12 @@ To add/edit a question make changes [here](application/question_sets.py) then ru
 
 Fix any errors then run the load command above
 
-## Run app locally
+### Run app locally
 
     flask run
 
 
-## To test authentication in local development
+### To test authentication in local development
 
 Set the following in DevelopmentConfig
 
