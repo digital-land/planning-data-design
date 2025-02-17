@@ -28,7 +28,7 @@ jobs:
           echo "  password ${{ secrets.HEROKU_OAUTH_TOKEN }}" >> ~/.netrc
 
       - name: Run Heroku pg:backups:download
-        run: heroku pg:backups:download --app dluhc-planning-considerations --output data/latest_backup.dump
+        run: heroku pg:backups:download --app planning-data-design --output data/latest_backup.dump
 
       - name: Set up git
         run: |
