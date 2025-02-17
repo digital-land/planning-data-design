@@ -13,6 +13,9 @@ services:
     environment:
       SECRET_KEY: "replaceinprod"
       DATABASE_URL: "postgresql://postgres:password@db/planning-data-design"
+    networks:
+      - app-network
+
   db:
     image: postgres:16-bullseye
     environment:
@@ -20,21 +23,20 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: planning-data-design
     expose:
-    - "5432"
+      - "5432"
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
-  migrations:
-    build:
-      context: .
-      dockerfile: Dockerfile.migrations
-    container_name: "migrations"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "postgresql://postgres:password@db/planning-data-design"
+      - ./data/latest_backup.dump:/docker-entrypoint-initdb.d/latest_backup.dump:ro
+      - ./restore-init.sh:/docker-entrypoint-initdb.d/restore-init.sh:ro
+    command: ["postgres", "-c", "listen_addresses=*"]
+    networks:
+      - app-network
 
 volumes:
   pgdata:
+
+networks:
+  app-network:
+    driver: bridge
