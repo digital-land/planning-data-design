@@ -63,11 +63,6 @@
             </a>
           </li>
           <li class="govuk-header__navigation-item">
-            <a class="govuk-header__link" href="https://www.planning.data.gov.uk/">
-              Find data
-            </a>
-          </li>
-          <li class="govuk-header__navigation-item">
             {% if not config.AUTHENTICATION_ON or session["user"] %}
             <a class="govuk-header__link" href="{{url_for('auth.logout')}}">
               Sign out
