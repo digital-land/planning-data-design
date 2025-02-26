@@ -116,7 +116,7 @@ def page(page):
     if not os.path.exists(f"application/templates/pages/{page}.md"):
         abort(404)
     path = f"pages/{page}.md"
-    return render_template("pages/scaffold.html", path=path)
+    return render_template("pages/scaffold.html", path=path, page=page)
 
 
 def _flatten_list_of_lists(data):

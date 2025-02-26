@@ -5,7 +5,15 @@ from slugify import slugify
 
 
 def slugify_filter(s):
-    return s.lower().replace(" ", "-").replace(",", "")
+    if not isinstance(s, str):
+        return s
+    return slugify(s)
+
+
+def deslugify_filter(s):
+    if not isinstance(s, str):
+        return s
+    return s.replace("-", " ").capitalize()
 
 
 def map_to_tag_class_filter(s):

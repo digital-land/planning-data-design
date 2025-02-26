@@ -9,7 +9,7 @@
           'href': url_for('main.index')
         },
         {
-          'text': "How to help develop a new dataset"
+          'text': page | deslugify
         }
       ]
     })
@@ -19,7 +19,7 @@
 {% block content %}
 <div class='govuk-grid-row'>
   <div class='govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop'>
-    <h1 class="govuk-heading-xl">How to help develop a new dataset</h1>
+    <h1 class="govuk-heading-xl">{{ page | deslugify }}</h1>
   </div>
 </div>
 
