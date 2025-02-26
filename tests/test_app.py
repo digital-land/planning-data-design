@@ -2,6 +2,12 @@ from flask import url_for
 from playwright.sync_api import expect
 
 
+def test_visit_main_pages(live_server, page):
+    page.goto(url_for("main.index", _external=True))
+    page.get_by_role("link", name="Design process").click()
+    expect(page.locator("h1")).to_contain_text("Data design process")
+
+
 def test_add_and_update_planning_consideration(live_server, page):
     page.goto(url_for("planning_consideration.considerations", _external=True))
     page.get_by_role("link", name="+Add planning consideration").click()
