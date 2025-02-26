@@ -25,9 +25,8 @@
 
 <div class='govuk-grid-row'>
   <div class='govuk-grid-column-two-thirds'>
-    <p class="govuk-body-l">
-
-</p>
+    {%- set page_content -%}{%- include path -%}{%- endset -%}
+    {{ page_content | render_markdown }}
   </div>
 </div>
 {% endblock %}

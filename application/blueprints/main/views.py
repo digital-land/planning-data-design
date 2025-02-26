@@ -1,4 +1,5 @@
 import datetime
+import os
 
 from flask import Blueprint, abort, jsonify, render_template, request
 
@@ -31,21 +32,14 @@ def how_to_contribute():
     return render_template("how-to-contribute.html")
 
 
-@main.route("/how-to-help-develop-a-new-dataset")
-def how_to_help_develop_a_new_dataset():
-    return render_template("how-to-help-develop-a-new-dataset.html")
+# @main.route("/how-to-help-develop-a-new-dataset")
+# def how_to_help_develop_a_new_dataset():
+#     return render_template("how-to-help-develop-a-new-dataset.html")
 
 
 @main.route("/advisory-group")
 def advisory_group():
     return render_template("advisory-group.html")
-
-
-@main.route("/how-to-get-existing-datasets-on-to-planning-data-gov-uk")
-def existing_data_how_to():
-    return render_template(
-        "how-to-get-existing-datasets-on-to-planning-data-gov-uk.html"
-    )
 
 
 @main.route("/what-we-are-working-on")
@@ -115,6 +109,14 @@ def stage_count():
     data["max_active"] = max(active_considerations)
 
     return render_template("stage-count.html", data=data)
+
+
+@main.route("/<string:page>")
+def page(page):
+    if not os.path.exists(f"application/templates/pages/{page}.md"):
+        abort(404)
+    path = f"pages/{page}.md"
+    return render_template("pages/scaffold.html", path=path)
 
 
 def _flatten_list_of_lists(data):
