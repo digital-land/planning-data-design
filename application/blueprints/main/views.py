@@ -31,6 +31,11 @@ def how_to_contribute():
     return render_template("how-to-contribute.html")
 
 
+@main.route("/how-to-help-develop-a-new-dataset")
+def how_to_help_develop_a_new_dataset():
+    return render_template("how-to-help-develop-a-new-dataset.html")
+
+
 @main.route("/advisory-group")
 def advisory_group():
     return render_template("advisory-group.html")
