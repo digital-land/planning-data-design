@@ -22,26 +22,9 @@ def cookies():
     return render_template("cookies.html", cookies_policy=cookies_policy)
 
 
-@main.route("/data-design-process")
-def data_design_process():
-    return render_template("data-design-process.html")
-
-
-@main.route("/how-to-contribute")
-def how_to_contribute():
-    return render_template("how-to-contribute.html")
-
-
 @main.route("/advisory-group")
 def advisory_group():
     return render_template("advisory-group.html")
-
-
-@main.route("/how-to-get-existing-datasets-on-to-planning-data-gov-uk")
-def existing_data_how_to():
-    return render_template(
-        "how-to-get-existing-datasets-on-to-planning-data-gov-uk.html"
-    )
 
 
 @main.route("/what-we-are-working-on")
