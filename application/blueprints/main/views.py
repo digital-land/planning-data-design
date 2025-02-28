@@ -27,6 +27,11 @@ def advisory_group():
     return render_template("advisory-group.html")
 
 
+@main.route("/advisory-group/members")
+def advisory_group_members():
+    return render_template("advisory-group-members.html")
+
+
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
 

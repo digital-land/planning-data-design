@@ -1,0 +1,74 @@
+{% extends 'layouts/base.html' %}
+
+{% block app_breadcrumbs %}
+  {{
+    govukBreadcrumbs({
+      'items': [
+        {
+          'text': "Home",
+          'href': url_for('main.index')
+        },
+        {
+          'text': "Advisory group",
+          'href': url_for('main.advisory_group')
+        },
+        {
+          'text': "Members"
+        }
+      ]
+    })
+  }}
+{% endblock app_breadcrumbs %}
+
+{% block content %}
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop'>
+    <span class="govuk-caption-xl">Planning data design</span>
+    <h1 class="govuk-heading-xl" id="advisory-group">Advisory group members</h1>
+  </div>
+</div>
+
+<div class='govuk-grid-row'>
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">The Advisory Group members contributing to the development of planning application data specifications.</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Milan Bogunovic (Chair) (MHCLG)</li>
+      <li>Stephen Borrows (MHCLG)</li>
+      <li>Colm Britton (MHCLG)</li>
+      <li>Mike Rose (MHCLG)</li>
+      <li>Liz Whiting (MHCLG)</li>
+      <li>Drew Hardy (LandTech)</li>
+      <li>Jennie Baker (Lichfields)</li>
+      <li>Karl Hogg (Agile Applications)</li>
+      <li>Phil Hutton (IDOX)</li>
+      <li>James Garrett (Planning Portal)</li>
+      <li>Gary Burt (DEF)</li>
+      <li>Jason McConnell (NEC)</li>
+      <li>Jess McInchak (OSL)</li>
+      <li>Martyn Evans (Unboxed)</li>
+      <li>Gala Camacho (diagonalWorks)</li>
+      <li>Robin Barber (Arcus)</li>
+      <li>Elliot Rowen (ARUP)</li>
+      <li>Peter Kemp (GLA)</li>
+      <li>Andrea Saligari (Barnet Council)</li>
+      <li>Nigel Walley (Resident Logbook Association)</li>
+      <li>Richard Field (MHCLG)</li>
+      <li>Jo Gerulatis (PINS)</li>
+      <li>Chantelle Hallett (TerraQuest)</li>
+      <li>Andrea Murphy (Stockport Council)</li>
+      <li>Lucy Woodbine (Mapping GM)</li>
+      <li>Paul Downey (MHCLG)</li>
+      <li>Eloise Maguire (MHCLG)</li>
+      <li>Joel Cohen (MHCLG)</li>
+      <li>Emily Hadley (MHCLG)</li>
+      <li>Jamie White (MHCLG)</li>
+      <li>Rafael Garcia (MHCLG)</li>
+      <li>Matt Wood-Hill (MHCLG)</li>
+      <li>Andrew Presland (MHCLG)</li>
+      <li>Ida Latifa (MHCLG)</li>
+    </ul>
+
+  </div>
+</div>
+{% endblock %}
