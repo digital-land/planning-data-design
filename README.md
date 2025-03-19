@@ -82,6 +82,7 @@ The application is deployed to Heroku and is called `planning-data-design`. [Go 
 
 
 ### Environment variables required
+```
 DATABASE_URL:         [set from deployment env]]
 FLASK_APP:            application.wsgi:app
 FLASK_CONFIG:         application.config.Config
@@ -90,6 +91,7 @@ GITHUB_CLIENT_SECRET: [available from github app settings]
 SECRET_KEY:           [set from deployment env]
 SAFE_URLS:            [domains that auth process can redirect users to after login]
 AUTHENTICATION_ON:    [turn login required on/off]
+```
 
 ### DNS
 
