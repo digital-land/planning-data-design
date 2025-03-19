@@ -75,3 +75,80 @@ add to a file called ```.env``` which is gitignored.
 
     GITHUB_CLIENT_ID=[client id]
     GITHUB_CLIENT_SECRET=[secret]
+
+## Deployment
+
+The application is deployed to Heroku and is called `dluhc-planning-considerations`.
+
+### DNS
+
+DNS for this application is managed between Digital Land route 53 and Heroku. Configuration is managed on the Heroku side on the `/apps/dluhc-planning-considerations/settings` page of the dashboard.
+
+## Monitoring
+
+The application is monitored via Sentry - accessible through the Heroku dashboard page for this application on the resources tab.
+
+## Authentication
+
+The application uses GitHub OAuth for authentication. Only members of the `digital-land` GitHub organization can log in to the application. The authentication flow:
+
+1. Users are redirected to GitHub to authorize the application
+2. After authorization, the application checks if the user is a member of the `digital-land` organization
+3. If they are a member, they are logged in
+4. If they are not a member:
+   * Their OAuth token is revoked
+   * They are redirected back to the index page with an error message
+
+For local development authentication, set the following in DevelopmentConfig:
+
+```env
+AUTHENTICATION_ON = True
+
+# Add these to .env file (do not commit to GitHub)
+GITHUB_CLIENT_ID=[client id]
+GITHUB_CLIENT_SECRET=[secret]
+```
+
+## Automated Tasks
+
+The following tasks should be run regularly to maintain the application data:
+
+1. `flask consider load-data`
+   * Updates the local database with the latest production data
+
+2. `flask consider load-questions`
+   * Updates question sets in the database
+   * Questions are defined in `application/question_sets.py`
+
+3. `flask consider check-questions`
+   * Validates question configurations before loading
+   * Checks for valid slug references between questions
+
+4. `flask consider check-dataset-links`
+   * Validates and updates dataset URLs and metadata
+
+5. `flask consider generate-performance`
+   * Generates performance metrics for considerations
+
+## GitHub Actions
+
+The repository uses GitHub Actions for continuous integration and automated backups:
+
+### CI Workflow
+* Runs on every push and pull request to the main branch
+* Installs Python dependencies
+* Runs flake8 for linting
+* Runs pytest for testing
+
+### Download and Commit Considerations CSV
+* Runs daily at midnight UTC
+* Downloads the latest planning considerations CSV from the design site
+* Saves to `data/planning-considerations.csv`
+* Automatically commits and pushes changes if the file has been updated
+
+### Database Backup
+* Runs daily at 1am UTC
+* Downloads the latest database backup from Heroku using `pg:backups:download`
+* Saves to `data/latest_backup.dump`
+* Automatically commits and pushes changes if the backup has been updated
+* Requires Heroku authentication via `HEROKU_OAUTH_TOKEN` secret
