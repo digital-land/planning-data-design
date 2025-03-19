@@ -1,6 +1,6 @@
-![build](https://github.com/digital-land/dluhc-planning-considerations/actions/workflows/python-app.yml/badge.svg)
+![build](https://github.com/digital-land/planning-data-design/actions/workflows/run-tests.yml/badge.svg)
 
-# dluhc-planning-considerations
+# Planning data design
 Manage planning considerations through standards process
 
 
@@ -78,11 +78,11 @@ add to a file called ```.env``` which is gitignored.
 
 ## Deployment
 
-The application is deployed to Heroku and is called `dluhc-planning-considerations`.
+The application is deployed to Heroku and is called `planning-data-design`. [Go to app](https://design.planning.data.gov.uk/)
 
 ### DNS
 
-DNS for this application is managed between Digital Land route 53 and Heroku. Configuration is managed on the Heroku side on the `/apps/dluhc-planning-considerations/settings` page of the dashboard.
+DNS for this application is managed between Digital Land route 53 and Heroku. Configuration is managed on the Heroku side on the `/apps/planning-data-design/settings` page of the dashboard.
 
 ## Monitoring
 
