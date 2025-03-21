@@ -1,135 +1,9 @@
-import os
-
 import frontmatter
 import requests
 from flask.cli import AppGroup
 from sqlalchemy.orm.attributes import flag_modified
 
-from application.extensions import db
-from application.models import (
-    ChangeLog,
-    Consideration,
-    Performance,
-    Question,
-    QuestionType,
-    Stage,
-)
-
 consider_cli = AppGroup("consider")
-
-
-@consider_cli.command("load-data")
-def load_data():
-    import subprocess
-    import sys
-    import tempfile
-
-    from flask import current_app
-
-    # check heroku cli installed
-    result = subprocess.run(["which", "heroku"], capture_output=True, text=True)
-
-    if result.returncode == 1:
-        print("Heroku CLI is not installed. Please install it and try again.")
-        sys.exit(1)
-
-    # check heroku login
-    result = subprocess.run(["heroku", "whoami"], capture_output=True, text=True)
-
-    if "Error: not logged in" in result.stderr:
-        print("Please login to heroku using 'heroku login' and try again.")
-        sys.exit(1)
-
-    print("Starting load data into", current_app.config["SQLALCHEMY_DATABASE_URI"])
-    if (
-        input(
-            "Completing process will overwrite your local database. Enter 'y' to continue, or anything else to exit. "
-        )
-        != "y"
-    ):
-        print("Exiting without making any changes")
-        sys.exit(0)
-
-    with tempfile.TemporaryDirectory() as tempdir:
-        path = os.path.join(tempdir, "latest.dump")
-
-        # get the latest dump from heroku
-        result = subprocess.run(
-            [
-                "heroku",
-                "pg:backups:download",
-                "-a",
-                "planning-data-design",
-                "-o",
-                path,
-            ]
-        )
-
-        if result.returncode != 0:
-            print("Error downloading the backup")
-            sys.exit(1)
-
-        # restore the dump to the local database
-        subprocess.run(
-            [
-                "pg_restore",
-                "--verbose",
-                "--clean",
-                "--no-acl",
-                "--no-owner",
-                "-h",
-                "localhost",
-                "-d",
-                "planning-data-design",
-                path,
-            ]
-        )
-        print(
-            "\n\nRestored the dump to the local database using pg_restore. You can ignore warnings from pg_restore."
-        )
-
-    print("Data loaded successfully")
-
-
-@consider_cli.command("load-questions")
-def load_questions():
-
-    # how do we preserve order?
-
-    from application.extensions import db
-    from application.question_sets import questions
-
-    print("\nLoading/updating questions")
-
-    for stage in questions.keys():
-        print("Loading questions for", stage)
-        qs = questions[stage]
-        for q_order, q in enumerate(qs):
-            slug = next(iter(q.keys()))
-            print(f"\t Loading question: {q_order} {slug}")
-            question = Question.query.filter(Question.slug == slug).one_or_none()
-            if question is None:
-                print(f"\t\tCreating question: '{slug}'")
-                question = Question(slug=slug, stage=stage)
-            else:
-                print(
-                    f"\t\tReloading question {q_order}: '{slug}'. Any changes will be applied."
-                )
-
-            q = q[slug]
-            question.text = q["question"]
-            question.hint = q.get("hint", None)
-            question.python_form = q.get("form", None)
-            question.order = q_order
-            question.question_type = QuestionType(q["type"])
-            question.next = q.get("next", None)
-            question.previous = q.get("prev", None)
-            question.choices = q.get("choices", None)
-
-            db.session.add(question)
-            db.session.commit()
-
-    print("Questions loaded successfully")
 
 
 def extract_values(d, result):
@@ -140,35 +14,18 @@ def extract_values(d, result):
             result.add(value)
 
 
-@consider_cli.command("check-questions")
-def check_questions():
-    from application.question_sets import questions
-
-    for stage in questions.keys():
-        qs = questions[stage]
-        slugs = set([next(iter(q.keys())) for q in qs])
-        next_prev_slugs = set([])
-        for q in qs:
-            extract_values(q, next_prev_slugs)
-
-        if not next_prev_slugs.issubset(slugs):
-            print(f"{stage} failed check")
-            print(f"{next_prev_slugs - slugs} not found in {stage}")
-            print(f"Slugs {slugs}")
-            print(f"Next/prev slugs {next_prev_slugs}\n")
-
-        else:
-            print(f"Next/prev/default slugs are valid for {stage}\n")
-
-
 @consider_cli.command("check-dataset-links")
 def check_dataset_links():
+    from flask import current_app
+
+    PLATFORM_URL = current_app.config["PLATFORM_URL"]
+    DATASET_EDITOR_URL = current_app.config["DATASET_EDITOR_URL"]
 
     from application.extensions import db
     from application.models import Consideration
 
-    platform_base_url = "https://www.planning.data.gov.uk/dataset/{name}"
-    dataset_editor_base_url = "https://dluhc-datasets.planning-data.dev/dataset/{name}"
+    platform_base_url = "{PLATFORM_URL}/dataset/{name}"
+    dataset_editor_base_url = "{DATASET_EDITOR_URL}/dataset/{name}"
 
     for consideration in db.session.query(Consideration).all():
         if consideration.datasets:
@@ -187,7 +44,9 @@ def check_dataset_links():
 
                     if dataset["platform_url"] is None:
                         platform_url = _set_url_if_found(
-                            platform_base_url.format(name=dataset["name"])
+                            platform_base_url.format(
+                                name=dataset["name"], PLATFORM_URL=PLATFORM_URL
+                            )
                         )
                         if platform_url is not None:
                             dataset["platform_url"] = platform_url
@@ -195,7 +54,10 @@ def check_dataset_links():
 
                     if dataset["dataset_editor_url"] is None:
                         dataset_editor_url = _set_url_if_found(
-                            dataset_editor_base_url.format(name=dataset["name"])
+                            dataset_editor_base_url.format(
+                                name=dataset["name"],
+                                DATASET_EDITOR_URL=DATASET_EDITOR_URL,
+                            )
                         )
                         if dataset_editor_url is not None:
                             dataset["dataset_editor_url"] = dataset_editor_url
@@ -224,78 +86,3 @@ def _set_url_if_found(url):
         return url
     except requests.exceptions.HTTPError:
         return None
-
-
-@consider_cli.command("generate-performance")
-def generate_performance():
-
-    performance = Performance()
-
-    total_considerations = db.session.query(db.func.count(Consideration.id)).scalar()
-    performance.considerations = total_considerations
-
-    for stage in Stage:
-        count = (
-            db.session.query(db.func.count(Consideration.id))
-            .filter(Consideration.stage == stage)
-            .scalar()
-        )
-        setattr(performance, stage.name.lower(), count)
-
-    blocked_count = (
-        db.session.query(db.func.count(Consideration.id))
-        .filter(Consideration.blocked_reason.isnot(None))
-        .scalar()
-    )
-
-    performance.blocked = blocked_count
-
-    db.session.add(performance)
-    db.session.commit()
-
-    print("Performance record created")
-
-
-@consider_cli.command("migrate-changelog")
-def migrate_changelog():
-    from datetime import datetime
-
-    considerations = db.session.query(Consideration).all()
-    for consideration in considerations:
-        # if consideration.change_log is not None:
-        #     continue
-
-        if consideration.changes:
-            for change in consideration.changes:
-
-                if "from" not in change:
-                    from_ = None
-                else:
-                    from_ = change["from"]
-
-                field = change["field"]
-                to = change["to"]
-                user = change.get("user")
-                date = change["date"]
-                reason = change.get("reason", None)
-                if user is None:
-                    user = "unknown"
-                if isinstance(user, dict):
-                    user = "unknown"
-
-                created = datetime.strptime(date, "%Y-%m-%d")
-
-                change_log = ChangeLog(
-                    consideration_id=consideration.id,
-                    field=field,
-                    change={"from": from_, "to": to},
-                    user=user,
-                    created=created,
-                    reason=reason,
-                )
-                db.session.add(change_log)
-                db.session.commit()
-
-        print(f"Created changelog for {consideration.name}")
-
-    print("Migration complete")

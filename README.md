@@ -7,7 +7,7 @@ Manage planning considerations through standards process
 ## Requirements
 
     python 3.10
-    node 18
+    node 18 (for frontend assets build)
     postgresql
 
 
@@ -35,29 +35,6 @@ Manage planning considerations through standards process
 ### Apply db migrations
     flask db upgrade
 
-
-### For loading data into db you'll need the heroku-cli
-
-    heroku-cli
-
-[heroku-cli](https://devcenter.heroku.com/articles/heroku-cli)
-
-
-### Load/update consideration data
-
-    flask consider load-data
-
-### Load/update questions
-
-Questions are [here](application/question_sets.py)
-
-    flask consider load-questions
-
-To add/edit a question make changes [here](application/question_sets.py) then run
-
-    flask consider check-questions
-
-Fix any errors then run the load command above
 
 ### Run app locally
 

@@ -92,10 +92,19 @@ def register_filters(app):
 
 def register_extensions(app):
     from application.extensions import db, migrate, oauth
+    from application.utils import load_questions_into_db
 
     db.init_app(app)
     migrate.init_app(app, db)
     oauth.init_app(app)
+
+    # Load questions after db is initialized
+    with app.app_context():
+        error = load_questions_into_db()
+        if error:
+            app.logger.warning(
+                f"Application starting with potentially incomplete questions: {error}"
+            )
 
     from flask_sslify import SSLify
 
