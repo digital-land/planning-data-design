@@ -51,11 +51,11 @@ The following tasks should be run daily to maintain the application data:
 1. `flask consider check-dataset-links`
    * Validates and updates dataset URLs and metadata
 
-GitHub Actions are used for two other automated tasks, which are database backups and generating csv files for the planning data platform pipelines.
+GitHub Actions are used for two other automated tasks, which are database backups and generating a csv backup of the data managed by the application.
 
-In a new environment, e.g. AWS the database backup can be managed in another way. Likewise the csv files used for data collection pipelines can be moved to S3? Platform team should be kept informed about any changes on that front.
+In a new environment, e.g. AWS the database backup can be managed in another way.
 
-Therefore alternatives for these should be replaced with alternatives on the replatformed version of this application.
+The [backup to csv](.github/workflows/get-and-commit-csv.yml) can carry on as before. Currently it collections the data from the design.planning.data.gov.uk domain, therefore the action would need to be updated in the domain changes.
 
 ### Database Backup
 * Runs daily at 1am UTC
