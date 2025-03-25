@@ -28,11 +28,11 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [detect-environments]
-    strategy:
-      matrix:
-        environment: ${{ fromJSON(needs.detect-environments.outputs.environments) }}
-    environment: ${{ matrix.environment }}
+    # needs: [detect-environments]
+    # strategy:
+    #   matrix:
+    #     environment: ${{ fromJSON(needs.detect-environments.outputs.environments) }}
+    environment: development
     env:
       DOCKER_REPO: ${{ secrets.DEPLOY_DOCKER_REPOSITORY }}
     steps:
