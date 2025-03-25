@@ -3,16 +3,16 @@ services:
     build: .
     ports:
       - "5050:5050"
-    develop:
-      watch:
-        - action: sync
-          path: .
-          target: /code
-          ignore:
-            - node_modules/
-            - .git/
-        - action: rebuild
-          path: requirements.txt
+#    develop:
+#      watch:
+#        - action: sync
+#          path: .
+#          target: /code
+#          ignore:
+#            - node_modules/
+#            - .git/
+#        - action: rebuild
+#          path: requirements.txt
     volumes:
       - .:/code
     depends_on:
@@ -24,6 +24,7 @@ services:
       PYTHONDONTWRITEBYTECODE: 1
     networks:
       - app-network
+    restart: on-failure
 
   db:
     image: postgres:16-bullseye
