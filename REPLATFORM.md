@@ -10,7 +10,7 @@
     GITHUB_CLIENT_SECRET: [deployment env secrets]
     SECRET_KEY:           [deployment env secrets]
     SAFE_URLS:            [domains that auth process can redirect users to after login]
-    AUTHENTICATION_ON:    [turn login required on/off]
+    AUTHENTICATION_ON:    True
     SENTRY_DSN: [deployment env secrets - see monitoring]
 ```
 
