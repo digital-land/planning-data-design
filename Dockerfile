@@ -24,4 +24,5 @@ COPY . .
 RUN pip install -r requirements/requirements.txt
 RUN pip install -r requirements/dev-requirements.txt
 EXPOSE 5050
-CMD ["flask", "run", "--debug"]
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
