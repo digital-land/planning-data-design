@@ -21,17 +21,19 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: json
           script: |
-            # if (context.payload?.inputs?.environment) return [context.payload?.inputs?.environment];
-            # const {data: {environments}} = 
-            #   await github.request(`GET /repos/${process.env.GITHUB_REPOSITORY}/environments`);
-            # return environments.map(e => e.name)
             const allowed = ['development', 'staging', 'production'];
+
             if (context.payload?.inputs?.environment) {
               return allowed.includes(context.payload.inputs.environment)
                 ? [context.payload.inputs.environment]
                 : [];
             }
-            const {data: {environments}} = await github.request(`GET /repos/${process.env.GITHUB_REPOSITORY}/environments`);
+
+            const { data: { environments } } = await github.rest.repos.getAllEnvironments({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
             return environments.map(e => e.name).filter(name => allowed.includes(name));
 
   deploy:
