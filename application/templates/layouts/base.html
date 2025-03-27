@@ -68,7 +68,7 @@
               Sign out
             </a>
             {% else %}
-            <a class="govuk-header__link" href="{{url_for('auth.login', next=request.path, _external=True)}}">
+            <a class="govuk-header__link" href="{{url_for('auth.login', next=request.path, _external=True, _scheme='https')}}">
               Sign in
             </a>
             {% endif %}
