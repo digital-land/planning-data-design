@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main,feature/add-staging-config-deploy]
+    branches: [main]
   workflow_dispatch:
     inputs:
       environment:
