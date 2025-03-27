@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main,feature/add-staging-config-deploy]
   workflow_dispatch:
     inputs:
       environment:
@@ -28,10 +28,10 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    # needs: [detect-environments]
-    # strategy:
-    #   matrix:
-    #     environment: ${{ fromJSON(needs.detect-environments.outputs.environments) }}
+    needs: [detect-environments]
+    strategy:
+      matrix:
+        environment: ${{ fromJSON(needs.detect-environments.outputs.environments) }}
     environment: development
     env:
       DOCKER_REPO: ${{ secrets.DEPLOY_DOCKER_REPOSITORY }}
