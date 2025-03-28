@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 
+from application.utils import to_boolean
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -15,7 +17,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = False
     DEBUG = False
-    AUTHENTICATION_ON = True
+    AUTHENTICATION_ON = to_boolean(os.getenv("AUTHENTICATION_ON", True))
     GOOGLE_PRIVATE_KEY_ID = os.getenv("GOOGLE_PRIVATE_KEY_ID")
     GOOGLE_PRIVATE_KEY = os.getenv("GOOGLE_PRIVATE_KEY")
     GOOGLE_CLIENT_EMAIL = os.getenv("GOOGLE_CLIENT_EMAIL")
@@ -27,6 +29,7 @@ class Config:
     DATASET_EDITOR_URL = os.getenv(
         "DATASET_EDITOR_URL", "https://dataset-editor.development.planning.data.gov.uk"
     )
+    LOAD_QUESTIONS = to_boolean(os.getenv("LOAD_QUESTIONS", False))
 
 
 class DevelopmentConfig(Config):

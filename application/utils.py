@@ -44,6 +44,16 @@ def true_false_to_bool(s):
     return s.lower() == "true"
 
 
+def to_boolean(s):
+    if isinstance(s, bool):
+        return s
+    if s.lower() in ["true", "1", "yes", "y", "on"]:
+        return True
+    if s.lower() in ["false", "0", "no", "n", "off"]:
+        return False
+    raise False
+
+
 def load_questions_into_db() -> Optional[str]:
     """
     Load/update questions in the database

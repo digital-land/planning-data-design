@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import os
 
 from flask import Flask
@@ -7,6 +8,11 @@ from flask.cli import load_dotenv
 from application.models import *  # noqa
 
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 
 def create_app(config_filename):
@@ -92,20 +98,22 @@ def register_filters(app):
 
 def register_extensions(app):
     from application.extensions import db, migrate, oauth
-
-    # from application.utils import load_questions_into_db
+    from application.utils import load_questions_into_db
 
     db.init_app(app)
     migrate.init_app(app, db)
     oauth.init_app(app)
 
     # Load questions after db is initialized
-    # with app.app_context():
-    #     error = load_questions_into_db()
-    #     if error:
-    #         app.logger.warning(
-    #             f"Application starting with potentially incomplete questions: {error}"
-    #         )
+    if app.config["LOAD_QUESTIONS"]:
+        with app.app_context():
+            error = load_questions_into_db()
+            if error:
+                logger.error(
+                    f"Application starting with potentially incomplete questions: {error}"
+                )
+    else:
+        logger.info("Question loading disabled")
 
     from flask_sslify import SSLify
 
