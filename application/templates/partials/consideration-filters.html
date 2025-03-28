@@ -50,10 +50,10 @@
   <div class="govuk-form-group">
     {% set random_stage_filter_id = range(1000,9999) | random() %}
     {% set checkboxesHTML %}
-      {% set pa_checked = request.args.getlist("stage") %}
+      {% set stage_checked = request.args.getlist("stage") %}
       {% for stage in stages %}
       <div class="govuk-checkboxes__item">
-        <input class="govuk-checkboxes__input" id="stage-{{ stage.value }}" name="stage" type="checkbox" value="{{ stage.value }}" {% if stage.value in pa_checked %}checked=checked{% endif %}>
+        <input class="govuk-checkboxes__input" id="stage-{{ stage.value }}" name="stage" type="checkbox" value="{{ stage.value }}" {% if stage.value in stage_checked %}checked{% endif %}>
         <label class="govuk-label govuk-checkboxes__label" for="stage-{{ stage.value }}">
           {{ stage.value }}
         </label>
@@ -168,7 +168,4 @@
     <button class="govuk-button" type="submit">Filter</button>
     <a class="govuk-link" href="{{ url_for('planning_consideration.considerations') }}">Clear</a>
   </div>
-  {% if stage_filter %}
-    <input type="hidden" name="stage" value="{{ stage_filter }}">
-  {% endif %}
 </form>
