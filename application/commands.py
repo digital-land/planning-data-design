@@ -120,7 +120,7 @@ def check_dataset_links():
                         flag_modified(consideration, "datasets")
 
                     if dataset["platform_url"] is None:
-                        platform_url = _set_url_if_found(
+                        platform_url = _get_url_if_found(
                             platform_base_url.format(
                                 name=dataset["name"], PLATFORM_URL=PLATFORM_URL
                             )
@@ -130,7 +130,7 @@ def check_dataset_links():
                             flag_modified(consideration, "datasets")
 
                     if dataset["dataset_editor_url"] is None:
-                        dataset_editor_url = _set_url_if_found(
+                        dataset_editor_url = _get_url_if_found(
                             dataset_editor_base_url.format(
                                 name=dataset["name"],
                                 DATASET_EDITOR_URL=DATASET_EDITOR_URL,
@@ -218,7 +218,7 @@ def load_questions():
     print("Questions loaded successfully")
 
 
-def _set_url_if_found(url):
+def _get_url_if_found(url):
     try:
         response = requests.get(url)
         response.raise_for_status()
