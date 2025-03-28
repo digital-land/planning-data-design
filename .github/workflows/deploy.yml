@@ -21,18 +21,28 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: json
           script: |
-            if (context.payload?.inputs?.environment) return [context.payload?.inputs?.environment];
-            const {data: {environments}} = 
-              await github.request(`GET /repos/${process.env.GITHUB_REPOSITORY}/environments`);
-            return environments.map(e => e.name)
+            const allowed = ['development', 'staging', 'production'];
+
+            if (context.payload?.inputs?.environment) {
+              return allowed.includes(context.payload.inputs.environment)
+                ? [context.payload.inputs.environment]
+                : [];
+            }
+
+            const { data: { environments } } = await github.rest.repos.getAllEnvironments({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            return environments.map(e => e.name).filter(name => allowed.includes(name));
 
   deploy:
     runs-on: ubuntu-latest
-    # needs: [detect-environments]
-    # strategy:
-    #   matrix:
-    #     environment: ${{ fromJSON(needs.detect-environments.outputs.environments) }}
-    environment: development
+    needs: [detect-environments]
+    strategy:
+      matrix:
+        environment: ${{ fromJSON(needs.detect-environments.outputs.environments) }}
+    environment: ${{ matrix.environment }}
     env:
       DOCKER_REPO: ${{ secrets.DEPLOY_DOCKER_REPOSITORY }}
     steps:
