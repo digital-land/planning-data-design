@@ -2,7 +2,7 @@ import pytest
 
 from application.extensions import db
 from application.factory import create_app
-from application.models import Question, QuestionType
+from application.models import Consideration, Question, QuestionType, Stage
 
 
 @pytest.fixture(scope="session")
@@ -52,3 +52,19 @@ def questions(app):
                 db.session.commit()
 
     return app
+
+
+@pytest.fixture(scope="session")
+def consideration(app, questions):
+    from application.extensions import db
+
+    with app.app_context():
+        consider = Consideration(
+            name="Test consideration 1",
+            slug="test-consideration-1",
+            stage=Stage.BACKLOG,
+        )
+        db.session.add(consider)
+        db.session.commit()
+
+    return consider

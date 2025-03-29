@@ -9,6 +9,7 @@ from application.blueprints.questions.forms import (
     SingleChoiceFormOther,
     TextareaForm,
 )
+from application.extensions import db
 from application.forms import DeleteForm
 from application.models import (
     Answer,
@@ -80,6 +81,9 @@ def _get_question_group(start_question, consideration, stage, stop=None):
 
 @questions.get("/")
 def index(consideration_slug, stage):
+    if not isinstance(stage, Stage):
+        abort(404)
+
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
     ).one_or_404()
@@ -102,6 +106,8 @@ def index(consideration_slug, stage):
 
 @questions.get("/<question_slug>")
 def question(consideration_slug, stage, question_slug):
+    if not isinstance(stage, Stage):
+        abort(404)
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
@@ -151,8 +157,8 @@ def question(consideration_slug, stage, question_slug):
 @questions.post("/<question_slug>")
 @login_required
 def save_answer(consideration_slug, stage, question_slug):
-
-    from application.extensions import db
+    if not isinstance(stage, Stage):
+        abort(404)
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
@@ -247,8 +253,8 @@ def save_answer(consideration_slug, stage, question_slug):
 @questions.route("/<question_slug>/add-to-list", methods=["GET", "POST"])
 @login_required
 def add_to_list(consideration_slug, stage, question_slug):
-
-    from application.extensions import db
+    if not isinstance(stage, Stage):
+        abort(404)
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
@@ -356,8 +362,8 @@ def add_to_list(consideration_slug, stage, question_slug):
 )
 @login_required
 def delete_answer(consideration_slug, stage, question_slug, position):
-
-    from application.extensions import db
+    if not isinstance(stage, Stage):
+        abort(404)
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
@@ -416,7 +422,8 @@ def delete_answer(consideration_slug, stage, question_slug, position):
 @questions.route("/<question_slug>/edit-answer/<int:position>", methods=["GET", "POST"])
 @login_required
 def edit_answer(consideration_slug, stage, question_slug, position):
-    from application.extensions import db
+    if not isinstance(stage, Stage):
+        abort(404)
 
     consideration = Consideration.query.filter(
         Consideration.slug == consideration_slug
