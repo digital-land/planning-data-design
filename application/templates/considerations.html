@@ -172,7 +172,7 @@
               {{ consideration['stage'].value }}
             </strong>
             {%- if consideration.blocked_reason %}
-            <span class="govuk-tag govuk-tag--red">Blocked</span>
+            <span class="govuk-tag govuk-tag--grey">Paused</span>
             {% endif -%}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}

@@ -38,10 +38,10 @@
       </li>
       {% endif %}
       {% endfor %}
-      <li class="app-report-bar app-report-bar--blocked" style="--bar-width: {{ data['blocked_count'] }}">
+      <li class="app-report-bar app-report-bar--paused" style="--bar-width: {{ data['blocked_count'] }}">
         <a href="{{ url_for('planning_consideration.considerations', show_only_blocked=true)}}">
           <div class="app-report-bar__colour-mask"></div>
-          <div class="app-report-bar__label">{{ data['blocked_count'] }} planning consideration{{ '' if data['blocked_count'] == 1 else 's' }} are blocked</div>
+          <div class="app-report-bar__label">{{ data['blocked_count'] }} planning consideration{{ '' if data['blocked_count'] == 1 else 's' }} are paused</div>
         </a>
       </li>
     </ul>

@@ -76,7 +76,8 @@
   }
 }
 
-.app-report-bar--backlog {
+
+%app-report-bar--grey {
   .app-report-bar__colour-mask {
     background: govuk-colour('mid-grey');
   }
@@ -84,6 +85,10 @@
   &:hover .app-report-bar__colour-mask {
     background: govuk-shade(govuk-colour('mid-grey'), 10);
   }
+}
+
+.app-report-bar--backlog {
+  @extend %app-report-bar--grey;
 }
 
 .app-report-bar--on-the-platform {
@@ -104,4 +109,8 @@
   &:hover .app-report-bar__colour-mask {
     background: govuk-shade(govuk-colour('red'), 10);
   }
+}
+
+.app-report-bar--paused {
+  @extend %app-report-bar--grey;
 }
