@@ -377,13 +377,9 @@
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
   <section id="design-process-stages">
-    <h2 class="govuk-heading-l">Design process stages</h2>
-    <p class="govuk-body">Each planning consideration we work on passes through the stages of our design process. At each stage we are trying to learn enough to more on to the next stage.</p>
-    <ul class="govuk-list">
-      <li><a href="{{ url_for('questions.index', stage=stages.BACKLOG, consideration_slug=consideration.slug )}}" class="govuk-link">Backlog</a></li>
-      <li><a href="{{ url_for('questions.index', stage=stages.SCREEN, consideration_slug=consideration.slug )}}" class="govuk-link">Screen</a></li>
-      <li><a href="{{ url_for('questions.index', stage=stages.RESEARCH, consideration_slug=consideration.slug )}}" class="govuk-link">Research</a></li>
-    </ul>
+    <h2 class="govuk-heading-l">Background information</h2>
+    <p class="govuk-body">Each planning consideration we work on passes through the stages of our design process, where we research and answer specific questions to help us collect more information.
+    <br><br>Read all the <a href="{{ url_for('questions.index', stage=stages.BACKLOG, consideration_slug=consideration.slug )}}" class="govuk-link">background information here</a></li> that we have on this consideration.</p>
   </section>
 
 
