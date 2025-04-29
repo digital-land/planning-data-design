@@ -122,11 +122,9 @@ def test_add_answer_backlog_questions(live_server, page, questions):
 
     expect(page.locator("#details").get_by_text("Test consideration")).to_be_visible()
     expect(page.get_by_text("This is a test of a public")).to_be_visible()
-    expect(page.get_by_role("link", name="Backlog")).to_be_visible()
-    expect(page.get_by_role("link", name="Screen")).to_be_visible()
-    expect(page.get_by_role("link", name="Research")).to_be_visible()
+    expect(page.get_by_role("link", name="background information")).to_be_visible()
 
-    page.get_by_role("link", name="Backlog").click()
+    page.get_by_role("link", name="background information").click()
     page.get_by_role("link", name="Answer all").click()
     expect(page.get_by_role("heading", name="Who asked for 'Test")).to_be_visible()
     page.locator("#input").click()
