@@ -48,11 +48,17 @@ def what_we_are_working_on():
         Stage.READY_FOR_GO_NO_GO,
     ]
     # ["Research", "Co-design", "Test and iterate", "Ready for go/no-go"]
-    active_considerations = Consideration.query.filter(
-        Consideration.stage.in_(active_stages)
-    ).all()
+    active_considerations = sorted(
+        Consideration.query.filter(
+            Consideration.stage.in_(active_stages)
+        ).all(),
+        key=lambda c: c.name
+    )
 
-    emerging_priorities = Consideration.query.filter(Consideration.prioritised).all()
+    emerging_priorities = sorted(
+        Consideration.query.filter(Consideration.prioritised).all(),
+        key=lambda c: c.name
+    )
 
     return render_template(
         "what-we-are-working-on.html",

@@ -3,36 +3,26 @@
 {% macro considerationListItem(consideration) %}
 <div class="govuk-summary-list__row">
   <dt class="govuk-summary-list__key">
-    <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug)}}" class="govuk-link">{{ consideration.name }}</a>
+    <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug, tags=consideration.tags)}}" class="govuk-link govuk-link--text-colour">{{ consideration.name }}</a>
     <p class="govuk-!-margin-top-2 govuk-!-margin-bottom-0">
-      <span class="govuk-tag govuk-tag--blue">{{ consideration.stage.value }}</span>
+      <!--<span class="govuk-tag govuk-tag--blue">{{ consideration.stage.value }}</span>-->
+      {% for tag in consideration.tags %}
+        <span class="govuk-tag govuk-tag--grey">{{ tag.name }}</span>
+      {% endfor %}
+
+      <!--
       {%- if consideration.blocked_reason %}
       <span class="govuk-tag govuk-tag--red">Blocked</span>
       {% endif -%}
+      -->
     </p>
   </dt>
-  <dd class="govuk-summary-list__value">
-    <p class="govuk-body">We think this supports:</p>
 
-    {# {%- set question = "which-focus-area-does-it-support" -%} #}
-    {%- set answer = consideration.get_answer("which-focus-area-does-it-support") -%}
-    {%- if answer %}
-    <ul class="govuk-list govuk-list--bullet">
-      {%- set supports = answer.answer['choice'].split(';') -%}
-      {%- for goal in supports %}
-      <li>{{ goal|lower }}</li>
-      {% endfor -%}
-    </ul>
-    {%- else %}
-    <p class="govuk-body govuk-hint">No focus areas set</p>
-    {% endif -%}
-
-  </dd>
   <dd class="govuk-summary-list__actions govuk-!-text-align-left">
     <p class="govuk-body govuk-!-margin-bottom-0">
     {%- if consideration.github_discussion_number is not none %}
       {% set discussion_link = github_discussion_base_url + "/" + consideration.github_discussion_number|string %}
-      <a href="{{ discussion_link }}" class="govuk-link">Discuss {{ consideration.name }}</a>
+      <a href="{{ discussion_link }}" class="govuk-link">Github discussion</a>
     {% endif -%}
     </p>
   </dd>
@@ -42,42 +32,29 @@
 
 {% block content_primary %}
 
-    <span class="govuk-caption-xl">Planning considerations</span>
-    <h1 class="govuk-heading-xl">What we're working on</h1>
+<span class="govuk-caption-xl">Planning considerations</span>
+<h1 class="govuk-heading-xl">What we're working on</h1>
 
-    <p class="govuk-body">These are the planning areas we're looking at right now, and the ones we plan to work on next.</p>
-    <div class="govuk-body">For each planning area we will determine whether a data standard has the potential to unlock value in the planning system. If it does, we will draft a data standard to test with publishers.</div>
+<h2 class="govuk-heading-l govuk-!-margin-top-7">Our current priorities</h2>
 
-    <p class="govuk-body">We regularly ask our community to help us decide the things we need to work on and tell us what they need from the data. Read our <a href="https://github.com/digital-land/data-standards-backlog/discussions/47" class="govuk-link">code of conduct</a> to see how you can contribute.</p>
+<p class="govuk-body">This is a list of planning considerations we're actively working on, along with what we think the planning area is.</p>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-6">Working on now</h2>
+<p class="govuk-body">You can keep up to date with the work being done by viewing our Github discussions.</p>
 
-    <p class="govuk-body">These are the planning considerations we are currently taking through our design process.</p>
+<p class="govuk-body">If you'd like to <a href="how-to-contribute" class="govuk-link">get involved</a>, we regularly host events about designing data</p>
 
-    <p class="govuk-body">If you'd like to help us explore and shape these standards, join the conversation.</p>
+<dl class="govuk-summary-list">
+  {% for consideration in emerging_priorities %}
+    {{ considerationListItem(consideration) }}
+  {% endfor %}
+</dl>
 
-    <dl class="govuk-summary-list">
-      {% for consideration in active_considerations %}
-      {{ considerationListItem(consideration) }}
-      {% endfor %}
-    </dl>
+<h2 class="govuk-heading-l govuk-!-margin-top-9">What we're working on next</h2>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-9">Emerging priorities</h2>
+<p class="govuk-body">We prioritise which planning consideration to work on next by engaging with our community.</p>
 
-    <p class="govuk-body">These are the planning considerations that are becoming priorities based on department objectives and our analysis of what will add the most value.</p>
+<p class="govuk-body">If you'd like to help us prioritise which consideration to work on next, let us know on <a href="https://github.com/digital-land/data-standards-backlog/discussions/29" class="govuk-link">Github</a> or email us at <a href="mailto:digitalland@communities.gov.uk" class="govuk-link">digitalland@communities.gov.uk</a></p>
 
-    <p class="govuk-body">If you'd like to help us understand the data needs for these planning areas, join the conversation to see what we trying to find out.</p>
-
-    <dl class="govuk-summary-list">
-      {% for consideration in emerging_priorities %}
-      {{ considerationListItem(consideration) }}
-      {% endfor %}
-    </dl>
+<p class="govuk-body">To see our full list of planning considerations, <a href="/planning-consideration" class="govuk-link">view our backlog</a></p>
 
 {% endblock content_primary %}
-
-{% block content_footer %}
-<p class="govuk-body">
-  <a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">See our full backlog of planning considerations</a>.
-</p>
-{% endblock %}
