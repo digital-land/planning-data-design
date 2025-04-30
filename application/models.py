@@ -310,6 +310,13 @@ class FrequencyOfUpdatesModel(BaseModel):
     value: str
 
 
+class TagModel(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID4
+    name: str
+
+
 class ConsiderationModel(BaseModel):
 
     model_config = ConfigDict(
@@ -340,6 +347,7 @@ class ConsiderationModel(BaseModel):
     slug: Optional[str]
     blocked_reason: Optional[str]
     os_declaration: Optional[dict]
+    tags: Optional[List[TagModel]] = None
 
     @field_serializer("frequency_of_updates", "stage")
     def serialize_enum(self, field: Enum):
@@ -370,6 +378,12 @@ class ConsiderationModel(BaseModel):
     def serialize_synonyms(self, data):
         if data is not None:
             return ";".join(data)
+        return None
+
+    @field_serializer("tags")
+    def serialize_tags(self, tags):
+        if tags:
+            return ";".join(sorted(tag.name for tag in tags))
         return None
 
 
