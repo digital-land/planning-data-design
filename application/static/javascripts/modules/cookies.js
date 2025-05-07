@@ -6,15 +6,29 @@ const cookieTypes = {
   _gat: "usage",
 };
 
-if(window.gaMeasurementId){
+// Initialize GA measurement ID cookie type if present
+if (typeof window !== 'undefined' && window.gaMeasurementId) {
   cookieTypes[`_ga_${window.gaMeasurementId}`] = 'usage';
 }
 
-function deleteCookie (name) {
+function showCookieBannerIfNotSetAndSetTrackingCookies() {
+  if(window.gaMeasurementId){
+    cookieTypes[`_ga_${window.gaMeasurementId}`] = 'usage';
+  }
+
+  showCookieBanner()
+  if (getCookie('cookies_preferences_set')) {
+    hideCookieBanner()
+  }
+
+  setTrackingCookies()
+}
+
+function deleteCookie(name) {
   document.cookie = name + "=;expires=" + new Date + ";domain=" + window.location.hostname + ";path=/";
 }
 
-function setCookie (name, value, days) {
+function setCookie(name, value, days) {
   var expires = ''
   if (days) {
     var date = new Date()
@@ -24,7 +38,7 @@ function setCookie (name, value, days) {
   document.cookie = name + '=' + (value || '') + expires + '; path=/'
 }
 
-function getCookie (name) {
+function getCookie(name) {
   var nameEQ = name + '='
   var ca = document.cookie.split(';')
   for (var i = 0; i < ca.length; i++) {
@@ -35,7 +49,7 @@ function getCookie (name) {
   return null
 }
 
-function acceptCookies (cookiePrefs = { essential: true, settings: true, usage: true, campaigns: true }) { // eslint-disable-line no-unused-vars
+function acceptCookies(cookiePrefs = { essential: true, settings: true, usage: true, campaigns: true }) { // eslint-disable-line no-unused-vars
   setCookie('cookies_preferences_set', true, 365)
   setCookie('cookies_policy', JSON.stringify(cookiePrefs), 365)
   hideCookieBanner()
@@ -43,29 +57,40 @@ function acceptCookies (cookiePrefs = { essential: true, settings: true, usage: 
   setTrackingCookies()
 }
 
-function hideCookieBanner () {
+function hideCookieBanner() {
   var cookieBanner = document.getElementById('cookie-banner')
   if(cookieBanner){
     cookieBanner.style.display = 'none'
+    cookieBanner.ariaHidden = true
   }
 }
 
-function hideCookieConfirmation () {
-  hideCookieBanner ()
+function showCookieBanner() {
+  var cookieBanner = document.getElementById('cookie-banner')
+  if(cookieBanner){
+    cookieBanner.style.display = 'block'
+    cookieBanner.ariaHidden = false
+  }
+}
+
+function hideCookieConfirmation() {
+  hideCookieBanner()
   var cookieBanner = document.getElementById('cookie-confirmation')
   if(cookieBanner){
     cookieBanner.style.display = 'none'
+    cookieBanner.ariaHidden = true
   }
 }
 
-function showCookieConfirmation () {
+function showCookieConfirmation() {
   var cookieBanner = document.getElementById('cookie-confirmation')
   if(cookieBanner){
     cookieBanner.style.display = 'block'
+    cookieBanner.ariaHidden = false
   }
 }
 
-function setTrackingCookies () {
+function setTrackingCookies() {
   var cookiesPolicy = JSON.parse(getCookie('cookies_policy'))
   var doNotTrack = cookiesPolicy == null || !cookiesPolicy.usage
   if (doNotTrack) {
@@ -78,13 +103,14 @@ function setTrackingCookies () {
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', window.gaMeasurementId);
+      window[`ga-disable-${window.gaMeasurementId}`] = false;
     } else {
       console.warn('Google Analytics: No measurement ID specified');
     }
   }
 }
 
-class cookiePrefs{
+class cookiePrefs {
   static essential = true;
   static settings = false;
   static usage = false;
@@ -107,11 +133,11 @@ class cookiePrefs{
 
   static save = (expires = 365) => {
     setCookie('cookies_preferences_set', true, expires)
-    setCookie('cookies_policy', JSON.stringify({ 
-      essential: this.essential, 
-      settings: this.settings, 
-      usage: this.usage, 
-      campaigns: this.campaigns 
+    setCookie('cookies_policy', JSON.stringify({
+      essential: this.essential,
+      settings: this.settings,
+      usage: this.usage,
+      campaigns: this.campaigns
     }), expires)
     hideCookieBanner()
     this.invalidateRejectedCookies()
@@ -136,9 +162,17 @@ class cookiePrefs{
   }
 }
 
-
-if (getCookie('cookies_preferences_set')) {
-  hideCookieBanner()
+// Single export statement at the end
+export {
+  showCookieBannerIfNotSetAndSetTrackingCookies,
+  deleteCookie,
+  setCookie,
+  getCookie,
+  acceptCookies,
+  hideCookieBanner,
+  showCookieBanner,
+  hideCookieConfirmation,
+  showCookieConfirmation,
+  setTrackingCookies,
+  cookiePrefs
 }
-
-setTrackingCookies()
