@@ -1,2904 +1,2851 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define('GOVUKFrontend', ['exports'], factory) :
-	(factory((global.GOVUKFrontend = {})));
-}(window, (function (exports) {
-/**
- * TODO: Ideally this would be a NodeList.prototype.forEach polyfill
- * This seems to fail in IE8, requires more investigation.
- * See: https://github.com/imagitama/nodelist-foreach-polyfill
- */
-function nodeListForEach (nodes, callback) {
-  if (window.NodeList.prototype.forEach) {
-    return nodes.forEach(callback)
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.GOVUKFrontend = global.GOVUKFrontend || {}));
+})(window, (function (exports) {
+  const version = '5.9.0';
+
+  function getFragmentFromUrl(url) {
+    if (!url.includes('#')) {
+      return undefined;
+    }
+    return url.split('#').pop();
   }
-  for (var i = 0; i < nodes.length; i++) {
-    callback.call(window, nodes[i], i, nodes);
+  function getBreakpoint(name) {
+    const property = `--govuk-frontend-breakpoint-${name}`;
+    const value = window.getComputedStyle(document.documentElement).getPropertyValue(property);
+    return {
+      property,
+      value: value || undefined
+    };
   }
-}
-
-// Used to generate a unique string, allows multiple instances of the component without
-// Them conflicting with each other.
-// https://stackoverflow.com/a/8809472
-function generateUniqueID () {
-  var d = new Date().getTime();
-  if (typeof window.performance !== 'undefined' && typeof window.performance.now === 'function') {
-    d += window.performance.now(); // use high-precision timer if available
+  function setFocus($element, options = {}) {
+    var _options$onBeforeFocu;
+    const isFocusable = $element.getAttribute('tabindex');
+    if (!isFocusable) {
+      $element.setAttribute('tabindex', '-1');
+    }
+    function onFocus() {
+      $element.addEventListener('blur', onBlur, {
+        once: true
+      });
+    }
+    function onBlur() {
+      var _options$onBlur;
+      (_options$onBlur = options.onBlur) == null || _options$onBlur.call($element);
+      if (!isFocusable) {
+        $element.removeAttribute('tabindex');
+      }
+    }
+    $element.addEventListener('focus', onFocus, {
+      once: true
+    });
+    (_options$onBeforeFocu = options.onBeforeFocus) == null || _options$onBeforeFocu.call($element);
+    $element.focus();
   }
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16)
-  })
-}
-
-(function(undefined$1) {
-
-// Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Object/defineProperty/detect.js
-var detect = (
-  // In IE8, defineProperty could only act on DOM elements, so full support
-  // for the feature requires the ability to set a property on an arbitrary object
-  'defineProperty' in Object && (function() {
-  	try {
-  		var a = {};
-  		Object.defineProperty(a, 'test', {value:42});
-  		return true;
-  	} catch(e) {
-  		return false
-  	}
-  }())
-);
-
-if (detect) return
-
-// Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Object.defineProperty&flags=always
-(function (nativeDefineProperty) {
-
-	var supportsAccessors = Object.prototype.hasOwnProperty('__defineGetter__');
-	var ERR_ACCESSORS_NOT_SUPPORTED = 'Getters & setters cannot be defined on this javascript engine';
-	var ERR_VALUE_ACCESSORS = 'A property cannot both have accessors and be writable or have a value';
-
-	Object.defineProperty = function defineProperty(object, property, descriptor) {
-
-		// Where native support exists, assume it
-		if (nativeDefineProperty && (object === window || object === document || object === Element.prototype || object instanceof Element)) {
-			return nativeDefineProperty(object, property, descriptor);
-		}
-
-		if (object === null || !(object instanceof Object || typeof object === 'object')) {
-			throw new TypeError('Object.defineProperty called on non-object');
-		}
-
-		if (!(descriptor instanceof Object)) {
-			throw new TypeError('Property description must be an object');
-		}
-
-		var propertyString = String(property);
-		var hasValueOrWritable = 'value' in descriptor || 'writable' in descriptor;
-		var getterType = 'get' in descriptor && typeof descriptor.get;
-		var setterType = 'set' in descriptor && typeof descriptor.set;
-
-		// handle descriptor.get
-		if (getterType) {
-			if (getterType !== 'function') {
-				throw new TypeError('Getter must be a function');
-			}
-			if (!supportsAccessors) {
-				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
-			}
-			if (hasValueOrWritable) {
-				throw new TypeError(ERR_VALUE_ACCESSORS);
-			}
-			Object.__defineGetter__.call(object, propertyString, descriptor.get);
-		} else {
-			object[propertyString] = descriptor.value;
-		}
-
-		// handle descriptor.set
-		if (setterType) {
-			if (setterType !== 'function') {
-				throw new TypeError('Setter must be a function');
-			}
-			if (!supportsAccessors) {
-				throw new TypeError(ERR_ACCESSORS_NOT_SUPPORTED);
-			}
-			if (hasValueOrWritable) {
-				throw new TypeError(ERR_VALUE_ACCESSORS);
-			}
-			Object.__defineSetter__.call(object, propertyString, descriptor.set);
-		}
-
-		// OK to define value unconditionally - if a getter has been specified as well, an error would be thrown above
-		if ('value' in descriptor) {
-			object[propertyString] = descriptor.value;
-		}
-
-		return object;
-	};
-}(Object.defineProperty));
-})
-.call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-  // Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Function/prototype/bind/detect.js
-  var detect = 'bind' in Function.prototype;
-
-  if (detect) return
-
-  // Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Function.prototype.bind&flags=always
-  Object.defineProperty(Function.prototype, 'bind', {
-      value: function bind(that) { // .length is 1
-          // add necessary es5-shim utilities
-          var $Array = Array;
-          var $Object = Object;
-          var ObjectPrototype = $Object.prototype;
-          var ArrayPrototype = $Array.prototype;
-          var Empty = function Empty() {};
-          var to_string = ObjectPrototype.toString;
-          var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
-          var isCallable; /* inlined from https://npmjs.com/is-callable */ var fnToStr = Function.prototype.toString, tryFunctionObject = function tryFunctionObject(value) { try { fnToStr.call(value); return true; } catch (e) { return false; } }, fnClass = '[object Function]', genClass = '[object GeneratorFunction]'; isCallable = function isCallable(value) { if (typeof value !== 'function') { return false; } if (hasToStringTag) { return tryFunctionObject(value); } var strClass = to_string.call(value); return strClass === fnClass || strClass === genClass; };
-          var array_slice = ArrayPrototype.slice;
-          var array_concat = ArrayPrototype.concat;
-          var array_push = ArrayPrototype.push;
-          var max = Math.max;
-          // /add necessary es5-shim utilities
-
-          // 1. Let Target be the this value.
-          var target = this;
-          // 2. If IsCallable(Target) is false, throw a TypeError exception.
-          if (!isCallable(target)) {
-              throw new TypeError('Function.prototype.bind called on incompatible ' + target);
-          }
-          // 3. Let A be a new (possibly empty) internal list of all of the
-          //   argument values provided after thisArg (arg1, arg2 etc), in order.
-          // XXX slicedArgs will stand in for "A" if used
-          var args = array_slice.call(arguments, 1); // for normal call
-          // 4. Let F be a new native ECMAScript object.
-          // 11. Set the [[Prototype]] internal property of F to the standard
-          //   built-in Function prototype object as specified in 15.3.3.1.
-          // 12. Set the [[Call]] internal property of F as described in
-          //   15.3.4.5.1.
-          // 13. Set the [[Construct]] internal property of F as described in
-          //   15.3.4.5.2.
-          // 14. Set the [[HasInstance]] internal property of F as described in
-          //   15.3.4.5.3.
-          var bound;
-          var binder = function () {
-
-              if (this instanceof bound) {
-                  // 15.3.4.5.2 [[Construct]]
-                  // When the [[Construct]] internal method of a function object,
-                  // F that was created using the bind function is called with a
-                  // list of arguments ExtraArgs, the following steps are taken:
-                  // 1. Let target be the value of F's [[TargetFunction]]
-                  //   internal property.
-                  // 2. If target has no [[Construct]] internal method, a
-                  //   TypeError exception is thrown.
-                  // 3. Let boundArgs be the value of F's [[BoundArgs]] internal
-                  //   property.
-                  // 4. Let args be a new list containing the same values as the
-                  //   list boundArgs in the same order followed by the same
-                  //   values as the list ExtraArgs in the same order.
-                  // 5. Return the result of calling the [[Construct]] internal
-                  //   method of target providing args as the arguments.
-
-                  var result = target.apply(
-                      this,
-                      array_concat.call(args, array_slice.call(arguments))
-                  );
-                  if ($Object(result) === result) {
-                      return result;
-                  }
-                  return this;
-
-              } else {
-                  // 15.3.4.5.1 [[Call]]
-                  // When the [[Call]] internal method of a function object, F,
-                  // which was created using the bind function is called with a
-                  // this value and a list of arguments ExtraArgs, the following
-                  // steps are taken:
-                  // 1. Let boundArgs be the value of F's [[BoundArgs]] internal
-                  //   property.
-                  // 2. Let boundThis be the value of F's [[BoundThis]] internal
-                  //   property.
-                  // 3. Let target be the value of F's [[TargetFunction]] internal
-                  //   property.
-                  // 4. Let args be a new list containing the same values as the
-                  //   list boundArgs in the same order followed by the same
-                  //   values as the list ExtraArgs in the same order.
-                  // 5. Return the result of calling the [[Call]] internal method
-                  //   of target providing boundThis as the this value and
-                  //   providing args as the arguments.
-
-                  // equiv: target.call(this, ...boundArgs, ...args)
-                  return target.apply(
-                      that,
-                      array_concat.call(args, array_slice.call(arguments))
-                  );
-
-              }
-
-          };
-
-          // 15. If the [[Class]] internal property of Target is "Function", then
-          //     a. Let L be the length property of Target minus the length of A.
-          //     b. Set the length own property of F to either 0 or L, whichever is
-          //       larger.
-          // 16. Else set the length own property of F to 0.
-
-          var boundLength = max(0, target.length - args.length);
-
-          // 17. Set the attributes of the length own property of F to the values
-          //   specified in 15.3.5.1.
-          var boundArgs = [];
-          for (var i = 0; i < boundLength; i++) {
-              array_push.call(boundArgs, '$' + i);
-          }
-
-          // XXX Build a dynamic function with desired amount of arguments is the only
-          // way to set the length property of a function.
-          // In environments where Content Security Policies enabled (Chrome extensions,
-          // for ex.) all use of eval or Function costructor throws an exception.
-          // However in all of these environments Function.prototype.bind exists
-          // and so this code will never be executed.
-          bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this, arguments); }')(binder);
-
-          if (target.prototype) {
-              Empty.prototype = target.prototype;
-              bound.prototype = new Empty();
-              // Clean up dangling references.
-              Empty.prototype = null;
-          }
-
-          // TODO
-          // 18. Set the [[Extensible]] internal property of F to true.
-
-          // TODO
-          // 19. Let thrower be the [[ThrowTypeError]] function Object (13.2.3).
-          // 20. Call the [[DefineOwnProperty]] internal method of F with
-          //   arguments "caller", PropertyDescriptor {[[Get]]: thrower, [[Set]]:
-          //   thrower, [[Enumerable]]: false, [[Configurable]]: false}, and
-          //   false.
-          // 21. Call the [[DefineOwnProperty]] internal method of F with
-          //   arguments "arguments", PropertyDescriptor {[[Get]]: thrower,
-          //   [[Set]]: thrower, [[Enumerable]]: false, [[Configurable]]: false},
-          //   and false.
-
-          // TODO
-          // NOTE Function objects created using Function.prototype.bind do not
-          // have a prototype property or the [[Code]], [[FormalParameters]], and
-          // [[Scope]] internal properties.
-          // XXX can't delete prototype in pure-js.
-
-          // 22. Return F.
-          return bound;
-      }
-  });
-})
-.call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-
-    // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/master/packages/polyfill-library/polyfills/DOMTokenList/detect.js
-    var detect = (
-      'DOMTokenList' in this && (function (x) {
-        return 'classList' in x ? !x.classList.toggle('x', false) && !x.className : true;
-      })(document.createElement('x'))
-    );
-
-    if (detect) return
-
-    // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-service/master/packages/polyfill-library/polyfills/DOMTokenList/polyfill.js
-    (function (global) {
-      var nativeImpl = "DOMTokenList" in global && global.DOMTokenList;
-
-      if (
-          !nativeImpl ||
-          (
-            !!document.createElementNS &&
-            !!document.createElementNS('http://www.w3.org/2000/svg', 'svg') &&
-            !(document.createElementNS("http://www.w3.org/2000/svg", "svg").classList instanceof DOMTokenList)
-          )
-        ) {
-        global.DOMTokenList = (function() { // eslint-disable-line no-unused-vars
-          var dpSupport = true;
-          var defineGetter = function (object, name, fn, configurable) {
-            if (Object.defineProperty)
-              Object.defineProperty(object, name, {
-                configurable: false === dpSupport ? true : !!configurable,
-                get: fn
-              });
-
-            else object.__defineGetter__(name, fn);
-          };
-
-          /** Ensure the browser allows Object.defineProperty to be used on native JavaScript objects. */
-          try {
-            defineGetter({}, "support");
-          }
-          catch (e) {
-            dpSupport = false;
-          }
-
-
-          var _DOMTokenList = function (el, prop) {
-            var that = this;
-            var tokens = [];
-            var tokenMap = {};
-            var length = 0;
-            var maxLength = 0;
-            var addIndexGetter = function (i) {
-              defineGetter(that, i, function () {
-                preop();
-                return tokens[i];
-              }, false);
-
-            };
-            var reindex = function () {
-
-              /** Define getter functions for array-like access to the tokenList's contents. */
-              if (length >= maxLength)
-                for (; maxLength < length; ++maxLength) {
-                  addIndexGetter(maxLength);
-                }
-            };
-
-            /** Helper function called at the start of each class method. Internal use only. */
-            var preop = function () {
-              var error;
-              var i;
-              var args = arguments;
-              var rSpace = /\s+/;
-
-              /** Validate the token/s passed to an instance method, if any. */
-              if (args.length)
-                for (i = 0; i < args.length; ++i)
-                  if (rSpace.test(args[i])) {
-                    error = new SyntaxError('String "' + args[i] + '" ' + "contains" + ' an invalid character');
-                    error.code = 5;
-                    error.name = "InvalidCharacterError";
-                    throw error;
-                  }
-
-
-              /** Split the new value apart by whitespace*/
-              if (typeof el[prop] === "object") {
-                tokens = ("" + el[prop].baseVal).replace(/^\s+|\s+$/g, "").split(rSpace);
-              } else {
-                tokens = ("" + el[prop]).replace(/^\s+|\s+$/g, "").split(rSpace);
-              }
-
-              /** Avoid treating blank strings as single-item token lists */
-              if ("" === tokens[0]) tokens = [];
-
-              /** Repopulate the internal token lists */
-              tokenMap = {};
-              for (i = 0; i < tokens.length; ++i)
-                tokenMap[tokens[i]] = true;
-              length = tokens.length;
-              reindex();
-            };
-
-            /** Populate our internal token list if the targeted attribute of the subject element isn't empty. */
-            preop();
-
-            /** Return the number of tokens in the underlying string. Read-only. */
-            defineGetter(that, "length", function () {
-              preop();
-              return length;
-            });
-
-            /** Override the default toString/toLocaleString methods to return a space-delimited list of tokens when typecast. */
-            that.toLocaleString =
-              that.toString = function () {
-                preop();
-                return tokens.join(" ");
-              };
-
-            that.item = function (idx) {
-              preop();
-              return tokens[idx];
-            };
-
-            that.contains = function (token) {
-              preop();
-              return !!tokenMap[token];
-            };
-
-            that.add = function () {
-              preop.apply(that, args = arguments);
-
-              for (var args, token, i = 0, l = args.length; i < l; ++i) {
-                token = args[i];
-                if (!tokenMap[token]) {
-                  tokens.push(token);
-                  tokenMap[token] = true;
-                }
-              }
-
-              /** Update the targeted attribute of the attached element if the token list's changed. */
-              if (length !== tokens.length) {
-                length = tokens.length >>> 0;
-                if (typeof el[prop] === "object") {
-                  el[prop].baseVal = tokens.join(" ");
-                } else {
-                  el[prop] = tokens.join(" ");
-                }
-                reindex();
-              }
-            };
-
-            that.remove = function () {
-              preop.apply(that, args = arguments);
-
-              /** Build a hash of token names to compare against when recollecting our token list. */
-              for (var args, ignore = {}, i = 0, t = []; i < args.length; ++i) {
-                ignore[args[i]] = true;
-                delete tokenMap[args[i]];
-              }
-
-              /** Run through our tokens list and reassign only those that aren't defined in the hash declared above. */
-              for (i = 0; i < tokens.length; ++i)
-                if (!ignore[tokens[i]]) t.push(tokens[i]);
-
-              tokens = t;
-              length = t.length >>> 0;
-
-              /** Update the targeted attribute of the attached element. */
-              if (typeof el[prop] === "object") {
-                el[prop].baseVal = tokens.join(" ");
-              } else {
-                el[prop] = tokens.join(" ");
-              }
-              reindex();
-            };
-
-            that.toggle = function (token, force) {
-              preop.apply(that, [token]);
-
-              /** Token state's being forced. */
-              if (undefined$1 !== force) {
-                if (force) {
-                  that.add(token);
-                  return true;
-                } else {
-                  that.remove(token);
-                  return false;
-                }
-              }
-
-              /** Token already exists in tokenList. Remove it, and return FALSE. */
-              if (tokenMap[token]) {
-                that.remove(token);
-                return false;
-              }
-
-              /** Otherwise, add the token and return TRUE. */
-              that.add(token);
-              return true;
-            };
-
-            return that;
-          };
-
-          return _DOMTokenList;
-        }());
-      }
-
-      // Add second argument to native DOMTokenList.toggle() if necessary
-      (function () {
-        var e = document.createElement('span');
-        if (!('classList' in e)) return;
-        e.classList.toggle('x', false);
-        if (!e.classList.contains('x')) return;
-        e.classList.constructor.prototype.toggle = function toggle(token /*, force*/) {
-          var force = arguments[1];
-          if (force === undefined$1) {
-            var add = !this.contains(token);
-            this[add ? 'add' : 'remove'](token);
-            return add;
-          }
-          force = !!force;
-          this[force ? 'add' : 'remove'](token);
-          return force;
-        };
-      }());
-
-      // Add multiple arguments to native DOMTokenList.add() if necessary
-      (function () {
-        var e = document.createElement('span');
-        if (!('classList' in e)) return;
-        e.classList.add('a', 'b');
-        if (e.classList.contains('b')) return;
-        var native = e.classList.constructor.prototype.add;
-        e.classList.constructor.prototype.add = function () {
-          var args = arguments;
-          var l = arguments.length;
-          for (var i = 0; i < l; i++) {
-            native.call(this, args[i]);
-          }
-        };
-      }());
-
-      // Add multiple arguments to native DOMTokenList.remove() if necessary
-      (function () {
-        var e = document.createElement('span');
-        if (!('classList' in e)) return;
-        e.classList.add('a');
-        e.classList.add('b');
-        e.classList.remove('a', 'b');
-        if (!e.classList.contains('b')) return;
-        var native = e.classList.constructor.prototype.remove;
-        e.classList.constructor.prototype.remove = function () {
-          var args = arguments;
-          var l = arguments.length;
-          for (var i = 0; i < l; i++) {
-            native.call(this, args[i]);
-          }
-        };
-      }());
-
-    }(this));
-
-}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-
-// Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Document/detect.js
-var detect = ("Document" in this);
-
-if (detect) return
-
-// Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Document&flags=always
-if ((typeof WorkerGlobalScope === "undefined") && (typeof importScripts !== "function")) {
-
-	if (this.HTMLDocument) { // IE8
-
-		// HTMLDocument is an extension of Document.  If the browser has HTMLDocument but not Document, the former will suffice as an alias for the latter.
-		this.Document = this.HTMLDocument;
-
-	} else {
-
-		// Create an empty function to act as the missing constructor for the document object, attach the document object as its prototype.  The function needs to be anonymous else it is hoisted and causes the feature detect to prematurely pass, preventing the assignments below being made.
-		this.Document = this.HTMLDocument = document.constructor = (new Function('return function Document() {}')());
-		this.Document.prototype = document;
-	}
-}
-
-
-})
-.call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-
-// Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Element/detect.js
-var detect = ('Element' in this && 'HTMLElement' in this);
-
-if (detect) return
-
-// Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Element&flags=always
-(function () {
-
-	// IE8
-	if (window.Element && !window.HTMLElement) {
-		window.HTMLElement = window.Element;
-		return;
-	}
-
-	// create Element constructor
-	window.Element = window.HTMLElement = new Function('return function Element() {}')();
-
-	// generate sandboxed iframe
-	var vbody = document.appendChild(document.createElement('body'));
-	var frame = vbody.appendChild(document.createElement('iframe'));
-
-	// use sandboxed iframe to replicate Element functionality
-	var frameDocument = frame.contentWindow.document;
-	var prototype = Element.prototype = frameDocument.appendChild(frameDocument.createElement('*'));
-	var cache = {};
-
-	// polyfill Element.prototype on an element
-	var shiv = function (element, deep) {
-		var
-		childNodes = element.childNodes || [],
-		index = -1,
-		key, value, childNode;
-
-		if (element.nodeType === 1 && element.constructor !== Element) {
-			element.constructor = Element;
-
-			for (key in cache) {
-				value = cache[key];
-				element[key] = value;
-			}
-		}
-
-		while (childNode = deep && childNodes[++index]) {
-			shiv(childNode, deep);
-		}
-
-		return element;
-	};
-
-	var elements = document.getElementsByTagName('*');
-	var nativeCreateElement = document.createElement;
-	var interval;
-	var loopLimit = 100;
-
-	prototype.attachEvent('onpropertychange', function (event) {
-		var
-		propertyName = event.propertyName,
-		nonValue = !cache.hasOwnProperty(propertyName),
-		newValue = prototype[propertyName],
-		oldValue = cache[propertyName],
-		index = -1,
-		element;
-
-		while (element = elements[++index]) {
-			if (element.nodeType === 1) {
-				if (nonValue || element[propertyName] === oldValue) {
-					element[propertyName] = newValue;
-				}
-			}
-		}
-
-		cache[propertyName] = newValue;
-	});
-
-	prototype.constructor = Element;
-
-	if (!prototype.hasAttribute) {
-		// <Element>.hasAttribute
-		prototype.hasAttribute = function hasAttribute(name) {
-			return this.getAttribute(name) !== null;
-		};
-	}
-
-	// Apply Element prototype to the pre-existing DOM as soon as the body element appears.
-	function bodyCheck() {
-		if (!(loopLimit--)) clearTimeout(interval);
-		if (document.body && !document.body.prototype && /(complete|interactive)/.test(document.readyState)) {
-			shiv(document, true);
-			if (interval && document.body.prototype) clearTimeout(interval);
-			return (!!document.body.prototype);
-		}
-		return false;
-	}
-	if (!bodyCheck()) {
-		document.onreadystatechange = bodyCheck;
-		interval = setInterval(bodyCheck, 25);
-	}
-
-	// Apply to any new elements created after load
-	document.createElement = function createElement(nodeName) {
-		var element = nativeCreateElement(String(nodeName).toLowerCase());
-		return shiv(element);
-	};
-
-	// remove sandboxed iframe
-	document.removeChild(vbody);
-}());
-
-})
-.call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-
-    // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/8717a9e04ac7aff99b4980fbedead98036b0929a/packages/polyfill-library/polyfills/Element/prototype/classList/detect.js
-    var detect = (
-      'document' in this && "classList" in document.documentElement && 'Element' in this && 'classList' in Element.prototype && (function () {
-        var e = document.createElement('span');
-        e.classList.add('a', 'b');
-        return e.classList.contains('b');
-      }())
-    );
-
-    if (detect) return
-
-    // Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Element.prototype.classList&flags=always
-    (function (global) {
-      var dpSupport = true;
-      var defineGetter = function (object, name, fn, configurable) {
-        if (Object.defineProperty)
-          Object.defineProperty(object, name, {
-            configurable: false === dpSupport ? true : !!configurable,
-            get: fn
-          });
-
-        else object.__defineGetter__(name, fn);
-      };
-      /** Ensure the browser allows Object.defineProperty to be used on native JavaScript objects. */
-      try {
-        defineGetter({}, "support");
-      }
-      catch (e) {
-        dpSupport = false;
-      }
-      /** Polyfills a property with a DOMTokenList */
-      var addProp = function (o, name, attr) {
-
-        defineGetter(o.prototype, name, function () {
-          var tokenList;
-
-          var THIS = this,
-
-          /** Prevent this from firing twice for some reason. What the hell, IE. */
-          gibberishProperty = "__defineGetter__" + "DEFINE_PROPERTY" + name;
-          if(THIS[gibberishProperty]) return tokenList;
-          THIS[gibberishProperty] = true;
-
-          /**
-           * IE8 can't define properties on native JavaScript objects, so we'll use a dumb hack instead.
-           *
-           * What this is doing is creating a dummy element ("reflection") inside a detached phantom node ("mirror")
-           * that serves as the target of Object.defineProperty instead. While we could simply use the subject HTML
-           * element instead, this would conflict with element types which use indexed properties (such as forms and
-           * select lists).
-           */
-          if (false === dpSupport) {
-
-            var visage;
-            var mirror = addProp.mirror || document.createElement("div");
-            var reflections = mirror.childNodes;
-            var l = reflections.length;
-
-            for (var i = 0; i < l; ++i)
-              if (reflections[i]._R === THIS) {
-                visage = reflections[i];
-                break;
-              }
-
-            /** Couldn't find an element's reflection inside the mirror. Materialise one. */
-            visage || (visage = mirror.appendChild(document.createElement("div")));
-
-            tokenList = DOMTokenList.call(visage, THIS, attr);
-          } else tokenList = new DOMTokenList(THIS, attr);
-
-          defineGetter(THIS, name, function () {
-            return tokenList;
-          });
-          delete THIS[gibberishProperty];
-
-          return tokenList;
-        }, true);
-      };
-
-      addProp(global.Element, "classList", "className");
-      addProp(global.HTMLElement, "classList", "className");
-      addProp(global.HTMLLinkElement, "relList", "rel");
-      addProp(global.HTMLAnchorElement, "relList", "rel");
-      addProp(global.HTMLAreaElement, "relList", "rel");
-    }(this));
-
-}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-function Accordion ($module) {
-  this.$module = $module;
-  this.moduleId = $module.getAttribute('id');
-  this.$sections = $module.querySelectorAll('.govuk-accordion__section');
-  this.$showAllButton = '';
-  this.browserSupportsSessionStorage = helper.checkForSessionStorage();
-
-  this.controlsClass = 'govuk-accordion__controls';
-  this.showAllClass = 'govuk-accordion__show-all';
-  this.showAllTextClass = 'govuk-accordion__show-all-text';
-
-  this.sectionExpandedClass = 'govuk-accordion__section--expanded';
-  this.sectionButtonClass = 'govuk-accordion__section-button';
-  this.sectionHeaderClass = 'govuk-accordion__section-header';
-  this.sectionHeadingClass = 'govuk-accordion__section-heading';
-  this.sectionHeadingTextClass = 'govuk-accordion__section-heading-text';
-  this.sectionHeadingTextFocusClass = 'govuk-accordion__section-heading-text-focus';
-
-  this.sectionShowHideToggleClass = 'govuk-accordion__section-toggle';
-  this.sectionShowHideToggleFocusClass = 'govuk-accordion__section-toggle-focus';
-  this.sectionShowHideTextClass = 'govuk-accordion__section-toggle-text';
-  this.upChevronIconClass = 'govuk-accordion-nav__chevron';
-  this.downChevronIconClass = 'govuk-accordion-nav__chevron--down';
-
-  this.sectionSummaryClass = 'govuk-accordion__section-summary';
-  this.sectionSummaryFocusClass = 'govuk-accordion__section-summary-focus';
-}
-
-// Initialize component
-Accordion.prototype.init = function () {
-  // Check for module
-  if (!this.$module) {
-    return
+  function isInitialised($root, moduleName) {
+    return $root instanceof HTMLElement && $root.hasAttribute(`data-${moduleName}-init`);
   }
 
-  this.initControls();
-  this.initSectionHeaders();
+  /**
+   * Checks if GOV.UK Frontend is supported on this page
+   *
+   * Some browsers will load and run our JavaScript but GOV.UK Frontend
+   * won't be supported.
+   *
+   * @param {HTMLElement | null} [$scope] - (internal) `<body>` HTML element checked for browser support
+   * @returns {boolean} Whether GOV.UK Frontend is supported on this page
+   */
+  function isSupported($scope = document.body) {
+    if (!$scope) {
+      return false;
+    }
+    return $scope.classList.contains('govuk-frontend-supported');
+  }
+  function isArray(option) {
+    return Array.isArray(option);
+  }
+  function isObject(option) {
+    return !!option && typeof option === 'object' && !isArray(option);
+  }
+  function formatErrorMessage(Component, message) {
+    return `${Component.moduleName}: ${message}`;
+  }
+  /**
+   * @typedef ComponentWithModuleName
+   * @property {string} moduleName - Name of the component
+   */
+  /**
+   * @import { ObjectNested } from './configuration.mjs'
+   */
 
-  // See if "Show all sections" button text should be updated
-  var areAllSectionsOpen = this.checkIfAllSectionsOpen();
-  this.updateShowAllButton(areAllSectionsOpen);
-};
+  class GOVUKFrontendError extends Error {
+    constructor(...args) {
+      super(...args);
+      this.name = 'GOVUKFrontendError';
+    }
+  }
+  class SupportError extends GOVUKFrontendError {
+    /**
+     * Checks if GOV.UK Frontend is supported on this page
+     *
+     * @param {HTMLElement | null} [$scope] - HTML element `<body>` checked for browser support
+     */
+    constructor($scope = document.body) {
+      const supportMessage = 'noModule' in HTMLScriptElement.prototype ? 'GOV.UK Frontend initialised without `<body class="govuk-frontend-supported">` from template `<script>` snippet' : 'GOV.UK Frontend is not supported in this browser';
+      super($scope ? supportMessage : 'GOV.UK Frontend initialised without `<script type="module">`');
+      this.name = 'SupportError';
+    }
+  }
+  class ConfigError extends GOVUKFrontendError {
+    constructor(...args) {
+      super(...args);
+      this.name = 'ConfigError';
+    }
+  }
+  class ElementError extends GOVUKFrontendError {
+    constructor(messageOrOptions) {
+      let message = typeof messageOrOptions === 'string' ? messageOrOptions : '';
+      if (typeof messageOrOptions === 'object') {
+        const {
+          component,
+          identifier,
+          element,
+          expectedType
+        } = messageOrOptions;
+        message = identifier;
+        message += element ? ` is not of type ${expectedType != null ? expectedType : 'HTMLElement'}` : ' not found';
+        message = formatErrorMessage(component, message);
+      }
+      super(message);
+      this.name = 'ElementError';
+    }
+  }
+  class InitError extends GOVUKFrontendError {
+    constructor(componentOrMessage) {
+      const message = typeof componentOrMessage === 'string' ? componentOrMessage : formatErrorMessage(componentOrMessage, `Root element (\`$root\`) already initialised`);
+      super(message);
+      this.name = 'InitError';
+    }
+  }
+  /**
+   * @import { ComponentWithModuleName } from '../common/index.mjs'
+   */
 
-// Initialise controls and set attributes
-Accordion.prototype.initControls = function () {
-  // Create "Show all" button and set attributes
-  this.$showAllButton = document.createElement('button');
-  this.$showAllButton.setAttribute('type', 'button');
-  this.$showAllButton.setAttribute('class', this.showAllClass);
-  this.$showAllButton.setAttribute('aria-expanded', 'false');
-
-  // Create icon, add to element
-  var $icon = document.createElement('span');
-  $icon.classList.add(this.upChevronIconClass);
-  this.$showAllButton.appendChild($icon);
-
-  // Create control wrapper and add controls to it
-  var $accordionControls = document.createElement('div');
-  $accordionControls.setAttribute('class', this.controlsClass);
-  $accordionControls.appendChild(this.$showAllButton);
-  this.$module.insertBefore($accordionControls, this.$module.firstChild);
-
-  // Build additional wrapper for Show all toggle text and place after icon
-  var $wrappershowAllText = document.createElement('span');
-  $wrappershowAllText.classList.add(this.showAllTextClass);
-  this.$showAllButton.appendChild($wrappershowAllText);
-
-  // Handle click events on the show/hide all button
-  this.$showAllButton.addEventListener('click', this.onShowOrHideAllToggle.bind(this));
-};
-
-// Initialise section headers
-Accordion.prototype.initSectionHeaders = function () {
-  // Loop through section headers
-  nodeListForEach(this.$sections, function ($section, i) {
-    // Set header attributes
-    var $header = $section.querySelector('.' + this.sectionHeaderClass);
-    this.constructHeaderMarkup($header, i);
-    this.setExpanded(this.isExpanded($section), $section);
-
-    // Handle events
-    $header.addEventListener('click', this.onSectionToggle.bind(this, $section));
-
-    // See if there is any state stored in sessionStorage and set the sections to
-    // open or closed.
-    this.setInitialState($section);
-  }.bind(this));
-};
-
-Accordion.prototype.constructHeaderMarkup = function ($headerWrapper, index) {
-  var $span = $headerWrapper.querySelector('.' + this.sectionButtonClass);
-  var $heading = $headerWrapper.querySelector('.' + this.sectionHeadingClass);
-  var $summary = $headerWrapper.querySelector('.' + this.sectionSummaryClass);
-
-  // Create a button element that will replace the '.govuk-accordion__section-button' span
-  var $button = document.createElement('button');
-  $button.setAttribute('type', 'button');
-  $button.setAttribute('aria-controls', this.moduleId + '-content-' + (index + 1));
-
-  // Copy all attributes (https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes) from $span to $button
-  for (var i = 0; i < $span.attributes.length; i++) {
-    var attr = $span.attributes.item(i);
-    // Add all attributes but not ID as this is being added to
-    // the section heading ($headingText)
-    if (attr.nodeName !== 'id') {
-      $button.setAttribute(attr.nodeName, attr.nodeValue);
+  class Component {
+    /**
+     * Returns the root element of the component
+     *
+     * @protected
+     * @returns {RootElementType} - the root element of component
+     */
+    get $root() {
+      return this._$root;
+    }
+    constructor($root) {
+      this._$root = void 0;
+      const childConstructor = this.constructor;
+      if (typeof childConstructor.moduleName !== 'string') {
+        throw new InitError(`\`moduleName\` not defined in component`);
+      }
+      if (!($root instanceof childConstructor.elementType)) {
+        throw new ElementError({
+          element: $root,
+          component: childConstructor,
+          identifier: 'Root element (`$root`)',
+          expectedType: childConstructor.elementType.name
+        });
+      } else {
+        this._$root = $root;
+      }
+      childConstructor.checkSupport();
+      this.checkInitialised();
+      const moduleName = childConstructor.moduleName;
+      this.$root.setAttribute(`data-${moduleName}-init`, '');
+    }
+    checkInitialised() {
+      const constructor = this.constructor;
+      const moduleName = constructor.moduleName;
+      if (moduleName && isInitialised(this.$root, moduleName)) {
+        throw new InitError(constructor);
+      }
+    }
+    static checkSupport() {
+      if (!isSupported()) {
+        throw new SupportError();
+      }
     }
   }
 
-  // Create container for heading text so it can be styled
-  var $headingText = document.createElement('span');
-  $headingText.classList.add(this.sectionHeadingTextClass);
-  // Copy the span ID to the heading text to allow it to be referenced by `aria-labelledby` on the
-  // hidden content area without "Show this section"
-  $headingText.id = $span.id;
+  /**
+   * @typedef ChildClass
+   * @property {string} moduleName - The module name that'll be looked for in the DOM when initialising the component
+   */
 
-  // Create an inner heading text container to limit the width of the focus state
-  var $headingTextFocus = document.createElement('span');
-  $headingTextFocus.classList.add(this.sectionHeadingTextFocusClass);
-  $headingText.appendChild($headingTextFocus);
-  // span could contain HTML elements (see https://www.w3.org/TR/2011/WD-html5-20110525/content-models.html#phrasing-content)
-  $headingTextFocus.innerHTML = $span.innerHTML;
+  /**
+   * @typedef {typeof Component & ChildClass} ChildClassConstructor
+   */
+  Component.elementType = HTMLElement;
 
-  // Create container for show / hide icons and text.
-  var $showToggle = document.createElement('span');
-  $showToggle.classList.add(this.sectionShowHideToggleClass);
-  // Tell Google not to index the 'show' text as part of the heading
-  // For the snippet to work with JavaScript, it must be added before adding the page element to the
-  // page's DOM. See https://developers.google.com/search/docs/advanced/robots/robots_meta_tag#data-nosnippet-attr
-  $showToggle.setAttribute('data-nosnippet', '');
-  // Create an inner container to limit the width of the focus state
-  var $showToggleFocus = document.createElement('span');
-  $showToggleFocus.classList.add(this.sectionShowHideToggleFocusClass);
-  $showToggle.appendChild($showToggleFocus);
-  // Create wrapper for the show / hide text. Append text after the show/hide icon
-  var $showToggleText = document.createElement('span');
-  var $icon = document.createElement('span');
-  $icon.classList.add(this.upChevronIconClass);
-  $showToggleFocus.appendChild($icon);
-  $showToggleText.classList.add(this.sectionShowHideTextClass);
-  $showToggleFocus.appendChild($showToggleText);
-
-  // Append elements to the button:
-  // 1. Heading text
-  // 2. Punctuation
-  // 3. (Optional: Summary line followed by punctuation)
-  // 4. Show / hide toggle
-  $button.appendChild($headingText);
-  $button.appendChild(this.getButtonPunctuationEl());
-
-  // If summary content exists add to DOM in correct order
-  if (typeof ($summary) !== 'undefined' && $summary !== null) {
-    // Create a new `span` element and copy the summary line content from the original `div` to the
-    // new `span`
-    // This is because the summary line text is now inside a button element, which can only contain
-    // phrasing content
-    var $summarySpan = document.createElement('span');
-    // Create an inner summary container to limit the width of the summary focus state
-    var $summarySpanFocus = document.createElement('span');
-    $summarySpanFocus.classList.add(this.sectionSummaryFocusClass);
-    $summarySpan.appendChild($summarySpanFocus);
-
-    // Get original attributes, and pass them to the replacement
-    for (var j = 0, l = $summary.attributes.length; j < l; ++j) {
-      var nodeName = $summary.attributes.item(j).nodeName;
-      var nodeValue = $summary.attributes.item(j).nodeValue;
-      $summarySpan.setAttribute(nodeName, nodeValue);
+  const configOverride = Symbol.for('configOverride');
+  class ConfigurableComponent extends Component {
+    [configOverride](param) {
+      return {};
     }
 
-    // Copy original contents of summary to the new summary span
-    $summarySpanFocus.innerHTML = $summary.innerHTML;
-
-    // Replace the original summary `div` with the new summary `span`
-    $summary.parentNode.replaceChild($summarySpan, $summary);
-
-    $button.appendChild($summarySpan);
-    $button.appendChild(this.getButtonPunctuationEl());
-  }
-
-  $button.appendChild($showToggle);
-
-  $heading.removeChild($span);
-  $heading.appendChild($button);
-};
-
-// When section toggled, set and store state
-Accordion.prototype.onSectionToggle = function ($section) {
-  var expanded = this.isExpanded($section);
-  this.setExpanded(!expanded, $section);
-
-  // Store the state in sessionStorage when a change is triggered
-  this.storeState($section);
-};
-
-// When Open/Close All toggled, set and store state
-Accordion.prototype.onShowOrHideAllToggle = function () {
-  var $module = this;
-  var $sections = this.$sections;
-  var nowExpanded = !this.checkIfAllSectionsOpen();
-
-  nodeListForEach($sections, function ($section) {
-    $module.setExpanded(nowExpanded, $section);
-    // Store the state in sessionStorage when a change is triggered
-    $module.storeState($section);
-  });
-
-  $module.updateShowAllButton(nowExpanded);
-};
-
-// Set section attributes when opened/closed
-Accordion.prototype.setExpanded = function (expanded, $section) {
-  var $icon = $section.querySelector('.' + this.upChevronIconClass);
-  var $showHideText = $section.querySelector('.' + this.sectionShowHideTextClass);
-  var $button = $section.querySelector('.' + this.sectionButtonClass);
-  var $newButtonText = expanded ? 'Hide' : 'Show';
-
-  // Build additional copy of "this section" for assistive technology and place inside toggle link
-  var $visuallyHiddenText = document.createElement('span');
-  $visuallyHiddenText.classList.add('govuk-visually-hidden');
-  $visuallyHiddenText.innerHTML = ' this section';
-
-  $showHideText.innerHTML = $newButtonText;
-  $showHideText.appendChild($visuallyHiddenText);
-  $button.setAttribute('aria-expanded', expanded);
-
-  // Swap icon, change class
-  if (expanded) {
-    $section.classList.add(this.sectionExpandedClass);
-    $icon.classList.remove(this.downChevronIconClass);
-  } else {
-    $section.classList.remove(this.sectionExpandedClass);
-    $icon.classList.add(this.downChevronIconClass);
-  }
-
-  // See if "Show all sections" button text should be updated
-  var areAllSectionsOpen = this.checkIfAllSectionsOpen();
-  this.updateShowAllButton(areAllSectionsOpen);
-};
-
-// Get state of section
-Accordion.prototype.isExpanded = function ($section) {
-  return $section.classList.contains(this.sectionExpandedClass)
-};
-
-// Check if all sections are open
-Accordion.prototype.checkIfAllSectionsOpen = function () {
-  // Get a count of all the Accordion sections
-  var sectionsCount = this.$sections.length;
-  // Get a count of all Accordion sections that are expanded
-  var expandedSectionCount = this.$module.querySelectorAll('.' + this.sectionExpandedClass).length;
-  var areAllSectionsOpen = sectionsCount === expandedSectionCount;
-
-  return areAllSectionsOpen
-};
-
-// Update "Show all sections" button
-Accordion.prototype.updateShowAllButton = function (expanded) {
-  var $showAllIcon = this.$showAllButton.querySelector('.' + this.upChevronIconClass);
-  var $showAllText = this.$showAllButton.querySelector('.' + this.showAllTextClass);
-  var newButtonText = expanded ? 'Hide all sections' : 'Show all sections';
-  this.$showAllButton.setAttribute('aria-expanded', expanded);
-  $showAllText.innerHTML = newButtonText;
-
-  // Swap icon, toggle class
-  if (expanded) {
-    $showAllIcon.classList.remove(this.downChevronIconClass);
-  } else {
-    $showAllIcon.classList.add(this.downChevronIconClass);
-  }
-};
-
-// Check for `window.sessionStorage`, and that it actually works.
-var helper = {
-  checkForSessionStorage: function () {
-    var testString = 'this is the test string';
-    var result;
-    try {
-      window.sessionStorage.setItem(testString, testString);
-      result = window.sessionStorage.getItem(testString) === testString.toString();
-      window.sessionStorage.removeItem(testString);
-      return result
-    } catch (exception) {
-      if ((typeof console === 'undefined' || typeof console.log === 'undefined')) {
-        console.log('Notice: sessionStorage not available.');
+    /**
+     * Returns the root element of the component
+     *
+     * @protected
+     * @returns {ConfigurationType} - the root element of component
+     */
+    get config() {
+      return this._config;
+    }
+    constructor($root, config) {
+      super($root);
+      this._config = void 0;
+      const childConstructor = this.constructor;
+      if (!isObject(childConstructor.defaults)) {
+        throw new ConfigError(formatErrorMessage(childConstructor, 'Config passed as parameter into constructor but no defaults defined'));
       }
+      const datasetConfig = normaliseDataset(childConstructor, this._$root.dataset);
+      this._config = mergeConfigs(childConstructor.defaults, config != null ? config : {}, this[configOverride](datasetConfig), datasetConfig);
     }
   }
-};
-
-// Set the state of the accordions in sessionStorage
-Accordion.prototype.storeState = function ($section) {
-  if (this.browserSupportsSessionStorage) {
-    // We need a unique way of identifying each content in the Accordion. Since
-    // an `#id` should be unique and an `id` is required for `aria-` attributes
-    // `id` can be safely used.
-    var $button = $section.querySelector('.' + this.sectionButtonClass);
-
-    if ($button) {
-      var contentId = $button.getAttribute('aria-controls');
-      var contentState = $button.getAttribute('aria-expanded');
-
-      if (typeof contentId === 'undefined' && (typeof console === 'undefined' || typeof console.log === 'undefined')) {
-        console.error(new Error('No aria controls present in accordion section heading.'));
+  function normaliseString(value, property) {
+    const trimmedValue = value ? value.trim() : '';
+    let output;
+    let outputType = property == null ? void 0 : property.type;
+    if (!outputType) {
+      if (['true', 'false'].includes(trimmedValue)) {
+        outputType = 'boolean';
       }
-
-      if (typeof contentState === 'undefined' && (typeof console === 'undefined' || typeof console.log === 'undefined')) {
-        console.error(new Error('No aria expanded present in accordion section heading.'));
-      }
-
-      // Only set the state when both `contentId` and `contentState` are taken from the DOM.
-      if (contentId && contentState) {
-        window.sessionStorage.setItem(contentId, contentState);
+      if (trimmedValue.length > 0 && isFinite(Number(trimmedValue))) {
+        outputType = 'number';
       }
     }
+    switch (outputType) {
+      case 'boolean':
+        output = trimmedValue === 'true';
+        break;
+      case 'number':
+        output = Number(trimmedValue);
+        break;
+      default:
+        output = value;
+    }
+    return output;
   }
-};
-
-// Read the state of the accordions from sessionStorage
-Accordion.prototype.setInitialState = function ($section) {
-  if (this.browserSupportsSessionStorage) {
-    var $button = $section.querySelector('.' + this.sectionButtonClass);
-
-    if ($button) {
-      var contentId = $button.getAttribute('aria-controls');
-      var contentState = contentId ? window.sessionStorage.getItem(contentId) : null;
-
-      if (contentState !== null) {
-        this.setExpanded(contentState === 'true', $section);
+  function normaliseDataset(Component, dataset) {
+    if (!isObject(Component.schema)) {
+      throw new ConfigError(formatErrorMessage(Component, 'Config passed as parameter into constructor but no schema defined'));
+    }
+    const out = {};
+    const entries = Object.entries(Component.schema.properties);
+    for (const entry of entries) {
+      const [namespace, property] = entry;
+      const field = namespace.toString();
+      if (field in dataset) {
+        out[field] = normaliseString(dataset[field], property);
+      }
+      if ((property == null ? void 0 : property.type) === 'object') {
+        out[field] = extractConfigByNamespace(Component.schema, dataset, namespace);
       }
     }
+    return out;
   }
-};
-
-/**
-* Create an element to improve semantics of the section button with punctuation
-* @return {object} DOM element
-*
-* Used to add pause (with a comma) for assistive technology.
-* Example: [heading]Section A ,[pause] Show this section.
-* https://accessibility.blog.gov.uk/2017/12/18/what-working-on-gov-uk-navigation-taught-us-about-accessibility/
-*
-* Adding punctuation to the button can also improve its general semantics by dividing its contents
-* into thematic chunks.
-* See https://github.com/alphagov/govuk-frontend/issues/2327#issuecomment-922957442
-*/
-Accordion.prototype.getButtonPunctuationEl = function () {
-  var $punctuationEl = document.createElement('span');
-  $punctuationEl.classList.add('govuk-visually-hidden', 'govuk-accordion__section-heading-divider');
-  $punctuationEl.innerHTML = ', ';
-  return $punctuationEl
-};
-
-(function(undefined$1) {
-
-// Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Window/detect.js
-var detect = ('Window' in this);
-
-if (detect) return
-
-// Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Window&flags=always
-if ((typeof WorkerGlobalScope === "undefined") && (typeof importScripts !== "function")) {
-	(function (global) {
-		if (global.constructor) {
-			global.Window = global.constructor;
-		} else {
-			(global.Window = global.constructor = new Function('return function Window() {}')()).prototype = this;
-		}
-	}(this));
-}
-
-})
-.call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-
-// Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Event/detect.js
-var detect = (
-  (function(global) {
-
-  	if (!('Event' in global)) return false;
-  	if (typeof global.Event === 'function') return true;
-
-  	try {
-
-  		// In IE 9-11, the Event object exists but cannot be instantiated
-  		new Event('click');
-  		return true;
-  	} catch(e) {
-  		return false;
-  	}
-  }(this))
-);
-
-if (detect) return
-
-// Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Event&flags=always
-(function () {
-	var unlistenableWindowEvents = {
-		click: 1,
-		dblclick: 1,
-		keyup: 1,
-		keypress: 1,
-		keydown: 1,
-		mousedown: 1,
-		mouseup: 1,
-		mousemove: 1,
-		mouseover: 1,
-		mouseenter: 1,
-		mouseleave: 1,
-		mouseout: 1,
-		storage: 1,
-		storagecommit: 1,
-		textinput: 1
-	};
-
-	// This polyfill depends on availability of `document` so will not run in a worker
-	// However, we asssume there are no browsers with worker support that lack proper
-	// support for `Event` within the worker
-	if (typeof document === 'undefined' || typeof window === 'undefined') return;
-
-	function indexOf(array, element) {
-		var
-		index = -1,
-		length = array.length;
-
-		while (++index < length) {
-			if (index in array && array[index] === element) {
-				return index;
-			}
-		}
-
-		return -1;
-	}
-
-	var existingProto = (window.Event && window.Event.prototype) || null;
-	window.Event = Window.prototype.Event = function Event(type, eventInitDict) {
-		if (!type) {
-			throw new Error('Not enough arguments');
-		}
-
-		var event;
-		// Shortcut if browser supports createEvent
-		if ('createEvent' in document) {
-			event = document.createEvent('Event');
-			var bubbles = eventInitDict && eventInitDict.bubbles !== undefined$1 ? eventInitDict.bubbles : false;
-			var cancelable = eventInitDict && eventInitDict.cancelable !== undefined$1 ? eventInitDict.cancelable : false;
-
-			event.initEvent(type, bubbles, cancelable);
-
-			return event;
-		}
-
-		event = document.createEventObject();
-
-		event.type = type;
-		event.bubbles = eventInitDict && eventInitDict.bubbles !== undefined$1 ? eventInitDict.bubbles : false;
-		event.cancelable = eventInitDict && eventInitDict.cancelable !== undefined$1 ? eventInitDict.cancelable : false;
-
-		return event;
-	};
-	if (existingProto) {
-		Object.defineProperty(window.Event, 'prototype', {
-			configurable: false,
-			enumerable: false,
-			writable: true,
-			value: existingProto
-		});
-	}
-
-	if (!('createEvent' in document)) {
-		window.addEventListener = Window.prototype.addEventListener = Document.prototype.addEventListener = Element.prototype.addEventListener = function addEventListener() {
-			var
-			element = this,
-			type = arguments[0],
-			listener = arguments[1];
-
-			if (element === window && type in unlistenableWindowEvents) {
-				throw new Error('In IE8 the event: ' + type + ' is not available on the window object. Please see https://github.com/Financial-Times/polyfill-service/issues/317 for more information.');
-			}
-
-			if (!element._events) {
-				element._events = {};
-			}
-
-			if (!element._events[type]) {
-				element._events[type] = function (event) {
-					var
-					list = element._events[event.type].list,
-					events = list.slice(),
-					index = -1,
-					length = events.length,
-					eventElement;
-
-					event.preventDefault = function preventDefault() {
-						if (event.cancelable !== false) {
-							event.returnValue = false;
-						}
-					};
-
-					event.stopPropagation = function stopPropagation() {
-						event.cancelBubble = true;
-					};
-
-					event.stopImmediatePropagation = function stopImmediatePropagation() {
-						event.cancelBubble = true;
-						event.cancelImmediate = true;
-					};
-
-					event.currentTarget = element;
-					event.relatedTarget = event.fromElement || null;
-					event.target = event.target || event.srcElement || element;
-					event.timeStamp = new Date().getTime();
-
-					if (event.clientX) {
-						event.pageX = event.clientX + document.documentElement.scrollLeft;
-						event.pageY = event.clientY + document.documentElement.scrollTop;
-					}
-
-					while (++index < length && !event.cancelImmediate) {
-						if (index in events) {
-							eventElement = events[index];
-
-							if (indexOf(list, eventElement) !== -1 && typeof eventElement === 'function') {
-								eventElement.call(element, event);
-							}
-						}
-					}
-				};
-
-				element._events[type].list = [];
-
-				if (element.attachEvent) {
-					element.attachEvent('on' + type, element._events[type]);
-				}
-			}
-
-			element._events[type].list.push(listener);
-		};
-
-		window.removeEventListener = Window.prototype.removeEventListener = Document.prototype.removeEventListener = Element.prototype.removeEventListener = function removeEventListener() {
-			var
-			element = this,
-			type = arguments[0],
-			listener = arguments[1],
-			index;
-
-			if (element._events && element._events[type] && element._events[type].list) {
-				index = indexOf(element._events[type].list, listener);
-
-				if (index !== -1) {
-					element._events[type].list.splice(index, 1);
-
-					if (!element._events[type].list.length) {
-						if (element.detachEvent) {
-							element.detachEvent('on' + type, element._events[type]);
-						}
-						delete element._events[type];
-					}
-				}
-			}
-		};
-
-		window.dispatchEvent = Window.prototype.dispatchEvent = Document.prototype.dispatchEvent = Element.prototype.dispatchEvent = function dispatchEvent(event) {
-			if (!arguments.length) {
-				throw new Error('Not enough arguments');
-			}
-
-			if (!event || typeof event.type !== 'string') {
-				throw new Error('DOM Events Exception 0');
-			}
-
-			var element = this, type = event.type;
-
-			try {
-				if (!event.bubbles) {
-					event.cancelBubble = true;
-
-					var cancelBubbleEvent = function (event) {
-						event.cancelBubble = true;
-
-						(element || window).detachEvent('on' + type, cancelBubbleEvent);
-					};
-
-					this.attachEvent('on' + type, cancelBubbleEvent);
-				}
-
-				this.fireEvent('on' + type, event);
-			} catch (error) {
-				event.target = element;
-
-				do {
-					event.currentTarget = element;
-
-					if ('_events' in element && typeof element._events[type] === 'function') {
-						element._events[type].call(element, event);
-					}
-
-					if (typeof element['on' + type] === 'function') {
-						element['on' + type].call(element, event);
-					}
-
-					element = element.nodeType === 9 ? element.parentWindow : element.parentNode;
-				} while (element && !event.cancelBubble);
-			}
-
-			return true;
-		};
-
-		// Add the DOMContentLoaded Event
-		document.attachEvent('onreadystatechange', function() {
-			if (document.readyState === 'complete') {
-				document.dispatchEvent(new Event('DOMContentLoaded', {
-					bubbles: true
-				}));
-			}
-		});
-	}
-}());
-
-})
-.call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-var KEY_SPACE = 32;
-var DEBOUNCE_TIMEOUT_IN_SECONDS = 1;
-
-function Button ($module) {
-  this.$module = $module;
-  this.debounceFormSubmitTimer = null;
-}
-
-/**
-* JavaScript 'shim' to trigger the click event of element(s) when the space key is pressed.
-*
-* Created since some Assistive Technologies (for example some Screenreaders)
-* will tell a user to press space on a 'button', so this functionality needs to be shimmed
-* See https://github.com/alphagov/govuk_elements/pull/272#issuecomment-233028270
-*
-* @param {object} event event
-*/
-Button.prototype.handleKeyDown = function (event) {
-  // get the target element
-  var target = event.target;
-  // if the element has a role='button' and the pressed key is a space, we'll simulate a click
-  if (target.getAttribute('role') === 'button' && event.keyCode === KEY_SPACE) {
-    event.preventDefault();
-    // trigger the target's click event
-    target.click();
-  }
-};
-
-/**
-* If the click quickly succeeds a previous click then nothing will happen.
-* This stops people accidentally causing multiple form submissions by
-* double clicking buttons.
-*/
-Button.prototype.debounce = function (event) {
-  var target = event.target;
-  // Check the button that is clicked on has the preventDoubleClick feature enabled
-  if (target.getAttribute('data-prevent-double-click') !== 'true') {
-    return
-  }
-
-  // If the timer is still running then we want to prevent the click from submitting the form
-  if (this.debounceFormSubmitTimer) {
-    event.preventDefault();
-    return false
-  }
-
-  this.debounceFormSubmitTimer = setTimeout(function () {
-    this.debounceFormSubmitTimer = null;
-  }.bind(this), DEBOUNCE_TIMEOUT_IN_SECONDS * 1000);
-};
-
-/**
-* Initialise an event listener for keydown at document level
-* this will help listening for later inserted elements with a role="button"
-*/
-Button.prototype.init = function () {
-  this.$module.addEventListener('keydown', this.handleKeyDown);
-  this.$module.addEventListener('click', this.debounce);
-};
-
-/**
- * JavaScript 'polyfill' for HTML5's <details> and <summary> elements
- * and 'shim' to add accessiblity enhancements for all browsers
- *
- * http://caniuse.com/#feat=details
- */
-
-var KEY_ENTER = 13;
-var KEY_SPACE$1 = 32;
-
-function Details ($module) {
-  this.$module = $module;
-}
-
-Details.prototype.init = function () {
-  if (!this.$module) {
-    return
-  }
-
-  // If there is native details support, we want to avoid running code to polyfill native behaviour.
-  var hasNativeDetails = typeof this.$module.open === 'boolean';
-
-  if (hasNativeDetails) {
-    return
-  }
-
-  this.polyfillDetails();
-};
-
-Details.prototype.polyfillDetails = function () {
-  var $module = this.$module;
-
-  // Save shortcuts to the inner summary and content elements
-  var $summary = this.$summary = $module.getElementsByTagName('summary').item(0);
-  var $content = this.$content = $module.getElementsByTagName('div').item(0);
-
-  // If <details> doesn't have a <summary> and a <div> representing the content
-  // it means the required HTML structure is not met so the script will stop
-  if (!$summary || !$content) {
-    return
-  }
-
-  // If the content doesn't have an ID, assign it one now
-  // which we'll need for the summary's aria-controls assignment
-  if (!$content.id) {
-    $content.id = 'details-content-' + generateUniqueID();
-  }
-
-  // Add ARIA role="group" to details
-  $module.setAttribute('role', 'group');
-
-  // Add role=button to summary
-  $summary.setAttribute('role', 'button');
-
-  // Add aria-controls
-  $summary.setAttribute('aria-controls', $content.id);
-
-  // Set tabIndex so the summary is keyboard accessible for non-native elements
-  //
-  // We have to use the camelcase `tabIndex` property as there is a bug in IE6/IE7 when we set the correct attribute lowercase:
-  // See http://web.archive.org/web/20170120194036/http://www.saliences.com/browserBugs/tabIndex.html for more information.
-  $summary.tabIndex = 0;
-
-  // Detect initial open state
-  var openAttr = $module.getAttribute('open') !== null;
-  if (openAttr === true) {
-    $summary.setAttribute('aria-expanded', 'true');
-    $content.setAttribute('aria-hidden', 'false');
-  } else {
-    $summary.setAttribute('aria-expanded', 'false');
-    $content.setAttribute('aria-hidden', 'true');
-    $content.style.display = 'none';
-  }
-
-  // Bind an event to handle summary elements
-  this.polyfillHandleInputs($summary, this.polyfillSetAttributes.bind(this));
-};
-
-/**
-* Define a statechange function that updates aria-expanded and style.display
-* @param {object} summary element
-*/
-Details.prototype.polyfillSetAttributes = function () {
-  var $module = this.$module;
-  var $summary = this.$summary;
-  var $content = this.$content;
-
-  var expanded = $summary.getAttribute('aria-expanded') === 'true';
-  var hidden = $content.getAttribute('aria-hidden') === 'true';
-
-  $summary.setAttribute('aria-expanded', (expanded ? 'false' : 'true'));
-  $content.setAttribute('aria-hidden', (hidden ? 'false' : 'true'));
-
-  $content.style.display = (expanded ? 'none' : '');
-
-  var hasOpenAttr = $module.getAttribute('open') !== null;
-  if (!hasOpenAttr) {
-    $module.setAttribute('open', 'open');
-  } else {
-    $module.removeAttribute('open');
-  }
-
-  return true
-};
-
-/**
-* Handle cross-modal click events
-* @param {object} node element
-* @param {function} callback function
-*/
-Details.prototype.polyfillHandleInputs = function (node, callback) {
-  node.addEventListener('keypress', function (event) {
-    var target = event.target;
-    // When the key gets pressed - check if it is enter or space
-    if (event.keyCode === KEY_ENTER || event.keyCode === KEY_SPACE$1) {
-      if (target.nodeName.toLowerCase() === 'summary') {
-        // Prevent space from scrolling the page
-        // and enter from submitting a form
-        event.preventDefault();
-        // Click to let the click event do all the necessary action
-        if (target.click) {
-          target.click();
+  function mergeConfigs(...configObjects) {
+    const formattedConfigObject = {};
+    for (const configObject of configObjects) {
+      for (const key of Object.keys(configObject)) {
+        const option = formattedConfigObject[key];
+        const override = configObject[key];
+        if (isObject(option) && isObject(override)) {
+          formattedConfigObject[key] = mergeConfigs(option, override);
         } else {
-          // except Safari 5.1 and under don't support .click() here
-          callback(event);
+          formattedConfigObject[key] = override;
         }
+      }
+    }
+    return formattedConfigObject;
+  }
+  function validateConfig(schema, config) {
+    const validationErrors = [];
+    for (const [name, conditions] of Object.entries(schema)) {
+      const errors = [];
+      if (Array.isArray(conditions)) {
+        for (const {
+          required,
+          errorMessage
+        } of conditions) {
+          if (!required.every(key => !!config[key])) {
+            errors.push(errorMessage);
+          }
+        }
+        if (name === 'anyOf' && !(conditions.length - errors.length >= 1)) {
+          validationErrors.push(...errors);
+        }
+      }
+    }
+    return validationErrors;
+  }
+  function extractConfigByNamespace(schema, dataset, namespace) {
+    const property = schema.properties[namespace];
+    if ((property == null ? void 0 : property.type) !== 'object') {
+      return;
+    }
+    const newObject = {
+      [namespace]: {}
+    };
+    for (const [key, value] of Object.entries(dataset)) {
+      let current = newObject;
+      const keyParts = key.split('.');
+      for (const [index, name] of keyParts.entries()) {
+        if (isObject(current)) {
+          if (index < keyParts.length - 1) {
+            if (!isObject(current[name])) {
+              current[name] = {};
+            }
+            current = current[name];
+          } else if (key !== namespace) {
+            current[name] = normaliseString(value);
+          }
+        }
+      }
+    }
+    return newObject[namespace];
+  }
+  /**
+   * Schema for component config
+   *
+   * @template {Partial<Record<keyof ConfigurationType, unknown>>} ConfigurationType
+   * @typedef {object} Schema
+   * @property {Record<keyof ConfigurationType, SchemaProperty | undefined>} properties - Schema properties
+   * @property {SchemaCondition<ConfigurationType>[]} [anyOf] - List of schema conditions
+   */
+  /**
+   * Schema property for component config
+   *
+   * @typedef {object} SchemaProperty
+   * @property {'string' | 'boolean' | 'number' | 'object'} type - Property type
+   */
+  /**
+   * Schema condition for component config
+   *
+   * @template {Partial<Record<keyof ConfigurationType, unknown>>} ConfigurationType
+   * @typedef {object} SchemaCondition
+   * @property {(keyof ConfigurationType)[]} required - List of required config fields
+   * @property {string} errorMessage - Error message when required config fields not provided
+   */
+  /**
+   * @template {Partial<Record<keyof ConfigurationType, unknown>>} [ConfigurationType=ObjectNested]
+   * @typedef ChildClass
+   * @property {string} moduleName - The module name that'll be looked for in the DOM when initialising the component
+   * @property {Schema<ConfigurationType>} [schema] - The schema of the component configuration
+   * @property {ConfigurationType} [defaults] - The default values of the configuration of the component
+   */
+  /**
+   * @template {Partial<Record<keyof ConfigurationType, unknown>>} [ConfigurationType=ObjectNested]
+   * @typedef {typeof Component & ChildClass<ConfigurationType>} ChildClassConstructor<ConfigurationType>
+   */
+
+  class I18n {
+    constructor(translations = {}, config = {}) {
+      var _config$locale;
+      this.translations = void 0;
+      this.locale = void 0;
+      this.translations = translations;
+      this.locale = (_config$locale = config.locale) != null ? _config$locale : document.documentElement.lang || 'en';
+    }
+    t(lookupKey, options) {
+      if (!lookupKey) {
+        throw new Error('i18n: lookup key missing');
+      }
+      let translation = this.translations[lookupKey];
+      if (typeof (options == null ? void 0 : options.count) === 'number' && typeof translation === 'object') {
+        const translationPluralForm = translation[this.getPluralSuffix(lookupKey, options.count)];
+        if (translationPluralForm) {
+          translation = translationPluralForm;
+        }
+      }
+      if (typeof translation === 'string') {
+        if (translation.match(/%{(.\S+)}/)) {
+          if (!options) {
+            throw new Error('i18n: cannot replace placeholders in string if no option data provided');
+          }
+          return this.replacePlaceholders(translation, options);
+        }
+        return translation;
+      }
+      return lookupKey;
+    }
+    replacePlaceholders(translationString, options) {
+      const formatter = Intl.NumberFormat.supportedLocalesOf(this.locale).length ? new Intl.NumberFormat(this.locale) : undefined;
+      return translationString.replace(/%{(.\S+)}/g, function (placeholderWithBraces, placeholderKey) {
+        if (Object.prototype.hasOwnProperty.call(options, placeholderKey)) {
+          const placeholderValue = options[placeholderKey];
+          if (placeholderValue === false || typeof placeholderValue !== 'number' && typeof placeholderValue !== 'string') {
+            return '';
+          }
+          if (typeof placeholderValue === 'number') {
+            return formatter ? formatter.format(placeholderValue) : `${placeholderValue}`;
+          }
+          return placeholderValue;
+        }
+        throw new Error(`i18n: no data found to replace ${placeholderWithBraces} placeholder in string`);
+      });
+    }
+    hasIntlPluralRulesSupport() {
+      return Boolean('PluralRules' in window.Intl && Intl.PluralRules.supportedLocalesOf(this.locale).length);
+    }
+    getPluralSuffix(lookupKey, count) {
+      count = Number(count);
+      if (!isFinite(count)) {
+        return 'other';
+      }
+      const translation = this.translations[lookupKey];
+      const preferredForm = this.hasIntlPluralRulesSupport() ? new Intl.PluralRules(this.locale).select(count) : this.selectPluralFormUsingFallbackRules(count);
+      if (typeof translation === 'object') {
+        if (preferredForm in translation) {
+          return preferredForm;
+        } else if ('other' in translation) {
+          console.warn(`i18n: Missing plural form ".${preferredForm}" for "${this.locale}" locale. Falling back to ".other".`);
+          return 'other';
+        }
+      }
+      throw new Error(`i18n: Plural form ".other" is required for "${this.locale}" locale`);
+    }
+    selectPluralFormUsingFallbackRules(count) {
+      count = Math.abs(Math.floor(count));
+      const ruleset = this.getPluralRulesForLocale();
+      if (ruleset) {
+        return I18n.pluralRules[ruleset](count);
+      }
+      return 'other';
+    }
+    getPluralRulesForLocale() {
+      const localeShort = this.locale.split('-')[0];
+      for (const pluralRule in I18n.pluralRulesMap) {
+        const languages = I18n.pluralRulesMap[pluralRule];
+        if (languages.includes(this.locale) || languages.includes(localeShort)) {
+          return pluralRule;
+        }
+      }
+    }
+  }
+  I18n.pluralRulesMap = {
+    arabic: ['ar'],
+    chinese: ['my', 'zh', 'id', 'ja', 'jv', 'ko', 'ms', 'th', 'vi'],
+    french: ['hy', 'bn', 'fr', 'gu', 'hi', 'fa', 'pa', 'zu'],
+    german: ['af', 'sq', 'az', 'eu', 'bg', 'ca', 'da', 'nl', 'en', 'et', 'fi', 'ka', 'de', 'el', 'hu', 'lb', 'no', 'so', 'sw', 'sv', 'ta', 'te', 'tr', 'ur'],
+    irish: ['ga'],
+    russian: ['ru', 'uk'],
+    scottish: ['gd'],
+    spanish: ['pt-PT', 'it', 'es'],
+    welsh: ['cy']
+  };
+  I18n.pluralRules = {
+    arabic(n) {
+      if (n === 0) {
+        return 'zero';
+      }
+      if (n === 1) {
+        return 'one';
+      }
+      if (n === 2) {
+        return 'two';
+      }
+      if (n % 100 >= 3 && n % 100 <= 10) {
+        return 'few';
+      }
+      if (n % 100 >= 11 && n % 100 <= 99) {
+        return 'many';
+      }
+      return 'other';
+    },
+    chinese() {
+      return 'other';
+    },
+    french(n) {
+      return n === 0 || n === 1 ? 'one' : 'other';
+    },
+    german(n) {
+      return n === 1 ? 'one' : 'other';
+    },
+    irish(n) {
+      if (n === 1) {
+        return 'one';
+      }
+      if (n === 2) {
+        return 'two';
+      }
+      if (n >= 3 && n <= 6) {
+        return 'few';
+      }
+      if (n >= 7 && n <= 10) {
+        return 'many';
+      }
+      return 'other';
+    },
+    russian(n) {
+      const lastTwo = n % 100;
+      const last = lastTwo % 10;
+      if (last === 1 && lastTwo !== 11) {
+        return 'one';
+      }
+      if (last >= 2 && last <= 4 && !(lastTwo >= 12 && lastTwo <= 14)) {
+        return 'few';
+      }
+      if (last === 0 || last >= 5 && last <= 9 || lastTwo >= 11 && lastTwo <= 14) {
+        return 'many';
+      }
+      return 'other';
+    },
+    scottish(n) {
+      if (n === 1 || n === 11) {
+        return 'one';
+      }
+      if (n === 2 || n === 12) {
+        return 'two';
+      }
+      if (n >= 3 && n <= 10 || n >= 13 && n <= 19) {
+        return 'few';
+      }
+      return 'other';
+    },
+    spanish(n) {
+      if (n === 1) {
+        return 'one';
+      }
+      if (n % 1000000 === 0 && n !== 0) {
+        return 'many';
+      }
+      return 'other';
+    },
+    welsh(n) {
+      if (n === 0) {
+        return 'zero';
+      }
+      if (n === 1) {
+        return 'one';
+      }
+      if (n === 2) {
+        return 'two';
+      }
+      if (n === 3) {
+        return 'few';
+      }
+      if (n === 6) {
+        return 'many';
+      }
+      return 'other';
+    }
+  };
+
+  /**
+   * Accordion component
+   *
+   * This allows a collection of sections to be collapsed by default, showing only
+   * their headers. Sections can be expanded or collapsed individually by clicking
+   * their headers. A "Show all sections" button is also added to the top of the
+   * accordion, which switches to "Hide all sections" when all the sections are
+   * expanded.
+   *
+   * The state of each section is saved to the DOM via the `aria-expanded`
+   * attribute, which also provides accessibility.
+   *
+   * @preserve
+   * @augments ConfigurableComponent<AccordionConfig>
+   */
+  class Accordion extends ConfigurableComponent {
+    /**
+     * @param {Element | null} $root - HTML element to use for accordion
+     * @param {AccordionConfig} [config] - Accordion config
+     */
+    constructor($root, config = {}) {
+      super($root, config);
+      this.i18n = void 0;
+      this.controlsClass = 'govuk-accordion__controls';
+      this.showAllClass = 'govuk-accordion__show-all';
+      this.showAllTextClass = 'govuk-accordion__show-all-text';
+      this.sectionClass = 'govuk-accordion__section';
+      this.sectionExpandedClass = 'govuk-accordion__section--expanded';
+      this.sectionButtonClass = 'govuk-accordion__section-button';
+      this.sectionHeaderClass = 'govuk-accordion__section-header';
+      this.sectionHeadingClass = 'govuk-accordion__section-heading';
+      this.sectionHeadingDividerClass = 'govuk-accordion__section-heading-divider';
+      this.sectionHeadingTextClass = 'govuk-accordion__section-heading-text';
+      this.sectionHeadingTextFocusClass = 'govuk-accordion__section-heading-text-focus';
+      this.sectionShowHideToggleClass = 'govuk-accordion__section-toggle';
+      this.sectionShowHideToggleFocusClass = 'govuk-accordion__section-toggle-focus';
+      this.sectionShowHideTextClass = 'govuk-accordion__section-toggle-text';
+      this.upChevronIconClass = 'govuk-accordion-nav__chevron';
+      this.downChevronIconClass = 'govuk-accordion-nav__chevron--down';
+      this.sectionSummaryClass = 'govuk-accordion__section-summary';
+      this.sectionSummaryFocusClass = 'govuk-accordion__section-summary-focus';
+      this.sectionContentClass = 'govuk-accordion__section-content';
+      this.$sections = void 0;
+      this.$showAllButton = null;
+      this.$showAllIcon = null;
+      this.$showAllText = null;
+      this.i18n = new I18n(this.config.i18n);
+      const $sections = this.$root.querySelectorAll(`.${this.sectionClass}`);
+      if (!$sections.length) {
+        throw new ElementError({
+          component: Accordion,
+          identifier: `Sections (\`<div class="${this.sectionClass}">\`)`
+        });
+      }
+      this.$sections = $sections;
+      this.initControls();
+      this.initSectionHeaders();
+      this.updateShowAllButton(this.areAllSectionsOpen());
+    }
+    initControls() {
+      this.$showAllButton = document.createElement('button');
+      this.$showAllButton.setAttribute('type', 'button');
+      this.$showAllButton.setAttribute('class', this.showAllClass);
+      this.$showAllButton.setAttribute('aria-expanded', 'false');
+      this.$showAllIcon = document.createElement('span');
+      this.$showAllIcon.classList.add(this.upChevronIconClass);
+      this.$showAllButton.appendChild(this.$showAllIcon);
+      const $accordionControls = document.createElement('div');
+      $accordionControls.setAttribute('class', this.controlsClass);
+      $accordionControls.appendChild(this.$showAllButton);
+      this.$root.insertBefore($accordionControls, this.$root.firstChild);
+      this.$showAllText = document.createElement('span');
+      this.$showAllText.classList.add(this.showAllTextClass);
+      this.$showAllButton.appendChild(this.$showAllText);
+      this.$showAllButton.addEventListener('click', () => this.onShowOrHideAllToggle());
+      if ('onbeforematch' in document) {
+        document.addEventListener('beforematch', event => this.onBeforeMatch(event));
+      }
+    }
+    initSectionHeaders() {
+      this.$sections.forEach(($section, i) => {
+        const $header = $section.querySelector(`.${this.sectionHeaderClass}`);
+        if (!$header) {
+          throw new ElementError({
+            component: Accordion,
+            identifier: `Section headers (\`<div class="${this.sectionHeaderClass}">\`)`
+          });
+        }
+        this.constructHeaderMarkup($header, i);
+        this.setExpanded(this.isExpanded($section), $section);
+        $header.addEventListener('click', () => this.onSectionToggle($section));
+        this.setInitialState($section);
+      });
+    }
+    constructHeaderMarkup($header, index) {
+      const $span = $header.querySelector(`.${this.sectionButtonClass}`);
+      const $heading = $header.querySelector(`.${this.sectionHeadingClass}`);
+      const $summary = $header.querySelector(`.${this.sectionSummaryClass}`);
+      if (!$heading) {
+        throw new ElementError({
+          component: Accordion,
+          identifier: `Section heading (\`.${this.sectionHeadingClass}\`)`
+        });
+      }
+      if (!$span) {
+        throw new ElementError({
+          component: Accordion,
+          identifier: `Section button placeholder (\`<span class="${this.sectionButtonClass}">\`)`
+        });
+      }
+      const $button = document.createElement('button');
+      $button.setAttribute('type', 'button');
+      $button.setAttribute('aria-controls', `${this.$root.id}-content-${index + 1}`);
+      for (const attr of Array.from($span.attributes)) {
+        if (attr.name !== 'id') {
+          $button.setAttribute(attr.name, attr.value);
+        }
+      }
+      const $headingText = document.createElement('span');
+      $headingText.classList.add(this.sectionHeadingTextClass);
+      $headingText.id = $span.id;
+      const $headingTextFocus = document.createElement('span');
+      $headingTextFocus.classList.add(this.sectionHeadingTextFocusClass);
+      $headingText.appendChild($headingTextFocus);
+      Array.from($span.childNodes).forEach($child => $headingTextFocus.appendChild($child));
+      const $showHideToggle = document.createElement('span');
+      $showHideToggle.classList.add(this.sectionShowHideToggleClass);
+      $showHideToggle.setAttribute('data-nosnippet', '');
+      const $showHideToggleFocus = document.createElement('span');
+      $showHideToggleFocus.classList.add(this.sectionShowHideToggleFocusClass);
+      $showHideToggle.appendChild($showHideToggleFocus);
+      const $showHideText = document.createElement('span');
+      const $showHideIcon = document.createElement('span');
+      $showHideIcon.classList.add(this.upChevronIconClass);
+      $showHideToggleFocus.appendChild($showHideIcon);
+      $showHideText.classList.add(this.sectionShowHideTextClass);
+      $showHideToggleFocus.appendChild($showHideText);
+      $button.appendChild($headingText);
+      $button.appendChild(this.getButtonPunctuationEl());
+      if ($summary) {
+        const $summarySpan = document.createElement('span');
+        const $summarySpanFocus = document.createElement('span');
+        $summarySpanFocus.classList.add(this.sectionSummaryFocusClass);
+        $summarySpan.appendChild($summarySpanFocus);
+        for (const attr of Array.from($summary.attributes)) {
+          $summarySpan.setAttribute(attr.name, attr.value);
+        }
+        Array.from($summary.childNodes).forEach($child => $summarySpanFocus.appendChild($child));
+        $summary.remove();
+        $button.appendChild($summarySpan);
+        $button.appendChild(this.getButtonPunctuationEl());
+      }
+      $button.appendChild($showHideToggle);
+      $heading.removeChild($span);
+      $heading.appendChild($button);
+    }
+    onBeforeMatch(event) {
+      const $fragment = event.target;
+      if (!($fragment instanceof Element)) {
+        return;
+      }
+      const $section = $fragment.closest(`.${this.sectionClass}`);
+      if ($section) {
+        this.setExpanded(true, $section);
+      }
+    }
+    onSectionToggle($section) {
+      const nowExpanded = !this.isExpanded($section);
+      this.setExpanded(nowExpanded, $section);
+      this.storeState($section, nowExpanded);
+    }
+    onShowOrHideAllToggle() {
+      const nowExpanded = !this.areAllSectionsOpen();
+      this.$sections.forEach($section => {
+        this.setExpanded(nowExpanded, $section);
+        this.storeState($section, nowExpanded);
+      });
+      this.updateShowAllButton(nowExpanded);
+    }
+    setExpanded(expanded, $section) {
+      const $showHideIcon = $section.querySelector(`.${this.upChevronIconClass}`);
+      const $showHideText = $section.querySelector(`.${this.sectionShowHideTextClass}`);
+      const $button = $section.querySelector(`.${this.sectionButtonClass}`);
+      const $content = $section.querySelector(`.${this.sectionContentClass}`);
+      if (!$content) {
+        throw new ElementError({
+          component: Accordion,
+          identifier: `Section content (\`<div class="${this.sectionContentClass}">\`)`
+        });
+      }
+      if (!$showHideIcon || !$showHideText || !$button) {
+        return;
+      }
+      const newButtonText = expanded ? this.i18n.t('hideSection') : this.i18n.t('showSection');
+      $showHideText.textContent = newButtonText;
+      $button.setAttribute('aria-expanded', `${expanded}`);
+      const ariaLabelParts = [];
+      const $headingText = $section.querySelector(`.${this.sectionHeadingTextClass}`);
+      if ($headingText) {
+        ariaLabelParts.push(`${$headingText.textContent}`.trim());
+      }
+      const $summary = $section.querySelector(`.${this.sectionSummaryClass}`);
+      if ($summary) {
+        ariaLabelParts.push(`${$summary.textContent}`.trim());
+      }
+      const ariaLabelMessage = expanded ? this.i18n.t('hideSectionAriaLabel') : this.i18n.t('showSectionAriaLabel');
+      ariaLabelParts.push(ariaLabelMessage);
+      $button.setAttribute('aria-label', ariaLabelParts.join(' , '));
+      if (expanded) {
+        $content.removeAttribute('hidden');
+        $section.classList.add(this.sectionExpandedClass);
+        $showHideIcon.classList.remove(this.downChevronIconClass);
+      } else {
+        $content.setAttribute('hidden', 'until-found');
+        $section.classList.remove(this.sectionExpandedClass);
+        $showHideIcon.classList.add(this.downChevronIconClass);
+      }
+      this.updateShowAllButton(this.areAllSectionsOpen());
+    }
+    isExpanded($section) {
+      return $section.classList.contains(this.sectionExpandedClass);
+    }
+    areAllSectionsOpen() {
+      return Array.from(this.$sections).every($section => this.isExpanded($section));
+    }
+    updateShowAllButton(expanded) {
+      if (!this.$showAllButton || !this.$showAllText || !this.$showAllIcon) {
+        return;
+      }
+      this.$showAllButton.setAttribute('aria-expanded', expanded.toString());
+      this.$showAllText.textContent = expanded ? this.i18n.t('hideAllSections') : this.i18n.t('showAllSections');
+      this.$showAllIcon.classList.toggle(this.downChevronIconClass, !expanded);
+    }
+
+    /**
+     * Get the identifier for a section
+     *
+     * We need a unique way of identifying each content in the Accordion.
+     * Since an `#id` should be unique and an `id` is required for `aria-`
+     * attributes `id` can be safely used.
+     *
+     * @param {Element} $section - Section element
+     * @returns {string | undefined | null} Identifier for section
+     */
+    getIdentifier($section) {
+      const $button = $section.querySelector(`.${this.sectionButtonClass}`);
+      return $button == null ? void 0 : $button.getAttribute('aria-controls');
+    }
+    storeState($section, isExpanded) {
+      if (!this.config.rememberExpanded) {
+        return;
+      }
+      const id = this.getIdentifier($section);
+      if (id) {
+        try {
+          window.sessionStorage.setItem(id, isExpanded.toString());
+        } catch (exception) {}
+      }
+    }
+    setInitialState($section) {
+      if (!this.config.rememberExpanded) {
+        return;
+      }
+      const id = this.getIdentifier($section);
+      if (id) {
+        try {
+          const state = window.sessionStorage.getItem(id);
+          if (state !== null) {
+            this.setExpanded(state === 'true', $section);
+          }
+        } catch (exception) {}
+      }
+    }
+    getButtonPunctuationEl() {
+      const $punctuationEl = document.createElement('span');
+      $punctuationEl.classList.add('govuk-visually-hidden', this.sectionHeadingDividerClass);
+      $punctuationEl.textContent = ', ';
+      return $punctuationEl;
+    }
+  }
+
+  /**
+   * Accordion config
+   *
+   * @see {@link Accordion.defaults}
+   * @typedef {object} AccordionConfig
+   * @property {AccordionTranslations} [i18n=Accordion.defaults.i18n] - Accordion translations
+   * @property {boolean} [rememberExpanded] - Whether the expanded and collapsed
+   *   state of each section is remembered and restored when navigating.
+   */
+
+  /**
+   * Accordion translations
+   *
+   * @see {@link Accordion.defaults.i18n}
+   * @typedef {object} AccordionTranslations
+   *
+   * Messages used by the component for the labels of its buttons. This includes
+   * the visible text shown on screen, and text to help assistive technology users
+   * for the buttons toggling each section.
+   * @property {string} [hideAllSections] - The text content for the 'Hide all
+   *   sections' button, used when at least one section is expanded.
+   * @property {string} [hideSection] - The text content for the 'Hide'
+   *   button, used when a section is expanded.
+   * @property {string} [hideSectionAriaLabel] - The text content appended to the
+   *   'Hide' button's accessible name when a section is expanded.
+   * @property {string} [showAllSections] - The text content for the 'Show all
+   *   sections' button, used when all sections are collapsed.
+   * @property {string} [showSection] - The text content for the 'Show'
+   *   button, used when a section is collapsed.
+   * @property {string} [showSectionAriaLabel] - The text content appended to the
+   *   'Show' button's accessible name when a section is expanded.
+   */
+
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   */
+  Accordion.moduleName = 'govuk-accordion';
+  Accordion.defaults = Object.freeze({
+    i18n: {
+      hideAllSections: 'Hide all sections',
+      hideSection: 'Hide',
+      hideSectionAriaLabel: 'Hide this section',
+      showAllSections: 'Show all sections',
+      showSection: 'Show',
+      showSectionAriaLabel: 'Show this section'
+    },
+    rememberExpanded: true
+  });
+  Accordion.schema = Object.freeze({
+    properties: {
+      i18n: {
+        type: 'object'
+      },
+      rememberExpanded: {
+        type: 'boolean'
       }
     }
   });
 
-  // Prevent keyup to prevent clicking twice in Firefox when using space key
-  node.addEventListener('keyup', function (event) {
-    var target = event.target;
-    if (event.keyCode === KEY_SPACE$1) {
-      if (target.nodeName.toLowerCase() === 'summary') {
+  const DEBOUNCE_TIMEOUT_IN_SECONDS = 1;
+
+  /**
+   * JavaScript enhancements for the Button component
+   *
+   * @preserve
+   * @augments ConfigurableComponent<ButtonConfig>
+   */
+  class Button extends ConfigurableComponent {
+    /**
+     * @param {Element | null} $root - HTML element to use for button
+     * @param {ButtonConfig} [config] - Button config
+     */
+    constructor($root, config = {}) {
+      super($root, config);
+      this.debounceFormSubmitTimer = null;
+      this.$root.addEventListener('keydown', event => this.handleKeyDown(event));
+      this.$root.addEventListener('click', event => this.debounce(event));
+    }
+    handleKeyDown(event) {
+      const $target = event.target;
+      if (event.key !== ' ') {
+        return;
+      }
+      if ($target instanceof HTMLElement && $target.getAttribute('role') === 'button') {
+        event.preventDefault();
+        $target.click();
+      }
+    }
+    debounce(event) {
+      if (!this.config.preventDoubleClick) {
+        return;
+      }
+      if (this.debounceFormSubmitTimer) {
+        event.preventDefault();
+        return false;
+      }
+      this.debounceFormSubmitTimer = window.setTimeout(() => {
+        this.debounceFormSubmitTimer = null;
+      }, DEBOUNCE_TIMEOUT_IN_SECONDS * 1000);
+    }
+  }
+
+  /**
+   * Button config
+   *
+   * @typedef {object} ButtonConfig
+   * @property {boolean} [preventDoubleClick=false] - Prevent accidental double
+   *   clicks on submit buttons from submitting forms multiple times.
+   */
+
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   */
+  Button.moduleName = 'govuk-button';
+  Button.defaults = Object.freeze({
+    preventDoubleClick: false
+  });
+  Button.schema = Object.freeze({
+    properties: {
+      preventDoubleClick: {
+        type: 'boolean'
+      }
+    }
+  });
+
+  function closestAttributeValue($element, attributeName) {
+    const $closestElementWithAttribute = $element.closest(`[${attributeName}]`);
+    return $closestElementWithAttribute ? $closestElementWithAttribute.getAttribute(attributeName) : null;
+  }
+
+  /**
+   * Character count component
+   *
+   * Tracks the number of characters or words in the `.govuk-js-character-count`
+   * `<textarea>` inside the element. Displays a message with the remaining number
+   * of characters/words available, or the number of characters/words in excess.
+   *
+   * You can configure the message to only appear after a certain percentage
+   * of the available characters/words has been entered.
+   *
+   * @preserve
+   * @augments ConfigurableComponent<CharacterCountConfig>
+   */
+  class CharacterCount extends ConfigurableComponent {
+    [configOverride](datasetConfig) {
+      let configOverrides = {};
+      if ('maxwords' in datasetConfig || 'maxlength' in datasetConfig) {
+        configOverrides = {
+          maxlength: undefined,
+          maxwords: undefined
+        };
+      }
+      return configOverrides;
+    }
+
+    /**
+     * @param {Element | null} $root - HTML element to use for character count
+     * @param {CharacterCountConfig} [config] - Character count config
+     */
+    constructor($root, config = {}) {
+      var _ref, _this$config$maxwords;
+      super($root, config);
+      this.$textarea = void 0;
+      this.$visibleCountMessage = void 0;
+      this.$screenReaderCountMessage = void 0;
+      this.lastInputTimestamp = null;
+      this.lastInputValue = '';
+      this.valueChecker = null;
+      this.i18n = void 0;
+      this.maxLength = void 0;
+      const $textarea = this.$root.querySelector('.govuk-js-character-count');
+      if (!($textarea instanceof HTMLTextAreaElement || $textarea instanceof HTMLInputElement)) {
+        throw new ElementError({
+          component: CharacterCount,
+          element: $textarea,
+          expectedType: 'HTMLTextareaElement or HTMLInputElement',
+          identifier: 'Form field (`.govuk-js-character-count`)'
+        });
+      }
+      const errors = validateConfig(CharacterCount.schema, this.config);
+      if (errors[0]) {
+        throw new ConfigError(formatErrorMessage(CharacterCount, errors[0]));
+      }
+      this.i18n = new I18n(this.config.i18n, {
+        locale: closestAttributeValue(this.$root, 'lang')
+      });
+      this.maxLength = (_ref = (_this$config$maxwords = this.config.maxwords) != null ? _this$config$maxwords : this.config.maxlength) != null ? _ref : Infinity;
+      this.$textarea = $textarea;
+      const textareaDescriptionId = `${this.$textarea.id}-info`;
+      const $textareaDescription = document.getElementById(textareaDescriptionId);
+      if (!$textareaDescription) {
+        throw new ElementError({
+          component: CharacterCount,
+          element: $textareaDescription,
+          identifier: `Count message (\`id="${textareaDescriptionId}"\`)`
+        });
+      }
+      if (`${$textareaDescription.textContent}`.match(/^\s*$/)) {
+        $textareaDescription.textContent = this.i18n.t('textareaDescription', {
+          count: this.maxLength
+        });
+      }
+      this.$textarea.insertAdjacentElement('afterend', $textareaDescription);
+      const $screenReaderCountMessage = document.createElement('div');
+      $screenReaderCountMessage.className = 'govuk-character-count__sr-status govuk-visually-hidden';
+      $screenReaderCountMessage.setAttribute('aria-live', 'polite');
+      this.$screenReaderCountMessage = $screenReaderCountMessage;
+      $textareaDescription.insertAdjacentElement('afterend', $screenReaderCountMessage);
+      const $visibleCountMessage = document.createElement('div');
+      $visibleCountMessage.className = $textareaDescription.className;
+      $visibleCountMessage.classList.add('govuk-character-count__status');
+      $visibleCountMessage.setAttribute('aria-hidden', 'true');
+      this.$visibleCountMessage = $visibleCountMessage;
+      $textareaDescription.insertAdjacentElement('afterend', $visibleCountMessage);
+      $textareaDescription.classList.add('govuk-visually-hidden');
+      this.$textarea.removeAttribute('maxlength');
+      this.bindChangeEvents();
+      window.addEventListener('pageshow', () => this.updateCountMessage());
+      this.updateCountMessage();
+    }
+    bindChangeEvents() {
+      this.$textarea.addEventListener('keyup', () => this.handleKeyUp());
+      this.$textarea.addEventListener('focus', () => this.handleFocus());
+      this.$textarea.addEventListener('blur', () => this.handleBlur());
+    }
+    handleKeyUp() {
+      this.updateVisibleCountMessage();
+      this.lastInputTimestamp = Date.now();
+    }
+    handleFocus() {
+      this.valueChecker = window.setInterval(() => {
+        if (!this.lastInputTimestamp || Date.now() - 500 >= this.lastInputTimestamp) {
+          this.updateIfValueChanged();
+        }
+      }, 1000);
+    }
+    handleBlur() {
+      if (this.valueChecker) {
+        window.clearInterval(this.valueChecker);
+      }
+    }
+    updateIfValueChanged() {
+      if (this.$textarea.value !== this.lastInputValue) {
+        this.lastInputValue = this.$textarea.value;
+        this.updateCountMessage();
+      }
+    }
+    updateCountMessage() {
+      this.updateVisibleCountMessage();
+      this.updateScreenReaderCountMessage();
+    }
+    updateVisibleCountMessage() {
+      const remainingNumber = this.maxLength - this.count(this.$textarea.value);
+      const isError = remainingNumber < 0;
+      this.$visibleCountMessage.classList.toggle('govuk-character-count__message--disabled', !this.isOverThreshold());
+      this.$textarea.classList.toggle('govuk-textarea--error', isError);
+      this.$visibleCountMessage.classList.toggle('govuk-error-message', isError);
+      this.$visibleCountMessage.classList.toggle('govuk-hint', !isError);
+      this.$visibleCountMessage.textContent = this.getCountMessage();
+    }
+    updateScreenReaderCountMessage() {
+      if (this.isOverThreshold()) {
+        this.$screenReaderCountMessage.removeAttribute('aria-hidden');
+      } else {
+        this.$screenReaderCountMessage.setAttribute('aria-hidden', 'true');
+      }
+      this.$screenReaderCountMessage.textContent = this.getCountMessage();
+    }
+    count(text) {
+      if (this.config.maxwords) {
+        var _text$match;
+        const tokens = (_text$match = text.match(/\S+/g)) != null ? _text$match : [];
+        return tokens.length;
+      }
+      return text.length;
+    }
+    getCountMessage() {
+      const remainingNumber = this.maxLength - this.count(this.$textarea.value);
+      const countType = this.config.maxwords ? 'words' : 'characters';
+      return this.formatCountMessage(remainingNumber, countType);
+    }
+    formatCountMessage(remainingNumber, countType) {
+      if (remainingNumber === 0) {
+        return this.i18n.t(`${countType}AtLimit`);
+      }
+      const translationKeySuffix = remainingNumber < 0 ? 'OverLimit' : 'UnderLimit';
+      return this.i18n.t(`${countType}${translationKeySuffix}`, {
+        count: Math.abs(remainingNumber)
+      });
+    }
+    isOverThreshold() {
+      if (!this.config.threshold) {
+        return true;
+      }
+      const currentLength = this.count(this.$textarea.value);
+      const maxLength = this.maxLength;
+      const thresholdValue = maxLength * this.config.threshold / 100;
+      return thresholdValue <= currentLength;
+    }
+  }
+
+  /**
+   * Character count config
+   *
+   * @see {@link CharacterCount.defaults}
+   * @typedef {object} CharacterCountConfig
+   * @property {number} [maxlength] - The maximum number of characters.
+   *   If maxwords is provided, the maxlength option will be ignored.
+   * @property {number} [maxwords] - The maximum number of words. If maxwords is
+   *   provided, the maxlength option will be ignored.
+   * @property {number} [threshold=0] - The percentage value of the limit at
+   *   which point the count message is displayed. If this attribute is set, the
+   *   count message will be hidden by default.
+   * @property {CharacterCountTranslations} [i18n=CharacterCount.defaults.i18n] - Character count translations
+   */
+
+  /**
+   * Character count translations
+   *
+   * @see {@link CharacterCount.defaults.i18n}
+   * @typedef {object} CharacterCountTranslations
+   *
+   * Messages shown to users as they type. It provides feedback on how many words
+   * or characters they have remaining or if they are over the limit. This also
+   * includes a message used as an accessible description for the textarea.
+   * @property {TranslationPluralForms} [charactersUnderLimit] - Message displayed
+   *   when the number of characters is under the configured maximum, `maxlength`.
+   *   This message is displayed visually and through assistive technologies. The
+   *   component will replace the `%{count}` placeholder with the number of
+   *   remaining characters. This is a [pluralised list of
+   *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+   * @property {string} [charactersAtLimit] - Message displayed when the number of
+   *   characters reaches the configured maximum, `maxlength`. This message is
+   *   displayed visually and through assistive technologies.
+   * @property {TranslationPluralForms} [charactersOverLimit] - Message displayed
+   *   when the number of characters is over the configured maximum, `maxlength`.
+   *   This message is displayed visually and through assistive technologies. The
+   *   component will replace the `%{count}` placeholder with the number of
+   *   remaining characters. This is a [pluralised list of
+   *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+   * @property {TranslationPluralForms} [wordsUnderLimit] - Message displayed when
+   *   the number of words is under the configured maximum, `maxlength`. This
+   *   message is displayed visually and through assistive technologies. The
+   *   component will replace the `%{count}` placeholder with the number of
+   *   remaining words. This is a [pluralised list of
+   *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+   * @property {string} [wordsAtLimit] - Message displayed when the number of
+   *   words reaches the configured maximum, `maxlength`. This message is
+   *   displayed visually and through assistive technologies.
+   * @property {TranslationPluralForms} [wordsOverLimit] - Message displayed when
+   *   the number of words is over the configured maximum, `maxlength`. This
+   *   message is displayed visually and through assistive technologies. The
+   *   component will replace the `%{count}` placeholder with the number of
+   *   remaining words. This is a [pluralised list of
+   *   messages](https://frontend.design-system.service.gov.uk/localise-govuk-frontend).
+   * @property {TranslationPluralForms} [textareaDescription] - Message made
+   *   available to assistive technologies, if none is already present in the
+   *   HTML, to describe that the component accepts only a limited amount of
+   *   content. It is visible on the page when JavaScript is unavailable. The
+   *   component will replace the `%{count}` placeholder with the value of the
+   *   `maxlength` or `maxwords` parameter.
+   */
+
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   * @import { TranslationPluralForms } from '../../i18n.mjs'
+   */
+  CharacterCount.moduleName = 'govuk-character-count';
+  CharacterCount.defaults = Object.freeze({
+    threshold: 0,
+    i18n: {
+      charactersUnderLimit: {
+        one: 'You have %{count} character remaining',
+        other: 'You have %{count} characters remaining'
+      },
+      charactersAtLimit: 'You have 0 characters remaining',
+      charactersOverLimit: {
+        one: 'You have %{count} character too many',
+        other: 'You have %{count} characters too many'
+      },
+      wordsUnderLimit: {
+        one: 'You have %{count} word remaining',
+        other: 'You have %{count} words remaining'
+      },
+      wordsAtLimit: 'You have 0 words remaining',
+      wordsOverLimit: {
+        one: 'You have %{count} word too many',
+        other: 'You have %{count} words too many'
+      },
+      textareaDescription: {
+        other: ''
+      }
+    }
+  });
+  CharacterCount.schema = Object.freeze({
+    properties: {
+      i18n: {
+        type: 'object'
+      },
+      maxwords: {
+        type: 'number'
+      },
+      maxlength: {
+        type: 'number'
+      },
+      threshold: {
+        type: 'number'
+      }
+    },
+    anyOf: [{
+      required: ['maxwords'],
+      errorMessage: 'Either "maxlength" or "maxwords" must be provided'
+    }, {
+      required: ['maxlength'],
+      errorMessage: 'Either "maxlength" or "maxwords" must be provided'
+    }]
+  });
+
+  /**
+   * Checkboxes component
+   *
+   * @preserve
+   */
+  class Checkboxes extends Component {
+    /**
+     * Checkboxes can be associated with a 'conditionally revealed' content block
+     * – for example, a checkbox for 'Phone' could reveal an additional form field
+     * for the user to enter their phone number.
+     *
+     * These associations are made using a `data-aria-controls` attribute, which
+     * is promoted to an aria-controls attribute during initialisation.
+     *
+     * We also need to restore the state of any conditional reveals on the page
+     * (for example if the user has navigated back), and set up event handlers to
+     * keep the reveal in sync with the checkbox state.
+     *
+     * @param {Element | null} $root - HTML element to use for checkboxes
+     */
+    constructor($root) {
+      super($root);
+      this.$inputs = void 0;
+      const $inputs = this.$root.querySelectorAll('input[type="checkbox"]');
+      if (!$inputs.length) {
+        throw new ElementError({
+          component: Checkboxes,
+          identifier: 'Form inputs (`<input type="checkbox">`)'
+        });
+      }
+      this.$inputs = $inputs;
+      this.$inputs.forEach($input => {
+        const targetId = $input.getAttribute('data-aria-controls');
+        if (!targetId) {
+          return;
+        }
+        if (!document.getElementById(targetId)) {
+          throw new ElementError({
+            component: Checkboxes,
+            identifier: `Conditional reveal (\`id="${targetId}"\`)`
+          });
+        }
+        $input.setAttribute('aria-controls', targetId);
+        $input.removeAttribute('data-aria-controls');
+      });
+      window.addEventListener('pageshow', () => this.syncAllConditionalReveals());
+      this.syncAllConditionalReveals();
+      this.$root.addEventListener('click', event => this.handleClick(event));
+    }
+    syncAllConditionalReveals() {
+      this.$inputs.forEach($input => this.syncConditionalRevealWithInputState($input));
+    }
+    syncConditionalRevealWithInputState($input) {
+      const targetId = $input.getAttribute('aria-controls');
+      if (!targetId) {
+        return;
+      }
+      const $target = document.getElementById(targetId);
+      if ($target != null && $target.classList.contains('govuk-checkboxes__conditional')) {
+        const inputIsChecked = $input.checked;
+        $input.setAttribute('aria-expanded', inputIsChecked.toString());
+        $target.classList.toggle('govuk-checkboxes__conditional--hidden', !inputIsChecked);
+      }
+    }
+    unCheckAllInputsExcept($input) {
+      const allInputsWithSameName = document.querySelectorAll(`input[type="checkbox"][name="${$input.name}"]`);
+      allInputsWithSameName.forEach($inputWithSameName => {
+        const hasSameFormOwner = $input.form === $inputWithSameName.form;
+        if (hasSameFormOwner && $inputWithSameName !== $input) {
+          $inputWithSameName.checked = false;
+          this.syncConditionalRevealWithInputState($inputWithSameName);
+        }
+      });
+    }
+    unCheckExclusiveInputs($input) {
+      const allInputsWithSameNameAndExclusiveBehaviour = document.querySelectorAll(`input[data-behaviour="exclusive"][type="checkbox"][name="${$input.name}"]`);
+      allInputsWithSameNameAndExclusiveBehaviour.forEach($exclusiveInput => {
+        const hasSameFormOwner = $input.form === $exclusiveInput.form;
+        if (hasSameFormOwner) {
+          $exclusiveInput.checked = false;
+          this.syncConditionalRevealWithInputState($exclusiveInput);
+        }
+      });
+    }
+    handleClick(event) {
+      const $clickedInput = event.target;
+      if (!($clickedInput instanceof HTMLInputElement) || $clickedInput.type !== 'checkbox') {
+        return;
+      }
+      const hasAriaControls = $clickedInput.getAttribute('aria-controls');
+      if (hasAriaControls) {
+        this.syncConditionalRevealWithInputState($clickedInput);
+      }
+      if (!$clickedInput.checked) {
+        return;
+      }
+      const hasBehaviourExclusive = $clickedInput.getAttribute('data-behaviour') === 'exclusive';
+      if (hasBehaviourExclusive) {
+        this.unCheckAllInputsExcept($clickedInput);
+      } else {
+        this.unCheckExclusiveInputs($clickedInput);
+      }
+    }
+  }
+  Checkboxes.moduleName = 'govuk-checkboxes';
+
+  /**
+   * Error summary component
+   *
+   * Takes focus on initialisation for accessible announcement, unless disabled in
+   * configuration.
+   *
+   * @preserve
+   * @augments ConfigurableComponent<ErrorSummaryConfig>
+   */
+  class ErrorSummary extends ConfigurableComponent {
+    /**
+     * @param {Element | null} $root - HTML element to use for error summary
+     * @param {ErrorSummaryConfig} [config] - Error summary config
+     */
+    constructor($root, config = {}) {
+      super($root, config);
+      if (!this.config.disableAutoFocus) {
+        setFocus(this.$root);
+      }
+      this.$root.addEventListener('click', event => this.handleClick(event));
+    }
+    handleClick(event) {
+      const $target = event.target;
+      if ($target && this.focusTarget($target)) {
         event.preventDefault();
       }
     }
+    focusTarget($target) {
+      if (!($target instanceof HTMLAnchorElement)) {
+        return false;
+      }
+      const inputId = getFragmentFromUrl($target.href);
+      if (!inputId) {
+        return false;
+      }
+      const $input = document.getElementById(inputId);
+      if (!$input) {
+        return false;
+      }
+      const $legendOrLabel = this.getAssociatedLegendOrLabel($input);
+      if (!$legendOrLabel) {
+        return false;
+      }
+      $legendOrLabel.scrollIntoView();
+      $input.focus({
+        preventScroll: true
+      });
+      return true;
+    }
+    getAssociatedLegendOrLabel($input) {
+      var _document$querySelect;
+      const $fieldset = $input.closest('fieldset');
+      if ($fieldset) {
+        const $legends = $fieldset.getElementsByTagName('legend');
+        if ($legends.length) {
+          const $candidateLegend = $legends[0];
+          if ($input instanceof HTMLInputElement && ($input.type === 'checkbox' || $input.type === 'radio')) {
+            return $candidateLegend;
+          }
+          const legendTop = $candidateLegend.getBoundingClientRect().top;
+          const inputRect = $input.getBoundingClientRect();
+          if (inputRect.height && window.innerHeight) {
+            const inputBottom = inputRect.top + inputRect.height;
+            if (inputBottom - legendTop < window.innerHeight / 2) {
+              return $candidateLegend;
+            }
+          }
+        }
+      }
+      return (_document$querySelect = document.querySelector(`label[for='${$input.getAttribute('id')}']`)) != null ? _document$querySelect : $input.closest('label');
+    }
+  }
+
+  /**
+   * Error summary config
+   *
+   * @typedef {object} ErrorSummaryConfig
+   * @property {boolean} [disableAutoFocus=false] - If set to `true` the error
+   *   summary will not be focussed when the page loads.
+   */
+
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   */
+  ErrorSummary.moduleName = 'govuk-error-summary';
+  ErrorSummary.defaults = Object.freeze({
+    disableAutoFocus: false
+  });
+  ErrorSummary.schema = Object.freeze({
+    properties: {
+      disableAutoFocus: {
+        type: 'boolean'
+      }
+    }
   });
 
-  node.addEventListener('click', callback);
-};
-
-function CharacterCount ($module) {
-  this.$module = $module;
-  this.$textarea = $module.querySelector('.govuk-js-character-count');
-  this.$visibleCountMessage = null;
-  this.$screenReaderCountMessage = null;
-  this.lastInputTimestamp = null;
-}
-
-CharacterCount.prototype.defaults = {
-  characterCountAttribute: 'data-maxlength',
-  wordCountAttribute: 'data-maxwords'
-};
-
-// Initialize component
-CharacterCount.prototype.init = function () {
-  // Check that required elements are present
-  if (!this.$textarea) {
-    return
-  }
-
-  // Check for module
-  var $module = this.$module;
-  var $textarea = this.$textarea;
-  var $fallbackLimitMessage = document.getElementById($textarea.id + '-info');
-
-  // Move the fallback count message to be immediately after the textarea
-  // Kept for backwards compatibility
-  $textarea.insertAdjacentElement('afterend', $fallbackLimitMessage);
-
-  // Create the *screen reader* specific live-updating counter
-  // This doesn't need any styling classes, as it is never visible
-  var $screenReaderCountMessage = document.createElement('div');
-  $screenReaderCountMessage.className = 'govuk-character-count__sr-status govuk-visually-hidden';
-  $screenReaderCountMessage.setAttribute('aria-live', 'polite');
-  this.$screenReaderCountMessage = $screenReaderCountMessage;
-  $fallbackLimitMessage.insertAdjacentElement('afterend', $screenReaderCountMessage);
-
-  // Create our live-updating counter element, copying the classes from the
-  // fallback element for backwards compatibility as these may have been configured
-  var $visibleCountMessage = document.createElement('div');
-  $visibleCountMessage.className = $fallbackLimitMessage.className;
-  $visibleCountMessage.classList.add('govuk-character-count__status');
-  $visibleCountMessage.setAttribute('aria-hidden', 'true');
-  this.$visibleCountMessage = $visibleCountMessage;
-  $fallbackLimitMessage.insertAdjacentElement('afterend', $visibleCountMessage);
-
-  // Hide the fallback limit message
-  $fallbackLimitMessage.classList.add('govuk-visually-hidden');
-
-  // Read options set using dataset ('data-' values)
-  this.options = this.getDataset($module);
-
-  // Determine the limit attribute (characters or words)
-  var countAttribute = this.defaults.characterCountAttribute;
-  if (this.options.maxwords) {
-    countAttribute = this.defaults.wordCountAttribute;
-  }
-
-  // Save the element limit
-  this.maxLength = $module.getAttribute(countAttribute);
-
-  // Check for limit
-  if (!this.maxLength) {
-    return
-  }
-
-  // Remove hard limit if set
-  $textarea.removeAttribute('maxlength');
-
-  this.bindChangeEvents();
-
-  // When the page is restored after navigating 'back' in some browsers the
-  // state of the character count is not restored until *after* the DOMContentLoaded
-  // event is fired, so we need to manually update it after the pageshow event
-  // in browsers that support it.
-  if ('onpageshow' in window) {
-    window.addEventListener('pageshow', this.updateCountMessage.bind(this));
-  } else {
-    window.addEventListener('DOMContentLoaded', this.updateCountMessage.bind(this));
-  }
-  this.updateCountMessage();
-};
-
-// Read data attributes
-CharacterCount.prototype.getDataset = function (element) {
-  var dataset = {};
-  var attributes = element.attributes;
-  if (attributes) {
-    for (var i = 0; i < attributes.length; i++) {
-      var attribute = attributes[i];
-      var match = attribute.name.match(/^data-(.+)/);
-      if (match) {
-        dataset[match[1]] = attribute.value;
+  /**
+   * Exit this page component
+   *
+   * @preserve
+   * @augments ConfigurableComponent<ExitThisPageConfig>
+   */
+  class ExitThisPage extends ConfigurableComponent {
+    /**
+     * @param {Element | null} $root - HTML element that wraps the Exit This Page button
+     * @param {ExitThisPageConfig} [config] - Exit This Page config
+     */
+    constructor($root, config = {}) {
+      super($root, config);
+      this.i18n = void 0;
+      this.$button = void 0;
+      this.$skiplinkButton = null;
+      this.$updateSpan = null;
+      this.$indicatorContainer = null;
+      this.$overlay = null;
+      this.keypressCounter = 0;
+      this.lastKeyWasModified = false;
+      this.timeoutTime = 5000;
+      this.keypressTimeoutId = null;
+      this.timeoutMessageId = null;
+      const $button = this.$root.querySelector('.govuk-exit-this-page__button');
+      if (!($button instanceof HTMLAnchorElement)) {
+        throw new ElementError({
+          component: ExitThisPage,
+          element: $button,
+          expectedType: 'HTMLAnchorElement',
+          identifier: 'Button (`.govuk-exit-this-page__button`)'
+        });
+      }
+      this.i18n = new I18n(this.config.i18n);
+      this.$button = $button;
+      const $skiplinkButton = document.querySelector('.govuk-js-exit-this-page-skiplink');
+      if ($skiplinkButton instanceof HTMLAnchorElement) {
+        this.$skiplinkButton = $skiplinkButton;
+      }
+      this.buildIndicator();
+      this.initUpdateSpan();
+      this.initButtonClickHandler();
+      if (!('govukFrontendExitThisPageKeypress' in document.body.dataset)) {
+        document.addEventListener('keyup', this.handleKeypress.bind(this), true);
+        document.body.dataset.govukFrontendExitThisPageKeypress = 'true';
+      }
+      window.addEventListener('pageshow', this.resetPage.bind(this));
+    }
+    initUpdateSpan() {
+      this.$updateSpan = document.createElement('span');
+      this.$updateSpan.setAttribute('role', 'status');
+      this.$updateSpan.className = 'govuk-visually-hidden';
+      this.$root.appendChild(this.$updateSpan);
+    }
+    initButtonClickHandler() {
+      this.$button.addEventListener('click', this.handleClick.bind(this));
+      if (this.$skiplinkButton) {
+        this.$skiplinkButton.addEventListener('click', this.handleClick.bind(this));
+      }
+    }
+    buildIndicator() {
+      this.$indicatorContainer = document.createElement('div');
+      this.$indicatorContainer.className = 'govuk-exit-this-page__indicator';
+      this.$indicatorContainer.setAttribute('aria-hidden', 'true');
+      for (let i = 0; i < 3; i++) {
+        const $indicator = document.createElement('div');
+        $indicator.className = 'govuk-exit-this-page__indicator-light';
+        this.$indicatorContainer.appendChild($indicator);
+      }
+      this.$button.appendChild(this.$indicatorContainer);
+    }
+    updateIndicator() {
+      if (!this.$indicatorContainer) {
+        return;
+      }
+      this.$indicatorContainer.classList.toggle('govuk-exit-this-page__indicator--visible', this.keypressCounter > 0);
+      const $indicators = this.$indicatorContainer.querySelectorAll('.govuk-exit-this-page__indicator-light');
+      $indicators.forEach(($indicator, index) => {
+        $indicator.classList.toggle('govuk-exit-this-page__indicator-light--on', index < this.keypressCounter);
+      });
+    }
+    exitPage() {
+      if (!this.$updateSpan) {
+        return;
+      }
+      this.$updateSpan.textContent = '';
+      document.body.classList.add('govuk-exit-this-page-hide-content');
+      this.$overlay = document.createElement('div');
+      this.$overlay.className = 'govuk-exit-this-page-overlay';
+      this.$overlay.setAttribute('role', 'alert');
+      document.body.appendChild(this.$overlay);
+      this.$overlay.textContent = this.i18n.t('activated');
+      window.location.href = this.$button.href;
+    }
+    handleClick(event) {
+      event.preventDefault();
+      this.exitPage();
+    }
+    handleKeypress(event) {
+      if (!this.$updateSpan) {
+        return;
+      }
+      if (event.key === 'Shift' && !this.lastKeyWasModified) {
+        this.keypressCounter += 1;
+        this.updateIndicator();
+        if (this.timeoutMessageId) {
+          window.clearTimeout(this.timeoutMessageId);
+          this.timeoutMessageId = null;
+        }
+        if (this.keypressCounter >= 3) {
+          this.keypressCounter = 0;
+          if (this.keypressTimeoutId) {
+            window.clearTimeout(this.keypressTimeoutId);
+            this.keypressTimeoutId = null;
+          }
+          this.exitPage();
+        } else {
+          if (this.keypressCounter === 1) {
+            this.$updateSpan.textContent = this.i18n.t('pressTwoMoreTimes');
+          } else {
+            this.$updateSpan.textContent = this.i18n.t('pressOneMoreTime');
+          }
+        }
+        this.setKeypressTimer();
+      } else if (this.keypressTimeoutId) {
+        this.resetKeypressTimer();
+      }
+      this.lastKeyWasModified = event.shiftKey;
+    }
+    setKeypressTimer() {
+      if (this.keypressTimeoutId) {
+        window.clearTimeout(this.keypressTimeoutId);
+      }
+      this.keypressTimeoutId = window.setTimeout(this.resetKeypressTimer.bind(this), this.timeoutTime);
+    }
+    resetKeypressTimer() {
+      if (!this.$updateSpan) {
+        return;
+      }
+      if (this.keypressTimeoutId) {
+        window.clearTimeout(this.keypressTimeoutId);
+        this.keypressTimeoutId = null;
+      }
+      const $updateSpan = this.$updateSpan;
+      this.keypressCounter = 0;
+      $updateSpan.textContent = this.i18n.t('timedOut');
+      this.timeoutMessageId = window.setTimeout(() => {
+        $updateSpan.textContent = '';
+      }, this.timeoutTime);
+      this.updateIndicator();
+    }
+    resetPage() {
+      document.body.classList.remove('govuk-exit-this-page-hide-content');
+      if (this.$overlay) {
+        this.$overlay.remove();
+        this.$overlay = null;
+      }
+      if (this.$updateSpan) {
+        this.$updateSpan.setAttribute('role', 'status');
+        this.$updateSpan.textContent = '';
+      }
+      this.updateIndicator();
+      if (this.keypressTimeoutId) {
+        window.clearTimeout(this.keypressTimeoutId);
+      }
+      if (this.timeoutMessageId) {
+        window.clearTimeout(this.timeoutMessageId);
       }
     }
   }
-  return dataset
-};
 
-// Counts characters or words in text
-CharacterCount.prototype.count = function (text) {
-  var length;
-  if (this.options.maxwords) {
-    var tokens = text.match(/\S+/g) || []; // Matches consecutive non-whitespace chars
-    length = tokens.length;
-  } else {
-    length = text.length;
-  }
-  return length
-};
+  /**
+   * Exit this Page config
+   *
+   * @see {@link ExitThisPage.defaults}
+   * @typedef {object} ExitThisPageConfig
+   * @property {ExitThisPageTranslations} [i18n=ExitThisPage.defaults.i18n] - Exit this page translations
+   */
 
-// Bind input propertychange to the elements and update based on the change
-CharacterCount.prototype.bindChangeEvents = function () {
-  var $textarea = this.$textarea;
-  $textarea.addEventListener('keyup', this.handleKeyUp.bind(this));
+  /**
+   * Exit this Page translations
+   *
+   * @see {@link ExitThisPage.defaults.i18n}
+   * @typedef {object} ExitThisPageTranslations
+   *
+   * Messages used by the component programatically inserted text, including
+   * overlay text and screen reader announcements.
+   * @property {string} [activated] - Screen reader announcement for when EtP
+   *   keypress functionality has been successfully activated.
+   * @property {string} [timedOut] - Screen reader announcement for when the EtP
+   *   keypress functionality has timed out.
+   * @property {string} [pressTwoMoreTimes] - Screen reader announcement informing
+   *   the user they must press the activation key two more times.
+   * @property {string} [pressOneMoreTime] - Screen reader announcement informing
+   *   the user they must press the activation key one more time.
+   */
 
-  // Bind focus/blur events to start/stop polling
-  $textarea.addEventListener('focus', this.handleFocus.bind(this));
-  $textarea.addEventListener('blur', this.handleBlur.bind(this));
-};
-
-// Speech recognition software such as Dragon NaturallySpeaking will modify the
-// fields by directly changing its `value`. These changes don't trigger events
-// in JavaScript, so we need to poll to handle when and if they occur.
-CharacterCount.prototype.checkIfValueChanged = function () {
-  if (!this.$textarea.oldValue) this.$textarea.oldValue = '';
-  if (this.$textarea.value !== this.$textarea.oldValue) {
-    this.$textarea.oldValue = this.$textarea.value;
-    this.updateCountMessage();
-  }
-};
-
-// Helper function to update both the visible and screen reader-specific
-// counters simultaneously (e.g. on init)
-CharacterCount.prototype.updateCountMessage = function () {
-  this.updateVisibleCountMessage();
-  this.updateScreenReaderCountMessage();
-};
-
-// Update visible counter
-CharacterCount.prototype.updateVisibleCountMessage = function () {
-  var $textarea = this.$textarea;
-  var $visibleCountMessage = this.$visibleCountMessage;
-  var remainingNumber = this.maxLength - this.count($textarea.value);
-
-  // If input is over the threshold, remove the disabled class which renders the
-  // counter invisible.
-  if (this.isOverThreshold()) {
-    $visibleCountMessage.classList.remove('govuk-character-count__message--disabled');
-  } else {
-    $visibleCountMessage.classList.add('govuk-character-count__message--disabled');
-  }
-
-  // Update styles
-  if (remainingNumber < 0) {
-    $textarea.classList.add('govuk-textarea--error');
-    $visibleCountMessage.classList.remove('govuk-hint');
-    $visibleCountMessage.classList.add('govuk-error-message');
-  } else {
-    $textarea.classList.remove('govuk-textarea--error');
-    $visibleCountMessage.classList.remove('govuk-error-message');
-    $visibleCountMessage.classList.add('govuk-hint');
-  }
-
-  // Update message
-  $visibleCountMessage.innerHTML = this.formattedUpdateMessage();
-};
-
-// Update screen reader-specific counter
-CharacterCount.prototype.updateScreenReaderCountMessage = function () {
-  var $screenReaderCountMessage = this.$screenReaderCountMessage;
-
-  // If over the threshold, remove the aria-hidden attribute, allowing screen
-  // readers to announce the content of the element.
-  if (this.isOverThreshold()) {
-    $screenReaderCountMessage.removeAttribute('aria-hidden');
-  } else {
-    $screenReaderCountMessage.setAttribute('aria-hidden', true);
-  }
-
-  // Update message
-  $screenReaderCountMessage.innerHTML = this.formattedUpdateMessage();
-};
-
-// Format update message
-CharacterCount.prototype.formattedUpdateMessage = function () {
-  var $textarea = this.$textarea;
-  var options = this.options;
-  var remainingNumber = this.maxLength - this.count($textarea.value);
-
-  var charVerb = 'remaining';
-  var charNoun = 'character';
-  var displayNumber = remainingNumber;
-  if (options.maxwords) {
-    charNoun = 'word';
-  }
-  charNoun = charNoun + ((remainingNumber === -1 || remainingNumber === 1) ? '' : 's');
-
-  charVerb = (remainingNumber < 0) ? 'too many' : 'remaining';
-  displayNumber = Math.abs(remainingNumber);
-
-  return 'You have ' + displayNumber + ' ' + charNoun + ' ' + charVerb
-};
-
-// Checks whether the value is over the configured threshold for the input.
-// If there is no configured threshold, it is set to 0 and this function will
-// always return true.
-CharacterCount.prototype.isOverThreshold = function () {
-  var $textarea = this.$textarea;
-  var options = this.options;
-
-  // Determine the remaining number of characters/words
-  var currentLength = this.count($textarea.value);
-  var maxLength = this.maxLength;
-
-  // Set threshold if presented in options
-  var thresholdPercent = options.threshold ? options.threshold : 0;
-  var thresholdValue = maxLength * thresholdPercent / 100;
-
-  return (thresholdValue <= currentLength)
-};
-
-// Update the visible character counter and keep track of when the last update
-// happened for each keypress
-CharacterCount.prototype.handleKeyUp = function () {
-  this.updateVisibleCountMessage();
-  this.lastInputTimestamp = Date.now();
-};
-
-CharacterCount.prototype.handleFocus = function () {
-  // If the field is focused, and a keyup event hasn't been detected for at
-  // least 1000 ms (1 second), then run the manual change check.
-  // This is so that the update triggered by the manual comparison doesn't
-  // conflict with debounced KeyboardEvent updates.
-  this.valueChecker = setInterval(function () {
-    if (!this.lastInputTimestamp || (Date.now() - 500) >= this.lastInputTimestamp) {
-      this.checkIfValueChanged();
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   */
+  ExitThisPage.moduleName = 'govuk-exit-this-page';
+  ExitThisPage.defaults = Object.freeze({
+    i18n: {
+      activated: 'Loading.',
+      timedOut: 'Exit this page expired.',
+      pressTwoMoreTimes: 'Shift, press 2 more times to exit.',
+      pressOneMoreTime: 'Shift, press 1 more time to exit.'
     }
-  }.bind(this), 1000);
-};
-
-CharacterCount.prototype.handleBlur = function () {
-  // Cancel value checking on blur
-  clearInterval(this.valueChecker);
-};
-
-function Checkboxes ($module) {
-  this.$module = $module;
-  this.$inputs = $module.querySelectorAll('input[type="checkbox"]');
-}
-
-/**
- * Initialise Checkboxes
- *
- * Checkboxes can be associated with a 'conditionally revealed' content block –
- * for example, a checkbox for 'Phone' could reveal an additional form field for
- * the user to enter their phone number.
- *
- * These associations are made using a `data-aria-controls` attribute, which is
- * promoted to an aria-controls attribute during initialisation.
- *
- * We also need to restore the state of any conditional reveals on the page (for
- * example if the user has navigated back), and set up event handlers to keep
- * the reveal in sync with the checkbox state.
- */
-Checkboxes.prototype.init = function () {
-  var $module = this.$module;
-  var $inputs = this.$inputs;
-
-  nodeListForEach($inputs, function ($input) {
-    var target = $input.getAttribute('data-aria-controls');
-
-    // Skip checkboxes without data-aria-controls attributes, or where the
-    // target element does not exist.
-    if (!target || !document.getElementById(target)) {
-      return
-    }
-
-    // Promote the data-aria-controls attribute to a aria-controls attribute
-    // so that the relationship is exposed in the AOM
-    $input.setAttribute('aria-controls', target);
-    $input.removeAttribute('data-aria-controls');
   });
-
-  // When the page is restored after navigating 'back' in some browsers the
-  // state of form controls is not restored until *after* the DOMContentLoaded
-  // event is fired, so we need to sync after the pageshow event in browsers
-  // that support it.
-  if ('onpageshow' in window) {
-    window.addEventListener('pageshow', this.syncAllConditionalReveals.bind(this));
-  } else {
-    window.addEventListener('DOMContentLoaded', this.syncAllConditionalReveals.bind(this));
-  }
-
-  // Although we've set up handlers to sync state on the pageshow or
-  // DOMContentLoaded event, init could be called after those events have fired,
-  // for example if they are added to the page dynamically, so sync now too.
-  this.syncAllConditionalReveals();
-
-  $module.addEventListener('click', this.handleClick.bind(this));
-};
-
-/**
- * Sync the conditional reveal states for all inputs in this $module.
- */
-Checkboxes.prototype.syncAllConditionalReveals = function () {
-  nodeListForEach(this.$inputs, this.syncConditionalRevealWithInputState.bind(this));
-};
-
-/**
- * Sync conditional reveal with the input state
- *
- * Synchronise the visibility of the conditional reveal, and its accessible
- * state, with the input's checked state.
- *
- * @param {HTMLInputElement} $input Checkbox input
- */
-Checkboxes.prototype.syncConditionalRevealWithInputState = function ($input) {
-  var $target = document.getElementById($input.getAttribute('aria-controls'));
-
-  if ($target && $target.classList.contains('govuk-checkboxes__conditional')) {
-    var inputIsChecked = $input.checked;
-
-    $input.setAttribute('aria-expanded', inputIsChecked);
-    $target.classList.toggle('govuk-checkboxes__conditional--hidden', !inputIsChecked);
-  }
-};
-
-/**
- * Uncheck other checkboxes
- *
- * Find any other checkbox inputs with the same name value, and uncheck them.
- * This is useful for when a “None of these" checkbox is checked.
- */
-Checkboxes.prototype.unCheckAllInputsExcept = function ($input) {
-  var allInputsWithSameName = document.querySelectorAll('input[type="checkbox"][name="' + $input.name + '"]');
-
-  nodeListForEach(allInputsWithSameName, function ($inputWithSameName) {
-    var hasSameFormOwner = ($input.form === $inputWithSameName.form);
-    if (hasSameFormOwner && $inputWithSameName !== $input) {
-      $inputWithSameName.checked = false;
-      this.syncConditionalRevealWithInputState($inputWithSameName);
-    }
-  }.bind(this));
-};
-
-/**
- * Uncheck exclusive inputs
- *
- * Find any checkbox inputs with the same name value and the 'exclusive' behaviour,
- * and uncheck them. This helps prevent someone checking both a regular checkbox and a
- * "None of these" checkbox in the same fieldset.
- */
-Checkboxes.prototype.unCheckExclusiveInputs = function ($input) {
-  var allInputsWithSameNameAndExclusiveBehaviour = document.querySelectorAll(
-    'input[data-behaviour="exclusive"][type="checkbox"][name="' + $input.name + '"]'
-  );
-
-  nodeListForEach(allInputsWithSameNameAndExclusiveBehaviour, function ($exclusiveInput) {
-    var hasSameFormOwner = ($input.form === $exclusiveInput.form);
-    if (hasSameFormOwner) {
-      $exclusiveInput.checked = false;
-      this.syncConditionalRevealWithInputState($exclusiveInput);
-    }
-  }.bind(this));
-};
-
-/**
- * Click event handler
- *
- * Handle a click within the $module – if the click occurred on a checkbox, sync
- * the state of any associated conditional reveal with the checkbox state.
- *
- * @param {MouseEvent} event Click event
- */
-Checkboxes.prototype.handleClick = function (event) {
-  var $target = event.target;
-
-  // Ignore clicks on things that aren't checkbox inputs
-  if ($target.type !== 'checkbox') {
-    return
-  }
-
-  // If the checkbox conditionally-reveals some content, sync the state
-  var hasAriaControls = $target.getAttribute('aria-controls');
-  if (hasAriaControls) {
-    this.syncConditionalRevealWithInputState($target);
-  }
-
-  // No further behaviour needed for unchecking
-  if (!$target.checked) {
-    return
-  }
-
-  // Handle 'exclusive' checkbox behaviour (ie "None of these")
-  var hasBehaviourExclusive = ($target.getAttribute('data-behaviour') === 'exclusive');
-  if (hasBehaviourExclusive) {
-    this.unCheckAllInputsExcept($target);
-  } else {
-    this.unCheckExclusiveInputs($target);
-  }
-};
-
-(function(undefined$1) {
-
-  // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/1f3c09b402f65bf6e393f933a15ba63f1b86ef1f/packages/polyfill-library/polyfills/Element/prototype/matches/detect.js
-  var detect = (
-    'document' in this && "matches" in document.documentElement
-  );
-
-  if (detect) return
-
-  // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-service/1f3c09b402f65bf6e393f933a15ba63f1b86ef1f/packages/polyfill-library/polyfills/Element/prototype/matches/polyfill.js
-  Element.prototype.matches = Element.prototype.webkitMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.mozMatchesSelector || function matches(selector) {
-    var element = this;
-    var elements = (element.document || element.ownerDocument).querySelectorAll(selector);
-    var index = 0;
-
-    while (elements[index] && elements[index] !== element) {
-      ++index;
-    }
-
-    return !!elements[index];
-  };
-
-}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-
-  // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/1f3c09b402f65bf6e393f933a15ba63f1b86ef1f/packages/polyfill-library/polyfills/Element/prototype/closest/detect.js
-  var detect = (
-    'document' in this && "closest" in document.documentElement
-  );
-
-  if (detect) return
-
-  // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-service/1f3c09b402f65bf6e393f933a15ba63f1b86ef1f/packages/polyfill-library/polyfills/Element/prototype/closest/polyfill.js
-  Element.prototype.closest = function closest(selector) {
-    var node = this;
-
-    while (node) {
-      if (node.matches(selector)) return node;
-      else node = 'SVGElement' in window && node instanceof SVGElement ? node.parentNode : node.parentElement;
-    }
-
-    return null;
-  };
-
-}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-function ErrorSummary ($module) {
-  this.$module = $module;
-}
-
-ErrorSummary.prototype.init = function () {
-  var $module = this.$module;
-  if (!$module) {
-    return
-  }
-
-  this.setFocus();
-  $module.addEventListener('click', this.handleClick.bind(this));
-};
-
-/**
- * Focus the error summary
- */
-ErrorSummary.prototype.setFocus = function () {
-  var $module = this.$module;
-
-  if ($module.getAttribute('data-disable-auto-focus') === 'true') {
-    return
-  }
-
-  // Set tabindex to -1 to make the element programmatically focusable, but
-  // remove it on blur as the error summary doesn't need to be focused again.
-  $module.setAttribute('tabindex', '-1');
-
-  $module.addEventListener('blur', function () {
-    $module.removeAttribute('tabindex');
-  });
-
-  $module.focus();
-};
-
-/**
-* Click event handler
-*
-* @param {MouseEvent} event - Click event
-*/
-ErrorSummary.prototype.handleClick = function (event) {
-  var target = event.target;
-  if (this.focusTarget(target)) {
-    event.preventDefault();
-  }
-};
-
-/**
- * Focus the target element
- *
- * By default, the browser will scroll the target into view. Because our labels
- * or legends appear above the input, this means the user will be presented with
- * an input without any context, as the label or legend will be off the top of
- * the screen.
- *
- * Manually handling the click event, scrolling the question into view and then
- * focussing the element solves this.
- *
- * This also results in the label and/or legend being announced correctly in
- * NVDA (as tested in 2018.3.2) - without this only the field type is announced
- * (e.g. "Edit, has autocomplete").
- *
- * @param {HTMLElement} $target - Event target
- * @returns {boolean} True if the target was able to be focussed
- */
-ErrorSummary.prototype.focusTarget = function ($target) {
-  // If the element that was clicked was not a link, return early
-  if ($target.tagName !== 'A' || $target.href === false) {
-    return false
-  }
-
-  var inputId = this.getFragmentFromUrl($target.href);
-  var $input = document.getElementById(inputId);
-  if (!$input) {
-    return false
-  }
-
-  var $legendOrLabel = this.getAssociatedLegendOrLabel($input);
-  if (!$legendOrLabel) {
-    return false
-  }
-
-  // Scroll the legend or label into view *before* calling focus on the input to
-  // avoid extra scrolling in browsers that don't support `preventScroll` (which
-  // at time of writing is most of them...)
-  $legendOrLabel.scrollIntoView();
-  $input.focus({ preventScroll: true });
-
-  return true
-};
-
-/**
- * Get fragment from URL
- *
- * Extract the fragment (everything after the hash) from a URL, but not including
- * the hash.
- *
- * @param {string} url - URL
- * @returns {string} Fragment from URL, without the hash
- */
-ErrorSummary.prototype.getFragmentFromUrl = function (url) {
-  if (url.indexOf('#') === -1) {
-    return false
-  }
-
-  return url.split('#').pop()
-};
-
-/**
- * Get associated legend or label
- *
- * Returns the first element that exists from this list:
- *
- * - The `<legend>` associated with the closest `<fieldset>` ancestor, as long
- *   as the top of it is no more than half a viewport height away from the
- *   bottom of the input
- * - The first `<label>` that is associated with the input using for="inputId"
- * - The closest parent `<label>`
- *
- * @param {HTMLElement} $input - The input
- * @returns {HTMLElement} Associated legend or label, or null if no associated
- *                        legend or label can be found
- */
-ErrorSummary.prototype.getAssociatedLegendOrLabel = function ($input) {
-  var $fieldset = $input.closest('fieldset');
-
-  if ($fieldset) {
-    var legends = $fieldset.getElementsByTagName('legend');
-
-    if (legends.length) {
-      var $candidateLegend = legends[0];
-
-      // If the input type is radio or checkbox, always use the legend if there
-      // is one.
-      if ($input.type === 'checkbox' || $input.type === 'radio') {
-        return $candidateLegend
+  ExitThisPage.schema = Object.freeze({
+    properties: {
+      i18n: {
+        type: 'object'
       }
+    }
+  });
 
-      // For other input types, only scroll to the fieldset’s legend (instead of
-      // the label associated with the input) if the input would end up in the
-      // top half of the screen.
-      //
-      // This should avoid situations where the input either ends up off the
-      // screen, or obscured by a software keyboard.
-      var legendTop = $candidateLegend.getBoundingClientRect().top;
-      var inputRect = $input.getBoundingClientRect();
+  /**
+   * File upload component
+   *
+   * @preserve
+   * @augments ConfigurableComponent<FileUploadConfig>
+   */
+  class FileUpload extends ConfigurableComponent {
+    /**
+     * @param {Element | null} $root - File input element
+     * @param {FileUploadConfig} [config] - File Upload config
+     */
+    constructor($root, config = {}) {
+      super($root, config);
+      this.$input = void 0;
+      this.$button = void 0;
+      this.$status = void 0;
+      this.i18n = void 0;
+      this.id = void 0;
+      const $input = this.$root.querySelector('input');
+      if ($input === null) {
+        throw new ElementError({
+          component: FileUpload,
+          identifier: 'File inputs (`<input type="file">`)'
+        });
+      }
+      if ($input.type !== 'file') {
+        throw new ElementError(formatErrorMessage(FileUpload, 'File input (`<input type="file">`) attribute (`type`) is not `file`'));
+      }
+      this.$input = $input;
+      this.$input.setAttribute('hidden', 'true');
+      if (!this.$input.id) {
+        throw new ElementError({
+          component: FileUpload,
+          identifier: 'File input (`<input type="file">`) attribute (`id`)'
+        });
+      }
+      this.id = this.$input.id;
+      this.i18n = new I18n(this.config.i18n, {
+        locale: closestAttributeValue(this.$root, 'lang')
+      });
+      const $label = this.findLabel();
+      if (!$label.id) {
+        $label.id = `${this.id}-label`;
+      }
+      this.$input.id = `${this.id}-input`;
+      const $button = document.createElement('button');
+      $button.classList.add('govuk-file-upload-button');
+      $button.type = 'button';
+      $button.id = this.id;
+      $button.classList.add('govuk-file-upload-button--empty');
+      const ariaDescribedBy = this.$input.getAttribute('aria-describedby');
+      if (ariaDescribedBy) {
+        $button.setAttribute('aria-describedby', ariaDescribedBy);
+      }
+      const $status = document.createElement('span');
+      $status.className = 'govuk-body govuk-file-upload-button__status';
+      $status.setAttribute('aria-live', 'polite');
+      $status.innerText = this.i18n.t('noFileChosen');
+      $button.appendChild($status);
+      const commaSpan = document.createElement('span');
+      commaSpan.className = 'govuk-visually-hidden';
+      commaSpan.innerText = ', ';
+      commaSpan.id = `${this.id}-comma`;
+      $button.appendChild(commaSpan);
+      const containerSpan = document.createElement('span');
+      containerSpan.className = 'govuk-file-upload-button__pseudo-button-container';
+      const buttonSpan = document.createElement('span');
+      buttonSpan.className = 'govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button';
+      buttonSpan.innerText = this.i18n.t('chooseFilesButton');
+      containerSpan.appendChild(buttonSpan);
+      containerSpan.insertAdjacentText('beforeend', ' ');
+      const instructionSpan = document.createElement('span');
+      instructionSpan.className = 'govuk-body govuk-file-upload-button__instruction';
+      instructionSpan.innerText = this.i18n.t('dropInstruction');
+      containerSpan.appendChild(instructionSpan);
+      $button.appendChild(containerSpan);
+      $button.setAttribute('aria-labelledby', `${$label.id} ${commaSpan.id} ${$button.id}`);
+      $button.addEventListener('click', this.onClick.bind(this));
+      $button.addEventListener('dragover', event => {
+        event.preventDefault();
+      });
+      this.$root.insertAdjacentElement('afterbegin', $button);
+      this.$input.setAttribute('tabindex', '-1');
+      this.$input.setAttribute('aria-hidden', 'true');
+      this.$button = $button;
+      this.$status = $status;
+      this.$input.addEventListener('change', this.onChange.bind(this));
+      this.updateDisabledState();
+      this.observeDisabledState();
+      this.$announcements = document.createElement('span');
+      this.$announcements.classList.add('govuk-file-upload-announcements');
+      this.$announcements.classList.add('govuk-visually-hidden');
+      this.$announcements.setAttribute('aria-live', 'assertive');
+      this.$root.insertAdjacentElement('afterend', this.$announcements);
+      this.$button.addEventListener('drop', this.onDrop.bind(this));
+      document.addEventListener('dragenter', this.updateDropzoneVisibility.bind(this));
+      document.addEventListener('dragenter', () => {
+        this.enteredAnotherElement = true;
+      });
+      document.addEventListener('dragleave', () => {
+        if (!this.enteredAnotherElement && !this.$button.disabled) {
+          this.hideDraggingState();
+          this.$announcements.innerText = this.i18n.t('leftDropZone');
+        }
+        this.enteredAnotherElement = false;
+      });
+    }
 
-      // If the browser doesn't support Element.getBoundingClientRect().height
-      // or window.innerHeight (like IE8), bail and just link to the label.
-      if (inputRect.height && window.innerHeight) {
-        var inputBottom = inputRect.top + inputRect.height;
-
-        if (inputBottom - legendTop < window.innerHeight / 2) {
-          return $candidateLegend
+    /**
+     * Updates the visibility of the dropzone as users enters the various elements on the page
+     *
+     * @param {DragEvent} event - The `dragenter` event
+     */
+    updateDropzoneVisibility(event) {
+      if (this.$button.disabled) return;
+      if (event.target instanceof Node) {
+        if (this.$root.contains(event.target)) {
+          if (event.dataTransfer && isContainingFiles(event.dataTransfer)) {
+            if (!this.$button.classList.contains('govuk-file-upload-button--dragging')) {
+              this.showDraggingState();
+              this.$announcements.innerText = this.i18n.t('enteredDropZone');
+            }
+          }
+        } else {
+          if (this.$button.classList.contains('govuk-file-upload-button--dragging')) {
+            this.hideDraggingState();
+            this.$announcements.innerText = this.i18n.t('leftDropZone');
+          }
         }
       }
     }
-  }
-
-  return document.querySelector("label[for='" + $input.getAttribute('id') + "']") ||
-    $input.closest('label')
-};
-
-function NotificationBanner ($module) {
-  this.$module = $module;
-}
-
-/**
- * Initialise the component
- */
-NotificationBanner.prototype.init = function () {
-  var $module = this.$module;
-  // Check for module
-  if (!$module) {
-    return
-  }
-
-  this.setFocus();
-};
-
-/**
- * Focus the element
- *
- * If `role="alert"` is set, focus the element to help some assistive technologies
- * prioritise announcing it.
- *
- * You can turn off the auto-focus functionality by setting `data-disable-auto-focus="true"` in the
- * component HTML. You might wish to do this based on user research findings, or to avoid a clash
- * with another element which should be focused when the page loads.
- */
-NotificationBanner.prototype.setFocus = function () {
-  var $module = this.$module;
-
-  if ($module.getAttribute('data-disable-auto-focus') === 'true') {
-    return
-  }
-
-  if ($module.getAttribute('role') !== 'alert') {
-    return
-  }
-
-  // Set tabindex to -1 to make the element focusable with JavaScript.
-  // Remove the tabindex on blur as the component doesn't need to be focusable after the page has
-  // loaded.
-  if (!$module.getAttribute('tabindex')) {
-    $module.setAttribute('tabindex', '-1');
-
-    $module.addEventListener('blur', function () {
-      $module.removeAttribute('tabindex');
-    });
-  }
-
-  $module.focus();
-};
-
-function Header ($module) {
-  this.$module = $module;
-  this.$menuButton = $module && $module.querySelector('.govuk-js-header-toggle');
-  this.$menu = this.$menuButton && $module.querySelector(
-    '#' + this.$menuButton.getAttribute('aria-controls')
-  );
-}
-
-/**
- * Initialise header
- *
- * Check for the presence of the header, menu and menu button – if any are
- * missing then there's nothing to do so return early.
- */
-Header.prototype.init = function () {
-  if (!this.$module || !this.$menuButton || !this.$menu) {
-    return
-  }
-
-  this.syncState(this.$menu.classList.contains('govuk-header__navigation-list--open'));
-  this.$menuButton.addEventListener('click', this.handleMenuButtonClick.bind(this));
-};
-
-/**
- * Sync menu state
- *
- * Sync the menu button class and the accessible state of the menu and the menu
- * button with the visible state of the menu
- *
- * @param {boolean} isVisible Whether the menu is currently visible
- */
-Header.prototype.syncState = function (isVisible) {
-  this.$menuButton.classList.toggle('govuk-header__menu-button--open', isVisible);
-  this.$menuButton.setAttribute('aria-expanded', isVisible);
-};
-
-/**
- * Handle menu button click
- *
- * When the menu button is clicked, change the visibility of the menu and then
- * sync the accessibility state and menu button state
- */
-Header.prototype.handleMenuButtonClick = function () {
-  var isVisible = this.$menu.classList.toggle('govuk-header__navigation-list--open');
-  this.syncState(isVisible);
-};
-
-function Radios ($module) {
-  this.$module = $module;
-  this.$inputs = $module.querySelectorAll('input[type="radio"]');
-}
-
-/**
- * Initialise Radios
- *
- * Radios can be associated with a 'conditionally revealed' content block – for
- * example, a radio for 'Phone' could reveal an additional form field for the
- * user to enter their phone number.
- *
- * These associations are made using a `data-aria-controls` attribute, which is
- * promoted to an aria-controls attribute during initialisation.
- *
- * We also need to restore the state of any conditional reveals on the page (for
- * example if the user has navigated back), and set up event handlers to keep
- * the reveal in sync with the radio state.
- */
-Radios.prototype.init = function () {
-  var $module = this.$module;
-  var $inputs = this.$inputs;
-
-  nodeListForEach($inputs, function ($input) {
-    var target = $input.getAttribute('data-aria-controls');
-
-    // Skip radios without data-aria-controls attributes, or where the
-    // target element does not exist.
-    if (!target || !document.getElementById(target)) {
-      return
+    showDraggingState() {
+      this.$button.classList.add('govuk-file-upload-button--dragging');
+    }
+    hideDraggingState() {
+      this.$button.classList.remove('govuk-file-upload-button--dragging');
     }
 
-    // Promote the data-aria-controls attribute to a aria-controls attribute
-    // so that the relationship is exposed in the AOM
-    $input.setAttribute('aria-controls', target);
-    $input.removeAttribute('data-aria-controls');
-  });
-
-  // When the page is restored after navigating 'back' in some browsers the
-  // state of form controls is not restored until *after* the DOMContentLoaded
-  // event is fired, so we need to sync after the pageshow event in browsers
-  // that support it.
-  if ('onpageshow' in window) {
-    window.addEventListener('pageshow', this.syncAllConditionalReveals.bind(this));
-  } else {
-    window.addEventListener('DOMContentLoaded', this.syncAllConditionalReveals.bind(this));
-  }
-
-  // Although we've set up handlers to sync state on the pageshow or
-  // DOMContentLoaded event, init could be called after those events have fired,
-  // for example if they are added to the page dynamically, so sync now too.
-  this.syncAllConditionalReveals();
-
-  // Handle events
-  $module.addEventListener('click', this.handleClick.bind(this));
-};
-
-/**
- * Sync the conditional reveal states for all inputs in this $module.
- */
-Radios.prototype.syncAllConditionalReveals = function () {
-  nodeListForEach(this.$inputs, this.syncConditionalRevealWithInputState.bind(this));
-};
-
-/**
- * Sync conditional reveal with the input state
- *
- * Synchronise the visibility of the conditional reveal, and its accessible
- * state, with the input's checked state.
- *
- * @param {HTMLInputElement} $input Radio input
- */
-Radios.prototype.syncConditionalRevealWithInputState = function ($input) {
-  var $target = document.getElementById($input.getAttribute('aria-controls'));
-
-  if ($target && $target.classList.contains('govuk-radios__conditional')) {
-    var inputIsChecked = $input.checked;
-
-    $input.setAttribute('aria-expanded', inputIsChecked);
-    $target.classList.toggle('govuk-radios__conditional--hidden', !inputIsChecked);
-  }
-};
-
-/**
- * Click event handler
- *
- * Handle a click within the $module – if the click occurred on a radio, sync
- * the state of the conditional reveal for all radio buttons in the same form
- * with the same name (because checking one radio could have un-checked a radio
- * in another $module)
- *
- * @param {MouseEvent} event Click event
- */
-Radios.prototype.handleClick = function (event) {
-  var $clickedInput = event.target;
-
-  // Ignore clicks on things that aren't radio buttons
-  if ($clickedInput.type !== 'radio') {
-    return
-  }
-
-  // We only need to consider radios with conditional reveals, which will have
-  // aria-controls attributes.
-  var $allInputs = document.querySelectorAll('input[type="radio"][aria-controls]');
-
-  nodeListForEach($allInputs, function ($input) {
-    var hasSameFormOwner = ($input.form === $clickedInput.form);
-    var hasSameName = ($input.name === $clickedInput.name);
-
-    if (hasSameName && hasSameFormOwner) {
-      this.syncConditionalRevealWithInputState($input);
-    }
-  }.bind(this));
-};
-
-function SkipLink ($module) {
-  this.$module = $module;
-  this.$linkedElement = null;
-  this.linkedElementListener = false;
-}
-
-/**
- * Initialise the component
- */
-SkipLink.prototype.init = function () {
-  // Check for module
-  if (!this.$module) {
-    return
-  }
-
-  // Check for linked element
-  this.$linkedElement = this.getLinkedElement();
-  if (!this.$linkedElement) {
-    return
-  }
-
-  this.$module.addEventListener('click', this.focusLinkedElement.bind(this));
-};
-
-/**
-* Get linked element
-*
-* @returns {HTMLElement} $linkedElement - DOM element linked to from the skip link
-*/
-SkipLink.prototype.getLinkedElement = function () {
-  var linkedElementId = this.getFragmentFromUrl();
-
-  if (!linkedElementId) {
-    return false
-  }
-
-  return document.getElementById(linkedElementId)
-};
-
-/**
- * Focus the linked element
- *
- * Set tabindex and helper CSS class. Set listener to remove them on blur.
- */
-SkipLink.prototype.focusLinkedElement = function () {
-  var $linkedElement = this.$linkedElement;
-
-  if (!$linkedElement.getAttribute('tabindex')) {
-    // Set the element tabindex to -1 so it can be focused with JavaScript.
-    $linkedElement.setAttribute('tabindex', '-1');
-    $linkedElement.classList.add('govuk-skip-link-focused-element');
-
-    // Add listener for blur on the focused element (unless the listener has previously been added)
-    if (!this.linkedElementListener) {
-      this.$linkedElement.addEventListener('blur', this.removeFocusProperties.bind(this));
-      this.linkedElementListener = true;
-    }
-  }
-  $linkedElement.focus();
-};
-
-/**
- * Remove the tabindex that makes the linked element focusable because the element only needs to be
- * focusable until it has received programmatic focus and a screen reader has announced it.
- *
- * Remove the CSS class that removes the native focus styles.
- */
-SkipLink.prototype.removeFocusProperties = function () {
-  this.$linkedElement.removeAttribute('tabindex');
-  this.$linkedElement.classList.remove('govuk-skip-link-focused-element');
-};
-
-/**
- * Get fragment from URL
- *
- * Extract the fragment (everything after the hash symbol) from a URL, but not including
- * the symbol.
- *
- * @returns {string} Fragment from URL, without the hash symbol
- */
-SkipLink.prototype.getFragmentFromUrl = function () {
-  // Bail if the anchor link doesn't have a hash
-  if (!this.$module.hash) {
-    return false
-  }
-
-  return this.$module.hash.split('#').pop()
-};
-
-(function(undefined$1) {
-
-    // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/nextElementSibling/detect.js
-    var detect = (
-      'document' in this && "nextElementSibling" in document.documentElement
-    );
-
-    if (detect) return
-
-    // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/nextElementSibling/polyfill.js
-    Object.defineProperty(Element.prototype, "nextElementSibling", {
-      get: function(){
-        var el = this.nextSibling;
-        while (el && el.nodeType !== 1) { el = el.nextSibling; }
-        return el;
+    /**
+     * Handles user dropping on the component
+     *
+     * @param {DragEvent} event - The `dragenter` event
+     */
+    onDrop(event) {
+      event.preventDefault();
+      if (event.dataTransfer && isContainingFiles(event.dataTransfer)) {
+        this.$input.files = event.dataTransfer.files;
+        this.$input.dispatchEvent(new CustomEvent('change'));
+        this.hideDraggingState();
       }
-    });
-
-}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-(function(undefined$1) {
-
-    // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/previousElementSibling/detect.js
-    var detect = (
-      'document' in this && "previousElementSibling" in document.documentElement
-    );
-
-    if (detect) return
-
-    // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/previousElementSibling/polyfill.js
-    Object.defineProperty(Element.prototype, 'previousElementSibling', {
-      get: function(){
-        var el = this.previousSibling;
-        while (el && el.nodeType !== 1) { el = el.previousSibling; }
-        return el;
+    }
+    onChange() {
+      const fileCount = this.$input.files.length;
+      if (fileCount === 0) {
+        this.$status.innerText = this.i18n.t('noFileChosen');
+        this.$button.classList.add('govuk-file-upload-button--empty');
+      } else {
+        if (fileCount === 1) {
+          this.$status.innerText = this.$input.files[0].name;
+        } else {
+          this.$status.innerText = this.i18n.t('multipleFilesChosen', {
+            count: fileCount
+          });
+        }
+        this.$button.classList.remove('govuk-file-upload-button--empty');
       }
+    }
+    findLabel() {
+      const $label = document.querySelector(`label[for="${this.$input.id}"]`);
+      if (!$label) {
+        throw new ElementError({
+          component: FileUpload,
+          identifier: `Field label (\`<label for=${this.$input.id}>\`)`
+        });
+      }
+      return $label;
+    }
+    onClick() {
+      this.$input.click();
+    }
+    observeDisabledState() {
+      const observer = new MutationObserver(mutationList => {
+        for (const mutation of mutationList) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
+            this.updateDisabledState();
+          }
+        }
+      });
+      observer.observe(this.$input, {
+        attributes: true
+      });
+    }
+    updateDisabledState() {
+      this.$button.disabled = this.$input.disabled;
+      this.$root.classList.toggle('govuk-drop-zone--disabled', this.$button.disabled);
+    }
+  }
+  FileUpload.moduleName = 'govuk-file-upload';
+  FileUpload.defaults = Object.freeze({
+    i18n: {
+      chooseFilesButton: 'Choose file',
+      dropInstruction: 'or drop file',
+      noFileChosen: 'No file chosen',
+      multipleFilesChosen: {
+        one: '%{count} file chosen',
+        other: '%{count} files chosen'
+      },
+      enteredDropZone: 'Entered drop zone',
+      leftDropZone: 'Left drop zone'
+    }
+  });
+  FileUpload.schema = Object.freeze({
+    properties: {
+      i18n: {
+        type: 'object'
+      }
+    }
+  });
+  function isContainingFiles(dataTransfer) {
+    const hasNoTypesInfo = dataTransfer.types.length === 0;
+    const isDraggingFiles = dataTransfer.types.some(type => type === 'Files');
+    return hasNoTypesInfo || isDraggingFiles;
+  }
+
+  /**
+   * @typedef {HTMLInputElement & {files: FileList}} HTMLFileInputElement
+   */
+
+  /**
+   * File upload config
+   *
+   * @see {@link FileUpload.defaults}
+   * @typedef {object} FileUploadConfig
+   * @property {FileUploadTranslations} [i18n=FileUpload.defaults.i18n] - File upload translations
+   */
+
+  /**
+   * File upload translations
+   *
+   * @see {@link FileUpload.defaults.i18n}
+   * @typedef {object} FileUploadTranslations
+   *
+   * Messages used by the component
+   * @property {string} [chooseFile] - The text of the button that opens the file picker
+   * @property {string} [dropInstruction] - The text informing users they can drop files
+   * @property {TranslationPluralForms} [multipleFilesChosen] - The text displayed when multiple files
+   *   have been chosen by the user
+   * @property {string} [noFileChosen] - The text to displayed when no file has been chosen by the user
+   * @property {string} [enteredDropZone] - The text announced by assistive technology
+   *   when user drags files and enters the drop zone
+   * @property {string} [leftDropZone] - The text announced by assistive technology
+   *   when user drags files and leaves the drop zone without dropping
+   */
+
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   * @import { TranslationPluralForms } from '../../i18n.mjs'
+   */
+
+  /**
+   * Header component
+   *
+   * @preserve
+   */
+  class Header extends Component {
+    /**
+     * Apply a matchMedia for desktop which will trigger a state sync if the
+     * browser viewport moves between states.
+     *
+     * @param {Element | null} $root - HTML element to use for header
+     */
+    constructor($root) {
+      super($root);
+      this.$menuButton = void 0;
+      this.$menu = void 0;
+      this.menuIsOpen = false;
+      this.mql = null;
+      const $menuButton = this.$root.querySelector('.govuk-js-header-toggle');
+      if (!$menuButton) {
+        return this;
+      }
+      const menuId = $menuButton.getAttribute('aria-controls');
+      if (!menuId) {
+        throw new ElementError({
+          component: Header,
+          identifier: 'Navigation button (`<button class="govuk-js-header-toggle">`) attribute (`aria-controls`)'
+        });
+      }
+      const $menu = document.getElementById(menuId);
+      if (!$menu) {
+        throw new ElementError({
+          component: Header,
+          element: $menu,
+          identifier: `Navigation (\`<ul id="${menuId}">\`)`
+        });
+      }
+      this.$menu = $menu;
+      this.$menuButton = $menuButton;
+      this.setupResponsiveChecks();
+      this.$menuButton.addEventListener('click', () => this.handleMenuButtonClick());
+    }
+    setupResponsiveChecks() {
+      const breakpoint = getBreakpoint('desktop');
+      if (!breakpoint.value) {
+        throw new ElementError({
+          component: Header,
+          identifier: `CSS custom property (\`${breakpoint.property}\`) on pseudo-class \`:root\``
+        });
+      }
+      this.mql = window.matchMedia(`(min-width: ${breakpoint.value})`);
+      if ('addEventListener' in this.mql) {
+        this.mql.addEventListener('change', () => this.checkMode());
+      } else {
+        this.mql.addListener(() => this.checkMode());
+      }
+      this.checkMode();
+    }
+    checkMode() {
+      if (!this.mql || !this.$menu || !this.$menuButton) {
+        return;
+      }
+      if (this.mql.matches) {
+        this.$menu.removeAttribute('hidden');
+        this.$menuButton.setAttribute('hidden', '');
+      } else {
+        this.$menuButton.removeAttribute('hidden');
+        this.$menuButton.setAttribute('aria-expanded', this.menuIsOpen.toString());
+        if (this.menuIsOpen) {
+          this.$menu.removeAttribute('hidden');
+        } else {
+          this.$menu.setAttribute('hidden', '');
+        }
+      }
+    }
+    handleMenuButtonClick() {
+      this.menuIsOpen = !this.menuIsOpen;
+      this.checkMode();
+    }
+  }
+  Header.moduleName = 'govuk-header';
+
+  /**
+   * Notification Banner component
+   *
+   * @preserve
+   * @augments ConfigurableComponent<NotificationBannerConfig>
+   */
+  class NotificationBanner extends ConfigurableComponent {
+    /**
+     * @param {Element | null} $root - HTML element to use for notification banner
+     * @param {NotificationBannerConfig} [config] - Notification banner config
+     */
+    constructor($root, config = {}) {
+      super($root, config);
+      if (this.$root.getAttribute('role') === 'alert' && !this.config.disableAutoFocus) {
+        setFocus(this.$root);
+      }
+    }
+  }
+
+  /**
+   * Notification banner config
+   *
+   * @typedef {object} NotificationBannerConfig
+   * @property {boolean} [disableAutoFocus=false] - If set to `true` the
+   *   notification banner will not be focussed when the page loads. This only
+   *   applies if the component has a `role` of `alert` – in other cases the
+   *   component will not be focused on page load, regardless of this option.
+   */
+
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   */
+  NotificationBanner.moduleName = 'govuk-notification-banner';
+  NotificationBanner.defaults = Object.freeze({
+    disableAutoFocus: false
+  });
+  NotificationBanner.schema = Object.freeze({
+    properties: {
+      disableAutoFocus: {
+        type: 'boolean'
+      }
+    }
+  });
+
+  /**
+   * Password input component
+   *
+   * @preserve
+   * @augments ConfigurableComponent<PasswordInputConfig>
+   */
+  class PasswordInput extends ConfigurableComponent {
+    /**
+     * @param {Element | null} $root - HTML element to use for password input
+     * @param {PasswordInputConfig} [config] - Password input config
+     */
+    constructor($root, config = {}) {
+      super($root, config);
+      this.i18n = void 0;
+      this.$input = void 0;
+      this.$showHideButton = void 0;
+      this.$screenReaderStatusMessage = void 0;
+      const $input = this.$root.querySelector('.govuk-js-password-input-input');
+      if (!($input instanceof HTMLInputElement)) {
+        throw new ElementError({
+          component: PasswordInput,
+          element: $input,
+          expectedType: 'HTMLInputElement',
+          identifier: 'Form field (`.govuk-js-password-input-input`)'
+        });
+      }
+      if ($input.type !== 'password') {
+        throw new ElementError('Password input: Form field (`.govuk-js-password-input-input`) must be of type `password`.');
+      }
+      const $showHideButton = this.$root.querySelector('.govuk-js-password-input-toggle');
+      if (!($showHideButton instanceof HTMLButtonElement)) {
+        throw new ElementError({
+          component: PasswordInput,
+          element: $showHideButton,
+          expectedType: 'HTMLButtonElement',
+          identifier: 'Button (`.govuk-js-password-input-toggle`)'
+        });
+      }
+      if ($showHideButton.type !== 'button') {
+        throw new ElementError('Password input: Button (`.govuk-js-password-input-toggle`) must be of type `button`.');
+      }
+      this.$input = $input;
+      this.$showHideButton = $showHideButton;
+      this.i18n = new I18n(this.config.i18n, {
+        locale: closestAttributeValue(this.$root, 'lang')
+      });
+      this.$showHideButton.removeAttribute('hidden');
+      const $screenReaderStatusMessage = document.createElement('div');
+      $screenReaderStatusMessage.className = 'govuk-password-input__sr-status govuk-visually-hidden';
+      $screenReaderStatusMessage.setAttribute('aria-live', 'polite');
+      this.$screenReaderStatusMessage = $screenReaderStatusMessage;
+      this.$input.insertAdjacentElement('afterend', $screenReaderStatusMessage);
+      this.$showHideButton.addEventListener('click', this.toggle.bind(this));
+      if (this.$input.form) {
+        this.$input.form.addEventListener('submit', () => this.hide());
+      }
+      window.addEventListener('pageshow', event => {
+        if (event.persisted && this.$input.type !== 'password') {
+          this.hide();
+        }
+      });
+      this.hide();
+    }
+    toggle(event) {
+      event.preventDefault();
+      if (this.$input.type === 'password') {
+        this.show();
+        return;
+      }
+      this.hide();
+    }
+    show() {
+      this.setType('text');
+    }
+    hide() {
+      this.setType('password');
+    }
+    setType(type) {
+      if (type === this.$input.type) {
+        return;
+      }
+      this.$input.setAttribute('type', type);
+      const isHidden = type === 'password';
+      const prefixButton = isHidden ? 'show' : 'hide';
+      const prefixStatus = isHidden ? 'passwordHidden' : 'passwordShown';
+      this.$showHideButton.innerText = this.i18n.t(`${prefixButton}Password`);
+      this.$showHideButton.setAttribute('aria-label', this.i18n.t(`${prefixButton}PasswordAriaLabel`));
+      this.$screenReaderStatusMessage.innerText = this.i18n.t(`${prefixStatus}Announcement`);
+    }
+  }
+
+  /**
+   * Password input config
+   *
+   * @typedef {object} PasswordInputConfig
+   * @property {PasswordInputTranslations} [i18n=PasswordInput.defaults.i18n] - Password input translations
+   */
+
+  /**
+   * Password input translations
+   *
+   * @see {@link PasswordInput.defaults.i18n}
+   * @typedef {object} PasswordInputTranslations
+   *
+   * Messages displayed to the user indicating the state of the show/hide toggle.
+   * @property {string} [showPassword] - Visible text of the button when the
+   *   password is currently hidden. Plain text only.
+   * @property {string} [hidePassword] - Visible text of the button when the
+   *   password is currently visible. Plain text only.
+   * @property {string} [showPasswordAriaLabel] - aria-label of the button when
+   *   the password is currently hidden. Plain text only.
+   * @property {string} [hidePasswordAriaLabel] - aria-label of the button when
+   *   the password is currently visible. Plain text only.
+   * @property {string} [passwordShownAnnouncement] - Screen reader
+   *   announcement to make when the password has just become visible.
+   *   Plain text only.
+   * @property {string} [passwordHiddenAnnouncement] - Screen reader
+   *   announcement to make when the password has just been hidden.
+   *   Plain text only.
+   */
+
+  /**
+   * @import { Schema } from '../../common/configuration.mjs'
+   */
+  PasswordInput.moduleName = 'govuk-password-input';
+  PasswordInput.defaults = Object.freeze({
+    i18n: {
+      showPassword: 'Show',
+      hidePassword: 'Hide',
+      showPasswordAriaLabel: 'Show password',
+      hidePasswordAriaLabel: 'Hide password',
+      passwordShownAnnouncement: 'Your password is visible',
+      passwordHiddenAnnouncement: 'Your password is hidden'
+    }
+  });
+  PasswordInput.schema = Object.freeze({
+    properties: {
+      i18n: {
+        type: 'object'
+      }
+    }
+  });
+
+  /**
+   * Radios component
+   *
+   * @preserve
+   */
+  class Radios extends Component {
+    /**
+     * Radios can be associated with a 'conditionally revealed' content block –
+     * for example, a radio for 'Phone' could reveal an additional form field for
+     * the user to enter their phone number.
+     *
+     * These associations are made using a `data-aria-controls` attribute, which
+     * is promoted to an aria-controls attribute during initialisation.
+     *
+     * We also need to restore the state of any conditional reveals on the page
+     * (for example if the user has navigated back), and set up event handlers to
+     * keep the reveal in sync with the radio state.
+     *
+     * @param {Element | null} $root - HTML element to use for radios
+     */
+    constructor($root) {
+      super($root);
+      this.$inputs = void 0;
+      const $inputs = this.$root.querySelectorAll('input[type="radio"]');
+      if (!$inputs.length) {
+        throw new ElementError({
+          component: Radios,
+          identifier: 'Form inputs (`<input type="radio">`)'
+        });
+      }
+      this.$inputs = $inputs;
+      this.$inputs.forEach($input => {
+        const targetId = $input.getAttribute('data-aria-controls');
+        if (!targetId) {
+          return;
+        }
+        if (!document.getElementById(targetId)) {
+          throw new ElementError({
+            component: Radios,
+            identifier: `Conditional reveal (\`id="${targetId}"\`)`
+          });
+        }
+        $input.setAttribute('aria-controls', targetId);
+        $input.removeAttribute('data-aria-controls');
+      });
+      window.addEventListener('pageshow', () => this.syncAllConditionalReveals());
+      this.syncAllConditionalReveals();
+      this.$root.addEventListener('click', event => this.handleClick(event));
+    }
+    syncAllConditionalReveals() {
+      this.$inputs.forEach($input => this.syncConditionalRevealWithInputState($input));
+    }
+    syncConditionalRevealWithInputState($input) {
+      const targetId = $input.getAttribute('aria-controls');
+      if (!targetId) {
+        return;
+      }
+      const $target = document.getElementById(targetId);
+      if ($target != null && $target.classList.contains('govuk-radios__conditional')) {
+        const inputIsChecked = $input.checked;
+        $input.setAttribute('aria-expanded', inputIsChecked.toString());
+        $target.classList.toggle('govuk-radios__conditional--hidden', !inputIsChecked);
+      }
+    }
+    handleClick(event) {
+      const $clickedInput = event.target;
+      if (!($clickedInput instanceof HTMLInputElement) || $clickedInput.type !== 'radio') {
+        return;
+      }
+      const $allInputs = document.querySelectorAll('input[type="radio"][aria-controls]');
+      const $clickedInputForm = $clickedInput.form;
+      const $clickedInputName = $clickedInput.name;
+      $allInputs.forEach($input => {
+        const hasSameFormOwner = $input.form === $clickedInputForm;
+        const hasSameName = $input.name === $clickedInputName;
+        if (hasSameName && hasSameFormOwner) {
+          this.syncConditionalRevealWithInputState($input);
+        }
+      });
+    }
+  }
+  Radios.moduleName = 'govuk-radios';
+
+  /**
+   * Service Navigation component
+   *
+   * @preserve
+   */
+  class ServiceNavigation extends Component {
+    /**
+     * @param {Element | null} $root - HTML element to use for header
+     */
+    constructor($root) {
+      super($root);
+      this.$menuButton = void 0;
+      this.$menu = void 0;
+      this.menuIsOpen = false;
+      this.mql = null;
+      const $menuButton = this.$root.querySelector('.govuk-js-service-navigation-toggle');
+      if (!$menuButton) {
+        return this;
+      }
+      const menuId = $menuButton.getAttribute('aria-controls');
+      if (!menuId) {
+        throw new ElementError({
+          component: ServiceNavigation,
+          identifier: 'Navigation button (`<button class="govuk-js-service-navigation-toggle">`) attribute (`aria-controls`)'
+        });
+      }
+      const $menu = document.getElementById(menuId);
+      if (!$menu) {
+        throw new ElementError({
+          component: ServiceNavigation,
+          element: $menu,
+          identifier: `Navigation (\`<ul id="${menuId}">\`)`
+        });
+      }
+      this.$menu = $menu;
+      this.$menuButton = $menuButton;
+      this.setupResponsiveChecks();
+      this.$menuButton.addEventListener('click', () => this.handleMenuButtonClick());
+    }
+    setupResponsiveChecks() {
+      const breakpoint = getBreakpoint('tablet');
+      if (!breakpoint.value) {
+        throw new ElementError({
+          component: ServiceNavigation,
+          identifier: `CSS custom property (\`${breakpoint.property}\`) on pseudo-class \`:root\``
+        });
+      }
+      this.mql = window.matchMedia(`(min-width: ${breakpoint.value})`);
+      if ('addEventListener' in this.mql) {
+        this.mql.addEventListener('change', () => this.checkMode());
+      } else {
+        this.mql.addListener(() => this.checkMode());
+      }
+      this.checkMode();
+    }
+    checkMode() {
+      if (!this.mql || !this.$menu || !this.$menuButton) {
+        return;
+      }
+      if (this.mql.matches) {
+        this.$menu.removeAttribute('hidden');
+        this.$menuButton.setAttribute('hidden', '');
+      } else {
+        this.$menuButton.removeAttribute('hidden');
+        this.$menuButton.setAttribute('aria-expanded', this.menuIsOpen.toString());
+        if (this.menuIsOpen) {
+          this.$menu.removeAttribute('hidden');
+        } else {
+          this.$menu.setAttribute('hidden', '');
+        }
+      }
+    }
+    handleMenuButtonClick() {
+      this.menuIsOpen = !this.menuIsOpen;
+      this.checkMode();
+    }
+  }
+  ServiceNavigation.moduleName = 'govuk-service-navigation';
+
+  /**
+   * Skip link component
+   *
+   * @preserve
+   * @augments Component<HTMLAnchorElement>
+   */
+  class SkipLink extends Component {
+    /**
+     * @param {Element | null} $root - HTML element to use for skip link
+     * @throws {ElementError} when $root is not set or the wrong type
+     * @throws {ElementError} when $root.hash does not contain a hash
+     * @throws {ElementError} when the linked element is missing or the wrong type
+     */
+    constructor($root) {
+      var _this$$root$getAttrib;
+      super($root);
+      const hash = this.$root.hash;
+      const href = (_this$$root$getAttrib = this.$root.getAttribute('href')) != null ? _this$$root$getAttrib : '';
+      let url;
+      try {
+        url = new window.URL(this.$root.href);
+      } catch (error) {
+        throw new ElementError(`Skip link: Target link (\`href="${href}"\`) is invalid`);
+      }
+      if (url.origin !== window.location.origin || url.pathname !== window.location.pathname) {
+        return;
+      }
+      const linkedElementId = getFragmentFromUrl(hash);
+      if (!linkedElementId) {
+        throw new ElementError(`Skip link: Target link (\`href="${href}"\`) has no hash fragment`);
+      }
+      const $linkedElement = document.getElementById(linkedElementId);
+      if (!$linkedElement) {
+        throw new ElementError({
+          component: SkipLink,
+          element: $linkedElement,
+          identifier: `Target content (\`id="${linkedElementId}"\`)`
+        });
+      }
+      this.$root.addEventListener('click', () => setFocus($linkedElement, {
+        onBeforeFocus() {
+          $linkedElement.classList.add('govuk-skip-link-focused-element');
+        },
+        onBlur() {
+          $linkedElement.classList.remove('govuk-skip-link-focused-element');
+        }
+      }));
+    }
+  }
+  SkipLink.elementType = HTMLAnchorElement;
+  SkipLink.moduleName = 'govuk-skip-link';
+
+  /**
+   * Tabs component
+   *
+   * @preserve
+   */
+  class Tabs extends Component {
+    /**
+     * @param {Element | null} $root - HTML element to use for tabs
+     */
+    constructor($root) {
+      super($root);
+      this.$tabs = void 0;
+      this.$tabList = void 0;
+      this.$tabListItems = void 0;
+      this.jsHiddenClass = 'govuk-tabs__panel--hidden';
+      this.changingHash = false;
+      this.boundTabClick = void 0;
+      this.boundTabKeydown = void 0;
+      this.boundOnHashChange = void 0;
+      this.mql = null;
+      const $tabs = this.$root.querySelectorAll('a.govuk-tabs__tab');
+      if (!$tabs.length) {
+        throw new ElementError({
+          component: Tabs,
+          identifier: 'Links (`<a class="govuk-tabs__tab">`)'
+        });
+      }
+      this.$tabs = $tabs;
+      this.boundTabClick = this.onTabClick.bind(this);
+      this.boundTabKeydown = this.onTabKeydown.bind(this);
+      this.boundOnHashChange = this.onHashChange.bind(this);
+      const $tabList = this.$root.querySelector('.govuk-tabs__list');
+      const $tabListItems = this.$root.querySelectorAll('li.govuk-tabs__list-item');
+      if (!$tabList) {
+        throw new ElementError({
+          component: Tabs,
+          identifier: 'List (`<ul class="govuk-tabs__list">`)'
+        });
+      }
+      if (!$tabListItems.length) {
+        throw new ElementError({
+          component: Tabs,
+          identifier: 'List items (`<li class="govuk-tabs__list-item">`)'
+        });
+      }
+      this.$tabList = $tabList;
+      this.$tabListItems = $tabListItems;
+      this.setupResponsiveChecks();
+    }
+    setupResponsiveChecks() {
+      const breakpoint = getBreakpoint('tablet');
+      if (!breakpoint.value) {
+        throw new ElementError({
+          component: Tabs,
+          identifier: `CSS custom property (\`${breakpoint.property}\`) on pseudo-class \`:root\``
+        });
+      }
+      this.mql = window.matchMedia(`(min-width: ${breakpoint.value})`);
+      if ('addEventListener' in this.mql) {
+        this.mql.addEventListener('change', () => this.checkMode());
+      } else {
+        this.mql.addListener(() => this.checkMode());
+      }
+      this.checkMode();
+    }
+    checkMode() {
+      var _this$mql;
+      if ((_this$mql = this.mql) != null && _this$mql.matches) {
+        this.setup();
+      } else {
+        this.teardown();
+      }
+    }
+    setup() {
+      var _this$getTab;
+      this.$tabList.setAttribute('role', 'tablist');
+      this.$tabListItems.forEach($item => {
+        $item.setAttribute('role', 'presentation');
+      });
+      this.$tabs.forEach($tab => {
+        this.setAttributes($tab);
+        $tab.addEventListener('click', this.boundTabClick, true);
+        $tab.addEventListener('keydown', this.boundTabKeydown, true);
+        this.hideTab($tab);
+      });
+      const $activeTab = (_this$getTab = this.getTab(window.location.hash)) != null ? _this$getTab : this.$tabs[0];
+      this.showTab($activeTab);
+      window.addEventListener('hashchange', this.boundOnHashChange, true);
+    }
+    teardown() {
+      this.$tabList.removeAttribute('role');
+      this.$tabListItems.forEach($item => {
+        $item.removeAttribute('role');
+      });
+      this.$tabs.forEach($tab => {
+        $tab.removeEventListener('click', this.boundTabClick, true);
+        $tab.removeEventListener('keydown', this.boundTabKeydown, true);
+        this.unsetAttributes($tab);
+      });
+      window.removeEventListener('hashchange', this.boundOnHashChange, true);
+    }
+    onHashChange() {
+      const hash = window.location.hash;
+      const $tabWithHash = this.getTab(hash);
+      if (!$tabWithHash) {
+        return;
+      }
+      if (this.changingHash) {
+        this.changingHash = false;
+        return;
+      }
+      const $previousTab = this.getCurrentTab();
+      if (!$previousTab) {
+        return;
+      }
+      this.hideTab($previousTab);
+      this.showTab($tabWithHash);
+      $tabWithHash.focus();
+    }
+    hideTab($tab) {
+      this.unhighlightTab($tab);
+      this.hidePanel($tab);
+    }
+    showTab($tab) {
+      this.highlightTab($tab);
+      this.showPanel($tab);
+    }
+    getTab(hash) {
+      return this.$root.querySelector(`a.govuk-tabs__tab[href="${hash}"]`);
+    }
+    setAttributes($tab) {
+      const panelId = getFragmentFromUrl($tab.href);
+      if (!panelId) {
+        return;
+      }
+      $tab.setAttribute('id', `tab_${panelId}`);
+      $tab.setAttribute('role', 'tab');
+      $tab.setAttribute('aria-controls', panelId);
+      $tab.setAttribute('aria-selected', 'false');
+      $tab.setAttribute('tabindex', '-1');
+      const $panel = this.getPanel($tab);
+      if (!$panel) {
+        return;
+      }
+      $panel.setAttribute('role', 'tabpanel');
+      $panel.setAttribute('aria-labelledby', $tab.id);
+      $panel.classList.add(this.jsHiddenClass);
+    }
+    unsetAttributes($tab) {
+      $tab.removeAttribute('id');
+      $tab.removeAttribute('role');
+      $tab.removeAttribute('aria-controls');
+      $tab.removeAttribute('aria-selected');
+      $tab.removeAttribute('tabindex');
+      const $panel = this.getPanel($tab);
+      if (!$panel) {
+        return;
+      }
+      $panel.removeAttribute('role');
+      $panel.removeAttribute('aria-labelledby');
+      $panel.classList.remove(this.jsHiddenClass);
+    }
+    onTabClick(event) {
+      const $currentTab = this.getCurrentTab();
+      const $nextTab = event.currentTarget;
+      if (!$currentTab || !($nextTab instanceof HTMLAnchorElement)) {
+        return;
+      }
+      event.preventDefault();
+      this.hideTab($currentTab);
+      this.showTab($nextTab);
+      this.createHistoryEntry($nextTab);
+    }
+    createHistoryEntry($tab) {
+      const $panel = this.getPanel($tab);
+      if (!$panel) {
+        return;
+      }
+      const panelId = $panel.id;
+      $panel.id = '';
+      this.changingHash = true;
+      window.location.hash = panelId;
+      $panel.id = panelId;
+    }
+    onTabKeydown(event) {
+      switch (event.key) {
+        case 'ArrowLeft':
+        case 'Left':
+          this.activatePreviousTab();
+          event.preventDefault();
+          break;
+        case 'ArrowRight':
+        case 'Right':
+          this.activateNextTab();
+          event.preventDefault();
+          break;
+      }
+    }
+    activateNextTab() {
+      const $currentTab = this.getCurrentTab();
+      if (!($currentTab != null && $currentTab.parentElement)) {
+        return;
+      }
+      const $nextTabListItem = $currentTab.parentElement.nextElementSibling;
+      if (!$nextTabListItem) {
+        return;
+      }
+      const $nextTab = $nextTabListItem.querySelector('a.govuk-tabs__tab');
+      if (!$nextTab) {
+        return;
+      }
+      this.hideTab($currentTab);
+      this.showTab($nextTab);
+      $nextTab.focus();
+      this.createHistoryEntry($nextTab);
+    }
+    activatePreviousTab() {
+      const $currentTab = this.getCurrentTab();
+      if (!($currentTab != null && $currentTab.parentElement)) {
+        return;
+      }
+      const $previousTabListItem = $currentTab.parentElement.previousElementSibling;
+      if (!$previousTabListItem) {
+        return;
+      }
+      const $previousTab = $previousTabListItem.querySelector('a.govuk-tabs__tab');
+      if (!$previousTab) {
+        return;
+      }
+      this.hideTab($currentTab);
+      this.showTab($previousTab);
+      $previousTab.focus();
+      this.createHistoryEntry($previousTab);
+    }
+    getPanel($tab) {
+      const panelId = getFragmentFromUrl($tab.href);
+      if (!panelId) {
+        return null;
+      }
+      return this.$root.querySelector(`#${panelId}`);
+    }
+    showPanel($tab) {
+      const $panel = this.getPanel($tab);
+      if (!$panel) {
+        return;
+      }
+      $panel.classList.remove(this.jsHiddenClass);
+    }
+    hidePanel($tab) {
+      const $panel = this.getPanel($tab);
+      if (!$panel) {
+        return;
+      }
+      $panel.classList.add(this.jsHiddenClass);
+    }
+    unhighlightTab($tab) {
+      if (!$tab.parentElement) {
+        return;
+      }
+      $tab.setAttribute('aria-selected', 'false');
+      $tab.parentElement.classList.remove('govuk-tabs__list-item--selected');
+      $tab.setAttribute('tabindex', '-1');
+    }
+    highlightTab($tab) {
+      if (!$tab.parentElement) {
+        return;
+      }
+      $tab.setAttribute('aria-selected', 'true');
+      $tab.parentElement.classList.add('govuk-tabs__list-item--selected');
+      $tab.setAttribute('tabindex', '0');
+    }
+    getCurrentTab() {
+      return this.$root.querySelector('.govuk-tabs__list-item--selected a.govuk-tabs__tab');
+    }
+  }
+  Tabs.moduleName = 'govuk-tabs';
+
+  /**
+   * Initialise all components
+   *
+   * Use the `data-module` attributes to find, instantiate and init all of the
+   * components provided as part of GOV.UK Frontend.
+   *
+   * @param {Config & { scope?: Element, onError?: OnErrorCallback<CompatibleClass> }} [config] - Config for all components (with optional scope)
+   */
+  function initAll(config) {
+    var _config$scope;
+    config = typeof config !== 'undefined' ? config : {};
+    if (!isSupported()) {
+      if (config.onError) {
+        config.onError(new SupportError(), {
+          config
+        });
+      } else {
+        console.log(new SupportError());
+      }
+      return;
+    }
+    const components = [[Accordion, config.accordion], [Button, config.button], [CharacterCount, config.characterCount], [Checkboxes], [ErrorSummary, config.errorSummary], [ExitThisPage, config.exitThisPage], [FileUpload, config.fileUpload], [Header], [NotificationBanner, config.notificationBanner], [PasswordInput, config.passwordInput], [Radios], [ServiceNavigation], [SkipLink], [Tabs]];
+    const options = {
+      scope: (_config$scope = config.scope) != null ? _config$scope : document,
+      onError: config.onError
+    };
+    components.forEach(([Component, config]) => {
+      createAll(Component, config, options);
     });
-
-}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
-
-function Tabs ($module) {
-  this.$module = $module;
-  this.$tabs = $module.querySelectorAll('.govuk-tabs__tab');
-
-  this.keys = { left: 37, right: 39, up: 38, down: 40 };
-  this.jsHiddenClass = 'govuk-tabs__panel--hidden';
-}
-
-Tabs.prototype.init = function () {
-  if (typeof window.matchMedia === 'function') {
-    this.setupResponsiveChecks();
-  } else {
-    this.setup();
-  }
-};
-
-Tabs.prototype.setupResponsiveChecks = function () {
-  this.mql = window.matchMedia('(min-width: 40.0625em)');
-  this.mql.addListener(this.checkMode.bind(this));
-  this.checkMode();
-};
-
-Tabs.prototype.checkMode = function () {
-  if (this.mql.matches) {
-    this.setup();
-  } else {
-    this.teardown();
-  }
-};
-
-Tabs.prototype.setup = function () {
-  var $module = this.$module;
-  var $tabs = this.$tabs;
-  var $tabList = $module.querySelector('.govuk-tabs__list');
-  var $tabListItems = $module.querySelectorAll('.govuk-tabs__list-item');
-
-  if (!$tabs || !$tabList || !$tabListItems) {
-    return
   }
 
-  $tabList.setAttribute('role', 'tablist');
-
-  nodeListForEach($tabListItems, function ($item) {
-    $item.setAttribute('role', 'presentation');
-  });
-
-  nodeListForEach($tabs, function ($tab) {
-    // Set HTML attributes
-    this.setAttributes($tab);
-
-    // Save bounded functions to use when removing event listeners during teardown
-    $tab.boundTabClick = this.onTabClick.bind(this);
-    $tab.boundTabKeydown = this.onTabKeydown.bind(this);
-
-    // Handle events
-    $tab.addEventListener('click', $tab.boundTabClick, true);
-    $tab.addEventListener('keydown', $tab.boundTabKeydown, true);
-
-    // Remove old active panels
-    this.hideTab($tab);
-  }.bind(this));
-
-  // Show either the active tab according to the URL's hash or the first tab
-  var $activeTab = this.getTab(window.location.hash) || this.$tabs[0];
-  this.showTab($activeTab);
-
-  // Handle hashchange events
-  $module.boundOnHashChange = this.onHashChange.bind(this);
-  window.addEventListener('hashchange', $module.boundOnHashChange, true);
-};
-
-Tabs.prototype.teardown = function () {
-  var $module = this.$module;
-  var $tabs = this.$tabs;
-  var $tabList = $module.querySelector('.govuk-tabs__list');
-  var $tabListItems = $module.querySelectorAll('.govuk-tabs__list-item');
-
-  if (!$tabs || !$tabList || !$tabListItems) {
-    return
+  /**
+   * Create all instances of a specific component on the page
+   *
+   * Uses the `data-module` attribute to find all elements matching the specified
+   * component on the page, creating instances of the component object for each
+   * of them.
+   *
+   * Any component errors will be caught and logged to the console.
+   *
+   * @template {CompatibleClass} ComponentClass
+   * @param {ComponentClass} Component - class of the component to create
+   * @param {ComponentConfig<ComponentClass>} [config] - Config supplied to component
+   * @param {OnErrorCallback<ComponentClass> | Element | Document | CreateAllOptions<ComponentClass> } [createAllOptions] - options for createAll including scope of the document to search within and callback function if error throw by component on init
+   * @returns {Array<InstanceType<ComponentClass>>} - array of instantiated components
+   */
+  function createAll(Component, config, createAllOptions) {
+    let $scope = document;
+    let onError;
+    if (typeof createAllOptions === 'object') {
+      var _createAllOptions$sco;
+      createAllOptions = createAllOptions;
+      $scope = (_createAllOptions$sco = createAllOptions.scope) != null ? _createAllOptions$sco : $scope;
+      onError = createAllOptions.onError;
+    }
+    if (typeof createAllOptions === 'function') {
+      onError = createAllOptions;
+    }
+    if (createAllOptions instanceof HTMLElement) {
+      $scope = createAllOptions;
+    }
+    const $elements = $scope.querySelectorAll(`[data-module="${Component.moduleName}"]`);
+    if (!isSupported()) {
+      if (onError) {
+        onError(new SupportError(), {
+          component: Component,
+          config
+        });
+      } else {
+        console.log(new SupportError());
+      }
+      return [];
+    }
+    return Array.from($elements).map($element => {
+      try {
+        return typeof config !== 'undefined' ? new Component($element, config) : new Component($element);
+      } catch (error) {
+        if (onError) {
+          onError(error, {
+            element: $element,
+            component: Component,
+            config
+          });
+        } else {
+          console.log(error);
+        }
+        return null;
+      }
+    }).filter(Boolean);
   }
+  /**
+   * @typedef {{new (...args: any[]): any, moduleName: string}} CompatibleClass
+   */
+  /**
+   * Config for all components via `initAll()`
+   *
+   * @typedef {object} Config
+   * @property {AccordionConfig} [accordion] - Accordion config
+   * @property {ButtonConfig} [button] - Button config
+   * @property {CharacterCountConfig} [characterCount] - Character Count config
+   * @property {ErrorSummaryConfig} [errorSummary] - Error Summary config
+   * @property {ExitThisPageConfig} [exitThisPage] - Exit This Page config
+   * @property {FileUploadConfig} [fileUpload] - File Upload config
+   * @property {NotificationBannerConfig} [notificationBanner] - Notification Banner config
+   * @property {PasswordInputConfig} [passwordInput] - Password input config
+   */
+  /**
+   * Config for individual components
+   *
+   * @import { AccordionConfig } from './components/accordion/accordion.mjs'
+   * @import { ButtonConfig } from './components/button/button.mjs'
+   * @import { CharacterCountConfig } from './components/character-count/character-count.mjs'
+   * @import { ErrorSummaryConfig } from './components/error-summary/error-summary.mjs'
+   * @import { ExitThisPageConfig } from './components/exit-this-page/exit-this-page.mjs'
+   * @import { NotificationBannerConfig } from './components/notification-banner/notification-banner.mjs'
+   * @import { PasswordInputConfig } from './components/password-input/password-input.mjs'
+   * @import { FileUploadConfig } from './components/file-upload/file-upload.mjs'
+   */
+  /**
+   * Component config keys, e.g. `accordion` and `characterCount`
+   *
+   * @typedef {keyof Config} ConfigKey
+   */
+  /**
+   * @template {CompatibleClass} ComponentClass
+   * @typedef {ConstructorParameters<ComponentClass>[1]} ComponentConfig
+   */
+  /**
+   * @template {CompatibleClass} ComponentClass
+   * @typedef {object} ErrorContext
+   * @property {Element} [element] - Element used for component module initialisation
+   * @property {ComponentClass} [component] - Class of component
+   * @property {ComponentConfig<ComponentClass>} config - Config supplied to component
+   */
+  /**
+   * @template {CompatibleClass} ComponentClass
+   * @callback OnErrorCallback
+   * @param {unknown} error - Thrown error
+   * @param {ErrorContext<ComponentClass>} context - Object containing the element, component class and configuration
+   */
+  /**
+   * @template {CompatibleClass} ComponentClass
+   * @typedef {object} CreateAllOptions
+   * @property {Element | Document} [scope] - scope of the document to search within
+   * @property {OnErrorCallback<ComponentClass>} [onError] - callback function if error throw by component on init
+   */
 
-  $tabList.removeAttribute('role');
+  exports.Accordion = Accordion;
+  exports.Button = Button;
+  exports.CharacterCount = CharacterCount;
+  exports.Checkboxes = Checkboxes;
+  exports.Component = Component;
+  exports.ConfigurableComponent = ConfigurableComponent;
+  exports.ErrorSummary = ErrorSummary;
+  exports.ExitThisPage = ExitThisPage;
+  exports.FileUpload = FileUpload;
+  exports.Header = Header;
+  exports.NotificationBanner = NotificationBanner;
+  exports.PasswordInput = PasswordInput;
+  exports.Radios = Radios;
+  exports.ServiceNavigation = ServiceNavigation;
+  exports.SkipLink = SkipLink;
+  exports.Tabs = Tabs;
+  exports.createAll = createAll;
+  exports.initAll = initAll;
+  exports.isSupported = isSupported;
+  exports.version = version;
 
-  nodeListForEach($tabListItems, function ($item) {
-    $item.removeAttribute('role', 'presentation');
-  });
-
-  nodeListForEach($tabs, function ($tab) {
-    // Remove events
-    $tab.removeEventListener('click', $tab.boundTabClick, true);
-    $tab.removeEventListener('keydown', $tab.boundTabKeydown, true);
-
-    // Unset HTML attributes
-    this.unsetAttributes($tab);
-  }.bind(this));
-
-  // Remove hashchange event handler
-  window.removeEventListener('hashchange', $module.boundOnHashChange, true);
-};
-
-Tabs.prototype.onHashChange = function (e) {
-  var hash = window.location.hash;
-  var $tabWithHash = this.getTab(hash);
-  if (!$tabWithHash) {
-    return
-  }
-
-  // Prevent changing the hash
-  if (this.changingHash) {
-    this.changingHash = false;
-    return
-  }
-
-  // Show either the active tab according to the URL's hash or the first tab
-  var $previousTab = this.getCurrentTab();
-
-  this.hideTab($previousTab);
-  this.showTab($tabWithHash);
-  $tabWithHash.focus();
-};
-
-Tabs.prototype.hideTab = function ($tab) {
-  this.unhighlightTab($tab);
-  this.hidePanel($tab);
-};
-
-Tabs.prototype.showTab = function ($tab) {
-  this.highlightTab($tab);
-  this.showPanel($tab);
-};
-
-Tabs.prototype.getTab = function (hash) {
-  return this.$module.querySelector('.govuk-tabs__tab[href="' + hash + '"]')
-};
-
-Tabs.prototype.setAttributes = function ($tab) {
-  // set tab attributes
-  var panelId = this.getHref($tab).slice(1);
-  $tab.setAttribute('id', 'tab_' + panelId);
-  $tab.setAttribute('role', 'tab');
-  $tab.setAttribute('aria-controls', panelId);
-  $tab.setAttribute('aria-selected', 'false');
-  $tab.setAttribute('tabindex', '-1');
-
-  // set panel attributes
-  var $panel = this.getPanel($tab);
-  $panel.setAttribute('role', 'tabpanel');
-  $panel.setAttribute('aria-labelledby', $tab.id);
-  $panel.classList.add(this.jsHiddenClass);
-};
-
-Tabs.prototype.unsetAttributes = function ($tab) {
-  // unset tab attributes
-  $tab.removeAttribute('id');
-  $tab.removeAttribute('role');
-  $tab.removeAttribute('aria-controls');
-  $tab.removeAttribute('aria-selected');
-  $tab.removeAttribute('tabindex');
-
-  // unset panel attributes
-  var $panel = this.getPanel($tab);
-  $panel.removeAttribute('role');
-  $panel.removeAttribute('aria-labelledby');
-  $panel.classList.remove(this.jsHiddenClass);
-};
-
-Tabs.prototype.onTabClick = function (e) {
-  if (!e.target.classList.contains('govuk-tabs__tab')) {
-  // Allow events on child DOM elements to bubble up to tab parent
-    return false
-  }
-  e.preventDefault();
-  var $newTab = e.target;
-  var $currentTab = this.getCurrentTab();
-  this.hideTab($currentTab);
-  this.showTab($newTab);
-  this.createHistoryEntry($newTab);
-};
-
-Tabs.prototype.createHistoryEntry = function ($tab) {
-  var $panel = this.getPanel($tab);
-
-  // Save and restore the id
-  // so the page doesn't jump when a user clicks a tab (which changes the hash)
-  var id = $panel.id;
-  $panel.id = '';
-  this.changingHash = true;
-  window.location.hash = this.getHref($tab).slice(1);
-  $panel.id = id;
-};
-
-Tabs.prototype.onTabKeydown = function (e) {
-  switch (e.keyCode) {
-    case this.keys.left:
-    case this.keys.up:
-      this.activatePreviousTab();
-      e.preventDefault();
-      break
-    case this.keys.right:
-    case this.keys.down:
-      this.activateNextTab();
-      e.preventDefault();
-      break
-  }
-};
-
-Tabs.prototype.activateNextTab = function () {
-  var currentTab = this.getCurrentTab();
-  var nextTabListItem = currentTab.parentNode.nextElementSibling;
-  if (nextTabListItem) {
-    var nextTab = nextTabListItem.querySelector('.govuk-tabs__tab');
-  }
-  if (nextTab) {
-    this.hideTab(currentTab);
-    this.showTab(nextTab);
-    nextTab.focus();
-    this.createHistoryEntry(nextTab);
-  }
-};
-
-Tabs.prototype.activatePreviousTab = function () {
-  var currentTab = this.getCurrentTab();
-  var previousTabListItem = currentTab.parentNode.previousElementSibling;
-  if (previousTabListItem) {
-    var previousTab = previousTabListItem.querySelector('.govuk-tabs__tab');
-  }
-  if (previousTab) {
-    this.hideTab(currentTab);
-    this.showTab(previousTab);
-    previousTab.focus();
-    this.createHistoryEntry(previousTab);
-  }
-};
-
-Tabs.prototype.getPanel = function ($tab) {
-  var $panel = this.$module.querySelector(this.getHref($tab));
-  return $panel
-};
-
-Tabs.prototype.showPanel = function ($tab) {
-  var $panel = this.getPanel($tab);
-  $panel.classList.remove(this.jsHiddenClass);
-};
-
-Tabs.prototype.hidePanel = function (tab) {
-  var $panel = this.getPanel(tab);
-  $panel.classList.add(this.jsHiddenClass);
-};
-
-Tabs.prototype.unhighlightTab = function ($tab) {
-  $tab.setAttribute('aria-selected', 'false');
-  $tab.parentNode.classList.remove('govuk-tabs__list-item--selected');
-  $tab.setAttribute('tabindex', '-1');
-};
-
-Tabs.prototype.highlightTab = function ($tab) {
-  $tab.setAttribute('aria-selected', 'true');
-  $tab.parentNode.classList.add('govuk-tabs__list-item--selected');
-  $tab.setAttribute('tabindex', '0');
-};
-
-Tabs.prototype.getCurrentTab = function () {
-  return this.$module.querySelector('.govuk-tabs__list-item--selected .govuk-tabs__tab')
-};
-
-// this is because IE doesn't always return the actual value but a relative full path
-// should be a utility function most prob
-// http://labs.thesedays.com/blog/2010/01/08/getting-the-href-value-with-jquery-in-ie/
-Tabs.prototype.getHref = function ($tab) {
-  var href = $tab.getAttribute('href');
-  var hash = href.slice(href.indexOf('#'), href.length);
-  return hash
-};
-
-function initAll (options) {
-  // Set the options to an empty object by default if no options are passed.
-  options = typeof options !== 'undefined' ? options : {};
-
-  // Allow the user to initialise GOV.UK Frontend in only certain sections of the page
-  // Defaults to the entire document if nothing is set.
-  var scope = typeof options.scope !== 'undefined' ? options.scope : document;
-
-  var $buttons = scope.querySelectorAll('[data-module="govuk-button"]');
-  nodeListForEach($buttons, function ($button) {
-    new Button($button).init();
-  });
-
-  var $accordions = scope.querySelectorAll('[data-module="govuk-accordion"]');
-  nodeListForEach($accordions, function ($accordion) {
-    new Accordion($accordion).init();
-  });
-
-  var $details = scope.querySelectorAll('[data-module="govuk-details"]');
-  nodeListForEach($details, function ($detail) {
-    new Details($detail).init();
-  });
-
-  var $characterCounts = scope.querySelectorAll('[data-module="govuk-character-count"]');
-  nodeListForEach($characterCounts, function ($characterCount) {
-    new CharacterCount($characterCount).init();
-  });
-
-  var $checkboxes = scope.querySelectorAll('[data-module="govuk-checkboxes"]');
-  nodeListForEach($checkboxes, function ($checkbox) {
-    new Checkboxes($checkbox).init();
-  });
-
-  // Find first error summary module to enhance.
-  var $errorSummary = scope.querySelector('[data-module="govuk-error-summary"]');
-  new ErrorSummary($errorSummary).init();
-
-  // Find first header module to enhance.
-  var $toggleButton = scope.querySelector('[data-module="govuk-header"]');
-  new Header($toggleButton).init();
-
-  var $notificationBanners = scope.querySelectorAll('[data-module="govuk-notification-banner"]');
-  nodeListForEach($notificationBanners, function ($notificationBanner) {
-    new NotificationBanner($notificationBanner).init();
-  });
-
-  var $radios = scope.querySelectorAll('[data-module="govuk-radios"]');
-  nodeListForEach($radios, function ($radio) {
-    new Radios($radio).init();
-  });
-
-  // Find first skip link module to enhance.
-  var $skipLink = scope.querySelector('[data-module="govuk-skip-link"]');
-  new SkipLink($skipLink).init();
-
-  var $tabs = scope.querySelectorAll('[data-module="govuk-tabs"]');
-  nodeListForEach($tabs, function ($tabs) {
-    new Tabs($tabs).init();
-  });
-}
-
-exports.initAll = initAll;
-exports.Accordion = Accordion;
-exports.Button = Button;
-exports.Details = Details;
-exports.CharacterCount = CharacterCount;
-exports.Checkboxes = Checkboxes;
-exports.ErrorSummary = ErrorSummary;
-exports.Header = Header;
-exports.NotificationBanner = NotificationBanner;
-exports.Radios = Radios;
-exports.SkipLink = SkipLink;
-exports.Tabs = Tabs;
-
-})));
+}));

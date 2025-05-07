@@ -24,6 +24,7 @@
 {%- from 'govuk_frontend_jinja/components/radios/macro.html' import govukRadios -%}
 {%- from 'govuk_frontend_jinja/components/select/macro.html' import govukSelect -%}
 {%- from 'govuk_frontend_jinja/components/skip-link/macro.html' import govukSkipLink -%}
+{%- from 'govuk_frontend_jinja/components/service-navigation/macro.html' import govukServiceNavigation -%}
 {%- from 'govuk_frontend_jinja/components/summary-list/macro.html' import govukSummaryList -%}
 {%- from 'govuk_frontend_jinja/components/table/macro.html' import govukTable -%}
 {%- from 'govuk_frontend_jinja/components/tabs/macro.html' import govukTabs -%}
@@ -43,41 +44,32 @@
 {% endblock %}
 
 {% block mastHead %}
-<header class="govuk-header dl-header app-header" role="banner" data-module="govuk-header">
-  <div class="govuk-header__container govuk-width-container">
-    <a href="{{ url_for('main.index') }}" class="govuk-header__link govuk-header__link--service-name">
-      {{ site_settings.name }}
-    </a>
-    <div class="govuk-header__content">
-      <nav aria-label="Menu" class="govuk-header__navigation">
-        <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide menu" hidden>Menu</button>
-        <ul id="navigation" class="govuk-header__navigation-list">
-          <li class="govuk-header__navigation-item">
-            <a class="govuk-header__link" href="{{ url_for('planning_consideration.considerations') }}">
-              List of planning considerations
-            </a>
-          </li>
-          <li class="govuk-header__navigation-item">
-            <a class="govuk-header__link" href="/data-design-process">
-              Design process
-            </a>
-          </li>
-          <li class="govuk-header__navigation-item">
-            {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <a class="govuk-header__link" href="{{url_for('auth.logout')}}">
-              Sign out
-            </a>
-            {% else %}
-            <a class="govuk-header__link" href="{{url_for('auth.login', next=request.path, _external=True, _scheme='https')}}">
-              Sign in
-            </a>
-            {% endif %}
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</header>
+
+{{ govukHeader({
+  'classes': "govuk-header--full-width-border dl-header app-header"
+}) }}
+
+{{ govukServiceNavigation({
+  'serviceName': site_settings.name,
+  'serviceUrl': url_for('main.index'),
+  'navigation': [
+    {
+      'href': url_for('planning_consideration.considerations'),
+      'text': "List of planning considerations",
+      'active': request.path == url_for('planning_consideration.considerations')
+    },
+    {
+      'href': url_for('main.page', page='data-design-process'),
+      'text': "Design process",
+      'active': request.path == url_for('main.page', page='data-design-process')
+    },
+    {
+      'href': url_for('auth.logout') if not config.AUTHENTICATION_ON or session["user"] else url_for('auth.login', next=request.path, _external=True, _scheme='https'),
+      'text': "Sign out" if not config.AUTHENTICATION_ON or session["user"] else "Sign in"
+    }
+  ]
+}) }}
+
 {% endblock mastHead %}
 
 {% block beforeContent %}
