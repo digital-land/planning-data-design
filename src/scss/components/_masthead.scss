@@ -4,7 +4,6 @@
   @include govuk-responsive-padding($_padding, "bottom");
   color: #ffffff;
   background-color: var(--department-colour);
-  margin-top: -10px;
   position: relative;
   z-index: 1;
   &::after,
