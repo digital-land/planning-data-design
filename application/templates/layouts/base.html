@@ -46,7 +46,8 @@
 {% block mastHead %}
 
 {{ govukHeader({
-  'classes': "govuk-header--full-width-border dl-header app-header"
+  'classes': "govuk-header--full-width-border dl-header app-header",
+  'homepageUrl': platform_url
 }) }}
 
 {{ govukServiceNavigation({
