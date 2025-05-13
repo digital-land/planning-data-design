@@ -26,6 +26,12 @@ def cookies():
 def advisory_group():
     return render_template("advisory-group.html")
 
+@main.route("/how-to-contribute-to-the-data-design-process")
+def get_involved():
+    path = "pages/how-to-contribute-to-the-data-design-process.md"
+    page = "how-to-contribute-to-the-data-design-process"
+    return render_template("pages/scaffold.html", path=path, page=page)
+
 
 @main.route("/advisory-group/members")
 def advisory_group_members():
