@@ -1,6 +1,6 @@
 /* global accessibleAutocomplete */
 
-import utils from '../utils'
+import utils from './utils'
 
 function SelectOrNew ($selectContainer, selectId, templateId) {
   this.$selectContainer = $selectContainer
@@ -15,15 +15,13 @@ SelectOrNew.prototype.init = function (params) {
   this.$selectFormGroup = this.$selectContainer.querySelector('.govuk-form-group')
   this.$select = document.getElementById(this.selectId)
   this.$label = this.$selectFormGroup.querySelector('label')
+  this.$form = this.$selectContainer.closest('form')
 
   this.typeAheadId = this.selectId + '-typeAhead'
-  //this.selectOptionList = this.getSelectOptions()
   this.getSelectOptions()
-  //this.currentOptions = this.orginalOptions
   this.$actionPanelTemplate = document.getElementById(this.templateId)
 
   this.newRecordName = ''
-  // gets updated when user confirm or blur has happened
   this.lastInputValue = ''
 
   // hide original select group
@@ -32,25 +30,34 @@ SelectOrNew.prototype.init = function (params) {
   // insert action panel first so that can use insertBefore for typeahead
   this.$actionPanel = this.setUpActionPanel()
   this.setUpTypeAhead()
+
+  // Prevent form submission when confirmation panel is shown
+  if (this.$form) {
+    this.$form.addEventListener('submit', (e) => {
+      if (this.$actionPanel.classList.contains('new-tag__mode--request')) {
+        e.preventDefault()
+      }
+    })
+  }
 }
 
 SelectOrNew.prototype.autoCompleteOnConfirm = function (e) {
-  const inputValue = this.$typeAheadInput.value
+  const inputValue = this.$typeAheadInput.value.trim()
   this.lastInputValue = inputValue
-  // const $input = this.$autocompleteContainer.querySelector('.autocomplete__wrapper input')
+
+  if (inputValue === '') {
+    return
+  }
+
   // when user clicks on option e is set to value
   if (this.selectOptionList.includes(e) || this.selectOptionList.includes(inputValue)) {
     // value exists so set select to this option
-    console.log('existing value')
     const optLabel = e || inputValue
     const selectedOption = this.getSelectedOption(optLabel)
     this.selectOption(selectedOption[0][1])
   } else {
-    if (inputValue !== '') {
-      //this.newRecordName = this.$typeAheadInput.value
-      console.log(this.lastInputValue)
-      this.showRequestAction(this.lastInputValue)
-    }
+    // Handle non-matching input value - same flow as blur
+    this.showRequestAction(inputValue)
   }
 }
 
@@ -159,6 +166,37 @@ SelectOrNew.prototype.setUpTypeAhead = function () {
   this.$selectContainer.insertBefore(this.$typeAheadContainer, this.$actionPanel)
 
   this.initAccessibleAutocomplete()
+
+  // Handle enter key for input, confirmation panel, and form submission
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+
+      // If confirmation panel is showing, handle "Yes, add it" action
+      if (this.$actionPanel.classList.contains('new-tag__mode--request')) {
+        this.onConfirmRequest(e)
+        return
+      }
+
+      // If result panel is showing, submit the form
+      if (this.$actionPanel.classList.contains('new-tag__mode--result')) {
+        this.$form.submit()
+        return
+      }
+
+      // Otherwise handle the input value
+      const inputValue = this.$typeAheadInput.value.trim()
+      if (inputValue === '') {
+        return
+      }
+
+      if (!this.selectOptionList.includes(inputValue)) {
+        // Show the confirmation panel for new tags
+        this.lastInputValue = inputValue
+        this.showRequestAction(inputValue)
+      }
+    }
+  })
 }
 
 SelectOrNew.prototype.showRequestAction = function (val) {

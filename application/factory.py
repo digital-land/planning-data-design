@@ -67,6 +67,7 @@ def register_context_processors(app):
                 "team_name": "Data Design team",
             },
             "github_discussion_base_url": "https://github.com/digital-land/data-standards-backlog/discussions",
+            "platform_url": os.getenv("PLATFORM_URL", "https://www.planning.data.gov.uk"),
         }
 
     app.context_processor(global_variables_context_processor)
