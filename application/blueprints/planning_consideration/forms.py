@@ -40,9 +40,9 @@ class ExpectedSizeForm(FlaskForm):
 
 class PriorityForm(FlaskForm):
     prioritised = RadioField(
-        "Are we prioritising this planning consideration?",
+        "Are we currently working on this planning consideration?",
         validators=[DataRequired()],
-        description="Prioritised items will show up in our list of working on or emerging priorities",
+        description="If true, this will show on our 'what we are working on' page.",
         choices=[("True", "Yes"), ("False", "No")],
     )
 
