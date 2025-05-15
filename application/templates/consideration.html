@@ -63,11 +63,13 @@
   </div>
   {% endif %}
 <br><br>
+
+  <!-- details only visible to logged in users -->
   <div id="details" class="govuk-summary-list">
     <div class="govuk-summary-list">
       <dl class="govuk-summary-list">
+        {% if not config.AUTHENTICATION_ON or session["user"] %}
         <div class="govuk-summary-list__row">
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
           <dt class="govuk-summary-list__key">
             Name
           </dt>
@@ -88,8 +90,53 @@
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration description</span></a>
             </dd>
+        </div>
+        {% endif %}
+
+  <!-- stage -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <a href="{{ url_for('planning_consideration.stage', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">Design stage</a>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <span class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
+              {{ consideration['stage'].value }}
+            </span>
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.change_stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
+            </dd>
           {% endif %}
         </div>
+
+<!-- github discussion -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Github discussion
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% set discussion_link = github_discussion_base_url + "/" + consideration.github_discussion_number|string if consideration.github_discussion_number is not none else github_discussion_base_url %}
+            {%- if consideration.github_discussion_number is not none %}
+            <a href="{{ discussion_link }}" class="govuk-link">Join the conversation</a>
+            {%- else -%}
+            <span class="app-missing-item">
+              <p class="govuk-!-margin-bottom-0">No discussion started</p>
+              {% if not config.AUTHENTICATION_ON or session["user"] %}
+                <p class="govuk-!-font-size-16"><a href="{{ discussion_link }}" class="govuk-link">Create one now</a></p>
+              {% endif %}
+            </span>
+            {% endif -%}
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">{{ "Change" if consideration.github_discussion_number else "Add" }}<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
+            </dd>
+          {% endif %}
+        </div>
+
+
+  <!-- synonyms -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             Synonyms
@@ -116,29 +163,8 @@
             </dd>
           {% endif %}
         </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Github discussion
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {% set discussion_link = github_discussion_base_url + "/" + consideration.github_discussion_number|string if consideration.github_discussion_number is not none else github_discussion_base_url %}
-            {%- if consideration.github_discussion_number is not none %}
-            <a href="{{ discussion_link }}" class="govuk-link">{{ consideration.github_discussion_number }}</a>
-            {%- else -%}
-            <span class="app-missing-item">
-              <p class="govuk-!-margin-bottom-0">No discussion started</p>
-              {% if not config.AUTHENTICATION_ON or session["user"] %}
-                <p class="govuk-!-font-size-16"><a href="{{ discussion_link }}" class="govuk-link">Create one now</a></p>
-              {% endif %}
-            </span>
-            {% endif -%}
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">{{ "Change" if consideration.github_discussion_number else "Add" }}<span class="govuk-visually-hidden"> planning consideration synonyms</span></a>
-            </dd>
-          {% endif %}
-        </div>
+
+    <!-- legislation -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             Legislation
@@ -151,6 +177,8 @@
               <p>{{ consideration.legislation['link_text'] }}</p>
                 <span class="app-missing-item">No url recorded</span>
               {% endif %}
+            {% else %}
+            <span class="app-missing-item">No legislation added</span>
             {% endif %}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
@@ -159,6 +187,8 @@
             </dd>
           {% endif %}
         </div>
+
+        <!-- useful links -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
             Useful links
@@ -174,33 +204,17 @@
               {% if not config.AUTHENTICATION_ON or session["user"] %}
                 <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
               {% endif %}
+            {% else %}
+            <span class="app-missing-item">No useful links added</span>
             {% endif %}
-          </dd>
-          {%- if consideration.useful_links is none or consideration.useful_links|length == 0 %}
-            {% if not config.AUTHENTICATION_ON or session["user"] %}
-              <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
-              </dd>
-            {% endif %}
-          {% endif -%}
-        </div>
-
-        <!-- stage -->
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            <a href="{{ url_for('planning_consideration.stage', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">Stage</a>
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <span class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
-              {{ consideration['stage'].value }}
-            </span>
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.change_stage', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration stage</span></a>
+              <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful link</span></a>
             </dd>
           {% endif %}
         </div>
+
 
         <!-- prioritised -->
         <div class="govuk-summary-list__row">
@@ -217,6 +231,7 @@
           {% endif %}
         </div>
 
+        <!-- public -->
         {% if not config.AUTHENTICATION_ON or session["user"] %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
@@ -230,6 +245,7 @@
           </dd>
         </div>
         {% endif %}
+
         <!-- tags -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
@@ -261,6 +277,7 @@
     </div>
   </div>
 
+  <!-- data related -->
   <div id="data-related" class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
       <h2 class="govuk-summary-card__title">
@@ -305,7 +322,7 @@
         }) }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
-            OS declaration
+            Ordnance Survey declaration
             <p class="app-summary-list__key__hint"><a href="{{ url_for('help.os_declaration_options') }}">What are the OS declaration options?</a></p>
           </dt>
           <dd class="govuk-summary-list__value">
