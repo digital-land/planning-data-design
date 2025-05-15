@@ -273,11 +273,36 @@
             </dd>
           {% endif %}
         </div>
+
+        <!-- OS declaration -->
+        {%- if consideration.os_declaration %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Ordnance Survey declaration
+          </dt>
+          <dd class="govuk-summary-list__value">
+              {{ consideration.os_declaration['status'] }}
+            {% if consideration.os_declaration and consideration.os_declaration['further_information_url'] %}
+            <p class="app-further-info-link"><a href="{{ consideration.os_declaration['further_information_url'] }}">See further information about this OS declaration</a></p>
+          </dd>
+          {% endif %}
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.change_os_declaration', slug=consideration.slug) }}">Update<span class="govuk-visually-hidden"> OS declaration</span></a>
+            </dd>
+          {% endif %}
+        </div>
+        {% endif %}
+      
+
+
+
       </dl>
     </div>
   </div>
 
-  <!-- data related -->
+  <!-- Related datasets -->
+
   <div id="data-related" class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
       <h2 class="govuk-summary-card__title">
