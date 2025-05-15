@@ -95,7 +95,7 @@
             Synonyms
           </dt>
           <dd class="govuk-summary-list__value">
-            {%- if consideration.synonyms %}
+            {%- if consideration.synonyms and consideration.synonyms|length > 0 %}
             <ul class="govuk-list govuk-list--bullet">
               {% for synonym in consideration.synonyms %}
               <li>
@@ -106,6 +106,8 @@
               </li>
               {% endfor %}
             </ul>
+            {% else %}
+            <span class="app-missing-item">No synonyms added</span>
             {% endif -%}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
@@ -203,7 +205,7 @@
         <!-- prioritised -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
-            Prioritised
+            Working on now
           </dt>
           <dd class="govuk-summary-list__value">
             {{ consideration.prioritised }}
