@@ -67,17 +67,16 @@
     <div class="govuk-summary-list">
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
           <dt class="govuk-summary-list__key">
             Name
           </dt>
           <dd class="govuk-summary-list__value">
             {{ consideration.name }}
           </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration name</span></a>
             </dd>
-          {% endif %}
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
@@ -86,7 +85,6 @@
           <dd class="govuk-summary-list__value">
             {{ consideration.description }}
           </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> planning consideration description</span></a>
             </dd>
