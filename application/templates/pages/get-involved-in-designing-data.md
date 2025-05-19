@@ -6,9 +6,9 @@ You can get involved by joining online discussions or coming to events.
 
 ---
 
-### [Join our online discussions](https://github.com/digital-land/data-standards-backlog/discussions/categories/planning-consideration)
+### [Help us prioritise what to work on next](https://github.com/digital-land/data-standards-backlog/discussions/categories/planning-consideration)
 
-We discuss how we design data in Github, which is open to anyone to view and contribute. 
+[To re-write] We discuss how we design data in Github, which is open to anyone to view and contribute. 
 
 ---
 
