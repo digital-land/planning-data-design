@@ -333,6 +333,25 @@
           {% endif %}
         </div>
 
+   <!-- Frequency of updates -->
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Frequency of updates
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% if consideration.frequency_of_updates is not none %}
+            {{ consideration.frequency_of_updates.value }}
+            {% else %}
+            <span class="app-missing-item">Unknown</span>
+            {% endif %}
+          </dd>
+          {% if not config.AUTHENTICATION_ON or session["user"] %}
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ url_for('planning_consideration.frequency', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
+            </dd>
+          {% endif %}
+        </div>
+
     <!-- useful links -->
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">
@@ -360,21 +379,6 @@
       {% endif %}
     </div>
 
-
-   <!-- Frequency of updates -->
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Frequency of updates
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{ consideration.frequency_of_updates.value if consideration.frequency_of_updates is not none }}
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.frequency', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> frequency of updates</span></a>
-            </dd>
-          {% endif %}
-        </div>
 
   <!-- Technical specification -->
         <div class="govuk-summary-list__row">
@@ -446,6 +450,8 @@
             </dd>
           {% endif %}
         </div>
+
+  
   </div>
 
   <hr class="govuk-section-break govuk-section-break--l">
