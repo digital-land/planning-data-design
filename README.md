@@ -43,13 +43,10 @@ Manage planning considerations through standards process
 
 ### To test authentication in local development
 
-Set the following in DevelopmentConfig
-
-    AUTHENTICATION_ON = True
-
 The below is needed for local development and must not be committed to github. Therefore
 add to a file called ```.env``` which is gitignored.
 
+    AUTHENTICATION_ON=true
     GITHUB_CLIENT_ID=[client id]
     GITHUB_CLIENT_SECRET=[secret]
 

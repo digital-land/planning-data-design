@@ -65,7 +65,7 @@
       'active': request.path == url_for('main.page', page='data-design-process')
     },
     {
-      'href': url_for('auth.logout') if not config.AUTHENTICATION_ON or session["user"] else url_for('auth.login', next=request.path, _external=True, _scheme='https'),
+      'href': url_for('auth.logout') if not config.AUTHENTICATION_ON or session["user"] else url_for('auth.login', next=request.path, _external=True, _scheme='http' if config.ENV == 'development' else 'https'),
       'text': "Sign out" if not config.AUTHENTICATION_ON or session["user"] else "Sign in"
     }
   ]
