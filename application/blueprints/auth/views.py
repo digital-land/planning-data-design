@@ -14,7 +14,11 @@ def login():
     session["next"] = _make_next_url_safe(request.args.get("next", "/"))
     if not current_app.config.get("AUTHENTICATION_ON", False):
         return redirect(session["next"])
-    auth_url = url_for("auth.authorize", _external=True, _scheme="https")
+    auth_url = url_for(
+        "auth.authorize",
+        _external=True,
+        _scheme="http" if current_app.config["ENV"] == "development" else "https",
+    )
     return oauth.github.authorize_redirect(auth_url)
 
 

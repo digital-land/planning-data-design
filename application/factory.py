@@ -67,7 +67,9 @@ def register_context_processors(app):
                 "team_name": "Data Design team",
             },
             "github_discussion_base_url": "https://github.com/digital-land/data-standards-backlog/discussions",
-            "platform_url": os.getenv("PLATFORM_URL", "https://www.planning.data.gov.uk"),
+            "platform_url": os.getenv(
+                "PLATFORM_URL", "https://www.planning.data.gov.uk"
+            ),
         }
 
     app.context_processor(global_variables_context_processor)
@@ -137,6 +139,7 @@ def register_extensions(app):
             authorize_params=None,
             api_base_url="https://api.github.com/",
             client_kwargs={"scope": "user:email read:org"},
+            allow_insecure_http=app.config["ENV"] == "development",
         )
 
     if os.environ.get("SENTRY_DSN") is not None:
