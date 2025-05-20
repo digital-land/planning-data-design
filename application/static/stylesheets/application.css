@@ -7983,13 +7983,13 @@ p + .govuk-heading-s,
     margin-top: auto;
     margin-bottom: 50px;
   }
-  .govuk-frontend-supported .dl-back-to-top--fixed {
+  .js-enabled .dl-back-to-top--fixed {
     position: fixed;
     top: calc(100% - 50px);
     bottom: auto;
     left: auto;
   }
-  .govuk-frontend-supported .dl-back-to-top--hidden .dl-back-to-top__link:not(:active):not(:focus) {
+  .js-enabled .dl-back-to-top--hidden .dl-back-to-top__link:not(:active):not(:focus) {
     position: absolute !important;
     width: 1px !important;
     height: 1px !important;
@@ -8015,7 +8015,7 @@ p + .govuk-heading-s,
   vertical-align: middle;
 }
 
-.govuk-frontend-supported .dl-back-to-top--banner {
+.js-enabled .dl-back-to-top--banner {
   box-sizing: border-box;
   top: auto;
   bottom: 0;
@@ -8027,7 +8027,7 @@ p + .govuk-heading-s,
   transition: background 0.15s ease-in;
 }
 @media (min-width: 40.0625em) {
-  .govuk-frontend-supported .dl-back-to-top--banner {
+  .js-enabled .dl-back-to-top--banner {
     padding: 10px 45px;
   }
 }
@@ -8250,8 +8250,8 @@ p + .govuk-heading-s,
   overflow-x: scroll;
   overflow-y: hidden;
 }
-.govuk-frontend-supported .dl-data-table__viewer,
-.govuk-frontend-supported .wide-table {
+.js-enabled .dl-data-table__viewer,
+.js-enabled .wide-table {
   padding-left: 0;
 }
 
@@ -8826,7 +8826,7 @@ p + .govuk-heading-s,
   padding-bottom: 15px;
 }
 
-.govuk-frontend-supported .dl-filter-group__auto-filter {
+.js-enabled .dl-filter-group__auto-filter {
   display: block;
 }
 
@@ -8935,7 +8935,7 @@ p + .govuk-heading-s,
   padding-bottom: 15px;
 }
 
-.govuk-frontend-supported .dl-filter-group__auto-filter {
+.js-enabled .dl-filter-group__auto-filter {
   display: block;
 }
 
@@ -9047,7 +9047,7 @@ p + .govuk-heading-s,
   }
 }
 
-.govuk-frontend-supported .dl-list-filter__no-filter-match {
+.js-enabled .dl-list-filter__no-filter-match {
   display: block;
   font-family: "GDS Transport", arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -9057,18 +9057,18 @@ p + .govuk-heading-s,
   line-height: 1.25;
 }
 @media print {
-  .govuk-frontend-supported .dl-list-filter__no-filter-match {
+  .js-enabled .dl-list-filter__no-filter-match {
     font-family: sans-serif;
   }
 }
 @media (min-width: 40.0625em) {
-  .govuk-frontend-supported .dl-list-filter__no-filter-match {
+  .js-enabled .dl-list-filter__no-filter-match {
     font-size: 1.1875rem;
     line-height: 1.3157894737;
   }
 }
 @media print {
-  .govuk-frontend-supported .dl-list-filter__no-filter-match {
+  .js-enabled .dl-list-filter__no-filter-match {
     font-size: 14pt;
     line-height: 1.15;
   }

@@ -10,7 +10,7 @@
     "watch": "npm-run-all --parallel watch:*",
     "watch:assets": "npm run nps watch.assets",
     "watch:images": "npx chokidar './assets/images/**/*.{png,ico,svg,jpg,jpeg,webp}' -c 'npm run copy:images'",
-    "nps": "nps -c ./node_modules/digital-land-frontend/package-scripts.js",
+    "nps": "nps -c ./node_modules/@planning-data/digital-land-frontend/package-scripts.js",
     "copy:images_shared": "npm run nps copy.images",
     "copy:images_govuk": "npm run nps copy.govukAssets",
     "copy:images_local": "npx copyfiles src/images/**/*.{png,ico,svg,jpg,jpeg,webp} application/static -u 2",
@@ -24,7 +24,7 @@
     "url": "git+https://github.com/digital-land/dluhc-planning-considerations.git"
   },
   "dependencies": {
-    "digital-land-frontend": "https://gitpkg.now.sh/digital-land/digital-land-frontend/package?main",
+    "@planning-data/digital-land-frontend": "^0.4.9",
     "govuk-frontend": "5.9.0"
   },
   "devDependencies": {
