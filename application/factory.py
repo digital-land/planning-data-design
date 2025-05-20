@@ -136,6 +136,7 @@ def register_extensions(app):
             authorize_params=None,
             api_base_url="https://api.github.com/",
             client_kwargs={"scope": "user:email read:org"},
+            allow_insecure_http=app.config["ENV"] == "development",
         )
 
     if os.environ.get("SENTRY_DSN") is not None:
