@@ -278,7 +278,7 @@
           {% endif %}
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.change_os_declaration', slug=consideration.slug) }}">Update<span class="govuk-visually-hidden"> OS declaration</span></a>
+              <a class="govuk-link" href="{{ url_for('planning_consideration.change_os_declaration', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> OS declaration</span></a>
             </dd>
           {% endif %}
         </div>
@@ -335,9 +335,6 @@
             "attr": "useful_links"
           })
         }}
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
-          {% endif %}
         {% else %}
         <span class="app-missing-item">No useful links added</span>
         {% endif %}
@@ -398,12 +395,13 @@
             <ul class="govuk-list govuk-list--spaced">
             {% if consideration.datasets %}
               {% for dataset in consideration.datasets %}
-              <li>{% if dataset['platform_url'] %}<p><a href="{{ dataset['schema_url'] }}" class="govuk-link">View schema on Github</a></p>{% endif %}</li>
-              <li>{% if dataset['dataset_editor_url'] %}<p><a href="{{ dataset['dataset_editor_url'] }}" class="govuk-link">Manage dataset in planning dataset editor</a></p>{% endif %}</li>
+                <li>{% if dataset['platform_url'] %}<p><a href="{{ dataset['schema_url'] }}" class="govuk-link">View schema on Github</a></p>{% endif %}</li>
+                <li>{% if dataset['dataset_editor_url'] %}<p><a href="{{ dataset['dataset_editor_url'] }}" class="govuk-link">Manage dataset in planning dataset editor</a></p>{% endif %}</li>
+                {% if not config.AUTHENTICATION_ON or session["user"] %}
+                  <li><a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this dataset?');">Remove<span class="govuk-visually-hidden"> dataset</span></a></li>
+                {% endif %}
               {% endfor %} 
             </ul>
- 
-                    {% if not config.AUTHENTICATION_ON or session["user"] %}<a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this dataset?');">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>{% endif %}
             {% endif %}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
