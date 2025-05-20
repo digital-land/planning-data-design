@@ -308,7 +308,7 @@
           {% endif %}
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.change_os_declaration', slug=consideration.slug) }}">Update<span class="govuk-visually-hidden"> OS declaration</span></a>
+              <a class="govuk-link" href="{{ url_for('planning_consideration.change_os_declaration', slug=consideration.slug) }}">Change<span class="govuk-visually-hidden"> OS declaration</span></a>
             </dd>
           {% endif %}
         </div>
@@ -365,9 +365,6 @@
             "attr": "useful_links"
           })
         }}
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <a class="govuk-link" href="{{ url_for('planning_consideration.add_useful_link', slug=consideration.slug) }}">Add<span class="govuk-visually-hidden"> useful</span> link</a>
-          {% endif %}
         {% else %}
         <span class="app-missing-item">No useful links added</span>
         {% endif %}
@@ -451,7 +448,7 @@
           {% endif %}
         </div>
 
-  
+
   </div>
 
   <hr class="govuk-section-break govuk-section-break--l">
