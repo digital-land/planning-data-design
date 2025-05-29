@@ -1,13 +1,8 @@
 {% extends 'layouts/base.html' %}
 
-
-{% block beforeContent %}
-<a href="{{ url_for('main.index') }}" class="govuk-back-link">Back</a>
-{% endblock beforeContent %}
-
 {% block content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-xl">Breakdown of planning considerations</h1>
 
     <p class="govuk-body-l">We know about {{ data.considerations }} planning considerations that may yield data suitable for planning.data.gov.uk. These planning considerations are split between items on on backlog, ones we are working on and ones we've decided are not a match for now.</p>
@@ -16,7 +11,7 @@
 </div>
 
 <div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
+  <div class="govuk-grid-column-three-quarters">
     <h3 class="govuk-heading-l">In our design process</h3>
 
     <p class="govuk-body">We are currently do work to develop our understanding and design data standards for {{ data['active_count'] }} planning considerations. Below is a breakdown of how many are in each stage of our design process.</p>
@@ -49,7 +44,7 @@
 </div>
 
 <div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
+  <div class="govuk-grid-column-three-quarters">
     <h3 class="govuk-heading-l govuk-!-margin-top-9">Overview of planning considerations</h3>
 
     <p class="govuk-body">There are lots of planning considerations we can potentially work on. These are on our backlog, after some high-level triaging we may choose to work on a given planning conisderation. Once we complete our process we should be able to collect data for planning.data.gov.uk. If we decide not to work on a planning consideration we may archive it.</p>

@@ -66,24 +66,15 @@
   }
 }
 
-.app-report-bar--archived {
-  .app-report-bar__colour-mask {
-    background: govuk-colour('orange');
-  }
-
-  &:hover .app-report-bar__colour-mask {
-    background: govuk-shade(govuk-colour('orange'), 10);
-  }
-}
 
 
 %app-report-bar--grey {
   .app-report-bar__colour-mask {
-    background: govuk-colour('mid-grey');
+    background: govuk-colour('dark-grey');
   }
 
   &:hover .app-report-bar__colour-mask {
-    background: govuk-shade(govuk-colour('mid-grey'), 10);
+    background: govuk-shade(govuk-colour('dark-grey'), 10);
   }
 }
 
@@ -101,16 +92,10 @@
   }
 }
 
-.app-report-bar--blocked {
-  .app-report-bar__colour-mask {
-    background: govuk-colour('red');
-  }
-
-  &:hover .app-report-bar__colour-mask {
-    background: govuk-shade(govuk-colour('red'), 10);
-  }
+.app-report-bar--paused {
+  @extend %app-report-bar--grey;
 }
 
-.app-report-bar--paused {
+.app-report-bar--archived {
   @extend %app-report-bar--grey;
 }
