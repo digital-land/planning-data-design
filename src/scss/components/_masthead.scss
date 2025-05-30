@@ -6,6 +6,10 @@
   background-color: var(--department-colour);
   position: relative;
   z-index: 1;
+  width: 100vw;
+  margin: 0;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
   &::after,
   &::before {
       content: ' ';
