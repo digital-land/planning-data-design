@@ -15,8 +15,11 @@
     "copy:images_govuk": "npm run nps copy.govukAssets",
     "copy:images_local": "npx copyfiles src/images/**/*.{png,ico,svg,jpg,jpeg,webp} application/static -u 2",
     "copy:images": "run-s copy:images_*",
+    "copy:moj-frontend-js": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js src/javascripts/vendor/moj-frontend.js",
+    "copy:moj-frontend-css": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/moj-frontend.min.css* src/scss/vendor/",
+    "copy:moj-frontend": "npm run copy:moj-frontend-js && npm run copy:moj-frontend-css",
     "copyjs": "rsync -ar src/javascripts/ application/static/javascripts",
-    "postinstall": "npm run copyjs && npm run nps copy.javascripts && npm run nps build.stylesheets && npm run nps build.javascripts",
+    "postinstall": "npm run copyjs && npm run nps copy.javascripts && npm run nps build.stylesheets && npm run nps build.javascripts && npm run copy:moj-frontend",
     "start": "run-p watch flask"
   },
   "repository": {
@@ -24,6 +27,7 @@
     "url": "git+https://github.com/digital-land/dluhc-planning-considerations.git"
   },
   "dependencies": {
+    "@ministryofjustice/frontend": "^5.1.3",
     "@planning-data/digital-land-frontend": "^0.5.0",
     "govuk-frontend": "5.9.0"
   },
