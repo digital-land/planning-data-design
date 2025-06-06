@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html' %}
+
+{% block pageTitle %}Members | Advisory Group | design.planning {% endblock %}
+
+{% block app_breadcrumbs %}
+  {{
+    govukBreadcrumbs({
+      'items': [
+        {
+          'text': "Home",
+          'href': url_for('main.index')
+        },
+        {
+          'text': "Advisory group",
+          'href': url_for('main.advisory_group')
+        },
+        {
+          'text': "Members"
+        }
+      ]
+    })
+  }}
+{% endblock app_breadcrumbs %}
+
+{% block content %}
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-full'>
+    <span class="govuk-caption-xl">Project - Planning applications</span>
+    <h1 class="govuk-heading-xl" id="advisory-group">Progress and timeline</h1>
+  </div>
+</div>
+
+<div class='govuk-grid-row'>
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">The data design team has been working on behalf of the development management policy team to develop open data specifications for planning application submissions. It is the process that they own which is being adapted to ensure consistent, interoperable data is flowing through it.</p>
+    <p class="govuk-body"> We are now developing a timeline to outline the next steps, both towards the mandating of planning application submission data specifications and the development of further specifications for the planning permission process.</p>
+
+    <h2 class="govuk-heading-l">Progress</h2>
+
+    <p class="govuk-body">Data design work to date has been focused on delivering to original deadlines around submission data (committed to in October 2024).</p>
+
+    <p class="govuk-body">These were the milestones achieved.</p>
+
+    <h3 class="govuk-heading-m">Community engagement</h3>
+
+    <p class="govuk-body">We:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>created an advisory group to support the development of draft baseline specifications based on an application process</li>
+      <li>began wide, open community engagement to support the development of draft baseline specifications</li>
+      <li>set up specific engagement with the development management policy team to make sure the approach was endorsed</li>
+      <li>set up a webpage to share progress</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Baseline existing process</h3>
+
+    <p class="govuk-body">We:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>are analysing existing planning permission forms to identify data modules and fields</li>
+      <li>created a module tracker spreadsheet for community comments</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Drafting specifications</h3>
+
+    <p class="govuk-body">We:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>created individual/modular working draft data specifications based on this analysis and input from the community</li>
+      <li>created composite specifications (ie made up of the modules) to mirror the existing system</li>
+      <li>set up feedback loops for community engagement</li>
+      <li>gathered feedback on modular specifications from the community (deadline for input was 16 May)</li>
+    </ul>
+
+  </div>
+</div>
+{% endblock %}
