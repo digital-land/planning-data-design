@@ -294,6 +294,14 @@ def considerations():
         .all()
     )
 
+    # Calculate latest change for each consideration
+    for consideration in considerations:
+        if consideration.change_log is not None and len(consideration.change_log) > 0:
+            change_dates = [change.created for change in consideration.change_log]
+            consideration.latest_change = max(change_dates)
+        else:
+            consideration.latest_change = None
+
     tags = Tag.query.order_by(Tag.name).all()
 
     return render_template(

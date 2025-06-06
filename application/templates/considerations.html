@@ -38,6 +38,8 @@
           <th scope="col" class="govuk-table__header" aria-sort="none">Stage</th>
     
           <th scope="col" class="govuk-table__header" aria-sort="none">Tags</th>
+
+          <th scope="col" class="govuk-table__header" aria-sort="none">Last updated</th>
         
         </tr>
       </thead>
@@ -66,6 +68,11 @@
                   {{ tag.name }}
                 </strong>
               {% endfor %}
+            </td>
+
+<!-- latest change -->
+            <td class="govuk-table__cell">            
+              {%- if consideration.latest_change %}<a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">{{ consideration.latest_change | date_time }}</a>{% else %}No recent updates{% endif -%}
             </td>
 
           {% endfor %}    
