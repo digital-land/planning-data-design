@@ -24,94 +24,6 @@
     {% endwith %}
     <h1 class="govuk-heading-xl">List of planning considerations</h1>
 
-    <p class="govuk-body-l">
-      This is the list of planning considerations we are working on. If there is a consideration cannot see, [add link] let us know.
-    </p>
-
-    <div class="moj-filter" data-module="moj-filter">
-
-    
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-quarter">
-        {% include 'partials/consideration-filters.html' %}
-        <hr class="govuk-section-break-m">
-        <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
-          <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
-        </p>
-        <hr class="govuk-section-break-m">
-      </div>
-    
-      <div class="govuk-grid-column-three-quarters">
-    
-      {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter %}
-      <div class="app-applied-filters">
-        {%- if stage_filter %}
-          {% set args = request.args.to_dict(flat=False) %}
-          {% if 'stage' in args %}
-            {% set _ = args.pop('stage') %}
-          {% endif %}
-          <div class="app-applied-filter__group">
-            <span class="app-applied-filter__name govuk-!-font-weight-bold">Stage:</span>
-            {%- for stage in stage_filter %}
-            <span class="app-applied-filter__item">{{ stage }}</span>
-            {%- endfor %}
-            <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> stage filter</span></a>
-          </div>
-        {% endif -%}
-
-    {% endif %}
-    <table class="govuk-table" data-module="moj-sortable-table">
-    
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-    
-          <th scope="col" class="govuk-table__header" aria-sort="ascending">Name</th>
-    
-          <th scope="col" class="govuk-table__header" aria-sort="none">Stage</th>
-    
-          <th scope="col" class="govuk-table__header" aria-sort="none">Tags</th>
-
-          <th scope="col" class="govuk-table__header" aria-sort="none">Last updated</th>
-        
-        </tr>
-      </thead>
-    
-      <tbody class="govuk-table__body">
-        
- <!-- name of consideration    -->
-          {% for consideration in considerations -%}
-          <tr class="govuk-table__row"> 
-            <td class="govuk-summary-list__key" data-filter="match-content">
-              <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
-                class="govuk-link govuk-link--text-colour"
-                id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
-
-<!-- stage of consideration -->
-            <td class="govuk-table__cell">            
-              <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
-              {{ consideration['stage'].value }}
-            </strong>
-            </td>
-            
-<!-- tags of consideration -->
-            <td class="govuk-table__cell">            
-              {% for tag in consideration['tags'] %}
-                <strong class="govuk-tag {{ tag.name|map_to_tag_class }}">
-                  {{ tag.name }}
-                </strong>
-              {% endfor %}
-            </td>
-
-<!-- latest change -->
-            <td class="govuk-table__cell">            
-              {%- if consideration.latest_change %}<a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">{{ consideration.latest_change | date_time }}</a>{% else %}No recent updates{% endif -%}
-            </td>
-
-          {% endfor %}    
-      </tbody>
-    </table>
-
-
     <details class="govuk-details">
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">
@@ -124,16 +36,9 @@
       </div>
     </details>
   </div>
-</div>
 
-<div class='govuk-grid-row'>
-  <div class='govuk-grid-column-full'>
-    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
-  </div>
-</div>
-
-<div class='govuk-grid-row'>
-  <div class='govuk-grid-column-two-thirds'>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
     <form class="govuk-!-margin-bottom-9" data-filter="form">
       <label class="dl-list-filter__label govuk-label govuk-!-font-weight-bold" for="filter-considerations-list">I'm looking for</label>
       <input class="dl-list-filter__input govuk-input" type="text"
@@ -153,126 +58,186 @@
 </div>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
-    {% include 'partials/consideration-filters.html' %}
-    <hr class="govuk-section-break-m">
-    <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
-      <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
-    </p>
-    <hr class="govuk-section-break-m">
-  </div>
-
-  <div class="govuk-grid-column-three-quarters">
-
-  {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter %}
-  <div class="app-applied-filters">
-    {%- if stage_filter %}
-      {% set args = request.args.to_dict(flat=False) %}
-      {% if 'stage' in args %}
-        {% set _ = args.pop('stage') %}
-      {% endif %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Stage:</span>
-        {%- for stage in stage_filter %}
-        <span class="app-applied-filter__item">{{ stage }}</span>
-        {%- endfor %}
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> stage filter</span></a>
-      </div>
-    {% endif -%}
-
-    {%- if tags_filter %}
-      {% set args = request.args.to_dict(flat=False) %}
-      {% if 'tag' in args %}
-        {% set _ = args.pop('tag') %}
-      {% endif %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Tags:</span>
-        {%- for tag in tags_filter %}
-        <span class="app-applied-filter__item">{{ tag }}</span>
-        {%- endfor %}
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> tag filter(s)</span></a>
-      </div>
-    {% endif -%}
-
-    {% if publishing_orgs_filter %}
-      <div class="app-applied-filter__group">
-        {% set args = request.args.to_dict(flat=False) %}
-        {% if 'publishing-organisations' in args %}
-          {% set _ = args.pop('publishing-organisations') %}
-        {% endif %}
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Publishing organisations:</span>
-        <span class="app-applied-filter__item">{{ publishing_orgs_filter }}</span>
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> organisation filter</span></a></p>
-      </div>
-    {% endif %}
-
-    {% if legislation_filter %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Legislation:</span>
-        <span class="app-applied-filter__item">{{ legislation_filter }}</span>
-        {% set args = request.args.to_dict(flat=False) %}
-        {% if 'legislation' in args %}
-          {% set _ = args.pop('legislation') %}
-        {% endif %}
-        <a class="app-applied-filter__cancel" href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> legislation filter</span></a>
-      </div>
-    {% endif -%}
-
-    <div class="app-applied-filter__group">
-      <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>
+  <div class="govuk-grid-column-full">
+    <div class="concerns-list__count__wrapper">
+      <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations<br></p>
+      <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
     </div>
   </div>
-  {% endif %}
+</div>
 
-    <div class="concerns-list__wrapper">
-
-      <div class="concerns-list__count__wrapper">
-        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
-        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
+<div class="moj-filter" data-module="moj-filter">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
+        </div>
+        <div class="moj-filter__header-action">
+        </div>
       </div>
+      <div class="moj-filter__content">
+        {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter %}
+        <div class="moj-filter__selected">
+          <div class="moj-filter__selected-heading">
+            <div class="moj-filter__heading-title">
+              <h2 class="govuk-heading-m">Selected filters</h2>
+            </div>
+            <div class="moj-filter__heading-action">
+              <p><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link govuk-link--no-visited-state">Clear filters</a></p>
+            </div>
+          </div>
 
-      <dl class="govuk-summary-list" data-filter="list">
-        {% for consideration in considerations -%}
-        <div class="govuk-summary-list__row" data-filter="item">
-          <dt class="govuk-summary-list__key" data-filter="match-content">
-            <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
-              class="govuk-link govuk-link--text-colour"
-              id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
-              {% if consideration.synonyms %}
-                <span class=""
-                    role="complementary"
-                    aria-labelledby="consideration-{{ consideration.slug }}"
-                    aria-label="Alternative terms for {{ consideration['name'] }}">
-                  <ul class="app-synonyms-list">
-                    {% for synonym in consideration.synonyms %}
-                      <li>{{ synonym }}</li>
-                    {% endfor %}
-                  </ul>
-                </span>
-              {% endif -%}
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
-              {{ consideration['stage'].value }}
-            </strong>
-            {%- if consideration.blocked_reason %}
-            <span class="govuk-tag govuk-tag--grey">Paused</span>
-            {% endif -%}
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug )}}">
-                Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
-            </dd>
+          {% if stage_filter %}
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Stage</h3>
+          <ul class="moj-filter-tags">
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'stage' in args %}
+              {% set _ = args.pop('stage') %}
+            {% endif %}
+            {% for stage in stage_filter %}
+            <li>
+              <a class="moj-filter__tag" href="{{ url_for('planning_consideration.considerations', **args) }}">
+                <span class="govuk-visually-hidden">Remove this filter</span>
+                {{ stage }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          {% if tags_filter %}
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Tags</h3>
+          <ul class="moj-filter-tags">
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'tag' in args %}
+              {% set _ = args.pop('tag') %}
+            {% endif %}
+            {% for tag in tags_filter %}
+            <li>
+              <a class="moj-filter__tag" href="{{ url_for('planning_consideration.considerations', **args) }}">
+                <span class="govuk-visually-hidden">Remove this filter</span>
+                {{ tag }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          {% if publishing_orgs_filter %}
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Publishing organisations</h3>
+          <ul class="moj-filter-tags">
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'publishing-organisations' in args %}
+              {% set _ = args.pop('publishing-organisations') %}
+            {% endif %}
+            <li>
+              <a class="moj-filter__tag" href="{{ url_for('planning_consideration.considerations', **args) }}">
+                <span class="govuk-visually-hidden">Remove this filter</span>
+                {{ publishing_orgs_filter }}
+              </a>
+            </li>
+          </ul>
+          {% endif %}
+
+          {% if legislation_filter %}
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Legislation</h3>
+          <ul class="moj-filter-tags">
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'legislation' in args %}
+              {% set _ = args.pop('legislation') %}
+            {% endif %}
+            <li>
+              <a class="moj-filter__tag" href="{{ url_for('planning_consideration.considerations', **args) }}">
+                <span class="govuk-visually-hidden">Remove this filter</span>
+                {{ legislation_filter }}
+              </a>
+            </li>
+          </ul>
           {% endif %}
         </div>
-        {%- endfor %}
+        {% endif %}
 
-      </dl>
+        <div class="moj-filter__options">
+          <form class="govuk-form" method="get">
+            {% include 'partials/consideration-filters.html' %}
+          </form>
+          <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+          <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
+            <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
+          </p>
+        </div>
+      </div>
     </div>
 
-    <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
+    <div class="govuk-grid-column-three-quarters">
+      <div class="moj-action-bar">
+        <div class="moj-action-bar__filter"></div>
+        <div class="moj-action-bar__content">
+          <div class="concerns-list__wrapper">
+            <table class="govuk-table" data-module="moj-sortable-table">
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header" aria-sort="ascending">Name</th>
+                  <th scope="col" class="govuk-table__header" aria-sort="none">Stage</th>
+                  <th scope="col" class="govuk-table__header" aria-sort="none">Tags</th>
+                  <th scope="col" class="govuk-table__header" aria-sort="none">Last updated</th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                {% for consideration in considerations -%}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell" data-filter="match-content">
+                    <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
+                      class="govuk-link govuk-link--text-colour"
+                      id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
+                    {% if consideration.synonyms %}
+                      <span class=""
+                          role="complementary"
+                          aria-labelledby="consideration-{{ consideration.slug }}"
+                          aria-label="Alternative terms for {{ consideration['name'] }}">
+                        <ul class="app-synonyms-list">
+                          {% for synonym in consideration.synonyms %}
+                            <li>{{ synonym }}</li>
+                          {% endfor %}
+                        </ul>
+                      </span>
+                    {% endif -%}
+                  </td>
+                  <td class="govuk-table__cell">
+                    <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
+                      {{ consideration['stage'].value }}
+                    </strong>
+                    {%- if consideration.blocked_reason %}
+                    <span class="govuk-tag govuk-tag--grey">Paused</span>
+                    {% endif -%}
+                  </td>
+                  <td class="govuk-table__cell">
+                    {% for tag in consideration['tags'] %}
+                      <strong class="govuk-tag {{ tag.name|map_to_tag_class }}">
+                        {{ tag.name }}
+                      </strong>
+                    {% endfor %}
+                  </td>
+                  <td class="govuk-table__cell">
+                    {%- if consideration.latest_change %}
+                      <a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">
+                        {{ consideration.latest_change | date_time }}
+                      </a>
+                    {% else %}
+                      No recent updates
+                    {% endif -%}
+                  </td>
+                </tr>
+                {%- endfor %}
+              </tbody>
+            </table>
 
+            <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock content %}
@@ -280,92 +245,117 @@
 {% block pageScripts %}
 {{ super() }}
 <script>
-  // initialise list filter
-  const $form = document.querySelector('[data-filter="form"]');
-  const listFilter = new window.DLFrontend.ListFilter($form);
-
-  listFilter.init({
-    list_section_selector: '.concerns-list__wrapper',
-    count_wrapper_selector: '.concerns-list__count__wrapper'
-  });
-
-  // Update URL with filter value without reloading page
-  const $input = document.querySelector('#filter-considerations-list');
-  const $serverFilterForm = document.querySelector('.govuk-form');
-
-  $input.addEventListener('keyup', function(e) {
-    const newUrl = new URL(window.location);
-    if (e.target.value) {
-      newUrl.searchParams.set('list_filter', e.target.value);
-    } else {
-      newUrl.searchParams.delete('list_filter');
+  document.addEventListener('DOMContentLoaded', function() {
+    // initialise list filter
+    const $form = document.querySelector('[data-filter="form"]');
+    if (!$form) {
+      console.error('Search form not found');
+      return;
     }
-    window.history.pushState({}, '', newUrl);
 
-    // If enter key is pressed, trigger server form submission
-    if (e.key === 'Enter' && $serverFilterForm) {
-      // Get current URL and form data
-      const url = new URL($serverFilterForm.action || window.location.href);
-      const formData = new FormData($serverFilterForm);
+    if (!window.DLFrontend || !window.DLFrontend.ListFilter) {
+      console.error('DLFrontend.ListFilter not found');
+      return;
+    }
 
-      // Add all form data to URL parameters
-      for (const [key, value] of formData.entries()) {
-        url.searchParams.append(key, value);
-      }
+    const listFilter = new window.DLFrontend.ListFilter($form);
+    
+    try {
+      listFilter.init({
+        list_section_selector: '.concerns-list__wrapper',
+        count_wrapper_selector: '.concerns-list__count__wrapper',
+        item_selector: 'tr.govuk-table__row',
+        text_selector: 'td[data-filter="match-content"]'
+      });
+      console.log('List filter initialized successfully');
+    } catch (error) {
+      console.error('Error initializing list filter:', error);
+    }
 
-      // Add the list filter value
+    // Update URL with filter value without reloading page
+    const $input = document.querySelector('#filter-considerations-list');
+    const $serverFilterForm = document.querySelector('.govuk-form');
+
+    if (!$input) {
+      console.error('Search input not found');
+      return;
+    }
+
+    $input.addEventListener('keyup', function(e) {
+      console.log('Search input changed:', e.target.value);
+      const newUrl = new URL(window.location);
       if (e.target.value) {
-        url.searchParams.set('list_filter', e.target.value);
+        newUrl.searchParams.set('list_filter', e.target.value);
+      } else {
+        newUrl.searchParams.delete('list_filter');
       }
+      window.history.pushState({}, '', newUrl);
 
-      // Navigate to the URL with all parameters
-      window.location.href = url.toString();
+      // If enter key is pressed, trigger server form submission
+      if (e.key === 'Enter' && $serverFilterForm) {
+        // Get current URL and form data
+        const url = new URL($serverFilterForm.action || window.location.href);
+        const formData = new FormData($serverFilterForm);
+
+        // Add all form data to URL parameters
+        for (const [key, value] of formData.entries()) {
+          url.searchParams.append(key, value);
+        }
+
+        // Add the list filter value
+        if (e.target.value) {
+          url.searchParams.set('list_filter', e.target.value);
+        }
+
+        // Navigate to the URL with all parameters
+        window.location.href = url.toString();
+      }
+    });
+
+    // Prevent the list filter form from submitting
+    $form.addEventListener('submit', function(e) {
+      e.preventDefault();
+    });
+
+    // Handle server form submission to preserve list filter
+    if ($serverFilterForm) {
+      $serverFilterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get current URL and form data
+        const url = new URL($serverFilterForm.action || window.location.href);
+        const formData = new FormData($serverFilterForm);
+
+        // Add all form data to URL parameters
+        for (const [key, value] of formData.entries()) {
+          url.searchParams.append(key, value);
+        }
+
+        // Add the list filter if it exists
+        const listFilterValue = $input.value;
+        if (listFilterValue) {
+          url.searchParams.set('list_filter', listFilterValue);
+        }
+
+        // Navigate to the URL with all parameters
+        window.location.href = url.toString();
+      });
+    }
+
+    // If there's a filter value in the URL, trigger the filter
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterValue = urlParams.get('list_filter');
+    if (filterValue) {
+      $input.value = filterValue;
+      // Create and dispatch a keyup event since that's what the ListFilter expects
+      const keyupEvent = new KeyboardEvent('keyup', {
+        bubbles: true,
+        cancelable: true,
+        key: 'dummy',
+        keyCode: 0
+      });
+      $input.dispatchEvent(keyupEvent);
     }
   });
-
-  // Prevent the list filter form from submitting
-  $form.addEventListener('submit', function(e) {
-    e.preventDefault();
-  });
-
-  // Handle server form submission to preserve list filter
-  if ($serverFilterForm) {
-    $serverFilterForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      // Get current URL and form data
-      const url = new URL($serverFilterForm.action || window.location.href);
-      const formData = new FormData($serverFilterForm);
-
-      // Add all form data to URL parameters
-      for (const [key, value] of formData.entries()) {
-        url.searchParams.append(key, value);
-      }
-
-      // Add the list filter if it exists
-      const listFilterValue = $input.value;
-      if (listFilterValue) {
-        url.searchParams.set('list_filter', listFilterValue);
-      }
-
-      // Navigate to the URL with all parameters
-      window.location.href = url.toString();
-    });
-  }
-
-  // If there's a filter value in the URL, trigger the filter
-  const urlParams = new URLSearchParams(window.location.search);
-  const filterValue = urlParams.get('list_filter');
-  if (filterValue) {
-    $input.value = filterValue;
-    // Create and dispatch a keyup event since that's what the ListFilter expects
-    const keyupEvent = new KeyboardEvent('keyup', {
-      bubbles: true,
-      cancelable: true,
-      key: 'dummy',
-      keyCode: 0
-    });
-    $input.dispatchEvent(keyupEvent);
-  }
 </script>
 {% endblock %}
