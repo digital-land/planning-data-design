@@ -32,6 +32,11 @@ def advisory_group_members():
     return render_template("advisory-group-members.html")
 
 
+@main.route("/advisory-group/timeline")
+def advisory_group_timeline():
+    return render_template("advisory-group-timeline.html")
+
+
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
 
