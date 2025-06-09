@@ -1,51 +1,6 @@
 
 <form class="govuk-form" action="{{ url_for('planning_consideration.considerations') }}" method="get">
 
-  <!-- include archived -->
-  <div class="govuk-form-group">
-    {% call dlFilterGroup({
-      "title": "Include",
-      "is_open": True,
-      "selected": 0
-    }) %}
-
-    <fieldset class="govuk-fieldset">
-      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-          <input class="govuk-checkboxes__input" id="include_archived" name="include_archived" type="checkbox" value="true" {% if include_archived %} checked{% endif %}>
-          <label class="govuk-label govuk-checkboxes__label" for="include_archived">
-            Archived
-          </label>
-        </div>
-      </div>
-    </fieldset>
-
-    {% endcall %}
-  </div>
-
-
-  <!-- show only blocked -->
-  <div class="govuk-form-group">
-    {% call dlFilterGroup({
-      "title": "Show only",
-      "is_open": True,
-      "selected": 0
-    }) %}
-
-    <fieldset class="govuk-fieldset">
-      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-          <input class="govuk-checkboxes__input" id="show_only_blocked" name="show_only_blocked" type="checkbox" value="true" {% if show_only_blocked %} checked{% endif %}>
-          <label class="govuk-label govuk-checkboxes__label" for="show_only_blocked">
-            Paused
-          </label>
-        </div>
-      </div>
-    </fieldset>
-
-    {% endcall %}
-  </div>
-
   <!-- filter by stage -->
   <div class="govuk-form-group">
     {% set random_stage_filter_id = range(1000,9999) | random() %}
@@ -59,6 +14,12 @@
         </label>
       </div>
       {% endfor %}
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="show_only_blocked" name="show_only_blocked" type="checkbox" value="true" {% if show_only_blocked %} checked{% endif %}>
+        <label class="govuk-label govuk-checkboxes__label" for="show_only_blocked">
+          Paused
+        </label>
+      </div>
     {% endset %}
 
     {% call dlFilterGroup({

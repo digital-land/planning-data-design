@@ -28,6 +28,38 @@
       This is the list of planning considerations we are working on. If there is a consideration cannot see, [add link] let us know.
     </p>
 
+    <div class="moj-filter" data-module="moj-filter">
+
+    
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-quarter">
+        {% include 'partials/consideration-filters.html' %}
+        <hr class="govuk-section-break-m">
+        <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
+          <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
+        </p>
+        <hr class="govuk-section-break-m">
+      </div>
+    
+      <div class="govuk-grid-column-three-quarters">
+    
+      {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter %}
+      <div class="app-applied-filters">
+        {%- if stage_filter %}
+          {% set args = request.args.to_dict(flat=False) %}
+          {% if 'stage' in args %}
+            {% set _ = args.pop('stage') %}
+          {% endif %}
+          <div class="app-applied-filter__group">
+            <span class="app-applied-filter__name govuk-!-font-weight-bold">Stage:</span>
+            {%- for stage in stage_filter %}
+            <span class="app-applied-filter__item">{{ stage }}</span>
+            {%- endfor %}
+            <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> stage filter</span></a>
+          </div>
+        {% endif -%}
+
+    {% endif %}
     <table class="govuk-table" data-module="moj-sortable-table">
     
       <thead class="govuk-table__head">
