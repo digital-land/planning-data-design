@@ -69,7 +69,16 @@
 </div>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
+  <div class="govuk-grid-column-two-thirds">
+   <div class="concerns-list__count__wrapper">
+      <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
+      <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
     {% include 'partials/consideration-filters.html' %}
     <hr class="govuk-section-break-m">
     <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
@@ -78,7 +87,7 @@
     <hr class="govuk-section-break-m">
   </div>
 
-  <div class="govuk-grid-column-three-quarters">
+  <div class="govuk-grid-column-two-thirds">
 
   {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter %}
   <div class="app-applied-filters">
@@ -141,12 +150,6 @@
   {% endif %}
 
     <div class="concerns-list__wrapper">
-
-      <div class="concerns-list__count__wrapper">
-        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
-        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
-      </div>
-
       <dl class="govuk-summary-list" data-filter="list">
         {% for consideration in considerations -%}
         <div class="govuk-summary-list__row" data-filter="item">
