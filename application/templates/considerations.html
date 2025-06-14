@@ -69,7 +69,16 @@
 </div>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
+  <div class="govuk-grid-column-two-thirds">
+   <div class="concerns-list__count__wrapper">
+      <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
+      <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
     {% include 'partials/consideration-filters.html' %}
     <hr class="govuk-section-break-m">
     <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
@@ -78,75 +87,8 @@
     <hr class="govuk-section-break-m">
   </div>
 
-  <div class="govuk-grid-column-three-quarters">
-
-  {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter %}
-  <div class="app-applied-filters">
-    {%- if stage_filter %}
-      {% set args = request.args.to_dict(flat=False) %}
-      {% if 'stage' in args %}
-        {% set _ = args.pop('stage') %}
-      {% endif %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Stage:</span>
-        {%- for stage in stage_filter %}
-        <span class="app-applied-filter__item">{{ stage }}</span>
-        {%- endfor %}
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> stage filter</span></a>
-      </div>
-    {% endif -%}
-
-    {%- if tags_filter %}
-      {% set args = request.args.to_dict(flat=False) %}
-      {% if 'tag' in args %}
-        {% set _ = args.pop('tag') %}
-      {% endif %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Tags:</span>
-        {%- for tag in tags_filter %}
-        <span class="app-applied-filter__item">{{ tag }}</span>
-        {%- endfor %}
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> tag filter(s)</span></a>
-      </div>
-    {% endif -%}
-
-    {% if publishing_orgs_filter %}
-      <div class="app-applied-filter__group">
-        {% set args = request.args.to_dict(flat=False) %}
-        {% if 'publishing-organisations' in args %}
-          {% set _ = args.pop('publishing-organisations') %}
-        {% endif %}
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Publishing organisations:</span>
-        <span class="app-applied-filter__item">{{ publishing_orgs_filter }}</span>
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> organisation filter</span></a></p>
-      </div>
-    {% endif %}
-
-    {% if legislation_filter %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Legislation:</span>
-        <span class="app-applied-filter__item">{{ legislation_filter }}</span>
-        {% set args = request.args.to_dict(flat=False) %}
-        {% if 'legislation' in args %}
-          {% set _ = args.pop('legislation') %}
-        {% endif %}
-        <a class="app-applied-filter__cancel" href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> legislation filter</span></a>
-      </div>
-    {% endif -%}
-
-    <div class="app-applied-filter__group">
-      <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>
-    </div>
-  </div>
-  {% endif %}
-
+  <div class="govuk-grid-column-two-thirds">
     <div class="concerns-list__wrapper">
-
-      <div class="concerns-list__count__wrapper">
-        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
-        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
-      </div>
-
       <dl class="govuk-summary-list" data-filter="list">
         {% for consideration in considerations -%}
         <div class="govuk-summary-list__row" data-filter="item">
