@@ -16,7 +16,7 @@ def login_required(f):
 
         if current_app.config.get("AUTHENTICATION_ON", True):
             if session.get("user") is None:
-                return redirect(url_for("auth.login", next=request.url))
+                return redirect(url_for("auth.login", next=request.path))
         return f(*args, **kwargs)
 
     return decorated_function
