@@ -46,7 +46,7 @@
             </strong>
           {% endfor %}
         </td>
-        <td class="govuk-table__cell">
+        <td class="govuk-table__cell" data-sort-value="{{ consideration.latest_change | date_time }}">
           {%- if consideration.latest_change %}
             <a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">
               {{ consideration.latest_change | date_time_12hrs }}
