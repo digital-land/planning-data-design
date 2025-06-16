@@ -49,7 +49,7 @@
         <td class="govuk-table__cell">
           {%- if consideration.latest_change %}
             <a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">
-              {{ consideration.latest_change | date_time }}
+              {{ consideration.latest_change | date_time_12hrs }}
             </a>
           {% else %}
             No recent updates

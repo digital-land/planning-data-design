@@ -79,3 +79,9 @@ def date_time_filter(date):
     if date is None:
         return ""
     return date.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def date_time_12_hours_filter(date):
+    if date is None:
+        return ""
+    return date.strftime("%Y-%m-%d %I:%M %p")

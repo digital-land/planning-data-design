@@ -78,6 +78,7 @@ def register_context_processors(app):
 def register_filters(app):
     from application.filters import (
         choice_to_list_filter,
+        date_time_12_hours_filter,
         date_time_filter,
         deslugify_filter,
         map_to_tag_class_filter,
@@ -93,6 +94,7 @@ def register_filters(app):
     app.add_template_filter(render_markdown_filter, "render_markdown")
     app.add_template_filter(short_date_filter, "short_date")
     app.add_template_filter(date_time_filter, "date_time")
+    app.add_template_filter(date_time_12_hours_filter, "date_time_12hrs")
 
     from digital_land_frontend.filters import commanum_filter
 
@@ -139,7 +141,8 @@ def register_extensions(app):
             authorize_params=None,
             api_base_url="https://api.github.com/",
             client_kwargs={"scope": "user:email read:org"},
-            allow_insecure_http=os.getenv("ENVIRONMENT") is not None and os.getenv("ENVIRONMENT") == "development",
+            allow_insecure_http=os.getenv("ENVIRONMENT") is not None
+            and os.getenv("ENVIRONMENT") == "development",
         )
 
     if os.environ.get("SENTRY_DSN") is not None:
