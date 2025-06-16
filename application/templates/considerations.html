@@ -89,48 +89,10 @@
 
   <div class="govuk-grid-column-two-thirds">
     <div class="concerns-list__wrapper">
-      <dl class="govuk-summary-list" data-filter="list">
-        {% for consideration in considerations -%}
-        <div class="govuk-summary-list__row" data-filter="item">
-          <dt class="govuk-summary-list__key" data-filter="match-content">
-            <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
-              class="govuk-link govuk-link--text-colour"
-              id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
-              {% if consideration.synonyms %}
-                <span class=""
-                    role="complementary"
-                    aria-labelledby="consideration-{{ consideration.slug }}"
-                    aria-label="Alternative terms for {{ consideration['name'] }}">
-                  <ul class="app-synonyms-list">
-                    {% for synonym in consideration.synonyms %}
-                      <li>{{ synonym }}</li>
-                    {% endfor %}
-                  </ul>
-                </span>
-              {% endif -%}
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
-              {{ consideration['stage'].value }}
-            </strong>
-            {%- if consideration.blocked_reason %}
-            <span class="govuk-tag govuk-tag--grey">Paused</span>
-            {% endif -%}
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug )}}">
-                Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
-            </dd>
-          {% endif %}
-        </div>
-        {%- endfor %}
-
-      </dl>
+      {% include 'partials/consideration-data.html' %}
     </div>
 
     <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
-
   </div>
 </div>
 {% endblock content %}
