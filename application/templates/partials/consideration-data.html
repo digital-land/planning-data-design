@@ -11,10 +11,10 @@
     </tr>
   </thead>
 
-  <tbody class="govuk-table__body">
+  <tbody class="govuk-table__body" data-filter="list">
     {% for consideration in considerations -%}
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
+      <tr class="govuk-table__row" data-filter="item">
+        <td class="govuk-table__cell" data-filter="match-content">
           <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
             class="govuk-link govuk-link--text-colour"
             id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>

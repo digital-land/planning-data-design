@@ -68,31 +68,31 @@
   </div>
 </div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-   <div class="concerns-list__count__wrapper">
-      <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
-      <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
+<div class="concerns-list__wrapper">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="concerns-list__count__wrapper">
+        <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
+        <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-third">
-    {% include 'partials/consideration-filters.html' %}
-    <hr class="govuk-section-break-m">
-    <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
-      <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
-    </p>
-    <hr class="govuk-section-break-m">
-  </div>
-
-  <div class="govuk-grid-column-two-thirds">
-    <div class="concerns-list__wrapper">
-      {% include 'partials/consideration-data.html' %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+      {% include 'partials/consideration-filters.html' %}
+      <hr class="govuk-section-break-m">
+      <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
+        <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
+      </p>
+      <hr class="govuk-section-break-m">
     </div>
 
-    <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
+    <div class="govuk-grid-column-two-thirds">
+        {% include 'partials/consideration-data.html' %}
+
+      <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
+    </div>
   </div>
 </div>
 {% endblock content %}
