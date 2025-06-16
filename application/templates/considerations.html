@@ -68,127 +68,31 @@
   </div>
 </div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
-    {% include 'partials/consideration-filters.html' %}
-    <hr class="govuk-section-break-m">
-    <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
-      <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
-    </p>
-    <hr class="govuk-section-break-m">
-  </div>
-
-  <div class="govuk-grid-column-three-quarters">
-
-  {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter %}
-  <div class="app-applied-filters">
-    {%- if stage_filter %}
-      {% set args = request.args.to_dict(flat=False) %}
-      {% if 'stage' in args %}
-        {% set _ = args.pop('stage') %}
-      {% endif %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Stage:</span>
-        {%- for stage in stage_filter %}
-        <span class="app-applied-filter__item">{{ stage }}</span>
-        {%- endfor %}
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> stage filter</span></a>
-      </div>
-    {% endif -%}
-
-    {%- if tags_filter %}
-      {% set args = request.args.to_dict(flat=False) %}
-      {% if 'tag' in args %}
-        {% set _ = args.pop('tag') %}
-      {% endif %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Tags:</span>
-        {%- for tag in tags_filter %}
-        <span class="app-applied-filter__item">{{ tag }}</span>
-        {%- endfor %}
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> tag filter(s)</span></a>
-      </div>
-    {% endif -%}
-
-    {% if publishing_orgs_filter %}
-      <div class="app-applied-filter__group">
-        {% set args = request.args.to_dict(flat=False) %}
-        {% if 'publishing-organisations' in args %}
-          {% set _ = args.pop('publishing-organisations') %}
-        {% endif %}
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Publishing organisations:</span>
-        <span class="app-applied-filter__item">{{ publishing_orgs_filter }}</span>
-        <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> organisation filter</span></a></p>
-      </div>
-    {% endif %}
-
-    {% if legislation_filter %}
-      <div class="app-applied-filter__group">
-        <span class="app-applied-filter__name govuk-!-font-weight-bold">Legislation:</span>
-        <span class="app-applied-filter__item">{{ legislation_filter }}</span>
-        {% set args = request.args.to_dict(flat=False) %}
-        {% if 'legislation' in args %}
-          {% set _ = args.pop('legislation') %}
-        {% endif %}
-        <a class="app-applied-filter__cancel" href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> legislation filter</span></a>
-      </div>
-    {% endif -%}
-
-    <div class="app-applied-filter__group">
-      <p class="app-applied-filter__cancel"><a href="{{ url_for('planning_consideration.considerations') }}" class="govuk-link">Clear all filters</a></p>
-    </div>
-  </div>
-  {% endif %}
-
-    <div class="concerns-list__wrapper">
-
+<div class="concerns-list__wrapper">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
       <div class="concerns-list__count__wrapper">
         <p class="govuk-body">Showing <span class="js-accessible-list-filter__count">{{ considerations|length }}</span> planning considerations</p>
         <span class="govuk-body govuk-!-font-weight-bold govuk-visually-hidden js-list-filter__count" aria-hidden="true">{{ considerations|length }}</span>
       </div>
+    </div>
+  </div>
 
-      <dl class="govuk-summary-list" data-filter="list">
-        {% for consideration in considerations -%}
-        <div class="govuk-summary-list__row" data-filter="item">
-          <dt class="govuk-summary-list__key" data-filter="match-content">
-            <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
-              class="govuk-link govuk-link--text-colour"
-              id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
-              {% if consideration.synonyms %}
-                <span class=""
-                    role="complementary"
-                    aria-labelledby="consideration-{{ consideration.slug }}"
-                    aria-label="Alternative terms for {{ consideration['name'] }}">
-                  <ul class="app-synonyms-list">
-                    {% for synonym in consideration.synonyms %}
-                      <li>{{ synonym }}</li>
-                    {% endfor %}
-                  </ul>
-                </span>
-              {% endif -%}
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
-              {{ consideration['stage'].value }}
-            </strong>
-            {%- if consideration.blocked_reason %}
-            <span class="govuk-tag govuk-tag--grey">Paused</span>
-            {% endif -%}
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug )}}">
-                Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
-            </dd>
-          {% endif %}
-        </div>
-        {%- endfor %}
-
-      </dl>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+      {% include 'partials/consideration-filters.html' %}
+      <hr class="govuk-section-break-m">
+      <p class="govuk-!-font-size-16 govuk-!-margin-bottom-1">
+        <a href="{{ url_for('planning_consideration.considerations_csv') }}" class="govuk-link">Download planning considerations as csv</a>
+      </p>
+      <hr class="govuk-section-break-m">
     </div>
 
-    <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
+    <div class="govuk-grid-column-two-thirds">
+        {% include 'partials/consideration-data.html' %}
 
+      <p class="dl-list-filter__no-filter-match js-no-filter-list-matches">No planning considerations match your search term.</p>
+    </div>
   </div>
 </div>
 {% endblock content %}

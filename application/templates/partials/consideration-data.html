@@ -1,0 +1,67 @@
+<table class="govuk-table" data-module="moj-sortable-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header" aria-sort="ascending">Name</th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">Stage</th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">Tags</th>
+      <th scope="col" class="govuk-table__header" aria-sort="none">Last updated</th>
+      {% if not config.AUTHENTICATION_ON or session["user"] %}
+        <th scope="col" class="govuk-table__header">Action</th>
+      {% endif %}
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body" data-filter="list">
+    {% for consideration in considerations -%}
+      <tr class="govuk-table__row" data-filter="item">
+        <td class="govuk-table__cell" data-filter="match-content">
+          <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}"
+            class="govuk-link govuk-link--text-colour"
+            id="consideration-{{ consideration.slug }}">{{ consideration['name'] }}</a>
+          {% if consideration.synonyms %}
+            <span
+                role="complementary"
+                aria-labelledby="consideration-{{ consideration.slug }}"
+                aria-label="Alternative terms for {{ consideration['name'] }}">
+              <ul class="app-synonyms-list">
+                {% for synonym in consideration.synonyms %}
+                  <li>{{ synonym }}</li>
+                {% endfor %}
+              </ul>
+            </span>
+          {% endif -%}
+        </td>
+        <td class="govuk-table__cell">
+          <strong class="govuk-tag {{ consideration['stage'].value|map_to_tag_class }}">
+            {{ consideration['stage'].value }}
+          </strong>
+          {%- if consideration.blocked_reason %}
+            <span class="govuk-tag govuk-tag--grey">Paused</span>
+          {% endif -%}
+        </td>
+        <td class="govuk-table__cell">
+          {% for tag in consideration['tags'] %}
+            <strong class="govuk-tag {{ tag.name|map_to_tag_class }}">
+              {{ tag.name }}
+            </strong>
+          {% endfor %}
+        </td>
+        <td class="govuk-table__cell" data-sort-value="{{ consideration.latest_change | date_time }}">
+          {%- if consideration.latest_change %}
+            <a href="{{url_for('planning_consideration.change_log', slug=consideration.slug) }}">
+              {{ consideration.latest_change | date_time_12hrs }}
+            </a>
+          {% else %}
+            No recent updates
+          {% endif -%}
+        </td>
+        {% if not config.AUTHENTICATION_ON or session["user"] %}
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="{{ url_for('planning_consideration.edit', slug=consideration.slug )}}">
+              Edit<span class='govuk-visually-hidden'> planning consideration basics</span></a>
+          </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

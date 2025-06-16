@@ -1,171 +1,282 @@
 
-<form class="govuk-form" action="{{ url_for('planning_consideration.considerations') }}" method="get">
-
-  <!-- include archived -->
-  <div class="govuk-form-group">
-    {% call dlFilterGroup({
-      "title": "Include",
-      "is_open": True,
-      "selected": 0
-    }) %}
-
-    <fieldset class="govuk-fieldset">
-      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-          <input class="govuk-checkboxes__input" id="include_archived" name="include_archived" type="checkbox" value="true" {% if include_archived %} checked{% endif %}>
-          <label class="govuk-label govuk-checkboxes__label" for="include_archived">
-            Archived
-          </label>
-        </div>
-      </div>
-    </fieldset>
-
-    {% endcall %}
-  </div>
-
-
-  <!-- show only blocked -->
-  <div class="govuk-form-group">
-    {% call dlFilterGroup({
-      "title": "Show only",
-      "is_open": True,
-      "selected": 0
-    }) %}
-
-    <fieldset class="govuk-fieldset">
-      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-          <input class="govuk-checkboxes__input" id="show_only_blocked" name="show_only_blocked" type="checkbox" value="true" {% if show_only_blocked %} checked{% endif %}>
-          <label class="govuk-label govuk-checkboxes__label" for="show_only_blocked">
-            Paused
-          </label>
-        </div>
-      </div>
-    </fieldset>
-
-    {% endcall %}
-  </div>
-
-  <!-- filter by stage -->
-  <div class="govuk-form-group">
-    {% set random_stage_filter_id = range(1000,9999) | random() %}
-    {% set checkboxesHTML %}
-      {% set stage_checked = request.args.getlist("stage") %}
-      {% for stage in stages %}
-      <div class="govuk-checkboxes__item">
-        <input class="govuk-checkboxes__input" id="stage-{{ stage.value }}" name="stage" type="checkbox" value="{{ stage.value }}" {% if stage.value in stage_checked %}checked{% endif %}>
-        <label class="govuk-label govuk-checkboxes__label" for="stage-{{ stage.value }}">
-          {{ stage.value }}
-        </label>
-      </div>
-      {% endfor %}
-    {% endset %}
-
-    {% call dlFilterGroup({
-      "title": "Stage",
-      "is_open": True,
-      "selected": 0
-    }) %}
-
-    {{ dlFilterCheckboxes({
-      "uniqueID": random_stage_filter_id,
-      "checkboxesHTML": checkboxesHTML
-    }) }}
-    {% endcall %}
-  </div>
-
-  <!-- filter by legislation -->
-  <div class="govuk-form-group">
-    {% call dlFilterGroup({
-      "title": "Legislation",
-      "is_open": True,
-      "selected": 0
-    }) %}
-
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-visually-hidden">
-        <h3 class="govuk-fieldset__heading">Legislation</h3>
-      </legend>
-      <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="legislation-filter" name="legislation" type="radio" value="recorded" {% if legislation_filter == "recorded" %} checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="legislation-filter">
-            Recorded
-          </label>
-        </div>
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="legislation-filter-2" name="legislation" type="radio" value="missing" {% if legislation_filter == "missing" %} checked{% endif %}>
-          <label class="govuk-label govuk-radios__label" for="legislation-filter-2">
-            Missing
-          </label>
-        </div>
-      </div>
-    </fieldset>
-
-    {% endcall %}
-  </div>
-
-    <!-- filter by tags -->
-    <div class="govuk-form-group">
-      {% set random_tag_filter_id = range(10000,99999) | random() %}
-      {% set checkboxesHTML %}
-        {% set tags_checked = request.args.getlist("tag") %}
-          {% for tag in tags %}
-            <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" id="{{ tag.name }}" name="tag" type="checkbox" value="{{ tag.name }}" {% if tag.name in tags_checked %}checked=checked{% endif %}>
-              <label class="govuk-label govuk-checkboxes__label" for="{{ tag.name }}">
-                {{ tag.name }}
-              </label>
-            </div>
-          {% endfor %}
-      {% endset %}
-
-      {% call dlFilterGroup({
-        "title": "Tags",
-        "is_open": True,
-        "selected": 0
-      }) %}
-
-      {{ dlFilterCheckboxes({
-        "uniqueID": random_tag_filter_id,
-        "checkboxesHTML": checkboxesHTML
-      }) }}
-      {% endcall %}
+<div class="moj-filter" data-module="moj-filter">
+  <div class="moj-filter__header">
+    <div class="moj-filter__header-title">
+      <h2 class="govuk-heading-m">Filter</h2>
     </div>
 
+    <div class="moj-filter__header-action">
+    </div>
+  </div>
 
-  <!-- filter by publishing organisations -->
-  <div class="govuk-form-group">
-    {% set random_org_filter_id = range(10000,99999) | random() %}
-    {% set checkboxesHTML %}
-      {% set org_checked = request.args.getlist("publishing-organisations") %}
-      {% for org in publishing_organisations %}
-      <div class="govuk-checkboxes__item">
-        <input class="govuk-checkboxes__input" id="{{ org }}" name="publishing-organisations" type="checkbox" value="{{ org }}" {% if org in org_checked %}checked=checked{% endif %}>
-        <label class="govuk-label govuk-checkboxes__label" for="{{ org }}">
-          {{ org }}
-        </label>
+  <div class="moj-filter__content">
+    {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter or include_archived or show_only_blocked %}
+    <div class="moj-filter__selected">
+        <div class="moj-filter__selected-heading">
+          <div class="moj-filter__heading-title">
+            <h2 class="govuk-heading-m">Selected filters</h2>
+          </div>
+            <div class="moj-filter__heading-action">
+              <p><a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('planning_consideration.considerations') }}">Clear filters</a></p>
+            </div>
+        </div>
+
+        <div>
+          {% if include_archived %}
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'include_archived' in args %}
+              {% set _ = args.pop('include_archived') %}
+            {% endif %}
+
+            <div class="app-applied-filter__group">
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Include:</h3>
+
+              <ul class="moj-filter-tags">
+                <li class="moj-filter__tag">Archived</li>
+              </ul>
+
+              <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> include archived filter</span></a>
+            </div>
+          {% endif -%}
+
+          {% if show_only_blocked %}
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'show_only_blocked' in args %}
+              {% set _ = args.pop('show_only_blocked') %}
+            {% endif %}
+
+            <div class="app-applied-filter__group">
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Show only:</h3>
+
+              <ul class="moj-filter-tags">
+                <li class="moj-filter__tag">Paused</li>
+              </ul>
+
+              <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> show only paused</span></a>
+            </div>
+          {% endif -%}
+
+          {% if legislation_filter %}
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'legislation' in args %}
+              {% set _ = args.pop('legislation') %}
+            {% endif %}
+
+            <div class="app-applied-filter__group">
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Legislation:</h3>
+
+              <ul class="moj-filter-tags">
+                <li class="moj-filter__tag">{{ legislation_filter }}</li>
+              </ul>
+
+              <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> legislation filter</span></a>
+            </div>
+          {% endif -%}
+
+          {%- if stage_filter %}
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'stage' in args %}
+              {% set _ = args.pop('stage') %}
+            {% endif %}
+            <div class="app-applied-filter__group">
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Stage:</h3>
+
+              <ul class="moj-filter-tags">
+                {%- for stage in stage_filter %}
+                  <li class="moj-filter__tag">{{ stage }}</li>
+                {%- endfor %}
+              </ul>
+
+              <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> stage filter</span></a>
+            </div>
+          {% endif -%}
+
+          {%- if tags_filter %}
+            {% set args = request.args.to_dict(flat=False) %}
+            {% if 'tag' in args %}
+              {% set _ = args.pop('tag') %}
+            {% endif %}
+            <div class="app-applied-filter__group">
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Tags:</h3>
+
+              <ul class="moj-filter-tags">
+                {%- for tag in tags_filter %}
+                  <li class="moj-filter__tag">{{ tag }}</li>
+                {%- endfor %}
+              </ul>
+
+              <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> tag filter(s)</span></a>
+            </div>
+          {% endif -%}
+
+          {% if publishing_orgs_filter %}
+            <div class="app-applied-filter__group">
+              {% set args = request.args.to_dict(flat=False) %}
+              {% if 'publishing-organisations' in args %}
+                {% set _ = args.pop('publishing-organisations') %}
+              {% endif %}
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Publishing organisations:</h3>
+
+              <ul class="moj-filter-tags">
+                {%- for publishing_org in publishing_orgs_filter %}
+                  <li class="moj-filter__tag">{{ publishing_org }}</li>
+                {%- endfor %}
+              </ul>
+
+              <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> organisation filter</span></a></p>
+            </div>
+          {% endif %}
+        </div>
       </div>
-      {% endfor %}
-    {% endset %}
+    {% endif %}
 
-    {% call dlFilterGroup({
-      "title": "Publishing organisations",
-      "is_open": True,
-      "selected": 0
-    }) %}
+    <div class="moj-filter__options">
+      <form class="govuk-form" action="{{ url_for('planning_consideration.considerations') }}" method="get">
 
-    {{ dlFilterCheckboxes({
-      "uniqueID": random_org_filter_id,
-      "checkboxesHTML": checkboxesHTML
-    }) }}
-    {% endcall %}
+        <!-- include archived -->
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              Include
+            </legend>
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="include_archived" name="include_archived" type="checkbox" value="true" {% if include_archived %} checked{% endif %}>
+                <label class="govuk-label govuk-checkboxes__label" for="include_archived">
+                  Archived
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- show only blocked -->
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              Show only
+            </legend>
+            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="show_only_blocked" name="show_only_blocked" type="checkbox" value="true" {% if show_only_blocked %} checked{% endif %}>
+                <label class="govuk-label govuk-checkboxes__label" for="show_only_blocked">
+                  Paused
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- filter by legislation -->
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              <h3 class="govuk-fieldset__heading">Legislation</h3>
+            </legend>
+            <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="legislation-filter" name="legislation" type="radio" value="recorded" {% if legislation_filter == "recorded" %} checked{% endif %}>
+                <label class="govuk-label govuk-radios__label" for="legislation-filter">
+                  Recorded
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="legislation-filter-2" name="legislation" type="radio" value="missing" {% if legislation_filter == "missing" %} checked{% endif %}>
+                <label class="govuk-label govuk-radios__label" for="legislation-filter-2">
+                  Missing
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+      <!-- filter by stage -->
+      <div class="govuk-form-group">
+        {% set random_stage_filter_id = range(1000,9999) | random() %}
+        {% set checkboxesHTML %}
+          {% set stage_checked = request.args.getlist("stage") %}
+          {% for stage in stages %}
+          <div class="govuk-checkboxes__item govuk-checkboxes--small">
+            <input class="govuk-checkboxes__input" id="stage-{{ stage.value }}" name="stage" type="checkbox" value="{{ stage.value }}" {% if stage.value in stage_checked %}checked{% endif %}>
+            <label class="govuk-label govuk-checkboxes__label" for="stage-{{ stage.value }}">
+              {{ stage.value }}
+            </label>
+          </div>
+          {% endfor %}
+        {% endset %}
+
+        {% call dlFilterGroup({
+          "title": "Stage",
+          "is_open": True,
+          "selected": 0
+        }) %}
+          {{ dlFilterCheckboxes({
+            "uniqueID": random_stage_filter_id,
+            "checkboxesHTML": checkboxesHTML
+          }) }}
+        {% endcall %}
+      </div>
+
+        <!-- filter by tags -->
+        <div class="govuk-form-group">
+          {% set random_tag_filter_id = range(10000,99999) | random() %}
+          {% set checkboxesHTML %}
+            {% set tags_checked = request.args.getlist("tag") %}
+              {% for tag in tags %}
+                <div class="govuk-checkboxes__item govuk-checkboxes--small">
+                  <input class="govuk-checkboxes__input" id="{{ tag.name }}" name="tag" type="checkbox" value="{{ tag.name }}" {% if tag.name in tags_checked %}checked=checked{% endif %}>
+                  <label class="govuk-label govuk-checkboxes__label" for="{{ tag.name }}">
+                    {{ tag.name }}
+                  </label>
+                </div>
+              {% endfor %}
+          {% endset %}
+
+          {% call dlFilterGroup({
+            "title": "Tags",
+            "is_open": True,
+            "selected": 0
+          }) %}
+            {{ dlFilterCheckboxes({
+              "uniqueID": random_tag_filter_id,
+              "checkboxesHTML": checkboxesHTML
+            }) }}
+          {% endcall %}
+        </div>
+
+
+      <!-- filter by publishing organisations -->
+      <div class="govuk-form-group">
+        {% set random_org_filter_id = range(10000,99999) | random() %}
+        {% set checkboxesHTML %}
+          {% set org_checked = request.args.getlist("publishing-organisations") %}
+          {% for org in publishing_organisations %}
+          <div class="govuk-checkboxes__item govuk-checkboxes--small">
+            <input class="govuk-checkboxes__input" id="{{ org }}" name="publishing-organisations" type="checkbox" value="{{ org }}" {% if org in org_checked %}checked=checked{% endif %}>
+            <label class="govuk-label govuk-checkboxes__label" for="{{ org }}">
+              {{ org }}
+            </label>
+          </div>
+          {% endfor %}
+        {% endset %}
+
+        {% call dlFilterGroup({
+          "title": "Publishing organisations",
+          "is_open": True,
+          "selected": 0
+        }) %}
+          {{ dlFilterCheckboxes({
+            "uniqueID": random_org_filter_id,
+            "checkboxesHTML": checkboxesHTML
+          }) }}
+        {% endcall %}
+      </div>
+
+      <div class="govuk-button-group">
+        <button class="govuk-button" type="submit">Filter</button>
+        <a class="govuk-link" href="{{ url_for('planning_consideration.considerations') }}">Clear</a>
+      </div>
+    </form>
+    </div>
   </div>
-
-
-
-  <div class="govuk-button-group">
-    <button class="govuk-button" type="submit">Filter</button>
-    <a class="govuk-link" href="{{ url_for('planning_consideration.considerations') }}">Clear</a>
-  </div>
-</form>
+</div>
