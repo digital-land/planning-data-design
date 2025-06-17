@@ -27,7 +27,7 @@ class Config:
     SAFE_URLS = set(os.getenv("SAFE_URLS", "").split(","))
     PLATFORM_URL = os.getenv("PLATFORM_URL", "https://www.planning.data.gov.uk")
     DATASET_EDITOR_URL = os.getenv(
-        "DATASET_EDITOR_URL", "http://dataset-editor.planning.data.gov.uk"
+        "DATASET_EDITOR_URL", "https://dataset-editor.development.planning.data.gov.uk"
     )
     LOAD_QUESTIONS = to_boolean(os.getenv("LOAD_QUESTIONS", False))
 
