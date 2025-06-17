@@ -32,6 +32,11 @@ Manage planning considerations through standards process
     createdb dluhc-planning-considerations
     make init
 
+
+### Create a new migration
+    flask db migrate -m "description of the migration"
+
+
 ### Apply db migrations
     flask db upgrade
 
