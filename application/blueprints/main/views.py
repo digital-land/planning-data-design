@@ -45,7 +45,6 @@ def what_we_are_working_on():
         Stage.RESEARCH,
         Stage.CO_DESIGN,
         Stage.TEST_AND_ITERATE,
-        Stage.READY_FOR_GO_NO_GO,
     ]
     # ["Research", "Co-design", "Test and iterate", "Ready for go/no-go"]
     active_considerations = sorted(
@@ -102,8 +101,6 @@ def stage_count():
             "Research",
             "Co-design",
             "Test and iterate",
-            "Ready for go/no-go",
-            "Prepared for platform",
         ]
     ]
     data["active_count"] = sum(active_considerations)

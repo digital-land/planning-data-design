@@ -248,6 +248,7 @@ def considerations():
         filter_condition = Consideration.stage.in_(stage_selections)
         query = query.filter(filter_condition)
 
+    # Keep include archived to keep bookmarked URLs working, but don't show it in the UI
     archived_param = request.args.get("include_archived")
     if not archived_param and Stage.ARCHIVED not in stage_param:
         query = query.filter(Consideration.stage != Stage("Archived"))
@@ -310,7 +311,6 @@ def considerations():
         stages=Stage,
         stage_filter=[slugify(stage.name) for stage in stage_param],
         legislation_filter=legislation_param,
-        include_archived=archived_param,
         show_only_blocked=blocked_param,
         publishing_organisations=publishing_organisations,
         publishing_orgs_filter=publishing_orgs_param,

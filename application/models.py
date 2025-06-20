@@ -19,8 +19,6 @@ class Stage(Enum):
     RESEARCH = "Research"
     CO_DESIGN = "Co-design"
     TEST_AND_ITERATE = "Test and iterate"
-    READY_FOR_GO_NO_GO = "Ready for go/no-go"
-    PREPARED_FOR_PLATFORM = "Prepared for platform"
     ON_THE_PLATFORM = "On the platform"
     ARCHIVED = "Archived"
 
@@ -257,8 +255,6 @@ class Performance(db.Model):
     research: Mapped[int] = mapped_column(Integer)
     co_design: Mapped[int] = mapped_column(Integer)
     test_and_iterate: Mapped[int] = mapped_column(Integer)
-    ready_for_go_no_go: Mapped[int] = mapped_column(Integer)
-    prepared_for_platform: Mapped[int] = mapped_column(Integer)
     on_the_platform: Mapped[int] = mapped_column(Integer)
     archived: Mapped[int] = mapped_column(Integer)
     blocked: Mapped[int] = mapped_column(Integer)
@@ -406,8 +402,6 @@ class PerformanceModel(BaseModel):
     research: int
     co_design: int
     test_and_iterate: int
-    ready_for_go_no_go: int
-    prepared_for_platform: int
     on_the_platform: int
     archived: int
     blocked: int

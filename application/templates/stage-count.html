@@ -21,7 +21,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <ul class="govuk-list app-report" style="--max-count: {{ data['max_active'] }}">
-      {% for stage in ["SCREEN", "RESEARCH", "CO_DESIGN", "TEST_AND_ITERATE", "READY_FOR_GO_NO_GO", "PREPARED_FOR_PLATFORM"] %}
+      {% for stage in ["SCREEN", "RESEARCH", "CO_DESIGN", "TEST_AND_ITERATE"] %}
       {%- set stage_data = data['stages'][stage] if stage in data['stages'] else {'name': stage} %}
       {%- set stage_consideration_count = stage_data['considerations']|length if stage_data['considerations'] else 0 %}
       {% if stage_consideration_count > 0 %}

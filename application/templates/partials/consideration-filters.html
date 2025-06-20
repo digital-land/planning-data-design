@@ -10,7 +10,7 @@
   </div>
 
   <div class="moj-filter__content">
-    {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter or include_archived or show_only_blocked %}
+    {% if stage_filter or tags_filter or publishing_orgs_filter or legislation_filter or show_only_blocked %}
     <div class="moj-filter__selected">
         <div class="moj-filter__selected-heading">
           <div class="moj-filter__heading-title">
@@ -22,23 +22,6 @@
         </div>
 
         <div>
-          {% if include_archived %}
-            {% set args = request.args.to_dict(flat=False) %}
-            {% if 'include_archived' in args %}
-              {% set _ = args.pop('include_archived') %}
-            {% endif %}
-
-            <div class="app-applied-filter__group">
-              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">Include:</h3>
-
-              <ul class="moj-filter-tags">
-                <li class="moj-filter__tag">Archived</li>
-              </ul>
-
-              <a href="{{ url_for('planning_consideration.considerations', **args) }}" class="govuk-link">Clear<span class="govuk-visually-hidden"> include archived filter</span></a>
-            </div>
-          {% endif -%}
-
           {% if show_only_blocked %}
             {% set args = request.args.to_dict(flat=False) %}
             {% if 'show_only_blocked' in args %}
@@ -132,23 +115,6 @@
 
     <div class="moj-filter__options">
       <form class="govuk-form" action="{{ url_for('planning_consideration.considerations') }}" method="get">
-
-        <!-- include archived -->
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              Include
-            </legend>
-            <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-              <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="include_archived" name="include_archived" type="checkbox" value="true" {% if include_archived %} checked{% endif %}>
-                <label class="govuk-label govuk-checkboxes__label" for="include_archived">
-                  Archived
-                </label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
 
         <!-- show only blocked -->
         <div class="govuk-form-group">
