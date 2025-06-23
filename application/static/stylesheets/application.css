@@ -11200,6 +11200,8 @@ p + .govuk-heading-s,
 .govuk-tag {
   display: inline-flex;
   align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 /*# sourceMappingURL=application.css.map */
