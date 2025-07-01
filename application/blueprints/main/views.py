@@ -1,7 +1,7 @@
 import datetime
 import os
 
-from flask import Blueprint, abort, jsonify, render_template, request
+from flask import Blueprint, abort, jsonify, redirect, render_template, request, url_for
 
 from application.models import Consideration, Performance, PerformanceModel, Stage
 
@@ -24,17 +24,17 @@ def cookies():
 
 @main.route("/advisory-group")
 def advisory_group():
-    return render_template("advisory-group.html")
+    return redirect(url_for("project.planning_applications"), code=301)
 
 
 @main.route("/advisory-group/members")
 def advisory_group_members():
-    return render_template("advisory-group-members.html")
+    return redirect(url_for("project.advisory_group_members"), code=301)
 
 
 @main.route("/advisory-group/timeline")
 def advisory_group_timeline():
-    return render_template("advisory-group-timeline.html")
+    return redirect(url_for("project.advisory_group_roadmap"), code=301)
 
 
 @main.route("/what-we-are-working-on")
@@ -48,15 +48,13 @@ def what_we_are_working_on():
     ]
     # ["Research", "Co-design", "Test and iterate", "Ready for go/no-go"]
     active_considerations = sorted(
-        Consideration.query.filter(
-            Consideration.stage.in_(active_stages)
-        ).all(),
-        key=lambda c: c.name
+        Consideration.query.filter(Consideration.stage.in_(active_stages)).all(),
+        key=lambda c: c.name,
     )
 
     emerging_priorities = sorted(
         Consideration.query.filter(Consideration.prioritised).all(),
-        key=lambda c: c.name
+        key=lambda c: c.name,
     )
 
     return render_template(

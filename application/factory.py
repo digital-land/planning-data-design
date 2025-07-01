@@ -39,6 +39,7 @@ def register_blueprints(app):
     from application.blueprints.planning_consideration.views import (
         planning_consideration,
     )
+    from application.blueprints.project.views import project
     from application.blueprints.questions.views import questions
     from application.blueprints.tags.views import tags
 
@@ -48,6 +49,7 @@ def register_blueprints(app):
     app.register_blueprint(questions)
     app.register_blueprint(tags)
     app.register_blueprint(help)
+    app.register_blueprint(project)
 
 
 def register_context_processors(app):

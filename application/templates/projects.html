@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">Projects</h1>
+
+    <p class="govuk-body">
+      The Data design team are focusing on a number of projects. They are:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="{{ url_for('project.planning_applications') }}" class="govuk-link">Planning applications</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
