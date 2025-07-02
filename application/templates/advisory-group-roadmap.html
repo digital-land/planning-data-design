@@ -11,11 +11,15 @@
           'href': url_for('main.index')
         },
         {
-          'text': "Advisory group",
-          'href': url_for('main.advisory_group')
+          'text': "Project",
+          'href': url_for('project.index')
         },
         {
-          'text': "Members"
+          'text': "Planning applications",
+          'href': url_for('project.planning_applications')
+        },
+        {
+          'text': "Roadmap"
         }
       ]
     })
@@ -26,88 +30,153 @@
 <div class='govuk-grid-row'>
   <div class='govuk-grid-column-full'>
     <span class="govuk-caption-xl">Project - Planning applications</span>
-    <h1 class="govuk-heading-xl" id="advisory-group">Progress and timeline</h1>
+    <h1 class="govuk-heading-xl" id="advisory-group">Roadmap</h1>
   </div>
 </div>
 
 <div class='govuk-grid-row'>
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">The data design team has been working on behalf of the development management policy team to develop open data specifications for planning application submissions. It is the process that they own which is being adapted to ensure consistent, interoperable data is flowing through it.</p>
-    <p class="govuk-body"> We are now developing a timeline to outline the next steps, both towards the mandating of planning application submission data specifications and the development of further specifications for the planning permission process.</p>
+    <p class="govuk-body">Below is a roadmap for the development of these specifications.</p>
 
-    <h2 class="govuk-heading-l">2025/26 milestones</h2>
-    <h3 class="govuk-heading-m">Getting the specifications right</h3>
+    <h2 class="govuk-heading-l">Q2: 1st July - 30th September 2025</h2>
+    <h3 class="govuk-heading-m">Planning permission specification development</h3>
 
-    <p class="govuk-body">We will be:</p>
+    <h4 class="govuk-heading-s">Application submissions</h4>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>analysing and categorising feedback (now, future, general)</li>
-      <li>iterating the draft specifications where appropriate based on that feedback</li>
-      <li>developing a complementary set of specifications for planning applications and decisions (the open output of the process)</li>
-      <li>working with the development management policy team to gather their feedback</li>
-      <li>working with the development management policy team to iterate specifications where appropriate</li>
-      <li>publishing and publicising codelist datasets</li>
+      <li>iterating the working draft specifications where appropriate based on that feedback</li>
       <li>developing and sharing v0.1 Declarative Model for pilot specifications</li>
-      <li>seek feedback and iterate v0.1 Declarative Model for pilot specifications (community feedback)</li>
-      <li>developing a test suite (a way of automatically verifying that data follows the expected shape and rules that have been agreed) for testing conformance with the specifications</li>
-      <li>deconstructing the CIL form (covers floorspace, similar to application submissions)</li>
-      <li>supporting DM policy in codifying their existing form update process</li>
-      <li>working with DM policy to re-engineer their update process to start with data specification</li>
+      <li>develop documentation for the declarative model</li>
+      <li>build integrity check tools for declarative model</li>
+      <li>composite specifications to be generated from declarative model</li>
+      <li>create test case data for the individual modules</li>
+    </ul>
+
+    <h4 class="govuk-heading-s">Applications and decisions</h4>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>kick off research project into applications & decisions</li>
+    </ul>
+
+    <h4 class="govuk-heading-s">General</h4>
+
+    <ul class="govuk-list govuk-list--bullet">
       <li>developing a change process and changelog for the data specifications</li>
+      <li>drafting and consulting the community on useful codelists (e.g. planning application types, tenure types, housing or unit types)</li>
+      <li>develop a draft approach for handling national and local planning requirements</li>
+      <li>specify testing ask for the community and also criteria to move specifications from pilot to candidate</li>
+      <li>specification landscape mapping and scoping</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Open data standards community engagement</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>restarting the community engagement activities</li>
+      <li>revised charter</li>
+      <li>active recruitment of members</li>
+      <li>clear asks for Q2</li>
+      <li>formalise the separation of the development of standards and the supporting / adjacent funded projects</li>
+      <li>prioritisation of additional national specifications (community feedback)</li>
+      <li>develop and maintain a regular blog output</li>
+      <li>evidence what scenarios might not work with the specifications</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Development management policy engagement</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>working with the development management policy team to gather their feedback on application submission specifications</li>
+      <li>supporting DM policy in codifying their existing form update process</li>
+      <li>analyse the relationship between development management legislation and policy alongside the LURA</li>
+      <li>work with policy to develop a timeline for spec changes based on changes to DMPO</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Digital policy engagement (supporting mandating)</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>we announce a timeline with buy-in from policy for mandating a submission data standards</li>
+      <li>supporting digital policy in their engagements with legal to achieve mandation</li>
+    </ul>
+
+    <h2 class="govuk-heading-l">Q3: 1st October - 31st December 2025</h2>
+
+    <h3 class="govuk-heading-m">Planning permission specification development</h3>
+
+    <h4 class="govuk-heading-s">Application submission</h4>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>final iteration based on testing feedback</li>
+      <li>move submission specifications from pilot to candidate</li>
+      <li>publishing and publicising supporting codelist datasets</li>
+    </ul>
+
+    <h4 class="govuk-heading-s">Application decision</h4>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>conclude research into decisions and publish open report of findings</li>
+      <li>develop and share a complementary set of working draft specifications for planning application decisions</li>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>analysing and categorising feedback (now, future, general)</li>
+        <li>iterating the draft specifications where appropriate based on that feedback</li>
+        <li>move working draft specifications to pilot</li>
+      </ul>
+      <li>deconstructing the CIL form (covers floorspace) into complementary modules</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Open data standards community engagement</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>identify community management support for managing set up of events and co-ordinating feedback (note not leading / chairing the sessions)</li>
+      <li>a dedicated developer to help make the status of developing specifications and feedback more visible</li>
+      <li>seek feedback and iterate v0.1 declarative model for pilot specifications</li>
+      <li>seek feedback on working draft decision specifications to support move to pilot</li>
+      <li>developing an open process for community-initiated specifications to develop and sit alongside the mhclg specifications</li>
+      <li>understand needs of local authorities submitting ps1, ps2</li>
+      <li>develop an approach for handling extending the core specifications (for example, gla or gmca specific extensions)</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Development management policy engagement</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>working with the development management policy team to iterate specifications where appropriate</li>
+      <li>work with DM policy to integrate upcoming policy changes into the specifications</li>
+      <li>working with DM policy to re-engineer their update process to start with data specification</li>
+      <li>work with DM policy on rationalising the specifications (dependent on their being a automated process for going from specifications to forms)</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Digital policy engagement (supporting mandating)</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>we update timeline with buy-in from policy for mandating a decisions data standards</li>
+      <li>mandating process is started for application submissions specifications (Autumn 2025)</li>
+    </ul>
+
+    <h2 class="govuk-heading-l">Q4: 1st January - 31st March 2026</h2>
+
+    <h3 class="govuk-heading-m">Planning permission specification development</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>a signal that the JSON format will be mandated for submissions later, when tested</li>
+      <li>make changes to working draft based on research into Apps and decisions</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Open data standards community engagement</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>build a site to house all the specifications and documentation for planning applications</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Development management policy engagement</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
       <li>supporting development management policy in embedding data specifications into their processes</li>
-      <li>drafting and consulting the community on useful codelists (e.g. planning application types)</li>
-      <li>developing an open process for community-initiated specifications to develop and sit alongside the MHCLG specifications</li>
-      <li>restarting the community engagement activities (ie advisory group / drop ins) around planning data specifications with a revised charter to cover our 2025/26 milestones</li>
     </ul>
 
-    <h3 class="govuk-heading-m">Supporting the mandating process</h3>
-
-    <p class="govuk-body">We will be:</p>
+    <h3 class="govuk-heading-m">Digital policy engagement (supporting mandating)</h3>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>supporting the digital and development management policy teams in developing a consultation pack on new statutory instruments to mandate data specifications as ‘approved data standards’</li>
-      <li>supporting the development management team in identifying how ‘approved data standards’ will work with existing development management legislation (development management procedure order)</li>
-      <li>supporting formal consultation on pilot specifications with community stakeholders</li>
-      <li>moving the specifications from ‘pilot’ to ‘candidate’ as per the data design process</li>
-    </ul>
-
-
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-    <h2 class="govuk-heading-l">Progress</h2>
-
-    <p class="govuk-body">Data design work to date has been focused on delivering to original deadlines around submission data (committed to in October 2024).</p>
-
-    <p class="govuk-body">These were the milestones achieved.</p>
-
-    <h3 class="govuk-heading-m">Community engagement</h3>
-
-    <p class="govuk-body">We:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>created an advisory group to support the development of draft baseline specifications based on an application process</li>
-      <li>began wide, open community engagement to support the development of draft baseline specifications</li>
-      <li>set up specific engagement with the development management policy team to make sure the approach was endorsed</li>
-      <li>set up a webpage to share progress</li>
-    </ul>
-
-    <h3 class="govuk-heading-m">Baseline existing process</h3>
-
-    <p class="govuk-body">We:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>are analysing existing planning permission forms to identify data modules and fields</li>
-      <li>created a module tracker spreadsheet for community comments</li>
-    </ul>
-
-    <h3 class="govuk-heading-m">Drafting specifications</h3>
-
-    <p class="govuk-body">We:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>created individual/modular working draft data specifications based on this analysis and input from the community</li>
-      <li>created composite specifications (ie made up of the modules) to mirror the existing system</li>
-      <li>set up feedback loops for community engagement</li>
-      <li>gathered feedback on modular specifications from the community (deadline for input was 16 May)</li>
+      <li>mandating process is started for application decisions specifications (Spring 2026)</li>
     </ul>
 
   </div>
