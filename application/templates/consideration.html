@@ -272,6 +272,9 @@
               </li>
             {% endfor %}
             </ul>
+            <p class="govuk-!-font-size-16">
+              <a href="{{ url_for('main.glossary_of_tags') }}" class="govuk-link">View a glossary of tags</a>
+            </p>
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
