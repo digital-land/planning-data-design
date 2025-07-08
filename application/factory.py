@@ -87,6 +87,7 @@ def register_filters(app):
         render_markdown_filter,
         short_date_filter,
         slugify_filter,
+        start_case_filter
     )
 
     app.add_template_filter(choice_to_list_filter, "choice_to_list")
@@ -97,6 +98,7 @@ def register_filters(app):
     app.add_template_filter(short_date_filter, "short_date")
     app.add_template_filter(date_time_filter, "date_time")
     app.add_template_filter(date_time_12_hours_filter, "date_time_12hrs")
+    app.add_template_filter(start_case_filter, "start_case")
 
     from digital_land_frontend.filters import commanum_filter
 
