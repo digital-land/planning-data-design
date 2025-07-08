@@ -87,7 +87,7 @@ def register_filters(app):
         render_markdown_filter,
         short_date_filter,
         slugify_filter,
-        start_case_filter
+        start_case_filter,
     )
 
     app.add_template_filter(choice_to_list_filter, "choice_to_list")

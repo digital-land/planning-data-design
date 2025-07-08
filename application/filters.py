@@ -89,4 +89,3 @@ def date_time_12_hours_filter(date):
 
 def start_case_filter(s):
     return s[0].upper() + s[1:] if s else s
-

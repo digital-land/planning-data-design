@@ -194,6 +194,7 @@ def performance():
             data[f"last_{label}"] = "No data"
     return jsonify(data)
 
+
 @main.route("/<string:page>")
 def page(page):
     if not os.path.exists(f"application/templates/pages/{page}.md"):
@@ -201,13 +202,12 @@ def page(page):
     path = f"pages/{page}.md"
     return render_template("pages/scaffold.html", path=path, page=page)
 
+
 # This route sits here as the tags blueprint is registered under /admin/tags
 # and this is the public-facing glossary of tags.
 # It is not part of the tags blueprint to avoid confusion with admin functionality.
 @main.route("/tags/glossary")
 def glossary_of_tags():
-    tags = csv.DictReader(
-        open("data/glossary-of-tags.csv", encoding="utf-8")
-    )
+    tags = csv.DictReader(open("data/glossary-of-tags.csv", encoding="utf-8"))
     tags = sorted(tags, key=lambda x: x["name"].lower())
     return render_template("tags/glossary.html", tags=tags)
