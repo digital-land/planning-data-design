@@ -4,7 +4,7 @@ from playwright.sync_api import expect
 
 
 def test_glossary_page(live_server, page):
-    page.goto(url_for("main.glossary_of_tags"))
+    page.goto(url_for("main.glossary_of_tags", _external=True))
 
     expect(page.locator("h1")).to_contain_text("Glossary of tags")
     expect(page.locator("p.govuk-body-l")).to_contain_text(
@@ -15,7 +15,7 @@ def test_glossary_page(live_server, page):
 
 
 def test_glossary_tags(live_server, page):
-    page.goto(url_for("main.glossary_of_tags"))
+    page.goto(url_for("main.glossary_of_tags", _external=True))
 
     # Check if the glossary tags are present
     tags = csv.DictReader(open("data/glossary-of-tags.csv", encoding="utf-8"))
