@@ -28,7 +28,7 @@
     <h2 class="govuk-visually-hidden">Glossary of tags</h2>
 
     {% for tag in tags %}
-      <section id="{{ tag['name'] }}" class="govuk-!-margin-bottom-6">
+      <section id="{{ tag['name'] }}" class="govuk-!-margin-bottom-6 dl-glossary-tag">
         <h3 class="govuk-heading-s">{{ tag['name'] | start_case }}</h3>
         <p class="govuk-body">{{ tag['definition'] }}</p>
       </section>
