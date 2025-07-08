@@ -144,3 +144,9 @@ The repository uses GitHub Actions for continuous integration and automated back
 * Saves to `data/latest_backup.dump`
 * Automatically commits and pushes changes if the backup has been updated
 * Requires Heroku authentication via `HEROKU_OAUTH_TOKEN` secret
+
+## Updating tag glossary definitions
+
+Tag definitions are stored in a [CSV file](/data/glossary-of-tags.csv) stored in the data folder.
+
+To update these finishing or add new ones, please update the CSV.
