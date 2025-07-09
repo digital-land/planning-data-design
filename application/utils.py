@@ -23,7 +23,6 @@ def login_required(f):
 
 
 class StageConverter(BaseConverter):
-
     def to_python(self, stage):
         stage = stage.upper()
         stage = stage.replace("-", "_")

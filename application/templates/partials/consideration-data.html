@@ -41,7 +41,7 @@
         </td>
         <td class="govuk-table__cell">
           {% for tag in consideration['tags'] %}
-            <strong class="govuk-tag {{ tag.name|map_to_tag_class }}">
+            <strong class="govuk-tag dl-planning-consideration-tag {{ tag.name|map_to_tag_class }}">
               {{ tag.name }}
             </strong>
           {% endfor %}

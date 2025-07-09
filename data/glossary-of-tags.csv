@@ -1,0 +1,35 @@
+name,definition
+amenity,Location information identifying local amenities
+bng,Information that is required for Biodiversity Net Gain assessments
+boundary,Provides the boundaries of a particular administrative area. Value-neutral.
+community,Data on spaces for the benefit of the community
+connectivity,Data which can be used to calculate how well connected a location is to transport and services
+constraint,Location information which may constrain or prevent development in a given area
+controlled waters,"Data which relates to any controlled waters, as defined in Part III of the Water Resources Act 1991. This includes terretorial waters, coastal waters, inland freshwater and groundwater"
+culture,Data on cultural amenities
+data,Generic value-neutral data such as identifiers eg UPRN
+development risk,"Factors which may require mitigation during development to ensure ongoing safe working and living, but should not otherwise constrain development as a whole"
+education,Data relating to educational establishments
+energy,Data relating to energy usage and production
+environmental,Any environmental factor which may affect development
+footnote 7,Any constraint identified in Footnote 7 of the 2024 National Planning Policy Framework (NPPF). These constraints must be considered in the presumption in favour of sustainable development
+health,Data relating to healthcare provision
+heritage,Data relating to protected heritage assets
+housing supply and delivery,Statistical data relating to housing supply and delivery within a planning authority
+infrastructure,Physical infrastructure required to support communities and development
+landscape,Constraints which relate to the protection of landscapes
+leisure,Amenities representing leisure opportunities
+levy,Data on charges relating to development
+licensing restriction,Tag indicating that data required to fulfil this requirement is not currently available as open data as defined in OGL
+local information,Data which may influence the nature of development in an area but does not necessarily act as a constraint to development
+local land charge,Data which forms part of a Local Land Charge
+local plan,Data which should form part of a planning authority's Local Plan
+nist,Data relating to infrastructure which forms part of the National Infrastructure Spatial Tool (NIST)
+nsip,Nationally significant infrastructure projects
+odp,Data forming part of the requirements for the Open Digital Planning (ODP) programme
+opportunity,Data which identifies areas earmarked for development
+pdr,Information relating to Permitted Development Rights (PDR)
+planning permission,Data relating to planning permissions
+policies map,Data which is expected to appear on a local authority's policy map
+safeguarded land,Land which is safeguarded from development
+statistics,General statistics. Non-spatial data

@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">Glossary of tags</h1>
+    <p class="govuk-body-l">
+      These terms are defined for purpose of grouping related planning considerations.
+      This will help you understand how they relate to planning considerations in the Data design service.
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third">
+    <nav aria-label="Contents">
+      <h2 class="govuk-heading-s">Contents</h2>
+      <ul class="govuk-list">
+        {% for tag in tags %}
+          <li>
+            <a href="#{{ tag['name'] }}" class="govuk-link">{{ tag['name'] | start_case }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-visually-hidden">Glossary of tags</h2>
+
+    {% for tag in tags %}
+      <section id="{{ tag['name'] }}" class="govuk-!-margin-bottom-6 dl-glossary-tag">
+        <h3 class="govuk-heading-s">{{ tag['name'] | start_case }}</h3>
+        <p class="govuk-body">{{ tag['definition'] }}</p>
+      </section>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
