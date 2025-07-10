@@ -200,6 +200,7 @@ def performance():
 def check_for_redirects(page):
     redirects = {
         "how-to-contribute-to-the-data-design-process": "get-involved-in-designing-data",
+        "get-involved": "get-involved-in-designing-data",
     }
 
     return redirects[page] if page in redirects else page
