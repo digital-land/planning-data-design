@@ -463,13 +463,6 @@
 
   <hr class="govuk-section-break govuk-section-break--l">
 
-  <section id="get-involved">
-    <h2 class="govuk-heading-l">Get involved</h2>
-    <p class="govuk-body">WIP</p>
-  </section>
-
-  <hr class="govuk-section-break govuk-section-break--l">
-
   <section id="notes">
     <h2 class="govuk-heading-l">{{ notes | length }} update{{ "" if notes|length == 1 else "s" }}</h2>
     {% if not config.AUTHENTICATION_ON or session["user"] %}
