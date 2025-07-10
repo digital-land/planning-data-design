@@ -5,7 +5,7 @@ The output of the process is a technical specification that data providers can u
 Once we have created, tested and verified the technical specification we will hand it over to a data management team, who will work with data providers to get the data onto [planning.data.gov.uk](https://planning.data.gov.uk).
 
 <div class="govuk-inset-text">
-Find out <a href="{{ url_for('main.page', page='how-to-contribute-to-the-data-design-process') }}" class="govuk-link">how you can contribute to the data design process</a>
+Find out <a href="{{ url_for('main.page', page='get-involved-in-designing-data') }}" class="govuk-link">how you can contribute to the data design process</a>
 </div>
 
 ## About the design process
@@ -154,7 +154,7 @@ Feedback from providers and consumers will be collected and fed back to the data
 
 The data design process is a collaborative and open process. We want all interested parties to be involved in the design of the data they need, produce and use.
 
-There are different ways to contribute depending on what stage in the process a planning consideration is at. Find out [how you can contribute]({{ url_for('main.page', page='how-to-contribute-to-the-data-design-process') }}).
+There are different ways to contribute depending on what stage in the process a planning consideration is at. Find out [how you can contribute]({{ url_for('main.page', page='get-involved-in-designing-data') }}).
 
 We will set up working groups for various planning considerations. They will be open to everyone that's interested in working on the subject.
 

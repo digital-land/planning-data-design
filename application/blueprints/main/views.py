@@ -27,6 +27,7 @@ def cookies():
 def advisory_group():
     return redirect(url_for("project.planning_applications"), code=301)
 
+
 @main.route("/get-involved")
 def get_involved_in_designing_data():
     path = "pages/get-involved-in-designing-data.md"
@@ -201,12 +202,25 @@ def performance():
     return jsonify(data)
 
 
+def check_for_redirects(page):
+    redirects = {
+        "how-to-contribute-to-the-data-design-process": "get-involved-in-designing-data",
+    }
+
+    return redirects[page] if page in redirects else page
+
+
 @main.route("/<string:page>")
 def page(page):
-    if not os.path.exists(f"application/templates/pages/{page}.md"):
+    redirect_page = check_for_redirects(page)
+
+    if redirect_page != page:
+        return redirect(url_for("main.page", page=redirect_page), code=301)
+    elif not os.path.exists(f"application/templates/pages/{page}.md"):
         abort(404)
-    path = f"pages/{page}.md"
-    return render_template("pages/scaffold.html", path=path, page=page)
+    else:
+        path = f"pages/{page}.md"
+        return render_template("pages/scaffold.html", path=path, page=page)
 
 
 # This route sits here as the tags blueprint is registered under /admin/tags
