@@ -433,13 +433,15 @@
                 <li>
                   {% if dataset['dataset_editor_url'] %}<p><a href="{{ dataset['dataset_editor_url'] }}" class="govuk-link">Manage dataset in planning dataset editor</a></p>{% endif %}
                 </li>
+                
+                {% if not config.AUTHENTICATION_ON or session["user"] %}
+                  <a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this dataset?');">
+                    Remove<span class="govuk-visually-hidden"> dataset</span>
+                  </a>
+                {% endif %}
               {% endfor %}
             {% endif %}
             </ul>
-
-            {% if not config.AUTHENTICATION_ON or session["user"] %}
-              <a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this dataset?');">Remove<span class="govuk-visually-hidden"> dataset</span></a></span>
-            {% endif %}
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
