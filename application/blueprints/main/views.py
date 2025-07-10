@@ -28,11 +28,6 @@ def advisory_group():
     return redirect(url_for("project.planning_applications"), code=301)
 
 
-@main.route("/get-involved")
-def get_involved_in_designing_data():
-    path = "pages/get-involved-in-designing-data.md"
-    page = "get-involved-in-designing-data"
-    return render_template("pages/scaffold.html", path=path, page=page)
 
 
 @main.route("/advisory-group/members")
