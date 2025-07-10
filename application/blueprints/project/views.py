@@ -21,3 +21,7 @@ def advisory_group_members():
 @project.route("/project/planning-applications/roadmap")
 def advisory_group_roadmap():
     return render_template("advisory-group-roadmap.html")
+
+@project.route("/project/planning-applications/weeknotes")
+def advisory_group_weeknotes():
+    return render_template("advisory-group-weeknotes.html")

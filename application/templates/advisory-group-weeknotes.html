@@ -1,0 +1,257 @@
+{% extends 'layouts/base.html' %}
+
+{% block pageTitle %} Weeknotes | Advisory Group | design.planning {% endblock %}
+
+{% block app_breadcrumbs %}
+  {{
+    govukBreadcrumbs({
+      'items': [
+        {
+          'text': "Home",
+          'href': url_for('main.index')
+        },
+        {
+          'text': "Project",
+          'href': url_for('project.index')
+        },
+        {
+          'text': "Planning applications",
+          'href': url_for('project.advisory_group_weeknotes')
+        },
+        {
+          'text': "Weeknotes"
+        }
+      ]
+    })
+  }}
+{% endblock app_breadcrumbs %}
+
+
+{% block content %}
+
+<div class='govuk-grid-row'>
+  <div class='govuk-grid-column-full'>
+    <span class="govuk-caption-xl">Project - Planning applications</span>
+    <h1 class="govuk-heading-xl" id="advisory-group">Weeknotes</h1>
+  </div>
+</div>
+
+
+    <h3 class="govuk-heading-m">Week beginning 23 Jun</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We’ve added <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md" class="govuk-link">a list of modules with active issues. It’s a live tracker: as issues are resolved, modules drop off the list.</a></li>
+      <li>We codified the structure of a <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/specification/application/pip.schema.md?plain=1" class="govuk-link">Permission in Principle application</a></li>
+      <li>We've made the approach to collecting contact details consistent across all applications types (see <a href="https://github.com/digital-land/planning-application-data-specification/issues/294" class="govuk-link">issue #294</a>)</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 16 Jun</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We have added a <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/CHANGELOG.md" class="govuk-link">CHANGELOG</a> so that it is easier to track changes to the model, improvements to documentation and any tooling that is added to help manage the specifications</li>
+      <li>We have codified the structure of a <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/specification/application/hh.schema.md?plain=1" class="govuk-link">Householder application</a> so that it is easier to validate what is required, and to subsequently validate it</li>
+      <li>We have kicked off a piece of work to revisit and <a href="https://github.com/digital-land/data-standards-backlog/discussions/25#discussioncomment-13530686" class="govuk-link">improve the planning application and decisions specification(s)</a></li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 9 Jun</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We have resolved or triaged more <a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">issues</a> that we received in the call for feedback.</li>
+      <li>We got backing from our policy colleagues to remove the <code>fax-number</code> field from the specification(s) (see <a href="https://github.com/digital-land/planning-application-data-specification/issues/208" class="govuk-link">issue #208</a>)</li>
+      <li>We have started to add <a href="https://github.com/digital-land/planning-application-data-specification/tree/main/specification/example" class="govuk-link">data examples</a> to an <code>/examples</code> directory so that it is clearer what data is expected</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 2 Jun</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We have run through all the feedback we received: 63 items we were able to resolve or parke for a future iteration, <a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">93 items we've added to github as issues</a> for us to work through.</li>
+      <li>We have published a <a href="{{ url_for('main.advisory_group_timeline') }}" class="govuk-link">list of the activites</a> we need to complete to get these specifications through to be mandated</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 26 May</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We have been supporting various suppliers who wish to start testing and using the specifications in their products and services. These conversation emphasised the importance of moving to a more declarative model</li>
+      <li>We have documented our proposal for moving to a <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/docs/declarative-model.md" class="govuk-link">declarative model</a>.</li>
+      <li>We have documented what a declarative model for <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/docs/module.md" class="govuk-link">modules</a> and <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/docs/planning-requirements.md" class="govuk-link">planning requirements</a> could look like.</li>
+      <li>Conversations about restarting the advisory group and community sessions are ongoing.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 19 May</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Feedback came in through various channels: on github, via email, in documents, on slack, etc. So we have collated the feedback into <a href="https://docs.google.com/spreadsheets/d/10QprqRCo8Ss_Hpx-XkXpVHmVGewiTzWbVITEz9vXvhw/edit?usp=sharing" class="govuk-link">a tracker</a> for us work through.</li>
+      <li>We kicked off a piece of work to revist the <a href="https://digital-land.github.io/specification/specification/planning-application-decision/" class="govuk-link">planning application and decisions specification</a> (the output of the process). This was last looked at in 2022 so needs a lot of work to align with the set of submission specifications.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 12 May</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/docs/fields.md" class="govuk-link">documented how we plan to define fields</a> explicitly, this should help set expectations for the data and with validation</li>
+      <li>The deadline for initial feedback passed on the 16th May. We will now work through this and update the specifications where required.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 5 May</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We have been working on an initial draft of <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-requirement.csv" class="govuk-link">a standardised list of planning requirements</a> (otherwise known as information requirements) that applicants need to provide when submitting a planning application.</li>
+      <li>We have started codifying which requirements are essential for different application types. See <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/data/national-planning-requirement.csv" class="govuk-link">national-planning-requirements.csv</a></li>
+    </ul>
+
+
+    <h3 class="govuk-heading-m">Week beginning 28 Apr</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>The specifications are currently being reviewed by the Development management policy team.</li>
+      <li>We received our first pull request (PR) from the community. It fixed some typos and was very welcome!</li>
+      <li>We created a <a href="https://github.com/digital-land/extension-digital-site-notice-module" class="govuk-link">demo repository for an extension module</a> - this is a space for us to experiment with how extending the specifications works.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 21 Apr</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We met with GLA and GMCA to discuss early (specification) adopters project and the GMCA data hub project both funded by ODP</li>
+      <li>We fixed some discrepancies with the supporting document structure (see <a href="https://github.com/digital-land/planning-application-data-specification/issues/234" class="govuk-link">issue #234</a>)</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 14 Apr</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We published <a href="https://mhclgdigital.blog.gov.uk/2025/04/17/digital-planning-get-involved-validating-the-baseline-planning-application-data-specifications/" class="govuk-link">a blog post</a> covering the recent events and summarising how we got to this point with the draft specifications.</li>
+      <li>We've confirmed we are looking for the initial round of feedback on the <a href="https://github.com/digital-land/planning-application-data-specification?tab=readme-ov-file#application-types" class="govuk-link">draft specifications</a> by 16 May.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 7 Apr</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We've updated the <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/specification/index.md" class="govuk-link">"index" specification file</a> to include all the codelists.</li>
+      <li>Updated the application specification to include an expanded <code>file</code> sub-structure (see <a href="https://github.com/digital-land/planning-application-data-specification/issues/229" class="govuk-link">issue #229</a>).</li>
+      <li>Added a <code>uprns[]</code> field to the <a href="https://github.com/digital-land/planning-application-data-specification/discussions/70#discussioncomment-12170186" class="govuk-link">Site details module</a> (see <a href="https://github.com/digital-land/planning-application-data-specification/issues/8" class="govuk-link">issue #8</a>)</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 31 Mar</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We've added a few more <a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">issues</a> based on comments from the advisory and community sessions.</li>
+      <li>We ran a session with a group of local planning authorities and suppliers about how they can help us test the specifications</li>
+      <li>We published an <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/specification/index.md" class="govuk-link">index specification</a> file that includes all the modules and codelists covering all application types</li>
+    </ul>
+
+
+    <h3 class="govuk-heading-m">Week beginning 24 Mar</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We published a "compiled" specification for each application type and sub type.</li>
+      <li>We held the advisory group session on the 27th March (<a href="https://drive.google.com/file/d/1hDtdvtMGVbdJjI4gAQdSf2GPTZFUYjFH/view?usp=sharing" class="govuk-link">slides</a>, <a href="https://drive.google.com/file/d/1Q6OPerWWuodmYNJ03gORTcp1xNXLOsqi/view?usp=sharing" class="govuk-link">minutes</a>)</li>
+      <li>We held a community drop-in session on the 28th March (<a href="https://drive.google.com/file/d/1Fv5ja_inTPx0Wzepx-Xd97g5nUezoBu3/view?usp=sharing" class="govuk-link">slides</a>, <a href="https://www.youtube.com/watch?v=T_ongWZ6Tbs" class="govuk-link">video</a>)</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 17 Mar</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We have been grouping the <a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">issues</a> into issues we can close right now, issues that need policy input and issues that we are parking for a later iteration</li>
+      <li>We have set up <a href="https://github.com/digital-land/planning-application-data-specification/discussions/categories/application-type?discussions_q=is%3Aopen+label%3Aapplication-type+category%3A%22Application+type%22" class="govuk-link">a discussion thread per application type</a> - each discussion lists the components needed for the application type</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 10 Mar</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We arranged the next sessions - these will be on the 27th and 28th of March and we will be presenting the first drafts of the specifications.</li>
+      <li>We have published <a href="https://github.com/digital-land/planning-application-data-specification/discussions/categories/codelist-enum" class="govuk-link">a discussion for each of the codelists</a> we need to support the specifications</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 3 Mar</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We held a drop-in session on Wednesday 5 March (<a href="https://www.youtube.com/watch?v=3Nj5Qg99ZLU&feature=youtu.be" class="govuk-link">recording</a>)</li>
+      <li>We published the <a href="https://github.com/digital-land/planning-application-data-specification/discussions?discussions_q=label%3Aapplication-type" class="govuk-link">list of modules required for each application type</a>, including sub-types where applicable.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 24 Feb</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We held an advisory group session on 26 Feb where we discussed numerous open issues (<a href="https://docs.google.com/presentation/d/1UjkxVm1PsRTO0kNNum9tILjhqIt5UZHEdWcbCmbrY98/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://drive.google.com/file/d/18GZkYBThjcTal21R0UP-2it9JVPerMPb/view?usp=sharing" class="govuk-link">minutes</a>)</li>
+      <li>We finished an initial draft of an information model for <a href="https://github.com/digital-land/planning-application-data-specification/discussions?discussions_q=is%3Aopen+label%3Acomponent" class="govuk-link"></a>each module/component</a>.</li>
+      <li>We identified more codelists that are required to support completing an application. There is <a href="https://github.com/digital-land/planning-application-data-specification/discussions?discussions_q=is%3Aopen+label%3Acodelist%2Fenum" class="govuk-link">a discussion for each one</a>.</li>
+    </ul>
+
+
+    <h3 class="govuk-heading-m">Week beginning 17 Feb</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We have prepared a lean coffee style workshop for the next advisory group session.</li>
+      <li>We have created a first draft of the <a href="https://github.com/digital-land/planning-application-data-specification/discussions?discussions_q=is%3Aopen+label%3Acomponent" class="govuk-link">information models for each component</a></li>
+      <li>We have learnt that in some cases the application type isn't the only piece of information needed to determine what modules are required (see <a href="https://github.com/digital-land/planning-application-data-specification/issues/158" class="govuk-link">issue #158</a>)</li>
+      <li>We have started setting out the <a href="https://github.com/digital-land/planning-application-data-specification/issues/71" class="govuk-link">codelists</a> needed to support the planning application specification.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 10 Feb</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We added a Notification of proposed works to trees in a conservation area	application type to the <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-type.csv" class="govuk-link">list</a>. </li>
+      <li>We have been designing the next advisory group session where we’ll be working through the open <a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">issues</a> and <a href="https://github.com/digital-land/planning-application-data-specification/discussions" class="govuk-link">discussions</a> in a lean coffee style workshop.</li>
+      <li>We have started pulling together <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-requirement.csv" class="govuk-link">a list of planning requirements</a> - the documents that applicants need to prepare along side their application. We opened <a href="https://github.com/digital-land/planning-application-data-specification/issues/126" class="govuk-link">an issue</a> where we can continue discussing the planning requirements.</li>
+      <li>We started drafting <a href="https://github.com/digital-land/planning-application-data-specification/discussions" class="govuk-link">a set of information models</a> for the modules needed for Householder applications.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 3 Feb</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We add <a href="https://github.com/digital-land/planning-application-data-specification/issues/2" class="govuk-link">Hedgerow removal notices</a> to the list of application types. We still need to confirm the modules for the application type (see <a href="https://github.com/digital-land/planning-application-data-specification/issues/1" class="govuk-link">issue #1</a>)</li>
+      <li>We published a <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-form.csv" class="govuk-link">list of the application forms</a> we've looked at</li>
+      <li>We published a <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-module.csv" class="govuk-link">list of the modules</a> we are working through as data</li>
+      <li>We <a href="https://github.com/digital-land/planning-application-data-specification/issues/117" class="govuk-link">proposed combining the "Declaration" and "Declaration - trees" modules</a></li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 27 Jan</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We held a community drop in on Wednesday 29 Jan (<a href="https://docs.google.com/presentation/d/1jmzteOSh--o2w4f-jPzhCUMcMBPXRVnGa9-ePWokQag/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://youtu.be/tOsaFKJWGLo" class="govuk-link">video</a>)</li>
+      <li>Set the dates for the next sessions. Advisory group on 26 Feb. Community drop-in on 5th Mar.</li>
+      <li>Continued adding to and working through the <a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">open issues</a>. Thank you to all those that are contributing.</li>
+      <li>Published the <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-type.csv" class="govuk-link">original list of application types</a> we are working with. We will up this based on the currently <a href="https://github.com/digital-land/planning-application-data-specification/issues?q=is%3Aissue%20state%3Aopen%20label%3Aapplication-type" class="govuk-link">open issues related to application types</a></li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 20 Jan</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>We held the second advisory group session (<a href="https://docs.google.com/presentation/d/1OPKGIuz0AreuznbkU5aNNmYmrmkY1lQeMopzfoLCNMQ/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://docs.google.com/document/d/1rAfdlwdzxH0ckVjUrT8aMg2AIYyhW8mmAUM4Xq6EInk/edit?usp=sharing" class="govuk-link">minutes</a>)</li>
+      <li>We set up <a href="https://github.com/digital-land/planning-application-data-specification" class="govuk-link">a dedicated repository for the Planning application data specification</a> work. We will use this to publish work, such as supporting datasets and specification, as we progress.</li>
+      <li>We have started converting the various questions and ideas we have received into <a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">individual issues</a> that can be resolved one by one.</li>
+      <li>We have set up <a href="https://docs.google.com/spreadsheets/d/1MfoIIZBU3cSIhk8awT3f8fv7j_AETT7PLslTJaoa_0Y/edit?usp=sharing" class="govuk-link">a module tracker spreadsheet</a>. We are using this to track progress on each of the individual modules. You can view this to follow along.</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 13 Jan</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Preparing for the next advisory session - will be held on 22 Jan 2025</li>
+      <li>Reply to contributions on the <a href="https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740" class="govuk-link">discussion thread</a>, specifically on different application types we could look at</li>
+      <li>Exploring ways to manage issues openly</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 6 Jan</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>The Data Design team returned after their Christmas break.</li>
+      <li>Confirmed the next advisory session will be held on 22 Jan 2025, at the ARUP offices</li>
+      <li>We have been watching contributions (see <a href="https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11482302" class="govuk-link">components and fields activity</a>) coming in from various community members, which is great to see.</li>
+      <li>Collating comments community members have made on the <a href="https://github.com/digital-land/data-standards-backlog/discussions/98" class="govuk-link">Planning application submissions discussion thread</a></li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 16 Dec</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Held a drop-in session on Tuesday 17 Dec to demo the spreadsheet and answer any questions (<a class="govuk-link" href="https://docs.google.com/presentation/d/1WwsV3vNjaXdOYydnrnH3n4UT6iaMCHDxbbyBHZxAUCk/edit?usp=sharing">slide deck</a>, <a href="https://youtu.be/Gc22mzq_L2c" class="govuk-link">video of session</a>)</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 9 Dec</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Published <a href="https://mhclgdigital.blog.gov.uk/2024/12/06/digital-planning-developing-planning-applications-specifications-in-the-open/" class="govuk-link">a blog post about the first 2 events we held</a></li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 2 Dec</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Held the first community drop-in session</li>
+      <li>Fleshed out and shared <a href="https://docs.google.com/spreadsheets/d/1x9-xinthW3j8G1vFq9i1Re1AJJ0D4yyiT8LpnaINyhA/edit?usp=sharing" class="govuk-link">a spreadsheet of components and fields</a> that we’d like the community to use to share their thoughts on the existing 'standards'</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 25 Nov</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Held the first advisory group meeting on the 27 November</li>
+      <li>Pulled together a spreadsheet with the 80+ components and 1300 fields from the analysis of the planning application forms</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 18 Nov</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11189385" class="govuk-link">Analysed the existing application forms</a></li>
+      <li>Created <a href="https://docs.google.com/document/d/1WqMY1tfH9YhaZ1yUlJPKtTqs_OKw0Nv8yqdHWO4xSg4/edit?usp=sharing" class="govuk-link">a charter</a> for the advisory group</li>
+      <li>Prepared for the first advisory group session</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Week beginning 11 Nov</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Shared the set of <a href="https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740" class="govuk-link">planning application types</a> we’ll be looking at first</li>
+    </ul>
+
+    <h3 class="govuk-heading-m">Start of the initiative</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Published <a href="https://mhclgdigital.blog.gov.uk/2024/10/18/using-data-design-to-transform-the-planning-application-process-get-involved/" class="govuk-link">a blog post setting out this piece of work</a></li>
+    </ul>
+
+  </div>
+</div>
+{% endblock %}
