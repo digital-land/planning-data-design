@@ -179,6 +179,11 @@
                 Cookies
               </a>
             </li>
+            <li class="govuk-footer__inline-list-item">
+              <a class="govuk-footer__link" href="https://data-design.designhistory.app">
+                Design history
+              </a>
+            </li>
             {% if config.AUTHENTICATION_ON and session["user"] %}
               <li class="govuk-footer__inline-list-item">
                 <a class="govuk-footer__link" href="{{ url_for('tags.index') }}">
