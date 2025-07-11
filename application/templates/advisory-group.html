@@ -32,13 +32,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
-    <h3 class="govuk-heading-s">Contents</h3>
+    <h3 class="govuk-heading-s">Useful links</h3>
     <ul class="govuk-list">
-      <li><a href="#advisory-group" class="govuk-link">Introduction</a></li>
-      <li><a href="#whats-next" class="govuk-link">What's next</a></li>
-      <li><a href="#useful-links" class="govuk-link">Useful links</a></li>
       <li><a href="{{ url_for('project.advisory_group_roadmap') }}" class="govuk-link">Roadmap</a></li>
+      <li><a href="https://github.com/digital-land/planning-application-data-specification" class="govuk-link">Planning application data specification repository</a></li>
+
+      <li><a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">List of open issues</a></li>
+      <!-- <li><a href="https://docs.google.com/spreadsheets/d/1x9-xinthW3j8G1vFq9i1Re1AJJ0D4yyiT8LpnaINyhA/edit?usp=sharing" class="govuk-link">Components and fields (googlesheet)</a></li> -->
+      <li><a href="https://docs.google.com/spreadsheets/d/1MfoIIZBU3cSIhk8awT3f8fv7j_AETT7PLslTJaoa_0Y/edit?usp=sharing" class="govuk-link">Module tracker</a></li>
       <li><a href="{{ url_for('project.advisory_group_weeknotes') }}" class="govuk-link">Weeknotes</a></li>
+      <li><a href="{{ url_for('static', filename='docs/planning-applications-advisory-group-charter.odt') }}" class="govuk-link" target="_blank" rel="noopener">Advisory group charter (download file)</a></li>
+      <li><a href="{{ url_for('main.advisory_group_members' )}}" class="govuk-link">Advisory group members</a></li>
+
 
     </ul>
   </div>
@@ -83,17 +88,159 @@
 
     <p class="govuk-body">These <a href="https://github.com/digital-land/planning-application-data-specification?tab=readme-ov-file#application-types" class="govuk-link">specifications</a> are already available in draft form for review (Reminder: after 16 May, edits will only reflect existing feedback and no further changes will be considered unless they are critical). Testing will begin with the early adopters group, and the specifications will remain publicly accessible for anyone to view and prepare for implementation ahead of mandating.</p>
 
-    <h2 class="govuk-heading-m" id="useful-links">Useful links</h2>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li><a href="{{ url_for('static', filename='docs/planning-applications-advisory-group-charter.odt') }}" class="govuk-link" target="_blank" rel="noopener">Charter for the advisory group (download file)</a></li>
-      <li><a href="{{ url_for('main.advisory_group_members' )}}" class="govuk-link">Members</a></li>
-      <li><a href="https://github.com/digital-land/planning-application-data-specification" class="govuk-link">Planning application data specification repository</a></li>
-      <!-- <li><a href="https://docs.google.com/spreadsheets/d/1x9-xinthW3j8G1vFq9i1Re1AJJ0D4yyiT8LpnaINyhA/edit?usp=sharing" class="govuk-link">Components and fields (googlesheet)</a></li> -->
-      <li><a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">List of open issues</a></li>
-      <li><a href="https://docs.google.com/spreadsheets/d/1MfoIIZBU3cSIhk8awT3f8fv7j_AETT7PLslTJaoa_0Y/edit?usp=sharing" class="govuk-link">Module tracker</a></li>
-      <li><a href="{{ url_for('project.advisory_group_roadmap') }}" class="govuk-link">Roadmap</a></li>
-    </ul>
+    <div class="moj-timeline">
+      <div class="moj-timeline__item">
+    
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Application requires confirmation</h2>
+    
+          <p class="moj-timeline__byline">by Joe Bloggs</p>
+    
+        </div>
+    
+        <p class="moj-timeline__date">
+          <time datetime="2019-06-14T14:01:00.000Z">14 June 2019 at 2:01pm</time>
+        </p>
+    
+        <div class="moj-timeline__description">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non felis risus. Curabitur nec ante vitae felis ullamcorper tincidunt.</p>
+          <a class="govuk-button govuk-!-margin-bottom-0" href="#">Continue</a>
+        </div>
+    
+      </div>
+    
+      <div class="moj-timeline__item">
+    
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Application review in progress</h2>
+    
+          <p class="moj-timeline__byline">by Caseworker 1</p>
+    
+        </div>
+    
+        <p class="moj-timeline__date">
+          <time datetime="2019-06-07T12:32:00.000Z">7 June 2019 at 12:32pm</time>
+        </p>
+    
+        <div class="moj-timeline__description">Your application is being reviewed by one of our case workers.</div>
+    
+      </div>
+    
+      <div class="moj-timeline__item">
+    
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Application received</h2>
+    
+          <p class="moj-timeline__byline">by Caseworker 1</p>
+    
+        </div>
+    
+        <p class="moj-timeline__date">
+          <time datetime="2019-06-06T09:12:00.000Z">6 June 2019 at 9:12am</time>
+        </p>
+    
+        <div class="moj-timeline__description">Your application has been received – reference MOJ-1234-5678</div>
+    
+      </div>
+    
+      <div class="moj-timeline__item">
+    
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Application submitted</h2>
+    
+          <p class="moj-timeline__byline">by Joe Bloggs</p>
+    
+        </div>
+    
+        <p class="moj-timeline__date">
+          <time datetime="2019-05-28T10:45:00.000Z">28 May 2019 at 10:45am</time>
+        </p>
+    
+        <div class="moj-timeline__description">
+          <details class="govuk-details govuk-!-margin-bottom-0">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                Application details
+              </span>
+            </summary>
+            <div class="govuk-details__text">
+              Ut quam nunc, vulputate ac metus pharetra, posuere maximus velit. <a class="govuk-link" href="#">Etiam nec interdum velit.</a> Suspendisse molestie lectus in eros ornare
+            </div>
+          </details>
+        </div>
+    
+      </div>
+    
+      <div class="moj-timeline__item">
+    
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Documents uploaded</h2>
+    
+          <p class="moj-timeline__byline">by Joe Bloggs</p>
+    
+        </div>
+    
+        <p class="moj-timeline__date">
+          <time datetime="2019-05-28T10:15:00.000Z">28 May 2019 at 10:15am</time>
+        </p>
+    
+        <div class="moj-timeline__description">
+          <ul class="moj-timeline__documents">
+            <li class="moj-timeline__document-item">
+              <a class="govuk-link" href="#">
+                <svg class="moj-timeline__document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" width="20" height="16">
+                  <path d="M9 7V1.5L14.5 7H9zM2 0C.9 0 0 .9 0 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6H2z" />
+                </svg>
+                Document 1
+              </a>
+            </li>
+            <li class="moj-timeline__document-item">
+              <a class="govuk-link" href="#">
+                <svg class="moj-timeline__document-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20" width="20" height="16">
+                  <path d="M9 7V1.5L14.5 7H9zM2 0C.9 0 0 .9 0 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-6-6H2z" />
+                </svg>
+                Document 2
+              </a>
+            </li>
+          </ul>
+        </div>
+    
+      </div>
+    
+      <div class="moj-timeline__item">
+    
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">First set of planning application types are shared
+          </h2>
+        
+        </div>
+    
+        <p class="moj-timeline__date">
+          <time date="2024-10-11">11 Nov 2024</time>
+        </p>
+    
+        <div class="moj-timeline__description">
+            <p>A <a class="govuk-link" href="https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740">github discussion</a> </p>
+      </div>
+      </div>
 
+      <div class="moj-timeline__item">
+    
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Initiative started</h2>
+        
+        </div>
+    
+        <p class="moj-timeline__date">
+          <time date="2024-10-18">18 Nov 2024</time>
+        </p>
+    
+        <div class="moj-timeline__description">
+            <p>A <a class="govuk-link" href="">blog post</a> is shared setting out the rationale for the initiative</p>
+        </div>
+    
+      </div>
+    </div>
 
 {% endblock %}
