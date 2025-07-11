@@ -21,7 +21,7 @@ def test_add_and_update_planning_consideration(live_server, page):
     expect(
         page.locator("#details").get_by_text("This is a test consideration")
     ).to_be_visible()
-    expect(page.get_by_text("This is the description")).to_be_visible()
+    expect(page.locator("#details").get_by_text("This is the description")).to_be_visible()
     expect(page.get_by_role("link", name="22")).to_be_visible()
 
     page.locator("#details").get_by_role(
@@ -127,7 +127,7 @@ def test_add_answer_backlog_questions(live_server, page, questions):
     page.get_by_role("button", name="Create").click()
 
     expect(page.locator("#details").get_by_text("Test consideration")).to_be_visible()
-    expect(page.get_by_text("This is a test of a public")).to_be_visible()
+    expect(page.locator("#details").get_by_text("This is a test of a public")).to_be_visible()
     expect(page.get_by_role("link", name="background information")).to_be_visible()
 
     page.get_by_role("link", name="background information").click()
