@@ -31,22 +31,6 @@
 </div>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
-    <h3 class="govuk-heading-s">Useful links</h3>
-    <ul class="govuk-list">
-      <li><a href="{{ url_for('project.advisory_group_roadmap') }}" class="govuk-link">Roadmap</a></li>
-      <li><a href="https://github.com/digital-land/planning-application-data-specification" class="govuk-link">Planning application data specification repository</a></li>
-
-      <li><a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">List of open issues</a></li>
-      <!-- <li><a href="https://docs.google.com/spreadsheets/d/1x9-xinthW3j8G1vFq9i1Re1AJJ0D4yyiT8LpnaINyhA/edit?usp=sharing" class="govuk-link">Components and fields (googlesheet)</a></li> -->
-      <li><a href="https://docs.google.com/spreadsheets/d/1MfoIIZBU3cSIhk8awT3f8fv7j_AETT7PLslTJaoa_0Y/edit?usp=sharing" class="govuk-link">Module tracker</a></li>
-      <li><a href="{{ url_for('project.advisory_group_weeknotes') }}" class="govuk-link">Weeknotes</a></li>
-      <li><a href="{{ url_for('main.advisory_group_members' )}}" class="govuk-link">Advisory group members</a></li>
-      <li><a href="{{ url_for('static', filename='docs/planning-applications-advisory-group-charter.odt') }}" class="govuk-link" target="_blank" rel="noopener">Advisory group charter (download file)</a></li>
-
-
-    </ul>
-  </div>
   <div class="govuk-grid-column-three-quarters">
     {% set notificationBannerHtml %}
     <!-- put banner content here -->
@@ -78,236 +62,254 @@
       <li>Community group - this group consists of everyone else interested in planning applications and the work we are doing to develop data standards, and is open to all LPAs</li>
     </ul>
 
-    <h2 class="govuk-heading-m" id="Timeline">Key events timeline</h2>
+    <h2 class="govuk-heading-m" id="Timeline">Events timeline</h2>
 
     <p class="govuk-body">To view the history of this project in more detail, visit our <a href="http://localhost:5050/project/planning-applications/weeknotes" class="govuk-link">weeknotes page.</a></p>
 
 
-<div class="moj-timeline">
+    <div class="moj-timeline">
 
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title"><a href="https://mhclgdigital.blog.gov.uk/2025/07/08/standardising-the-planning-application-process-progress-and-next-steps/" class="gov-uk-link">Blog post</a> published outlining the next stages for submissions and how we will kick off research into decisions.</h2>
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title"><a href="https://mhclgdigital.blog.gov.uk/2025/07/08/standardising-the-planning-application-process-progress-and-next-steps/" class="gov-uk-link">Blog post</a> published outlining the next stages for submissions and how we will kick off research into decisions.</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-08-07">08 Jun 2025</time>
+        </p>
+      </div>
+
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Trackers developed to help community navigate github</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-01-07">01 Jun 2025</time>
+        <div class="moj-timeline__description">
+          <ul> <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/no-issues.md" class="gov-uk-link">Specifications without issues</a></ul>
+          <ul> <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md" class="gov-uk-link">Specifications with issues</a></ul>
+          <ul> <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/declarative-model-progress.md" class="gov-uk-link">Specifications with delarative model</a></ul>
+        </div>
+        </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Collated feedback from various channels into a <a href="https://docs.google.com/spreadsheets/d/10QprqRCo8Ss_Hpx-XkXpVHmVGewiTzWbVITEz9vXvhw/edit?usp=sharing" class="gov-uk-link">tracker</a></h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-05-19">19 May 2025</time>
+        </p>
+      </div>  
+      
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Call for feedback closed</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-05-16">16 May 2025</time>
+        </p>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title"><a href="https://drive.google.com/file/d/1Fv5ja_inTPx0Wzepx-Xd97g5nUezoBu3/view?usp=sharing" class="govuk-link">Get involved validating the baseline planning application data specification blog</a> published</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-04-14">14 Apr 2025</time>
+        </p>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Community drop-in</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-03-28">28 Mar 2025</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>We summarised what was discussed in the last advisory group and ran through the first draft of the specifications (<a href="https://drive.google.com/file/d/1Fv5ja_inTPx0Wzepx-Xd97g5nUezoBu3/view?usp=sharing" class="govuk-link">slides</a>, <a href="https://www.youtube.com/watch?v=T_ongWZ6Tbs" class="govuk-link">video</a>).
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Advisory group</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-03-27">27 Mar 2025</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>We ran through the first draft of the specifications (<a href="https://drive.google.com/file/d/1hDtdvtMGVbdJjI4gAQdSf2GPTZFUYjFH/view?usp=sharing" class="govuk-link">slides</a>, <a href="https://drive.google.com/file/d/1Q6OPerWWuodmYNJ03gORTcp1xNXLOsqi/view?usp=sharing" class="govuk-link">minutes</a>). 
+          </p>
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Published the <a href = "https://github.com/digital-land/planning-application-data-specification/discussions?discussions_q=label%3Aapplication-type" class="gov-uk-link">list of modules required for each application type</a>, including sub-types where applicable.</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-03-06">06 Mar 2025</time>
+        </p>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Community drop-in</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-03-05">05 Mar 2025</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>We ran a lean coffee style session with the community to answer questions and resolve issues relating to the applications (<a href="https://www.youtube.com/watch?v=3Nj5Qg99ZLU&feature=youtu.be" class="govuk-link">recording</a>)
+          </p>
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Advisory group</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-02-26">26 Feb 2025</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>We ran a lean coffee style session with the advisory group to answer questions and resolve issues relating to the applications (<a href="https://docs.google.com/presentation/d/1UjkxVm1PsRTO0kNNum9tILjhqIt5UZHEdWcbCmbrY98/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://drive.google.com/file/d/18GZkYBThjcTal21R0UP-2it9JVPerMPb/view?usp=sharing" class="govuk-link">minutes</a>). 
+          </p>
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Started setting out the <a href = "https://github.com/digital-land/planning-application-data-specification/issues/71" class="gov-uk-link">codelists</a> needed to support the planning application specification.</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-02-17">17 Feb 2025</time>
+        </p>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Started pulling together <a href = "https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-requirement.csv" class="gov-uk-link">a list of planning requirements</a> - the documents that applicants need to prepare alongside their application.</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-02-10">10 Feb 2025</time>
+        </p>
+      </div>
+      
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Community drop-in</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-01-27">27 Jan 2025</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>We ran a session to outline how we were planning to use the form analysis and community feedback to produce the information models (<a href="https://docs.google.com/presentation/d/1jmzteOSh--o2w4f-jPzhCUMcMBPXRVnGa9-ePWokQag/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://youtu.be/tOsaFKJWGLo" class="govuk-link">video</a>). 
+          </p>
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Advisory group</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2025-01-20">20 Jan 2025</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>We ran a session to outline how we were planning to use the form analysis and advisory group feedback to produce the information models (<a href="https://docs.google.com/presentation/d/1OPKGIuz0AreuznbkU5aNNmYmrmkY1lQeMopzfoLCNMQ/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://docs.google.com/document/d/1rAfdlwdzxH0ckVjUrT8aMg2AIYyhW8mmAUM4Xq6EInk/edit?usp=sharing" class="govuk-link">minutes</a>). 
+          </p>
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Event to demo analysis of planning application forms</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2024-12-16">16 Dec 2024</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>A spreadsheet with the 80+ components and 1300 fields that make up planning application forms is shared (<a class="govuk-link" href="https://docs.google.com/presentation/d/1WwsV3vNjaXdOYydnrnH3n4UT6iaMCHDxbbyBHZxAUCk/edit?usp=sharing">slide deck</a>, <a href="https://youtu.be/Gc22mzq_L2c" class="govuk-link">video of session</a>).
+          </p>
+        </div>
+      </div>
+
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title"><a href="https://mhclgdigital.blog.gov.uk/2024/12/06/digital-planning-developing-planning-applications-specifications-in-the-open/" class="govuk-link">Blog post</a> published outlining how we work in the open to build a specification</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2024-06-12">6 Dec 2024</time>
+        </p>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">First community drop-in</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2024-02-12">2 Dec 2024</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>Outlining the role of the community group in steering our development of planning application submission specifications.</p>
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">First advisory group</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2024-27-11">27 Nov 2024</time>
+        </p>
+        <div class="moj-timeline__description">
+          <p>Outlining the role of the advisory group in steering our development of planning application submission specifications.</p>
+        </div>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">The <a href="https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740" class="govuk-link">planning application types</a> we’ll be looking at first are shared</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2024-11-05">5 Nov 2024</time>
+        </p>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">A <a class="govuk-link" href="">blog post</a> is published to set out this piece of work</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2024-10-18">18 Oct 2024</time>
+        </p>
+      </div>
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">Started the initiative</h2>
+        </div>
+      </div>
     </div>
-    <p class="moj-timeline__date">
-      <time date="2025-08-07">08 Jun 2025</time>
-    </p>
   </div>
+  <div class="govuk-grid-column-one-quarter">
+    <h3 class="govuk-heading-s">Useful links</h3>
+    <ul class="govuk-list">
+      <li><a href="{{ url_for('project.advisory_group_roadmap') }}" class="govuk-link">Roadmap</a></li>
+      <li><a href="https://github.com/digital-land/planning-application-data-specification" class="govuk-link">Planning application data specification repository</a></li>
+
+      <li><a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">List of open issues</a></li>
+      <!-- <li><a href="https://docs.google.com/spreadsheets/d/1x9-xinthW3j8G1vFq9i1Re1AJJ0D4yyiT8LpnaINyhA/edit?usp=sharing" class="govuk-link">Components and fields (googlesheet)</a></li> -->
+      <li><a href="https://docs.google.com/spreadsheets/d/1MfoIIZBU3cSIhk8awT3f8fv7j_AETT7PLslTJaoa_0Y/edit?usp=sharing" class="govuk-link">Module tracker</a></li>
+      <li><a href="{{ url_for('project.advisory_group_weeknotes') }}" class="govuk-link">Weeknotes</a></li>
+      <li><a href="{{ url_for('main.advisory_group_members' )}}" class="govuk-link">Advisory group members</a></li>
+      <li><a href="{{ url_for('static', filename='docs/planning-applications-advisory-group-charter.odt') }}" class="govuk-link" target="_blank" rel="noopener">Advisory group charter (download file)</a></li>
 
 
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Trackers developed to help community navigate github</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-01-07">01 Jun 2025</time>
-    <div class="moj-timeline__description">
-      <ul> <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/no-issues.md" class="gov-uk-link">Specifications without issues</a></ul>
-      <ul> <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md" class="gov-uk-link">Specifications with issues</a></ul>
-      <ul> <a href="https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/declarative-model-progress.md" class="gov-uk-link">Specifications with delarative model</a></ul>
-    </div>
-    </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Collated feedback from various channels into a <a href="https://docs.google.com/spreadsheets/d/10QprqRCo8Ss_Hpx-XkXpVHmVGewiTzWbVITEz9vXvhw/edit?usp=sharing" class="gov-uk-link">tracker</a></h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-05-19">19 May 2025</time>
-    </p>
-  </div>  
-  
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Call for feedback closed</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-05-16">16 May 2025</time>
-    </p>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title"><a href="https://drive.google.com/file/d/1Fv5ja_inTPx0Wzepx-Xd97g5nUezoBu3/view?usp=sharing" class="govuk-link">Get involved validating the baseline planning application data specification blog</a> published</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-04-14">14 Apr 2025</time>
-    </p>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Community drop-in</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-03-28">28 Mar 2025</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>We summarised what was discussed in the last advisory group and ran through the first draft of the specifications (<a href="https://drive.google.com/file/d/1Fv5ja_inTPx0Wzepx-Xd97g5nUezoBu3/view?usp=sharing" class="govuk-link">slides</a>, <a href="https://www.youtube.com/watch?v=T_ongWZ6Tbs" class="govuk-link">video</a>).
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Advisory group</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-03-27">27 Mar 2025</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>We ran through the first draft of the specifications (<a href="https://drive.google.com/file/d/1hDtdvtMGVbdJjI4gAQdSf2GPTZFUYjFH/view?usp=sharing" class="govuk-link">slides</a>, <a href="https://drive.google.com/file/d/1Q6OPerWWuodmYNJ03gORTcp1xNXLOsqi/view?usp=sharing" class="govuk-link">minutes</a>). 
-      </p>
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Published the <a href = "https://github.com/digital-land/planning-application-data-specification/discussions?discussions_q=label%3Aapplication-type" class="gov-uk-link">list of modules required for each application type</a>, including sub-types where applicable.</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-03-06">06 Mar 2025</time>
-    </p>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Community drop-in</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-03-05">05 Mar 2025</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>We ran a lean coffee style session with the community to answer questions and resolve issues relating to the applications (<a href="https://www.youtube.com/watch?v=3Nj5Qg99ZLU&feature=youtu.be" class="govuk-link">recording</a>)
-      </p>
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Advisory group</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-02-26">26 Feb 2025</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>We ran a lean coffee style session with the advisory group to answer questions and resolve issues relating to the applications (<a href="https://docs.google.com/presentation/d/1UjkxVm1PsRTO0kNNum9tILjhqIt5UZHEdWcbCmbrY98/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://drive.google.com/file/d/18GZkYBThjcTal21R0UP-2it9JVPerMPb/view?usp=sharing" class="govuk-link">minutes</a>). 
-      </p>
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Started setting out the <a href = "https://github.com/digital-land/planning-application-data-specification/issues/71" class="gov-uk-link">codelists</a> needed to support the planning application specification.</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-02-17">17 Feb 2025</time>
-    </p>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Started pulling together <a href = "https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-requirement.csv" class="gov-uk-link">a list of planning requirements</a> - the documents that applicants need to prepare alongside their application.</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-02-10">10 Feb 2025</time>
-    </p>
-  </div>
-  
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Community drop-in</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-01-27">27 Jan 2025</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>We ran a session to outline how we were planning to use the form analysis and community feedback to produce the information models (<a href="https://docs.google.com/presentation/d/1jmzteOSh--o2w4f-jPzhCUMcMBPXRVnGa9-ePWokQag/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://youtu.be/tOsaFKJWGLo" class="govuk-link">video</a>). 
-      </p>
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Advisory group</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2025-01-20">20 Jan 2025</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>We ran a session to outline how we were planning to use the form analysis and advisory group feedback to produce the information models (<a href="https://docs.google.com/presentation/d/1OPKGIuz0AreuznbkU5aNNmYmrmkY1lQeMopzfoLCNMQ/edit?usp=sharing" class="govuk-link">slides</a>, <a href="https://docs.google.com/document/d/1rAfdlwdzxH0ckVjUrT8aMg2AIYyhW8mmAUM4Xq6EInk/edit?usp=sharing" class="govuk-link">minutes</a>). 
-      </p>
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Event to demo analysis of planning application forms</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2024-12-16">16 Dec 2024</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>A spreadsheet with the 80+ components and 1300 fields that make up planning application forms is shared (<a class="govuk-link" href="https://docs.google.com/presentation/d/1WwsV3vNjaXdOYydnrnH3n4UT6iaMCHDxbbyBHZxAUCk/edit?usp=sharing">slide deck</a>, <a href="https://youtu.be/Gc22mzq_L2c" class="govuk-link">video of session</a>).
-      </p>
-    </div>
-  </div>
-
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title"><a href="https://mhclgdigital.blog.gov.uk/2024/12/06/digital-planning-developing-planning-applications-specifications-in-the-open/" class="govuk-link">Blog post</a> published outlining how we work in the open to build a specification</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2024-06-12">6 Dec 2024</time>
-    </p>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">First community drop-in</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2024-02-12">2 Dec 2024</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>Outlining the role of the community group in steering our development of planning application submission specifications.</p>
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">First advisory group</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2024-27-11">27 Nov 2024</time>
-    </p>
-    <div class="moj-timeline__description">
-      <p>Outlining the role of the advisory group in steering our development of planning application submission specifications.</p>
-    </div>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">The <a href="https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740" class="govuk-link">planning application types</a> we’ll be looking at first are shared</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2024-11-05">5 Nov 2024</time>
-    </p>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">A <a class="govuk-link" href="">blog post</a> is published to set out this piece of work</h2>
-    </div>
-    <p class="moj-timeline__date">
-      <time date="2024-10-18">18 Oct 2024</time>
-    </p>
-  </div>
-
-  <div class="moj-timeline__item">
-    <div class="moj-timeline__header">
-      <h2 class="moj-timeline__title">Started the initiative</h2>
-    </div>
+    </ul>
   </div>
 </div>
 
