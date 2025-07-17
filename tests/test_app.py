@@ -22,7 +22,10 @@ def test_add_and_update_planning_consideration(live_server, page):
         page.locator("#details").get_by_text("This is a test consideration")
     ).to_be_visible()
     expect(page.locator("#details").get_by_text("This is the description")).to_be_visible()
-    expect(page.get_by_role("link", name="22")).to_be_visible()
+    expect(page.get_by_role("link", name="Join the discussion")).to_be_visible()
+    expect(page.get_by_role("link", name="Join the discussion")).to_have_attribute(
+        "href", "https://github.com/digital-land/data-standards-backlog/discussions/22"
+    )
 
     page.locator("#details").get_by_role(
         "link", name="Change planning consideration name"
@@ -41,7 +44,7 @@ def test_add_and_update_planning_consideration(live_server, page):
         "This is the description that has been updated"
     )
     page.get_by_role("button", name="Save changes").click()
-    expect(page.get_by_text("This is the description that")).to_be_visible()
+    expect(page.locator("#details").get_by_text("This is the description that has been updated")).to_be_visible()
 
     page.get_by_role("link", name="Add link to applicable schemas").click()
     page.get_by_label("Dataset schema URL").click()
@@ -49,11 +52,11 @@ def test_add_and_update_planning_consideration(live_server, page):
         "https://github.com/digital-land/specification/blob/main/content/dataset/ancient-woodland.md"
     )
     page.get_by_role("button", name="Save").click()
+
+    # The dataset should be visible in the related datasets section
     expect(page.get_by_role("link", name="ancient-woodland")).to_be_visible()
-    assert (
-        page.get_by_role("link", name="ancient-woodland").get_attribute("href")
-        == "https://github.com/digital-land/specification/blob/main/content/dataset/ancient-woodland.md"
-    )
+    expect(page.get_by_role("link", name="ancient-woodland")).to_have_attribute("href", "https://github.com/digital-land/specification/blob/main/content/dataset/ancient-woodland.md")
+
     expect(page.get_by_role("link", name="Remove")).to_be_visible()
 
     # need to add tests to handle different states of specification row
@@ -74,11 +77,11 @@ def test_add_and_update_planning_consideration(live_server, page):
     page.get_by_role("link", name="Change frequency of updates").click()
     page.get_by_label("Annually").check()
     page.get_by_role("button", name="Save").click()
-    expect(page.locator("#data-related")).to_contain_text("Annually")
+    expect(page.locator("#details")).to_contain_text("Annually")
     page.get_by_role("link", name="Change frequency of updates").click()
     page.get_by_label("Daily").check()
     page.get_by_role("button", name="Save").click()
-    expect(page.locator("#data-related")).to_contain_text("Daily")
+    expect(page.locator("#details")).to_contain_text("Daily")
 
     page.get_by_role("link", name="Change planning consideration stage").click()
     page.get_by_label("Research").check()

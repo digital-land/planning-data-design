@@ -415,7 +415,7 @@
             <ul class="govuk-list govuk-list--spaced">
               {% for dataset in consideration.datasets %}
               <li>
-                <a href="{{ dataset['platform_url'] }}" class="govuk-link govuk-link--text-colour">{% if dataset["label"] %}{{ dataset["label"] }}{% else %}{{ dataset["name"] }}{% endif %}</a>
+                <a href="{{ dataset['platform_url'] or dataset['schema_url'] }}" class="govuk-link govuk-link--text-colour">{% if dataset["label"] %}{{ dataset["label"] }}{% else %}{{ dataset["name"] }}{% endif %}</a>
               </li>
               {% endfor %}
             </ul>
@@ -428,12 +428,12 @@
             {% if consideration.datasets %}
               {% for dataset in consideration.datasets %}
                 <li>
-                  {% if dataset['platform_url'] %}<p><a href="{{ dataset['schema_url'] }}" class="govuk-link">View schema on Github</a></p>{% endif %}
+                  {% if dataset['schema_url'] %}<p><a href="{{ dataset['schema_url'] }}" class="govuk-link">View schema on Github</a></p>{% endif %}
                 </li>
                 <li>
                   {% if dataset['dataset_editor_url'] %}<p><a href="{{ dataset['dataset_editor_url'] }}" class="govuk-link">Manage dataset in planning dataset editor</a></p>{% endif %}
                 </li>
-                
+
                 {% if not config.AUTHENTICATION_ON or session["user"] %}
                   <a class="app-destructive-link" href="{{ url_for('planning_consideration.remove_schema', slug=consideration.slug, dataset_name=dataset['name']) }}" class="govuk-link" onclick="return confirm('Are you sure you want to remove this dataset?');">
                     Remove<span class="govuk-visually-hidden"> dataset</span>
