@@ -45,6 +45,22 @@
               <a
                 class="app-content-list__link"
                 data-track-count="cardLink"
+                href="{{ url_for('project.index') }}">
+                <div class="app-content-list__link-text">Projects</div>
+                <div class="app-content-list__description app-content-list__link-description">
+                  A list of projects that include multiple considerations, for example planning applications.
+                </div>
+              </a>
+            </h3>
+          </div>
+        </li>
+
+        <li class="app-content-list__list-item">
+          <div class="app-content-list__list-item-wrapper">
+            <h3 class="app-content-list__sub-heading">
+              <a
+                class="app-content-list__link"
+                data-track-count="cardLink"
                 href="{{ url_for('main.what_we_are_working_on') }}">
                 <div class="app-content-list__link-text">What’s being worked on now and next</div>
                 <div class="app-content-list__description app-content-list__link-description">
