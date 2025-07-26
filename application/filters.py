@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from bs4 import BeautifulSoup
 from markdown import markdown
 from markupsafe import Markup
@@ -84,6 +86,15 @@ def date_time_filter(date):
 def date_time_12_hours_filter(date):
     if date is None:
         return ""
+
+    if not isinstance(date, datetime):
+        try:
+            # Try parsing ISO 8601 format
+            date = datetime.fromisoformat(date.replace("Z", "+00:00"))
+        except ValueError:
+            # Fallback to original format
+            date = datetime.strptime(date, "%Y-%m-%d %I:%M %p")
+
     return date.strftime("%Y-%m-%d %I:%M %p")
 
 
