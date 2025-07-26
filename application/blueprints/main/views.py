@@ -1,10 +1,11 @@
+import csv
 import datetime
 import os
-import csv
 
 from flask import Blueprint, abort, jsonify, redirect, render_template, request, url_for
 
 from application.models import Consideration, Performance, PerformanceModel, Stage
+from application.services.event_service import EventService
 
 main = Blueprint("main", __name__)
 
@@ -26,8 +27,6 @@ def cookies():
 @main.route("/advisory-group")
 def advisory_group():
     return redirect(url_for("project.planning_applications"), code=301)
-
-
 
 
 @main.route("/advisory-group/members")
@@ -204,6 +203,18 @@ def check_for_redirects(page):
     }
 
     return redirects[page] if page in redirects else page
+
+
+@main.route("/get-involved-in-designing-datax")
+def get_involved_in_designing_data():
+    eventService = EventService()
+    upcoming_events = eventService.get_upcoming_events()
+    page = "get-involved-in-designing-data"
+    path = f"pages/{page}.md"
+
+    return render_template(
+        "pages/scaffold.html", path=path, page=page, upcoming_events=upcoming_events
+    )
 
 
 @main.route("/<string:page>")
