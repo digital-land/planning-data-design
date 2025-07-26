@@ -34,6 +34,7 @@ class EventService:
         upcoming_events = [
             event
             for event in events
-            if event.get("start_time") >= datetime.now().isoformat()
+            if event.get("start_time")
+            and event.get("start_time") >= datetime.now().isoformat()
         ]
         return upcoming_events
