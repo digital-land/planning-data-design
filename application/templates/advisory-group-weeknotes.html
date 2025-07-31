@@ -36,6 +36,8 @@
   </div>
 </div>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
 
     <h3 class="govuk-heading-m">Week beginning 23 Jun</h3>
     <ul class="govuk-list govuk-list--bullet">
@@ -253,5 +255,19 @@
     </ul>
 
   </div>
+
+  <div class="govuk-grid-column-one-quarter">
+    <h3 class="govuk-heading-s">Useful links</h3>
+    <ul class="govuk-list">
+      <li><a href="{{ url_for('project.advisory_group_roadmap') }}" class="govuk-link">Roadmap</a></li>
+      <li><a href="https://github.com/digital-land/planning-application-data-specification" class="govuk-link">Planning application data specification repository</a></li>
+
+      <li><a href="https://github.com/digital-land/planning-application-data-specification/issues" class="govuk-link">List of open issues</a></li>
+      <!-- <li><a href="https://docs.google.com/spreadsheets/d/1x9-xinthW3j8G1vFq9i1Re1AJJ0D4yyiT8LpnaINyhA/edit?usp=sharing" class="govuk-link">Components and fields (googlesheet)</a></li> -->
+      <li><a href="{{ url_for('static', filename='docs/planning-application--initial-modules-list.ods') }}" class="govuk-link">Module tracker</a></li>
+      <li><a href="{{ url_for('project.advisory_group_weeknotes') }}" class="govuk-link">Weeknotes</a></li>
+      <li><a href="{{ url_for('main.advisory_group_members' )}}" class="govuk-link">Advisory group members</a></li>
+      <li><a href="{{ url_for('static', filename='docs/planning-applications-advisory-group-charter.odt') }}" class="govuk-link" target="_blank" rel="noopener">Advisory group charter (download file)</a></li>
+
 </div>
 {% endblock %}
