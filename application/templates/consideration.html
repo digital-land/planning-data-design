@@ -136,7 +136,7 @@
            Tags
           </dt>
           <dd class="govuk-summary-list__value">
-            <ul class="govuk-list">
+            <ul class="govuk-list govuk-list--spaced">
             {% for tag in consideration.tags %}
               <li><a href="{{ url_for('planning_consideration.considerations', tag=tag.name) }}"><span class="govuk-tag">{{ tag.name }}</span></a>
                 {%- if not config.AUTHENTICATION_ON or session["user"] %}
