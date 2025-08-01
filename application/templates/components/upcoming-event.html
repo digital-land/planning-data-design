@@ -1,0 +1,83 @@
+<div class="govuk-summary-card">
+  <div class="govuk-summary-card__title-wrapper">
+    <span class="govuk-summary-card__title govuk-heading-m">
+      {{ event.name }}
+    </span>
+  </div>
+  <div class="govuk-summary-card__content">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Description
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.description }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Start time
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.start_time | date_time_12hrs if event.start_time else 'Not available' }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          End time
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.end_time | date_time_12hrs if event.end_time else 'Not available' }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Location
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.location }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Link
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.link if event.link else 'Not available' }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Joining link
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.joining_link if event.joining_link else 'Not available' }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Audience
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.audience }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Owner
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.owner }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Type
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ event.type }}
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
