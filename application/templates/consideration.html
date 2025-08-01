@@ -130,13 +130,13 @@
           {% endif %}
         </div>
 
-  <!-- tags -->
+        <!-- tags -->
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
            Tags
           </dt>
           <dd class="govuk-summary-list__value">
-            <ul class="govuk-list">
+            <ul class="govuk-list govuk-list--spaced">
             {% for tag in consideration.tags %}
               <li><a href="{{ url_for('planning_consideration.considerations', tag=tag.name) }}"><span class="govuk-tag">{{ tag.name }}</span></a>
                 {%- if not config.AUTHENTICATION_ON or session["user"] %}
@@ -147,6 +147,9 @@
               </li>
             {% endfor %}
             </ul>
+            <p class="govuk-!-font-size-16">
+              <a href="{{ url_for('main.glossary_of_tags') }}" class="govuk-link">View a glossary of tags</a>
+            </p>
           </dd>
           {% if not config.AUTHENTICATION_ON or session["user"] %}
             <dd class="govuk-summary-list__actions">
@@ -154,6 +157,7 @@
             </dd>
           {% endif %}
         </div>
+
 
 
   <!-- github discussion -->
@@ -265,34 +269,6 @@
           </dd>
         </div>
         {% endif %}
-
-        <!-- tags -->
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-           Tags
-          </dt>
-          <dd class="govuk-summary-list__value">
-            <ul class="govuk-list">
-            {% for tag in consideration.tags %}
-              <li><a href="{{ url_for('planning_consideration.considerations', tag=tag.name) }}"><span class="govuk-tag">{{ tag.name }}</span></a>
-                {%- if not config.AUTHENTICATION_ON or session["user"] %}
-                  <span class="app-list__item__inline-action govuk-!-font-size-16">
-                    <a href="{{ url_for('tags.remove_tag', consideration=consideration.slug, tag_id=tag.id) }}" class="govuk-link app-destructive-link">Remove<span class="govuk-visually-hidden"> {{ tag.name }} tag from list</span></a>
-                  </span>
-                {% endif -%}
-              </li>
-            {% endfor %}
-            </ul>
-            <p class="govuk-!-font-size-16">
-              <a href="{{ url_for('main.glossary_of_tags') }}" class="govuk-link">View a glossary of tags</a>
-            </p>
-          </dd>
-          {% if not config.AUTHENTICATION_ON or session["user"] %}
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ url_for('tags.add_tag_consideration', consideration=consideration.slug) }}">Add<span class="govuk-visually-hidden"> planning consideration tags</span></a>
-            </dd>
-          {% endif %}
-        </div>
 
         <!-- OS declaration -->
         {%- if consideration.os_declaration %}
