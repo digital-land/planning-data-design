@@ -1,12 +1,15 @@
+import logging
+import csv
 import datetime
 import os
-import csv
 
 from flask import Blueprint, abort, jsonify, redirect, render_template, request, url_for
 
 from application.models import Consideration, Performance, PerformanceModel, Stage
+from application.services.event_service import EventService
 
 main = Blueprint("main", __name__)
+logger = logging.getLogger(__name__)
 
 
 @main.route("/")
@@ -26,8 +29,6 @@ def cookies():
 @main.route("/advisory-group")
 def advisory_group():
     return redirect(url_for("project.planning_applications"), code=301)
-
-
 
 
 @main.route("/advisory-group/members")
@@ -205,6 +206,24 @@ def check_for_redirects(page):
 
     return redirects[page] if page in redirects else page
 
+
+
+@main.route("/get-involved-in-designing-data")
+def get_involved_in_designing_data():
+    event_service = EventService()
+    try:
+        upcoming_events = event_service.get_upcoming_events()
+    except Exception as e:
+        # Log the error and continue with empty events
+        logger.error(f"Failed to fetch upcoming events: {e}")
+        upcoming_events = []
+
+    page = "get-involved-in-designing-data"
+    path = f"pages/{page}.md"
+
+    return render_template(
+        "pages/scaffold.html", path=path, page=page, upcoming_events=upcoming_events
+    )
 
 @main.route("/<string:page>")
 def page(page):
