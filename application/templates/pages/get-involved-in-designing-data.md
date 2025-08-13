@@ -1,6 +1,6 @@
 There are different ways to contribute to depending on where the planning consideration is in the [data design process]({{ url_for('main.page', page='data-design-process')}}), but you can get involved at any time.
 
-To build a design model, we need as many participants involved as possible. 
+To build a design model, we need as many participants involved as possible.
 
 You can get involved by joining online discussions or coming to events.
 
@@ -8,7 +8,7 @@ You can get involved by joining online discussions or coming to events.
 
 ### [Help us prioritise what to work on next](https://github.com/digital-land/data-standards-backlog/discussions/categories/planning-consideration)
 
-We work in the open with conversations in Github that anyone can view and contribute to. 
+We work in the open with conversations in Github that anyone can view and contribute to.
 
 ---
 
@@ -30,8 +30,11 @@ The data design team hosts events for all LPAs and organisations involved to joi
 
 Our most recent event was an [advisory group](https://design.planning.data.gov.uk/advisory-group) on planning application data specifications.
 
+{% if upcoming_events %}
+{% include 'components/upcoming-event.html' %}
+{% else %}
 <span class="app-missing-item">There are no future events to display.</span>
-
+{% endif %}
 ---
 
 ### Join our user research panel

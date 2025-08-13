@@ -1,0 +1,58 @@
+<table class="govuk-table govuk-table--small-text-until-tablet">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Event</th>
+      <th scope="col" class="govuk-table__header">Details</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    {% for event in upcoming_events %}
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          {{ event.name }}
+        </td>
+        <td class="govuk-table__cell">
+          {% if event.description %}
+            <p class="govuk-body">{{ event.description }}</p>
+          {% endif %}
+
+          <p class="govuk-body">
+            <strong>Starts at:</strong> {{ event.start_time | date_time_12hrs("%d %B %Y, %-I:%M%p") if event.start_time else 'Not specified' }}
+          </p>
+
+          {% if event.end_time %}
+            <p class="govuk-body">
+              <strong>Ends at:</strong> {{ event.end_time | date_time_12hrs("%d %B %Y, %-I:%M%p") if event.end_time else 'Not specified' }}
+            </p>
+          {% endif %}
+
+          <p class="govuk-body">
+            <strong>Location:</strong> {{ event.location if event.location else 'Not specified' }}
+          </p>
+          <p class="govuk-body">
+            <strong>Audience:</strong> {{ event.audience if event.audience else 'Not specified' }}
+          </p>
+          <p class="govuk-body">
+            <strong>Owner:</strong> {{ event.owner if event.owner else 'Not specified' }}
+          </p>
+          <p class="govuk-body">
+            <strong>Type:</strong> {{ event.type if event.type else 'Not specified' }}
+          </p>
+
+          {% if event.link %}
+            <p class="govuk-body">
+              <strong>Link:</strong> <a href="{{ event.link }}" class="govuk-link">{{ event.link }}</a>
+            </p>
+          {% endif %}
+
+          {% if event.joining_link %}
+            <p class="govuk-body">
+              <strong>Joining link:</strong> <a href="{{ event.joining_link }}" class="govuk-link">{{ event.joining_link }}</a>
+            </p>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
