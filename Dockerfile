@@ -15,14 +15,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
-    wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+    wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/postgresql.gpg
 
 RUN apt-get update && \
     apt-get install -y postgresql-client-16 && \
     rm -rf /var/lib/apt/lists/*
+
 COPY . .
+
 RUN pip install -r requirements/requirements.txt
 RUN pip install -r requirements/dev-requirements.txt
+
 EXPOSE 5050
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
