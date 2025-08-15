@@ -24,11 +24,9 @@ Follow our guidance setting out what you need to provide to get the dataset adde
 
 ---
 
-### Upcoming events
+### Attend an event
 
 The data design team hosts events for all LPAs and organisations involved to join. We want as many people as possible to help design datasets that work for everyone.
-
-Our most recent event was an [advisory group](https://design.planning.data.gov.uk/advisory-group) on planning application data specifications.
 
 {% if upcoming_events %}
 {% include 'components/upcoming-event.html' %}
