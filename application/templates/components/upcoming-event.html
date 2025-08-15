@@ -14,7 +14,7 @@
         </td>
         <td class="govuk-table__cell">
           {% if event.description %}
-            <p class="govuk-body">{{ event.description }}</p>
+            {{ event.description | render_markdown }}
           {% endif %}
 
           <p class="govuk-body">
