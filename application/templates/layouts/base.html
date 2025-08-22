@@ -75,16 +75,7 @@
 
 {% block beforeContent %}
   {% block app_phase_banner %}
-    {% set phaseBannerContent %}
-      This is a new service - your <a class="govuk-link" href="https://forms.office.com/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUOVpGMEc1M0s1M0pDWktPVUxUWVoxNjRMTS4u&route=shorturl" target="_blank">feedback</a> will help us to improve it.
-    {% endset %}
-
-    {{ govukPhaseBanner({
-      'tag': {
-        'text': "BETA"
-      },
-      'html': phaseBannerContent
-    }) }}
+    {% include 'components/app-phase-banner.html' %}
   {% endblock %}
   {% block app_breadcrumbs %}
     {% if not isHomepage %}

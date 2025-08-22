@@ -1,7 +1,6 @@
 .app-masthead {
-  $_padding: 6;
-  @include govuk-responsive-padding($_padding, "top");
-  @include govuk-responsive-padding($_padding, "bottom");
+  @include govuk-responsive-padding(2, "top");
+  @include govuk-responsive-padding(6, "bottom");
   color: #ffffff;
   background-color: govuk-colour("blue");
   position: relative;
