@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^5.1.3",
-    "@planning-data/digital-land-frontend": "^0.5.1",
-    "govuk-frontend": "5.9.0"
+    "@planning-data/digital-land-frontend": "^0.7.0",
+    "govuk-frontend": "5.11.1"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",

@@ -3,7 +3,7 @@
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.GOVUKFrontend = global.GOVUKFrontend || {}));
 })(window, (function (exports) {
-  const version = '5.9.0';
+  const version = '5.11.1';
 
   function getFragmentFromUrl(url) {
     if (!url.includes('#')) {
@@ -12,7 +12,7 @@
     return url.split('#').pop();
   }
   function getBreakpoint(name) {
-    const property = `--govuk-frontend-breakpoint-${name}`;
+    const property = `--govuk-breakpoint-${name}`;
     const value = window.getComputedStyle(document.documentElement).getPropertyValue(property);
     return {
       property,
@@ -1021,6 +1021,7 @@
           identifier: `Count message (\`id="${textareaDescriptionId}"\`)`
         });
       }
+      this.$errorMessage = this.$root.querySelector('.govuk-error-message');
       if (`${$textareaDescription.textContent}`.match(/^\s*$/)) {
         $textareaDescription.textContent = this.i18n.t('textareaDescription', {
           count: this.maxLength
@@ -1079,7 +1080,9 @@
       const remainingNumber = this.maxLength - this.count(this.$textarea.value);
       const isError = remainingNumber < 0;
       this.$visibleCountMessage.classList.toggle('govuk-character-count__message--disabled', !this.isOverThreshold());
-      this.$textarea.classList.toggle('govuk-textarea--error', isError);
+      if (!this.$errorMessage) {
+        this.$textarea.classList.toggle('govuk-textarea--error', isError);
+      }
       this.$visibleCountMessage.classList.toggle('govuk-error-message', isError);
       this.$visibleCountMessage.classList.toggle('govuk-hint', !isError);
       this.$visibleCountMessage.textContent = this.getCountMessage();
@@ -1679,6 +1682,8 @@
       this.$status = void 0;
       this.i18n = void 0;
       this.id = void 0;
+      this.$announcements = void 0;
+      this.enteredAnotherElement = void 0;
       const $input = this.$root.querySelector('input');
       if ($input === null) {
         throw new ElementError({
@@ -1768,12 +1773,6 @@
         this.enteredAnotherElement = false;
       });
     }
-
-    /**
-     * Updates the visibility of the dropzone as users enters the various elements on the page
-     *
-     * @param {DragEvent} event - The `dragenter` event
-     */
     updateDropzoneVisibility(event) {
       if (this.$button.disabled) return;
       if (event.target instanceof Node) {
@@ -1798,12 +1797,6 @@
     hideDraggingState() {
       this.$button.classList.remove('govuk-file-upload-button--dragging');
     }
-
-    /**
-     * Handles user dropping on the component
-     *
-     * @param {DragEvent} event - The `dragenter` event
-     */
     onDrop(event) {
       event.preventDefault();
       if (event.dataTransfer && isContainingFiles(event.dataTransfer)) {
@@ -1942,6 +1935,7 @@
       if (!$menuButton) {
         return this;
       }
+      this.$root.classList.add('govuk-header--with-js-navigation');
       const menuId = $menuButton.getAttribute('aria-controls');
       if (!menuId) {
         throw new ElementError({
