@@ -1,10 +1,17 @@
 {% extends 'layouts/base.html' %}
 {% set isHomepage = True %}
+{% block app_phase_banner %}{% endblock %}
 
 {% block beforeContent %}
 {{ super() }}
 <div class="app-masthead">
   <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        {% set phaseBannerClasses = "app-masthead__phase-banner--inverse" %}
+        {% include 'components/app-phase-banner.html' %}
+      </div>
+    </div>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-three-quarters">
         <h1 class="govuk-heading-xl app-masthead__title govuk-!-margin-bottom-2">
@@ -79,7 +86,7 @@
                 href="{{ url_for('main.page', page='get-involved-in-designing-data') }}">
                 <div class="app-content-list__link-text">Get involved in designing data</div>
                 <div class="app-content-list__description app-content-list__link-description">
-                  How you can help design data and get involved in community events and discussions 
+                  How you can help design data and get involved in community events and discussions
                 </div>
               </a>
             </h3>

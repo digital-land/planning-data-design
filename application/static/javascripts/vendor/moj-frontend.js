@@ -14,7 +14,7 @@
    *
    * {@link https://github.com/ministryofjustice/moj-frontend/releases}
    */
-  const version = '5.1.3';
+  const version = '5.1.5';
 
   class AddAnother extends govukFrontend.Component {
     /**
@@ -801,7 +801,9 @@
           event.stopPropagation();
         }
       });
-      document.body.addEventListener('mouseup', event => this.backgroundClick(event));
+      document.body.addEventListener('mouseup', event => {
+        this.backgroundClick(event);
+      });
 
       // populates calendar with initial dates, avoids Wave errors about null buttons
       this.updateCalendar();
@@ -827,9 +829,10 @@
         for (let j = 0; j < 7; j++) {
           // create cell (day)
           const $cell = document.createElement('td');
-          const $dateButton = document.createElement('button');
-          $cell.appendChild($dateButton);
           $row.appendChild($cell);
+          const $dateButton = document.createElement('button');
+          $dateButton.setAttribute('type', 'button');
+          $cell.appendChild($dateButton);
           const calendarDay = new DSCalendarDay($dateButton, dayCount, i, j, this);
           this.calendarDays.push(calendarDay);
           dayCount++;
@@ -861,7 +864,7 @@
     dialogTemplate(titleId) {
       return `<div class="moj-datepicker__dialog-header">
             <div class="moj-datepicker__dialog-navbuttons">
-              <button class="moj-datepicker__button moj-js-datepicker-prev-year">
+              <button type="button" class="moj-datepicker__button moj-js-datepicker-prev-year">
                 <span class="govuk-visually-hidden">Previous year</span>
                 <svg width="44" height="40" viewBox="0 0 44 40" fill="none" fill="none" focusable="false" aria-hidden="true" role="img">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M23.1643 20L28.9572 14.2071L27.5429 12.7929L20.3358 20L27.5429 27.2071L28.9572 25.7929L23.1643 20Z" fill="currentColor"/>
@@ -869,7 +872,7 @@
                 </svg>
               </button>
 
-              <button class="moj-datepicker__button moj-js-datepicker-prev-month">
+              <button type="button" class="moj-datepicker__button moj-js-datepicker-prev-month">
                 <span class="govuk-visually-hidden">Previous month</span>
                 <svg width="44" height="40" viewBox="0 0 44 40" fill="none" focusable="false" aria-hidden="true" role="img">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5729 20L25.7865 14.2071L24.5137 12.7929L18.0273 20L24.5137 27.2071L25.7865 25.7929L20.5729 20Z" fill="currentColor"/>
@@ -880,14 +883,14 @@
             <h2 id="${titleId}" class="moj-datepicker__dialog-title moj-js-datepicker-month-year" aria-live="polite">June 2020</h2>
 
             <div class="moj-datepicker__dialog-navbuttons">
-              <button class="moj-datepicker__button moj-js-datepicker-next-month">
+              <button type="button" class="moj-datepicker__button moj-js-datepicker-next-month">
                 <span class="govuk-visually-hidden">Next month</span>
                 <svg width="44" height="40" viewBox="0 0 44 40" fill="none"  focusable="false" aria-hidden="true" role="img">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M23.4271 20L18.2135 14.2071L19.4863 12.7929L25.9727 20L19.4863 27.2071L18.2135 25.7929L23.4271 20Z" fill="currentColor"/>
                 </svg>
               </button>
 
-              <button class="moj-datepicker__button moj-js-datepicker-next-year">
+              <button type="button" class="moj-datepicker__button moj-js-datepicker-next-year">
                 <span class="govuk-visually-hidden">Next year</span>
                 <svg width="44" height="40" viewBox="0 0 44 40" fill="none" fill="none" focusable="false" aria-hidden="true" role="img">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M20.8357 20L15.0428 14.2071L16.4571 12.7929L23.6642 20L16.4571 27.2071L15.0428 25.7929L20.8357 20Z" fill="currentColor"/>
@@ -2820,10 +2823,10 @@
       this.$upArrow = `<svg width="22" height="22" focusable="false" aria-hidden="true" role="img" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M6.5625 15.5L11 6.63125L15.4375 15.5H6.5625Z" fill="currentColor"/>
 </svg>`;
-      this.$downArrow = `<svg width="22" height="22" focusable="false" aria-hidden="true" role="img" vviewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      this.$downArrow = `<svg width="22" height="22" focusable="false" aria-hidden="true" role="img" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M15.4375 7L11 15.8687L6.5625 7L15.4375 7Z" fill="currentColor"/>
 </svg>`;
-      this.$upDownArrow = `<svg width="22" height="22" focusable="false" aria-hidden="true" role="img" vviewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      this.$upDownArrow = `<svg width="22" height="22" focusable="false" aria-hidden="true" role="img" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M8.1875 9.5L10.9609 3.95703L13.7344 9.5H8.1875Z" fill="currentColor"/>
 <path d="M13.7344 12.0781L10.9609 17.6211L8.1875 12.0781H13.7344Z" fill="currentColor"/>
 </svg>`;
