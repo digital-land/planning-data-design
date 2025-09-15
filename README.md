@@ -150,3 +150,11 @@ The repository uses GitHub Actions for continuous integration and automated back
 Tag definitions are stored in a [CSV file](/data/glossary-of-tags.csv) stored in the data folder.
 
 To update these finishing or add new ones, please update the CSV.
+
+## Updating the list of useful links (for considerations) that require authentication
+
+Some links shown in the useful links section require authentication and therefore should not be shown to the public.
+
+We decide which links show and not show based on their domain. This list is stored at the top of the [consideration.html](/planning-data-design/application/templates/consideration.html) file.
+
+Please note: you should include the host, for example, `https://www.example.com/` would be `www.example.com`.

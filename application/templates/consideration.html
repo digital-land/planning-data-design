@@ -1,3 +1,13 @@
+{# Define hosts that require authentication to view links #}
+{%
+  set authenticated_hosts = [
+    'app.mural.co',
+    'docs.google.com',
+    'mhclg.sharepoint.com',
+    'sharepoint.com'
+  ]
+%}
+
 {% extends 'layouts/base.html' %}
 
 {% block app_breadcrumbs %}
@@ -21,15 +31,22 @@
 {% endblock app_breadcrumbs %}
 
 {% macro LinksList(params) %}
+  {% set user_authenticated = not config.AUTHENTICATION_ON or session["user"] %}
+
   {% if params.links is not none %}
   <ul class="govuk-list govuk-list--spaced">
     {% for link in params.links %}
-    <li>
-      <a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a>
-      {%- if not config.AUTHENTICATION_ON or session["user"] %}
-      <span class="app-list__item__inline-action govuk-!-font-size-16"><a class="app-destructive-link" href="{{ url_for('planning_consideration.delete_attr_link', slug=params.consideration.slug, attr_name=params.attr, link_text=link['link_text'] )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ link['link_text'] }} schema from list</span></span>
-      {% endif -%}
-    </li>
+      {% set url_host = link['link_url']|get_url_host %}
+      {% set host_requires_auth = url_host in authenticated_hosts %}
+
+      {% if not host_requires_auth or user_authenticated %}
+        <li>
+          <a href="{{ link['link_url'] }}" class="govuk-link">{{ link['link_text'] }}</a>
+          {%- if user_authenticated %}
+          <span class="app-list__item__inline-action govuk-!-font-size-16"><a class="app-destructive-link" href="{{ url_for('planning_consideration.delete_attr_link', slug=params.consideration.slug, attr_name=params.attr, link_text=link['link_text'] )}}" class="govuk-link">Remove</a><span class="govuk-visually-hidden"> {{ link['link_text'] }} schema from list</span></span>
+          {% endif -%}
+        </li>
+      {% endif %}
     {% endfor %}
   </ul>
   {% endif %}

@@ -83,6 +83,7 @@ def register_filters(app):
         date_time_12_hours_filter,
         date_time_filter,
         deslugify_filter,
+        get_url_host_filter,
         map_to_tag_class_filter,
         render_markdown_filter,
         short_date_filter,
@@ -99,6 +100,7 @@ def register_filters(app):
     app.add_template_filter(date_time_filter, "date_time")
     app.add_template_filter(date_time_12_hours_filter, "date_time_12hrs")
     app.add_template_filter(start_case_filter, "start_case")
+    app.add_template_filter(get_url_host_filter, "get_url_host")
 
     from digital_land_frontend.filters import commanum_filter
 
