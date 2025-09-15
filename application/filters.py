@@ -1,4 +1,5 @@
 from datetime import datetime
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 from markdown import markdown
@@ -100,3 +101,9 @@ def date_time_12_hours_filter(date, format_str="%Y-%m-%d %I:%M %p"):
 
 def start_case_filter(s):
     return s[0].upper() + s[1:] if s else s
+
+
+def get_url_host_filter(url):
+    parsed_url = urlparse(url)
+
+    return parsed_url.netloc
