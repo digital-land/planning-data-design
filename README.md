@@ -158,3 +158,40 @@ Some links shown in the useful links section require authentication and therefor
 We decide which links show and not show based on their domain. This list is stored at the top of the [consideration.html](/planning-data-design/application/templates/consideration.html) file.
 
 Please note: you should include the host, for example, `https://www.example.com/` would be `www.example.com`.
+
+## Adding Upcoming Events
+
+To add a new event to the list, edit the `data/upcoming-events.yml` file. Each event should be added as an item under the `events:` key, following the existing format.
+
+### Example event structure
+
+```yaml
+- id: 2025-10-15-data-standards-community
+  name: 'October - Data Standards Community: Planning Permissions'
+  owner: Planning data team
+  start_time: '2025-10-15 10:30:00'
+  end_time: '2025-10-15 12:00:00'
+  joining_link: https://example.com/join
+  link: https://example.com/info
+  location: Online / Remote
+  type: general
+  audience: Designers, creatives, and enthusiasts
+  description: |
+    Brief description of the event, agenda, and any relevant details.
+```
+
+### Guidelines
+
+- **id**: Use a unique identifier, ideally in the format `YYYY-MM-DD-event-name`.
+- **name**: The event title.
+- **owner**: The team or person responsible.
+- **start_time** and **end_time**: Use `YYYY-MM-DD HH:MM:SS` format.
+- **joining_link**: Link for joining the event (e.g., registration or meeting link).
+- **link**: Additional info or registration link.
+- **location**: Specify if online, remote, or a physical location.
+- **type**: Event type (e.g., general, workshop).
+- **audience**: Who the event is for.
+- **description**: Use the pipe `|` for multi-line descriptions.
+
+Add your event to the end of the list, following the YAML syntax. Validate your changes to avoid formatting errors - you can use a tool like [Yaml Lint](https://www.yamllint.com/) to do this.
+
