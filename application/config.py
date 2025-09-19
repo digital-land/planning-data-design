@@ -26,7 +26,6 @@ class Config:
     GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
     SAFE_URLS = set(os.getenv("SAFE_URLS", "").split(","))
     PLATFORM_URL = os.getenv("PLATFORM_URL", "https://www.planning.data.gov.uk")
-    CMS_URL = os.getenv("CMS_URL", "https://cms.development.planning.data.gov.uk")
     DATASET_EDITOR_URL = os.getenv(
         "DATASET_EDITOR_URL", "https://dataset-editor.development.planning.data.gov.uk"
     )

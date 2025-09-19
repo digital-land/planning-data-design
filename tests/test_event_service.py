@@ -1,9 +1,6 @@
 from datetime import datetime, timedelta
-from unittest.mock import Mock, patch
-
+from unittest.mock import patch, mock_open
 import pytest
-from requests.exceptions import ConnectionError
-
 from application.services.event_service import EventService
 
 
@@ -11,104 +8,68 @@ class TestEventService:
     """Test suite for EventService class."""
 
     @pytest.fixture
-    def mock_config(self):
-        """Mock Config with test CMS URL."""
-        with patch("application.services.event_service.Config") as mock_config_class:
-            mock_config = Mock()
-            mock_config.CMS_URL = "https://test-cms.example.com"
-            mock_config_class.return_value = mock_config
-            yield mock_config
-
-    @pytest.fixture
-    def event_service(self, mock_config):
+    def event_service(self):
         """Create EventService instance with mocked config."""
         return EventService()
 
-    def test_init(self, event_service, mock_config):
-        """Test EventService initialization sets cms_url from config."""
-        assert event_service.cms_url == "https://test-cms.example.com"
-
-    def test_get_cms_endpoint(self, event_service):
-        """Test get_cms_endpoint returns correct URL."""
-        expected_url = (
-            "https://test-cms.example.com/api/v1/collections/data_design/events"
-        )
-        assert event_service.get_cms_endpoint() == expected_url
-
-    @patch("application.services.event_service.get")
-    def test_get_all_events_success(self, mock_get, event_service):
-        """Test get_all_events successfully retrieves events."""
-        # Mock response data
+    @patch("builtins.open", new_callable=mock_open, read_data="irrelevant")
+    @patch("yaml.safe_load")
+    def test_get_all_events_success(self, mock_yaml_load, mock_file, event_service):
+        """Test get_all_events successfully retrieves events from YAML."""
         mock_events = [
             {"id": 1, "name": "Event 1", "start_time": "2024-12-01T10:00:00"},
             {"id": 2, "name": "Event 2", "start_time": "2024-12-15T14:00:00"},
         ]
-        mock_response = Mock()
-        mock_response.json.return_value = {"data": {"events": mock_events}}
-        mock_get.return_value = mock_response
+        mock_yaml_load.return_value = {"events": mock_events}
 
         result = event_service.get_all_events()
 
-        mock_get.assert_called_once_with(event_service.get_cms_endpoint(), timeout=10)
+        mock_file.assert_called_once_with("data/upcoming-events.yml", "r")
+        mock_yaml_load.assert_called_once()
         assert result == mock_events
 
-    @patch("application.services.event_service.get")
-    def test_get_all_events_missing_data_key(self, mock_get, event_service):
-        """Test get_all_events handles missing data key gracefully."""
-        mock_response = Mock()
-        mock_response.json.return_value = {"something": "else"}
-        mock_get.return_value = mock_response
-
-        result = event_service.get_all_events()
-
-        assert result == []
-
-    @patch("application.services.event_service.get")
-    def test_get_all_events_missing_events_key(self, mock_get, event_service):
-        """Test get_all_events handles missing events key gracefully."""
-        mock_response = Mock()
-        mock_response.json.return_value = {"data": {"other": "data"}}
-        mock_get.return_value = mock_response
-
-        result = event_service.get_all_events()
-
-        assert result == []
-
-    @patch("application.services.event_service.get")
-    @patch("application.services.event_service.logger")
-    def test_get_all_events_connection_error(
-        self, mock_logger, mock_get, event_service
+    @patch("builtins.open", new_callable=mock_open, read_data="irrelevant")
+    @patch("yaml.safe_load")
+    def test_get_all_events_missing_data_key(
+        self, mock_yaml_load, mock_file, event_service
     ):
-        """Test get_all_events handles connection errors."""
-        mock_get.side_effect = ConnectionError("Connection failed")
+        """Test get_all_events handles missing data key gracefully."""
+        mock_yaml_load.return_value = {"something": "else"}
 
+        result = event_service.get_all_events()
+
+        assert result == []
+
+    @patch("builtins.open", new_callable=mock_open, read_data="irrelevant")
+    @patch("yaml.safe_load")
+    def test_get_all_events_missing_events_key(
+        self, mock_yaml_load, mock_file, event_service
+    ):
+        """Test get_all_events handles missing events key gracefully."""
+        mock_yaml_load.return_value = {"data": {"other": "data"}}
+
+        result = event_service.get_all_events()
+
+        assert result == []
+
+    @patch("builtins.open", new_callable=mock_open, read_data="irrelevant")
+    @patch("yaml.safe_load", side_effect=Exception("File error"))
+    @patch("application.services.event_service.logger")
+    def test_get_all_events_file_error(
+        self, mock_logger, mock_yaml_load, mock_file, event_service
+    ):
+        """Test get_all_events handles file errors."""
         result = event_service.get_all_events()
 
         assert result == []
         mock_logger.error.assert_called_once()
         error_call_args = mock_logger.error.call_args[0][0]
-        assert "Error fetching CMS content item" in error_call_args
-        assert "Connection failed" in error_call_args
-
-    @patch("application.services.event_service.get")
-    @patch("application.services.event_service.logger")
-    def test_get_all_events_json_decode_error(
-        self, mock_logger, mock_get, event_service
-    ):
-        """Test get_all_events handles JSON decode errors."""
-        mock_response = Mock()
-        mock_response.json.side_effect = ValueError("Invalid JSON")
-        mock_get.return_value = mock_response
-
-        result = event_service.get_all_events()
-
-        assert result == []
-        mock_logger.error.assert_called_once()
+        assert "Error fetching content item" in error_call_args
+        assert "File error" in error_call_args
 
     @patch.object(EventService, "get_all_events")
     def test_get_upcoming_events_success(self, mock_get_all_events, event_service):
         """Test get_upcoming_events filters events correctly."""
-        # Create test data with past and future events
         now = datetime.now()
         past_time = (now - timedelta(days=1)).isoformat()
         future_time1 = (now + timedelta(days=1)).isoformat()
