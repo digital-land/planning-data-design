@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from application.models import Consideration
 
 project = Blueprint("project", __name__)
 
@@ -10,8 +11,14 @@ def index():
 
 @project.route("/project/planning-applications")
 def planning_applications():
-    return render_template("advisory-group.html")
-
+    considerations = sorted(
+        Consideration.query.all(),
+        key=lambda c: c.name,
+    )
+    return render_template(
+        "advisory-group.html",
+        considerations=considerations,
+    )
 
 @project.route("/project/planning-applications/members")
 def advisory_group_members():

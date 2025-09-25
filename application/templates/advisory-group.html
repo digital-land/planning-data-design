@@ -40,10 +40,39 @@
       'html': notificationBannerHtml,
     }) #}
 
-    <p class="govuk-body-l">MHCLG Digital Planning are developing a set of open, reusable data specifications to underpin planning applications. These will make sure the <a href="https://www.gov.uk/government/publications/planning-application-forms-templates-for-local-planning-authorities" class="govuk-link">current templates</a> are underpinned by data.</p>
+    <p class="govuk-body-l">MHCLG Digital Planning are developing a set of open, reusable data specifications to help standardise the information submitted when a planning application is made.</p>
 
-    <p class="govuk-body-l">The specifications will define the structure and format of data that is required when submitting a planning application based on the national legislation in place.</p>
+    <p class="govuk-body-l">These specifications will ensure that the data is consistent and meets requirements set out in national legislation.</p>
 
+    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+    <h2 class="govuk-heading-m" id="Related considerations">Related considerations</h2>
+
+    <p class="govuk-body">We have identified the following considerations as being related to planning applications.</p>
+
+    <dl class="govuk-summary-list">
+      {% for consideration in considerations %}
+        {% set tag_names = consideration.tags | map(attribute='name') | map('lower') | list %}
+        {% if 'planning permission' in tag_names%}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+        <a href="{{ url_for('planning_consideration.consideration', slug=consideration.slug) }}" class="govuk-link govuk-link--text-colour">{{ consideration.name }}</a>
+          </dt>
+        
+          <dd class="govuk-summary-list__actions govuk-!-text-align-left">
+            <p class="govuk-body govuk-!-margin-bottom-0">
+            {%- if consideration.github_discussion_number is not none %}
+              {% set discussion_link = github_discussion_base_url + "/" + consideration.github_discussion_number|string %}
+              <a href="{{ discussion_link }}" class="govuk-link">Github discussion</a>
+            {% endif -%}
+            </p>
+          </dd>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </dl>    
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--invisible">
 
     <h2 class="govuk-heading-m" id="Timeline">Events timeline</h2>
 
