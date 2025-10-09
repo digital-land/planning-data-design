@@ -1,61 +1,19 @@
 events:
-  - id: 2025-08-20-data-standards-community
-    name: 'August - Data Standards Community: Planning Permissions'
-    owner: Planning data team
-    start_time: '2025-08-20 10:30:00'
-    end_time: '2025-08-20 12:00:00'
-    joining_link: https://docs.google.com/forms/d/e/1FAIpQLSeuLhyDBzjSFoccSbZUzxn14IU6n9buZwwaI42gsXnYlFB2uQ/viewform
-    link: https://docs.google.com/forms/d/e/1FAIpQLSeuLhyDBzjSFoccSbZUzxn14IU6n9buZwwaI42gsXnYlFB2uQ/viewform
-    location: Online / Remote
-    type: general
-    audience: Designers, creatives, and enthusiasts
-    description: |
-      We look forward to seeing you at the MHCLG data standards open community. This is an open invite for anyone interested in the development of data specifications - designing data that will be made available on [planning.data.gov.uk](http://planning.data.gov.uk/). To receive a calendar invite please submit the form below.
+  - id: 2025-10-22-data-standards-community
+    name: 'Open Data Standards Community: Planning Permissions'
+    owner: Data Design Team
+    start_time: '2025-10-22 10:30:00'
+    end_time: '2025-10-22 12:00:00'
+    location: Teams meeting
+    type: General
+    audience: |
+      Anyone interested in the development of the planning application data specification.
 
-      For the next three months this community will be focussed on planning permissions. We encourage you to attend all three sessions, and would like the community's input to shape ongoing work and priorities.
+    joining_link: https://mcas-proxyweb.mcas.ms/certificate-checker?login=false&originalUrl=https%3A%2F%2Fgbr01.safelinks.protection.outlook.com.mcas.ms%2Fap%2Ft-59584e83%2F%3Furl%3Dhttps%253A%252F%252Fteams.microsoft.com%252Fl%252Fmeetup-join%252F19%25253ameeting_N2M0MTg2YzUtZTg5MS00ZDU3LWI2YzItMDg2NjlkZWE0Yzgx%252540thread.v2%252F0%253Fcontext%253D%25257b%252522Tid%252522%25253a%252522bf346810-9c7d-43de-a872-24a2ef3995a8%252522%25252c%252522Oid%252522%25253a%252522f230c6df-2208-490a-8373-6e4676f70787%252522%25257d%26data%3D05%257C02%257CFabia.Fowler%2540communities.gov.uk%257C638f525871854455d29508de05a456d4%257Cbf3468109c7d43dea87224a2ef3995a8%257C0%257C0%257C638954400580903483%257CUnknown%257CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%253D%253D%257C0%257C%257C%257C%26sdata%3Dlsa4M5uVwEW2Ktu3v249Xd923rmAnj7FimOXQOpsK%252B0%253D%26reserved%3D0%26McasTsid%3D20893&McasCSRF=7b2c7fbc4165d2098201cfb503869e646af2da11baad33e14ceb8dbac2f8a5d9
+    joining_link_text: Teams meeting link
+    description: |      
+      Data Design team updates on specification development, user research, designing and testing.
 
-      Aim:
+      Community updates and discussions on topics relevant to planning application data specifications
 
-      We want to engage with the widest community of people to:
-
-      - co-create effective planning permission data specifications, helping to resolve issues and support testing.
-      - discuss and prioritise the next planning permission data specifications to design.
-      - advise on other planning data specifications being developed by MHCLG or members of the community.
-
-      Agenda:
-
-      Facilitated by the Data Design Team:
-
-      - Data Design updates and progress
-      - Community updates (where appropriate)
-      - Open forum - ‘Lean Coffee’ style - community prioritised discussion on topics raised by the community.
-  - id: 2025-09-24-data-standards-community
-    name: 'September - Data Standards Community: Planning Permissions'
-    owner: Planning data team
-    start_time: '2025-09-24 10:30:00'
-    end_time: '2025-09-24 12:00:00'
-    joining_link: https://docs.google.com/forms/d/e/1FAIpQLSeuLhyDBzjSFoccSbZUzxn14IU6n9buZwwaI42gsXnYlFB2uQ/viewform
-    link: https://docs.google.com/forms/d/e/1FAIpQLSeuLhyDBzjSFoccSbZUzxn14IU6n9buZwwaI42gsXnYlFB2uQ/viewform
-    location: Online / Remote
-    type: general
-    audience: Designers, creatives, and enthusiasts
-    description: |
-      We look forward to seeing you at the MHCLG data standards open community. This is an open invite for anyone interested in the development of data specifications - designing data that will be made available on [planning.data.gov.uk](http://planning.data.gov.uk/). To receive a calendar invite please submit the form below.
-
-      For the next three months this community will be focussed on planning permissions. We encourage you to attend all three sessions, and would like the community's input to shape ongoing work and priorities.
-
-      Aim:
-
-      We want to engage with the widest community of people to:
-
-      - co-create effective planning permission data specifications, helping to resolve issues and support testing.
-      - discuss and prioritise the next planning permission data specifications to design.
-      - advise on other planning data specifications being developed by MHCLG or members of the community.
-
-      Agenda:
-
-      Facilitated by the Data Design Team:
-
-      - Data Design updates and progress
-      - Community updates (where appropriate)
-      - Open forum - ‘Lean Coffee’ style - community prioritised discussion on topics raised by the community.
+      If there is a topic you'd like to present or discuss, please let us know.<br>
