@@ -48,7 +48,7 @@
 
           {% if event.joining_link %}
             <p class="govuk-body">
-              <strong>Joining link:</strong> <a href="{{ event.joining_link }}" class="govuk-link">{{ event.joining_link }}</a>
+              <strong>Joining link:</strong> <a href="{{ event.joining_link }}" class="govuk-link">{{ event.joining_link_text if event.joining_link_text else event.joining_link }}</a>
             </p>
           {% endif %}
         </td>
