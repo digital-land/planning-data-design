@@ -70,7 +70,6 @@ BGS Geology 10k,,,,Archived,True,,,False,,,,,bgs-geology-10k,,,
 BGS Geology 250k,,,,Archived,True,,,False,,,,,bgs-geology-250k,,,
 BGS Geology 25k,,,,Archived,True,,,False,,,,,bgs-geology-25k,,,
 BGS Geology 50k,,,,Archived,True,,,False,,,,,bgs-geology-50k,,,
-BGS Geology 625k,,Geology 625k,,Archived,True,,,False,,,,,bgs-geology-625k,,,
 BGS Geology: superficial thickness,,,,Archived,True,,,False,,,,,bgs-geology-superficial-thickness,,,
 BGS groundwater flooding,"Areas where groundwater flooding could occur or where groundwater may come close to the ground surface in England, Wales and Scotland",,,Archived,True,,,False,,,,,bgs-groundwater-flooding,,,
 Marine conservation zones,"Marine areas that protect a range of nationally important, rare or threatened habitats and species",Protected sites,209,Backlog,True,,,False,,,,,marine-conservation-zones,,,constraint;environmental
@@ -84,6 +83,7 @@ School catchment areas,Geographical area surrounding a school from which it will
 Canals,Human-made waterways that allow boats and ships to pass from one body of water to another,Watercourses,125,Backlog,True,,,False,,,,,canals,,,amenity;controlled waters;infrastructure
 Coal authority mine water treatment schemes,Locations where mine water is treated to improve water quality in polluted rivers,,126,Backlog,True,,,False,,,,,coal-authority-mine-water-treatment-schemes,,,environmental;local information
 Existing railway network,The existing railway network.,,160,Backlog,True,,,False,,,,,existing-railway-network,,,connectivity;constraint;infrastructure;local plan;nist
+BGS Geology 625k,,Geology 625k,,Backlog,True,,,False,,,,,bgs-geology-625k,,,
 National chargepoint register,Database of public electric vehicle chargepoints  in the UK,,214,Backlog,True,,,False,,,,,national-chargepoint-register,,,amenity;infrastructure;nist
 National cycle network,"The UK-wide network of signed paths and routes for walking, wheeling, and cycling outdoors",,215,Backlog,True,,,False,,,,,national-cycle-network,,,amenity;connectivity;infrastructure;local plan;nist
 COMAH – major hazard sites,Sites storing or handling large quantities of chemicals or hazardous substances that are covered by the Control of Major Accident Hazards (COMAH) Regulations ,Control of major accident and hazard sites,,Archived,True,,,False,,,,,comah-major-hazard-sites,,,
