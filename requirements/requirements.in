@@ -1,4 +1,5 @@
 digital_land_frontend @ git+https://github.com/digital-land/digital-land-frontend.git#egg=digital_land_frontend
+govuk-frontend-jinja==3.7.0
 Flask
 Flask-WTF
 Flask-SQLAlchemy
