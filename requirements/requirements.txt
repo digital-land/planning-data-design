@@ -4,44 +4,41 @@
 #
 #    pip-compile requirements/requirements.in
 #
-alembic==1.13.2
+alembic==1.18.4
     # via
     #   alembic-postgresql-enum
     #   flask-migrate
-alembic-postgresql-enum==1.3.0
+alembic-postgresql-enum==1.9.0
     # via -r requirements/requirements.in
 annotated-types==0.7.0
     # via pydantic
-authlib==1.3.1
+authlib==1.6.8
     # via -r requirements/requirements.in
-beautifulsoup4==4.12.3
+beautifulsoup4==4.14.3
     # via -r requirements/requirements.in
-blinker==1.8.2
+blinker==1.9.0
     # via
     #   flask
-    #   flask-debugtoolbar
     #   sentry-sdk
-certifi==2024.7.4
+certifi==2026.1.4
     # via
     #   requests
     #   sentry-sdk
-cffi==1.17.0
+cffi==2.0.0
     # via
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.2
+charset-normalizer==3.4.4
     # via requests
-click==8.1.7
+click==8.3.1
     # via flask
-cryptography==43.0.1
+cryptography==46.0.5
     # via
     #   authlib
     #   pyjwt
-deprecated==1.2.14
-    # via pygithub
 digital-land-frontend @ git+https://github.com/digital-land/digital-land-frontend.git
     # via -r requirements/requirements.in
-flask==3.0.3
+flask==3.1.3
     # via
     #   -r requirements/requirements.in
     #   flask-debugtoolbar
@@ -50,9 +47,9 @@ flask==3.0.3
     #   flask-sslify
     #   flask-wtf
     #   sentry-sdk
-flask-debugtoolbar==0.15.1
+flask-debugtoolbar==0.16.0
     # via -r requirements/requirements.in
-flask-migrate==4.0.7
+flask-migrate==4.1.0
     # via -r requirements/requirements.in
 flask-sqlalchemy==3.1.1
     # via
@@ -62,95 +59,99 @@ flask-sslify==0.1.5
     # via -r requirements/requirements.in
 flask-talisman==1.1.0
     # via -r requirements/requirements.in
-flask-wtf==1.2.1
+flask-wtf==1.2.2
     # via -r requirements/requirements.in
 govuk-frontend-jinja==3.7.0
-    # via digital-land-frontend
-gunicorn==23.0.0
+    # via
+    #   -r requirements/requirements.in
+    #   digital-land-frontend
+greenlet==3.3.2
+    # via sqlalchemy
+gunicorn==25.1.0
     # via -r requirements/requirements.in
-idna==3.7
+idna==3.11
     # via requests
 is-safe-url==1.0
     # via -r requirements/requirements.in
 itsdangerous==2.2.0
     # via
     #   flask
-    #   flask-debugtoolbar
     #   flask-wtf
-jinja2==3.1.4
+jinja2==3.1.6
     # via
     #   flask
     #   govuk-frontend-jinja
-mako==1.3.5
+mako==1.3.10
     # via alembic
-markdown==3.7
+markdown==3.10.2
     # via -r requirements/requirements.in
-markupsafe==2.1.5
+markupsafe==3.0.3
     # via
-    #   flask-debugtoolbar
+    #   flask
     #   jinja2
     #   mako
     #   sentry-sdk
     #   werkzeug
     #   wtforms
-packaging==24.1
-    # via
-    #   flask-debugtoolbar
-    #   gunicorn
-psycopg2-binary==2.9.9
+packaging==26.0
+    # via gunicorn
+psycopg2-binary==2.9.11
     # via -r requirements/requirements.in
-pycparser==2.22
+pycparser==3.0
     # via cffi
-pydantic==2.8.2
+pydantic==2.12.5
     # via -r requirements/requirements.in
-pydantic-core==2.20.1
+pydantic-core==2.41.5
     # via pydantic
-pygithub==2.3.0
+pygithub==2.8.1
     # via -r requirements/requirements.in
-pyjwt[crypto]==2.9.0
+pyjwt[crypto]==2.11.0
     # via pygithub
-pynacl==1.5.0
+pynacl==1.6.2
     # via pygithub
-python-dotenv==1.0.1
+python-dotenv==1.2.1
     # via -r requirements/requirements.in
 python-frontmatter==1.1.0
     # via -r requirements/requirements.in
 python-slugify==8.0.4
     # via -r requirements/requirements.in
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via python-frontmatter
-requests==2.32.3
+requests==2.32.5
     # via pygithub
-sentry-sdk[flask]==2.13.0
+sentry-sdk[flask]==2.53.0
     # via -r requirements/requirements.in
-soupsieve==2.6
+soupsieve==2.8.3
     # via beautifulsoup4
-sqlalchemy==2.0.32
+sqlalchemy==2.0.46
     # via
     #   alembic
     #   alembic-postgresql-enum
     #   flask-sqlalchemy
 text-unidecode==1.3
     # via python-slugify
-typing-extensions==4.12.2
+tomli==2.4.0
+    # via alembic
+typing-extensions==4.15.0
     # via
     #   alembic
+    #   beautifulsoup4
+    #   cryptography
     #   pydantic
     #   pydantic-core
     #   pygithub
     #   sqlalchemy
-urllib3==2.2.2
+    #   typing-inspection
+typing-inspection==0.4.2
+    # via pydantic
+urllib3==2.6.3
     # via
     #   pygithub
     #   requests
     #   sentry-sdk
-validators==0.33.0
+validators==0.35.0
     # via digital-land-frontend
-werkzeug==3.0.3
-    # via
-    #   flask
-    #   flask-debugtoolbar
-wrapt==1.16.0
-    # via deprecated
-wtforms==3.1.2
+werkzeug==3.1.6
+    # via flask
+wtforms==3.2.1
     # via flask-wtf
