@@ -207,7 +207,6 @@ def check_for_redirects(page):
     return redirects[page] if page in redirects else page
 
 
-
 @main.route("/get-involved-in-designing-data")
 def get_involved_in_designing_data():
     event_service = EventService()
@@ -224,6 +223,7 @@ def get_involved_in_designing_data():
     return render_template(
         "pages/scaffold.html", path=path, page=page, upcoming_events=upcoming_events
     )
+
 
 @main.route("/<string:page>")
 def page(page):
