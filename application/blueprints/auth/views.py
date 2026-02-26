@@ -1,5 +1,4 @@
 from http import HTTPStatus
-import os
 import requests
 from flask import Blueprint, current_app, flash, redirect, request, session, url_for
 from is_safe_url import is_safe_url
