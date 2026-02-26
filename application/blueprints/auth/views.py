@@ -17,10 +17,7 @@ def login():
     auth_url = url_for(
         "auth.authorize",
         _external=True,
-        _scheme="http"
-        if os.getenv("ENVIRONMENT") is not None
-        and os.getenv("ENVIRONMENT") == "development"
-        else "https",
+        _scheme="https",
     )
     return oauth.github.authorize_redirect(auth_url)
 
