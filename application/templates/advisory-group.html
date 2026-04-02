@@ -48,7 +48,7 @@
 
     <h2 class="govuk-heading-m" id="Timeline">Next event</h2>
 
-    <p class="govuk-class">The next community session will be held on 31 March 2026, 10.30am to 12.00pm.</p>
+    <p class="govuk-class">The next community session will be held on 27 May 2026, 10.30am to 12.00pm.</p>
 
     <p class="govuk-class"><a href="https://forms.office.com/e/DviXrJp60e" class="govuk-link">Sign up</a> if you would like to attend.</p>
 
@@ -57,6 +57,24 @@
     <p class="govuk-body">To view the history of this project in more detail, visit our <a href="{{ url_for('project.advisory_group_weeknotes') }}" class="govuk-link" class="govuk-link">weeknotes page</a>.</p>
 
     <div class="moj-timeline">
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">March data standards community session</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2026-03-31">31 Mar 2026</time>
+        </p>
+        <div class="moj-timeline__description">
+          We held the March community session, covering planning application process complexity, progress on the submission and decision specifications, implementation readiness with software suppliers and ecosystem integration.
+          <p class="govuk-body">Materials from the session</p>
+          <ul class="govuk-list--bullet">
+            <li><a href="https://drive.google.com/file/d/1G78SQv_cfPmfLYkjvCIS7pbpQcKy8JUx/view?usp=sharing" class="govuk-link">March session slides</a></li>
+            <li><a href="{{ url_for('static', filename='docs/20260331-ODSC-Session-Summary.docx.pdf') }}" class="govuk-link">Notes from the session</a></li>
+            <li><a href="{{ url_for('static', filename='docs/20260331-Community-Questions-and-themes.pdf') }}" class="govuk-link">Questions and themes from the session</a></li>
+          </ul>
+        </div>
+      </div>
 
       <div class="moj-timeline__item">
         <div class="moj-timeline__header">
