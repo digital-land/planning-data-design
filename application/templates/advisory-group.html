@@ -48,7 +48,7 @@
 
     <h2 class="govuk-heading-m" id="Timeline">Next event(s)</h2>
 
-    <p class="govuk-class">The next community session will be held on 20 May 2026, 10.30 to 12.00.</p>
+    <p class="govuk-class">The next community session will be held on 24 June 2026, 10.30 to 12.00.</p>
 
     <p class="govuk-class"><a href="https://forms.office.com/e/DviXrJp60e" class="govuk-link">Sign up</a> if you would like to attend.</p>
 
@@ -59,6 +59,23 @@
     <p class="govuk-body">To view the history of this project in more detail, visit our <a href="{{ url_for('project.advisory_group_weeknotes') }}" class="govuk-link" class="govuk-link">weeknotes page</a>.</p>
 
     <div class="moj-timeline">
+
+      <div class="moj-timeline__item">
+        <div class="moj-timeline__header">
+          <h2 class="moj-timeline__title">May data standards community session</h2>
+        </div>
+        <p class="moj-timeline__date">
+          <time date="2026-05-20">20 May 2026</time>
+        </p>
+        <div class="moj-timeline__description">
+          We held the May community session, covering mandation, supplier implementation, the enabling environment for standards adoption and the plan to get the submission and decision specifications to candidate stage.
+          <p class="govuk-body">Materials from the session</p>
+          <ul class="govuk-list--bullet">
+            <li><a href="https://drive.google.com/file/d/1ZChggxE8r0O9q89L5iwLwBbMTfRrqnt7/view?usp=sharing" class="govuk-link">May session slides</a></li>
+            <li><a href="{{ url_for('static', filename='docs/20260520-ODSC-Summary.pdf') }}" class="govuk-link">Notes from the session</a></li>
+          </ul>
+        </div>
+      </div>
 
       <div class="moj-timeline__item">
         <div class="moj-timeline__header">
