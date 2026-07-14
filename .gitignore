@@ -292,6 +292,4 @@ dist
 
 # and the rest
 .DS_Store
-.python-version
 .vscode
-package-lock.json
