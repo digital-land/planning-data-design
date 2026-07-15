@@ -293,3 +293,9 @@ dist
 # and the rest
 .DS_Store
 .vscode
+
+
+# built static assets; application/static/docs is the only
+# source-controlled content under application/static
+application/static/*
+!application/static/docs
