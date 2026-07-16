@@ -1,13 +1,12 @@
 init::
-	python -m pip install --upgrade pip
+	# pip-tools 7.5.3 breaks on pip>=26.1 (jazzband/pip-tools#2379); unpin once fixed upstream
+	python -m pip install --upgrade "pip<26.1"
 	python -m pip install pip-tools
-	python -m piptools compile requirements/dev-requirements.in
-	python -m piptools compile requirements/requirements.in
 	python -m piptools sync requirements/dev-requirements.txt requirements/requirements.txt
 	python -m pre_commit install
 	npm install
 
-reqs:
+compile:
 	python -m piptools compile requirements/dev-requirements.in
 	python -m piptools compile requirements/requirements.in
 	python -m piptools sync requirements/requirements.txt requirements/dev-requirements.txt

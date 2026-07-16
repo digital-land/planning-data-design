@@ -65,8 +65,6 @@ govuk-frontend-jinja==3.7.0
     # via
     #   -r requirements/requirements.in
     #   digital-land-frontend
-greenlet==3.3.2
-    # via sqlalchemy
 gunicorn==25.1.0
     # via -r requirements/requirements.in
 idna==3.11
