@@ -1,4 +1,18 @@
 # syntax=docker/dockerfile:1
+FROM node:18-slim AS assets
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends rsync \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY package.json package-lock.jso[n] ./
+RUN npm install --ignore-scripts
+
+COPY digital-land-frontend.config.json rollup.config.js ./
+COPY src/ ./src/
+RUN mkdir -p application/static/javascripts application/static/stylesheets \
+    && npm run postinstall
+
 FROM python:3.10-slim
 WORKDIR /code
 
@@ -22,6 +36,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY . .
+COPY --from=assets /app/application/static ./application/static
 
 RUN pip install -r requirements/requirements.txt
 RUN pip install -r requirements/dev-requirements.txt

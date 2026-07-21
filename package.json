@@ -12,14 +12,14 @@
     "watch:images": "npx chokidar './assets/images/**/*.{png,ico,svg,jpg,jpeg,webp}' -c 'npm run copy:images'",
     "nps": "nps -c ./node_modules/@planning-data/digital-land-frontend/package-scripts.js",
     "copy:images_shared": "npm run nps copy.images",
-    "copy:images_govuk": "npm run nps copy.govukAssets",
+    "copy:images_govuk": "npx copyfiles -u 3 \"node_modules/govuk-frontend/dist/govuk/assets/**\" application/static",
     "copy:images_local": "npx copyfiles src/images/**/*.{png,ico,svg,jpg,jpeg,webp} application/static -u 2",
     "copy:images": "run-s copy:images_*",
-    "copy:moj-frontend-js": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js src/javascripts/vendor/moj-frontend.js",
-    "copy:moj-frontend-css": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/moj-frontend.min.css* src/scss/vendor/",
+    "copy:moj-frontend-js": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js application/static/javascripts/vendor/moj-frontend.js && rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js.map application/static/javascripts/vendor/",
+    "copy:moj-frontend-css": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/moj-frontend.min.css* application/static/stylesheets/vendor/",
     "copy:moj-frontend": "npm run copy:moj-frontend-js && npm run copy:moj-frontend-css",
     "copyjs": "rsync -ar src/javascripts/ application/static/javascripts",
-    "postinstall": "npm run copyjs && npm run nps copy.javascripts && npm run nps build.stylesheets && npm run nps build.javascripts && npm run copy:moj-frontend",
+    "postinstall": "npm run copyjs && npm run copy:images && npm run copy:moj-frontend && npm run nps copy.javascripts && npm run nps build.stylesheets && npm run nps build.javascripts",
     "start": "run-p watch flask"
   },
   "repository": {
