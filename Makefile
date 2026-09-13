@@ -49,3 +49,15 @@ assets: build-assets copyjs
 assets-clobber:
 	rm -rf application/static/
 	mkdir -p application/static
+
+DB_TABLES = answer change_log consideration consideration_tags note performance question tag
+
+# restores data/latest_backup.dump into a fresh db container, then dumps
+# each table to data/<table-name>.csv
+export-csv:
+	podman-compose down -v
+	podman-compose up -d db
+	until podman-compose exec -T db psql -U postgres -d planning-data-design -c "select 1 from consideration limit 1" >/dev/null 2>&1; do sleep 1; done
+	for table in $(DB_TABLES); do \
+		podman-compose exec -T db psql -U postgres -d planning-data-design -c "\copy public.$$table to stdout with csv header" > data/$$table.csv; \
+	done
