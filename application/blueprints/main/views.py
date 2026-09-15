@@ -5,7 +5,7 @@ import os
 
 from flask import Blueprint, abort, jsonify, redirect, render_template, request, url_for
 
-from application.models import Consideration, Performance, PerformanceModel, Stage
+from application.models import Consideration, Performance, PerformanceModel
 from application.services.event_service import EventService
 
 main = Blueprint("main", __name__)
@@ -43,29 +43,7 @@ def advisory_group_timeline():
 
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
-
-    # List of stages to filter
-    active_stages = [
-        Stage.RESEARCH,
-        Stage.CO_DESIGN,
-        Stage.TEST_AND_ITERATE,
-    ]
-    # ["Research", "Co-design", "Test and iterate", "Ready for go/no-go"]
-    active_considerations = sorted(
-        Consideration.query.filter(Consideration.stage.in_(active_stages)).all(),
-        key=lambda c: c.name,
-    )
-
-    emerging_priorities = sorted(
-        Consideration.query.filter(Consideration.prioritised).all(),
-        key=lambda c: c.name,
-    )
-
-    return render_template(
-        "what-we-are-working-on.html",
-        active_considerations=active_considerations,
-        emerging_priorities=emerging_priorities,
-    )
+    return redirect(url_for("main.index"), code=301)
 
 
 @main.route("/stage-count")
