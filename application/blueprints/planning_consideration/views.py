@@ -56,7 +56,7 @@ enum_map = {
 planning_consideration = Blueprint(
     "planning_consideration",
     __name__,
-    url_prefix="/planning-consideration",
+    url_prefix="/consideration",
 )
 
 

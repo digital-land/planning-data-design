@@ -15,8 +15,8 @@ def test_prev_next_slugs_are_valid():
 
 
 def test_question_page_returns_404_for_invalid_stage(client, consideration):
-    response = client.get("/planning-consideration/test-consideration-1/backlog/")
+    response = client.get("/consideration/test-consideration-1/backlog/")
     assert response.status_code == 200
 
-    response = client.get("/planning-consideration/test-consideration-1/invalid-stage/")
+    response = client.get("/consideration/test-consideration-1/invalid-stage/")
     assert response.status_code == 404

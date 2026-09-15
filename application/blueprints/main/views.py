@@ -46,6 +46,15 @@ def what_we_are_working_on():
     return redirect(url_for("main.index"), code=301)
 
 
+@main.route("/planning-consideration")
+@main.route("/planning-consideration/<path:subpath>")
+def planning_consideration_redirect(subpath=""):
+    target = f"/consideration/{subpath}" if subpath else "/consideration/"
+    if request.query_string:
+        target += "?" + request.query_string.decode()
+    return redirect(target, code=301)
+
+
 @main.route("/stage-count")
 def stage_count():
 

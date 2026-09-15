@@ -24,7 +24,7 @@ from application.utils import login_required, true_false_to_bool
 questions = Blueprint(
     "questions",
     __name__,
-    url_prefix="/planning-consideration/<string:consideration_slug>/<stage:stage>",
+    url_prefix="/consideration/<string:consideration_slug>/<stage:stage>",
 )
 
 

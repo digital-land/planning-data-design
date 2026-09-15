@@ -1,6 +1,6 @@
 ### Check if it's on the backlog
 
-Firstly, check if the planning consideration relating to your dataset is [on the backlog](https://design.planning.data.gov.uk/planning-consideration/).
+Firstly, check if the planning consideration relating to your dataset is [on the backlog](https://design.planning.data.gov.uk/consideration/).
 
 ### What to do if the consideration is on the backlog
 
