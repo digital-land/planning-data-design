@@ -27,6 +27,35 @@ Manage planning considerations through standards process
     docker compose up
 
 
+## Running the app locally with podman
+
+Requires `podman` and `podman-compose`.
+
+    sudo apt install podman-compose
+
+Podman needs a registry configured to resolve short image names (for example `postgres:16-bullseye`). If `~/.config/containers/registries.conf` does not set `unqualified-search-registries`, create it:
+
+    mkdir -p ~/.config/containers
+    echo 'unqualified-search-registries = ["docker.io"]' > ~/.config/containers/registries.conf
+
+### First time setup or when you need to rebuild assets
+
+    podman-compose build web
+
+### Regular development (starts everything)
+
+    podman-compose up -d db web
+
+### When you need to restore the database
+
+    podman-compose down -v
+    podman-compose up -d db web
+
+### Port conflicts
+
+`compose.yml` maps the database to host port 5432. If you already run Postgres locally on that port, change the `db` service's port mapping (for example to `5434:5432`) before starting.
+
+
 ## To run the app locally without docker
 
     createdb dluhc-planning-considerations
