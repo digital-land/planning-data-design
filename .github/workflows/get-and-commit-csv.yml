@@ -2,20 +2,50 @@ name: Dump database to csv
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    # after backup-db.yml (0 1 * * *) so this dumps the freshly restored backup
+    - cron: '0 2 * * *'
   workflow_dispatch:
 
 jobs:
-  download_and_commit:
+  dump_and_commit:
     runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:16-bullseye
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: planning-data-design
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
 
-    - name: Download file
+    - name: Install postgresql-client-16
       run: |
-        curl -o  data/planning-considerations.csv https://design.planning.data.gov.uk/planning-consideration/planning-considerations.csv
+        sudo apt-get update
+        sudo apt-get install --yes postgresql-client-16
+
+    - name: Restore database from backup
+      env:
+        PGPASSWORD: password
+      run: pg_restore -h localhost -U postgres -d planning-data-design --no-owner --no-privileges data/latest_backup.dump
+
+    - name: Dump tables to csv
+      env:
+        PGPASSWORD: password
+      run: |
+        for table in answer change_log consideration consideration_tags note performance question tag; do
+          psql -h localhost -U postgres -d planning-data-design -c "\copy public.$table to stdout with csv header" > data/$table.csv
+        done
 
     - name: Set up git
       run: |
@@ -24,9 +54,9 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git add data/planning-considerations.csv
+        git add data/answer.csv data/change_log.csv data/consideration.csv data/consideration_tags.csv data/note.csv data/performance.csv data/question.csv data/tag.csv
         if ! git diff-index --quiet HEAD --; then
-          git commit -m "Add downloaded planning-considerations.csv file"
+          git commit -m "Dump database tables to csv"
           git push
         else
           echo "No changes to commit"
