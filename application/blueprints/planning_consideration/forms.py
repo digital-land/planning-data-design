@@ -51,7 +51,7 @@ class PublicForm(FlaskForm):
     public = RadioField(
         "Should the work we do on this planning consideration be public?",
         validators=[DataRequired()],
-        description="Things not marked public will not show in the public list of planning considerations.",
+        description="Things not marked public will not show in the public list of considerations.",
         choices=[("True", "Yes"), ("False", "No")],
     )
 
