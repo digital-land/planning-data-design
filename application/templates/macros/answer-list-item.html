@@ -22,10 +22,10 @@
           {{ k }}
         </dt>
         <dd class="govuk-summary-list__value">
-          {%- if "https://" in v  %}
+          {%- if v and "https://" in v %}
           <a href="{{v}}" class="govuk-link">{{ v }}</a>
           {%- else %}
-          {{ v }}
+          {{ v or "" }}
           {%- endif %}
         </dd>
       </div>
