@@ -19,7 +19,7 @@ from application.models import (
     QuestionType,
     Stage,
 )
-from application.utils import login_required, true_false_to_bool
+from application.utils import get_next_question_slug, login_required, true_false_to_bool
 
 questions = Blueprint(
     "questions",
@@ -34,49 +34,19 @@ STRUCTURED_DATA_FORMS = {
 }
 
 
-def _get_question_by_slug(slug, stage):
-    return Question.query.filter(
-        Question.stage == stage, Question.slug == slug
-    ).one_or_none()
+def _stage_anchor(stage):
+    return f"stage-{stage.name.lower()}"
 
 
-def _get_next_question(question, consideration, stage):
-    answer = consideration.get_answer(question)
-    next_question_slug = _get_next_question_slug(question, answer)
-    return Question.query.filter(
-        Question.stage == stage, Question.slug == next_question_slug
-    ).one_or_none()
-
-
-def _get_question_group(start_question, consideration, stage, stop=None):
-    question_group = []
-    question_group.append(start_question)
-
-    current_question = start_question
-    while current_question and current_question.next:
-        # exit if at end of sub flow
-        next_question = _get_next_question(current_question, consideration, stage)
-        if next_question.slug == stop:
-            break
-
-        if current_question.next["type"] == "condition":
-            # this means we've entered a sub flow
-            if current_question.next["default_slug"] != next_question.slug:
-                nested_group = _get_question_group(
-                    next_question,
-                    consideration,
-                    stage,
-                    stop=current_question.next["default_slug"],
-                )
-                setattr(current_question, "sub_questions", nested_group)
-                # make sure nested questions aren't also included in main question group
-                next_question = _get_question_by_slug(
-                    current_question.next["default_slug"], stage
-                )
-        question_group.append(next_question)
-        current_question = next_question
-
-    return question_group
+def _redirect_to_consideration(consideration_slug, anchor, code=302):
+    return redirect(
+        url_for(
+            "planning_consideration.consideration",
+            slug=consideration_slug,
+            _anchor=anchor,
+        ),
+        code=code,
+    )
 
 
 @questions.get("/")
@@ -84,23 +54,8 @@ def index(consideration_slug, stage):
     if not isinstance(stage, Stage):
         abort(404)
 
-    consideration = Consideration.query.filter(
-        Consideration.slug == consideration_slug
-    ).one_or_404()
-
-    start_question = (
-        Question.query.filter(Question.stage == stage).order_by(Question.order).first()
-    )
-
-    questions_to_display = _get_question_group(start_question, consideration, stage)
-
-    return render_template(
-        "questions/set.html",
-        stage=stage,
-        stages=Stage,
-        consideration=consideration,
-        questions=questions_to_display,
-        starting_question=start_question,
+    return _redirect_to_consideration(
+        consideration_slug, _stage_anchor(stage), code=301
     )
 
 
@@ -118,11 +73,7 @@ def question(consideration_slug, stage, question_slug):
     ).one_or_none()
 
     if question is None:
-        return redirect(
-            url_for(
-                "questions.index", consideration_slug=consideration_slug, stage=stage
-            )
-        )
+        return _redirect_to_consideration(consideration_slug, _stage_anchor(stage))
 
     label = question.format(consideration.name)
     answer = consideration.get_answer(question)
@@ -133,13 +84,7 @@ def question(consideration_slug, stage, question_slug):
     form, template = _get_form_and_template(question, label, answer)
 
     if form is None:
-        return redirect(
-            url_for(
-                "questions.index",
-                consideration_slug=consideration_slug,
-                stage=stage,
-            )
-        )
+        return _redirect_to_consideration(consideration_slug, question.slug)
     else:
 
         return render_template(
@@ -169,11 +114,7 @@ def save_answer(consideration_slug, stage, question_slug):
     ).one_or_none()
 
     if question is None:
-        return redirect(
-            url_for(
-                "questions.index", consideration_slug=consideration_slug, stage=stage
-            )
-        )
+        return _redirect_to_consideration(consideration_slug, _stage_anchor(stage))
 
     form = _get_form(question)
 
@@ -229,7 +170,7 @@ def save_answer(consideration_slug, stage, question_slug):
             request.args.get("next") is not None
             or request.form.get("submit_button") == "next"
         ):
-            question_slug = _get_next_question_slug(question, answer)
+            question_slug = get_next_question_slug(question, answer)
             if question_slug is not None:
                 return redirect(
                     url_for(
@@ -245,9 +186,7 @@ def save_answer(consideration_slug, stage, question_slug):
                     )
                 )
 
-    return redirect(
-        url_for("questions.index", consideration_slug=consideration.slug, stage=stage)
-    )
+    return _redirect_to_consideration(consideration.slug, question.slug)
 
 
 @questions.route("/<question_slug>/add-to-list", methods=["GET", "POST"])
@@ -265,11 +204,7 @@ def add_to_list(consideration_slug, stage, question_slug):
     ).one_or_none()
 
     if question is None:
-        return redirect(
-            url_for(
-                "questions.index", consideration_slug=consideration_slug, stage=stage
-            )
-        )
+        return _redirect_to_consideration(consideration_slug, _stage_anchor(stage))
 
     answer = consideration.get_answer(question)
     if answer is None:
@@ -283,13 +218,7 @@ def add_to_list(consideration_slug, stage, question_slug):
     if form.validate_on_submit():
         data = _get_form_data(question, form)
         if not data:
-            return redirect(
-                url_for(
-                    "questions.index",
-                    consideration_slug=consideration_slug,
-                    stage=stage,
-                )
-            )
+            return _redirect_to_consideration(consideration_slug, question.slug)
         else:
             previous_answers = answer.answer_list.copy() if answer.answer_list else None
             user = session.get("user", "unknown user")
@@ -325,7 +254,7 @@ def add_to_list(consideration_slug, stage, question_slug):
             request.args.get("next") is not None
             or request.form.get("submit_button") == "next"
         ):
-            question_slug = _get_next_question_slug(question, answer)
+            question_slug = get_next_question_slug(question, answer)
             if question_slug is not None:
                 return redirect(
                     url_for(
@@ -340,11 +269,7 @@ def add_to_list(consideration_slug, stage, question_slug):
                         ),
                     )
                 )
-        return redirect(
-            url_for(
-                "questions.index", consideration_slug=consideration_slug, stage=stage
-            )
-        )
+        return _redirect_to_consideration(consideration_slug, question.slug)
 
     return render_template(
         template,
@@ -459,11 +384,7 @@ def edit_answer(consideration_slug, stage, question_slug, position):
         db.session.add(consideration)
         db.session.commit()
 
-        return redirect(
-            url_for(
-                "questions.index", consideration_slug=consideration_slug, stage=stage
-            )
-        )
+        return _redirect_to_consideration(consideration_slug, question.slug)
 
     return render_template(
         "questions/add-to-a-list.html",
@@ -580,28 +501,3 @@ def _get_form_data(question, form):
             if any([key != "position" and val != "" for key, val in form.data.items()]):
                 data = [form.data]
     return data
-
-
-def _get_next_question_slug(question, answer):
-    question_slug = question.next.get("slug", None)
-    if question_slug is not None:
-        return question_slug
-    if answer is None:
-        if question.next.get("default_slug") is not None:
-            return question.next["default_slug"]
-        else:
-            return None
-    if (
-        question.next.get("type", None) is not None
-        and question.next.get("type") == "condition"
-    ):
-        for condition in question.next["conditions"]:
-            if (
-                answer.answer["choice"] == condition["value"]
-                and condition.get("slug") is not None
-            ):
-                return condition["slug"]
-        else:
-            if question.next.get("default_slug") is not None:
-                return question.next["default_slug"]
-    return None

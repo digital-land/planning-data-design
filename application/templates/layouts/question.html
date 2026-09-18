@@ -17,7 +17,7 @@
     },
     {
       'text': stage.value,
-      'href': url_for('questions.index', consideration_slug=consideration.slug, stage=stage)
+      'href': url_for('planning_consideration.consideration', slug=consideration.slug, _anchor='stage-' ~ stage.name|lower)
     },
     {
       'text': label

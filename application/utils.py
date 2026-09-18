@@ -53,6 +53,74 @@ def to_boolean(s):
     raise False
 
 
+def get_question_by_slug(slug, stage):
+    return Question.query.filter(Question.stage == stage, Question.slug == slug).one_or_none()
+
+
+def get_next_question_slug(question, answer):
+    question_slug = question.next.get("slug", None)
+    if question_slug is not None:
+        return question_slug
+    if answer is None:
+        if question.next.get("default_slug") is not None:
+            return question.next["default_slug"]
+        else:
+            return None
+    if (
+        question.next.get("type", None) is not None
+        and question.next.get("type") == "condition"
+    ):
+        for condition in question.next["conditions"]:
+            if (
+                answer.answer["choice"] == condition["value"]
+                and condition.get("slug") is not None
+            ):
+                return condition["slug"]
+        else:
+            if question.next.get("default_slug") is not None:
+                return question.next["default_slug"]
+    return None
+
+
+def get_next_question(question, consideration, stage):
+    answer = consideration.get_answer(question)
+    next_question_slug = get_next_question_slug(question, answer)
+    return Question.query.filter(
+        Question.stage == stage, Question.slug == next_question_slug
+    ).one_or_none()
+
+
+def get_question_group(start_question, consideration, stage, stop=None):
+    question_group = []
+    question_group.append(start_question)
+
+    current_question = start_question
+    while current_question and current_question.next:
+        # exit if at end of sub flow
+        next_question = get_next_question(current_question, consideration, stage)
+        if next_question.slug == stop:
+            break
+
+        if current_question.next["type"] == "condition":
+            # this means we've entered a sub flow
+            if current_question.next["default_slug"] != next_question.slug:
+                nested_group = get_question_group(
+                    next_question,
+                    consideration,
+                    stage,
+                    stop=current_question.next["default_slug"],
+                )
+                setattr(current_question, "sub_questions", nested_group)
+                # make sure nested questions aren't also included in main question group
+                next_question = get_question_by_slug(
+                    current_question.next["default_slug"], stage
+                )
+        question_group.append(next_question)
+        current_question = next_question
+
+    return question_group
+
+
 def load_questions_into_db() -> Optional[str]:
     """
     Load/update questions in the database

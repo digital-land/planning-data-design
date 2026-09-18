@@ -448,10 +448,29 @@
 
   <hr class="govuk-section-break govuk-section-break--l">
 
+  {% from 'macros/question-set.html' import questionSet %}
+  {% set can_edit = not config.AUTHENTICATION_ON or session["user"] %}
+
   <section id="design-process-stages">
     <h2 class="govuk-heading-l">Background information</h2>
-    <p class="govuk-body">Each planning consideration we work on passes through the stages of our design process, where we research and answer specific questions to help us collect more information.
-    <br><br>Read all the <a href="{{ url_for('questions.index', stage=stages.BACKLOG, consideration_slug=consideration.slug )}}" class="govuk-link">background information</a></li> that we have on this consideration.</p>
+    <p class="govuk-body">Each planning consideration we work on passes through the stages of our design process, where we research and answer specific questions to help us collect more information.</p>
+
+    {% for stage_group in stage_questions %}
+    <div id="stage-{{ stage_group.stage.name|lower }}">
+      <h3 class="govuk-heading-m">{{ stage_group.stage.value }}</h3>
+      {%- if can_edit %}
+      <p class="govuk-body">
+        <a href="{{ url_for('questions.question', consideration_slug=consideration.slug, question_slug=stage_group.starting_question.slug, stage=stage_group.stage, next=True) }}" class="govuk-link">Answer all</a>
+      </p>
+      {% endif -%}
+      {{ questionSet({
+        "consideration": consideration,
+        "stage": stage_group.stage,
+        "questions": stage_group.questions,
+        "can_edit": can_edit
+      }) }}
+    </div>
+    {% endfor %}
   </section>
 
   <hr class="govuk-section-break govuk-section-break--l">

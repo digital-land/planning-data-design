@@ -43,11 +43,12 @@ from application.models import (
     FrequencyOfUpdates,
     Note,
     OSDeclarationStatus,
+    Question,
     Stage,
     Tag,
 )
 from application.question_sets import publishing_organisations
-from application.utils import login_required, true_false_to_bool
+from application.utils import get_question_group, login_required, true_false_to_bool
 
 enum_map = {
     "frequency_of_updates": FrequencyOfUpdates,
@@ -371,12 +372,30 @@ def consideration(slug):
     notes = [note for note in consideration.notes if note.deleted_date is None]
     notes.sort(key=lambda note: (note.created), reverse=True)
 
+    stage_questions = []
+    for stage in Stage:
+        starting_question = (
+            Question.query.filter(Question.stage == stage)
+            .order_by(Question.order)
+            .first()
+        )
+        if starting_question is None:
+            continue
+        stage_questions.append(
+            {
+                "stage": stage,
+                "starting_question": starting_question,
+                "questions": get_question_group(starting_question, consideration, stage),
+            }
+        )
+
     return render_template(
         "consideration.html",
         consideration=consideration,
         latest_change=latest_change,
         stages=Stage,
         notes=notes,
+        stage_questions=stage_questions,
     )
 
 

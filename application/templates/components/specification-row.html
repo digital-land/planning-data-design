@@ -13,7 +13,7 @@
     {%- if params.consideration.specification %}
     <a href="{{ params.consideration.specification['link_url'] }}" class="govuk-link">{{ params.consideration.specification['link_text'] }}</a>
     {%- elif not standard_needed -%}
-    <p class="app-summary-list__row--empty-content">No specification required. <a href="{{ url_for('questions.index', stage=params.stages.SCREEN, consideration_slug=params.consideration.slug, _anchor='is-a-data-standard-required' )}}" class="govuk-link govuk-link--text-colour">Update question</a></p>
+    <p class="app-summary-list__row--empty-content">No specification required. <a href="{{ url_for('planning_consideration.consideration', slug=params.consideration.slug, _anchor='is-a-data-standard-required' )}}" class="govuk-link govuk-link--text-colour">Update question</a></p>
     {% else %}
     <p class="app-summary-list__row--empty-content">No specification created yet</p>
     {% endif -%}

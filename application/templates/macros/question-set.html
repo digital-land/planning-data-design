@@ -1,0 +1,63 @@
+{% from 'macros/answer-list-item.html' import answerListItem %}
+
+{% macro questionSet(params) %}
+<ul class="govuk-list app-question-set">
+  {% for question in params.questions %}
+    {% set answer = params.consideration.get_answer(question) %}
+      <li class="app-question-set__item">
+        <h3 id="{{ question.slug }}" class="govuk-heading-s">{{ question.format(params.consideration.name) }}</h3>
+
+        {%- if answer -%}
+          {% if question.question_type.value == "add-to-a-list" %}
+          <ul class="govuk-list">
+          {% for item in answer.answer_list %}
+            {{- answerListItem({
+              "item": item,
+              "consideration": params.consideration,
+              "question": question,
+              "stage": params.stage
+            }) -}}
+          {% endfor %}
+          </ul>
+          {% elif question.question_type.value == "textarea" %}
+          <p class="govuk-body">{% if answer %}{{ answer.answer.text|render_markdown }}{% endif %}</p>
+          {% elif question.question_type.value == "choose-one-from-list" %}
+          <p class="govuk-body">{% if answer %}{{ answer.answer.choice }}{% endif %}</p>
+          {% else %}
+          <p class="govuk-body">{% if answer %}
+          {% if answer.answer.text -%}
+            {{ answer.answer.text }}
+          {% elif answer.answer.choice %}
+            {% set choices = answer.answer.choice|choice_to_list %}
+            <ul class="govuk-list govuk-list--bullet">
+            {%- for choice in choices %}
+              <li>{{ choice }}</li>
+            {% endfor -%}
+           </ul>
+          {%- else -%}
+            {{ answer.answer }}
+          {%- endif %}
+          {% endif %}</p>
+          {% endif %}
+        {%- endif -%}
+
+        {%- if params.can_edit %}
+          {% if question.question_type.value == "add-to-a-list" or answer.answer_list %}
+            <p class="govuk-body"><a href="{{url_for('questions.add_to_list', consideration_slug=params.consideration.slug, question_slug=question.slug, stage=params.stage)}}" class="govuk-link">{% if answer %}Add{% else %}Provide an answer{% endif %}</a></p>
+          {% else %}
+            <p class="govuk-body"><a href="{{url_for('questions.question', consideration_slug=params.consideration.slug, question_slug=question.slug, stage=params.stage)}}" class="govuk-link">{% if answer %}Edit{% else %}Provide an answer{% endif %}</a></p>
+          {% endif %}
+        {% endif -%}
+
+        {% if question.sub_questions %}
+        {{ questionSet({
+          "consideration": params.consideration,
+          "stage": params.stage,
+          "questions": question.sub_questions,
+          "can_edit": params.can_edit
+        }) }}
+        {% endif %}
+      </li>
+  {% endfor %}
+</ul>
+{% endmacro %}
