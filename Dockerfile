@@ -35,11 +35,17 @@ RUN apt-get update && \
     apt-get install -y postgresql-client-16 && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . .
-COPY --from=assets /app/application/static ./application/static
-
+COPY requirements/ ./requirements/
 RUN pip install -r requirements/requirements.txt
 RUN pip install -r requirements/dev-requirements.txt
+
+# copy only what the app needs at runtime, node tooling (package.json,
+# package-lock.json, src/ etc) stays in the assets stage
+COPY docker-entrypoint.sh ./
+COPY migrations/ ./migrations/
+COPY data/glossary-of-tags.csv data/upcoming-events.yml ./data/
+COPY application/ ./application/
+COPY --from=assets /app/application/static ./application/static
 
 EXPOSE 5050
 
