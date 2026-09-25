@@ -57,45 +57,7 @@ def planning_consideration_redirect(subpath=""):
 
 @main.route("/stage-count")
 def stage_count():
-
-    considerations = Consideration.query.all()
-
-    data = {"considerations": len(considerations), "stages": {}}
-
-    for consideration in considerations:
-        data["stages"].setdefault(
-            consideration.stage.name,
-            {"name": consideration.stage.value, "considerations": []},
-        )
-        data["stages"][consideration.stage.name]["considerations"].append(consideration)
-
-    # size of bars based on largest count
-    data["largest_count"] = max(
-        [len(stage["considerations"]) for stage in data["stages"].values()]
-    )
-    # how many considerations are blocked
-    data["blocked_count"] = len(
-        [
-            consideration
-            for consideration in considerations
-            if consideration.blocked_reason is not None
-        ]
-    )
-    active_considerations = [
-        len(stage["considerations"])
-        for stage in data["stages"].values()
-        if stage["name"]
-        in [
-            "Screen",
-            "Research",
-            "Co-design",
-            "Test and iterate",
-        ]
-    ]
-    data["active_count"] = sum(active_considerations)
-    data["max_active"] = max(active_considerations)
-
-    return render_template("stage-count.html", data=data)
+    return redirect(url_for("main.index"), code=301)
 
 
 def _flatten_list_of_lists(data):

@@ -245,30 +245,6 @@ class Note(DateModel):
         return f"<Note {self.text}>"
 
 
-class Performance(db.Model):
-    id: Mapped[uuid.uuid4] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
-    )
-    considerations: Mapped[int] = mapped_column(Integer)
-    backlog: Mapped[int] = mapped_column(Integer)
-    screen: Mapped[int] = mapped_column(Integer)
-    research: Mapped[int] = mapped_column(Integer)
-    co_design: Mapped[int] = mapped_column(Integer)
-    test_and_iterate: Mapped[int] = mapped_column(Integer)
-    on_the_platform: Mapped[int] = mapped_column(Integer)
-    archived: Mapped[int] = mapped_column(Integer)
-    blocked: Mapped[int] = mapped_column(Integer)
-    date: Mapped[datetime.date] = mapped_column(Date, default=datetime.date.today)
-
-    def indicators(self):
-        excluded_fields = ["id", "date"]
-        return [
-            field
-            for field in self.__table__.columns.keys()
-            if field not in excluded_fields
-        ]
-
-
 class Tag(db.Model):
     id: Mapped[uuid.uuid4] = mapped_column(
         UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
@@ -392,21 +368,3 @@ class AnswerModel(BaseModel):
     question_slug: str
 
 
-class PerformanceModel(BaseModel):
-
-    model_config = ConfigDict(from_attributes=True)
-
-    considerations: int
-    backlog: int
-    screen: int
-    research: int
-    co_design: int
-    test_and_iterate: int
-    on_the_platform: int
-    archived: int
-    blocked: int
-    date: datetime.datetime
-
-    @field_serializer("date")
-    def serialize_date(self, value):
-        return value.strftime("%Y-%m-%d")

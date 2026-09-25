@@ -148,9 +148,6 @@ The following tasks should be run regularly to maintain the application data:
 4. `flask consider check-dataset-links`
    * Validates and updates dataset URLs and metadata
 
-5. `flask consider generate-performance`
-   * Generates performance metrics for considerations
-
 ## GitHub Actions
 
 The repository uses GitHub Actions for continuous integration and automated backups:
