@@ -34,15 +34,17 @@
         <li class="app-content-list__list-item">
           <div class="app-content-list__list-item-wrapper">
             <h3 class="app-content-list__sub-heading">
+              <!-- TBD: move from cards to paragraphs -->
               <a
                 class="app-content-list__link"
                 data-track-count="cardLink"
                 href="{{ url_for('planning_consideration.considerations') }}">
-                <div class="app-content-list__link-text">Considerations</div>
+                <div class="app-content-list__link-text">Considerations</div></a>
                 <div class="app-content-list__description app-content-list__link-description">
-                  Subjects you and other users may need to consider when making a planning or housing decision which lead to datasets.
+                  Understanding the users for each topic you need to consider when making a planing
+                  or housing decision helps us design the data needed,
+                  and make it available on <a href="https://www.planning.data.gov.uk">planning.data.gov.uk</a>.
                 </div>
-              </a>
             </h3>
           </div>
         </li>
@@ -53,9 +55,10 @@
                 class="app-content-list__link"
                 data-track-count="cardLink"
                 href="{{ url_for('project.index') }}">
-                <div class="app-content-list__link-text">Projects</div>
+                <div class="app-content-list__link-text">Projects</div></a>
                 <div class="app-content-list__description app-content-list__link-description">
-                  A list of projects that cover multiple considerations, for example planning applications.
+                  We work on projects which may cover multiple considerations, for example
+                  <a href="/project/planning-applications">planning applications</a>
                 </div>
               </a>
             </h3>
@@ -69,11 +72,10 @@
                 class="app-content-list__link"
                 data-track-count="cardLink"
                 href="{{ url_for('main.page', page='get-involved-in-designing-data') }}">
-                <div class="app-content-list__link-text">Get involved in designing data</div>
+                <div class="app-content-list__link-text">Get involved in designing data</div></a>
                 <div class="app-content-list__description app-content-list__link-description">
                   How you can help design data and get involved in community events and discussions
                 </div>
-              </a>
             </h3>
           </div>
         </li>
