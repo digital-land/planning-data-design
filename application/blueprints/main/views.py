@@ -3,9 +3,9 @@ import csv
 import datetime
 import os
 
-from flask import Blueprint, abort, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, abort, redirect, render_template, request, url_for
 
-from application.models import Consideration, Performance, PerformanceModel
+from application.models import Consideration
 from application.services.event_service import EventService
 
 main = Blueprint("main", __name__)
@@ -160,29 +160,7 @@ def progress_report():
 
 @main.route("/performance")
 def performance():
-    current = Performance.query.order_by(Performance.date.desc()).first()
-    if not current:
-        abort(404)
-    model = PerformanceModel.model_validate(current).model_dump()
-
-    data = {"current": model}
-
-    dates = {
-        "week": datetime.timedelta(weeks=1),
-        "month": datetime.timedelta(days=30),
-        "quarter": datetime.timedelta(days=90),
-        "year": datetime.timedelta(days=365),
-    }
-
-    for label, date in dates.items():
-        ago = current.date - date
-        previous = Performance.query.filter(Performance.date == ago).one_or_none()
-        if previous is not None:
-            previous_model = PerformanceModel.model_validate(previous).model_dump()
-            data[f"last_{label}"] = previous_model
-        else:
-            data[f"last_{label}"] = "No data"
-    return jsonify(data)
+    return redirect(url_for("main.index"), code=301)
 
 
 def check_for_redirects(page):
