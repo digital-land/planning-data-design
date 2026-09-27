@@ -127,8 +127,8 @@ def performance():
 
 def check_for_redirects(page):
     redirects = {
-        "how-to-contribute-to-the-data-design-process": "get-involved-in-designing-data",
-        "get-involved": "get-involved-in-designing-data",
+        "how-to-contribute-to-the-data-design-process": "community",
+        "get-involved": "community",
     }
 
     return redirects[page] if page in redirects else page
@@ -136,6 +136,11 @@ def check_for_redirects(page):
 
 @main.route("/get-involved-in-designing-data")
 def get_involved_in_designing_data():
+    return redirect(url_for("main.community"), code=301)
+
+
+@main.route("/community")
+def community():
     event_service = EventService()
     try:
         upcoming_events = event_service.get_upcoming_events()
@@ -144,7 +149,7 @@ def get_involved_in_designing_data():
         logger.error(f"Failed to fetch upcoming events: {e}")
         upcoming_events = []
 
-    page = "get-involved-in-designing-data"
+    page = "community"
     path = f"pages/{page}.md"
 
     return render_template(
