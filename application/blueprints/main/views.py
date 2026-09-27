@@ -43,7 +43,7 @@ def advisory_group_timeline():
 
 @main.route("/what-we-are-working-on")
 def what_we_are_working_on():
-    return redirect(url_for("main.index"), code=301)
+    return redirect(url_for("main.page", page="roadmap"), code=301)
 
 
 @main.route("/planning-consideration")
