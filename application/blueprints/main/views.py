@@ -129,6 +129,9 @@ def check_for_redirects(page):
     redirects = {
         "how-to-contribute-to-the-data-design-process": "community",
         "get-involved": "community",
+        "how-to-help-develop-a-new-dataset": "design-process",
+        "how-to-get-existing-datasets-on-to-planning-data-gov-uk": "design-process",
+        "data-design-process": "design-process",
     }
 
     return redirects[page] if page in redirects else page

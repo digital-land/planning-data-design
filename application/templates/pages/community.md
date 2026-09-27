@@ -1,4 +1,4 @@
-There are different ways to contribute to depending on where the planning consideration is in the [data design process]({{ url_for('main.page', page='data-design-process')}}), but you can get involved at any time.
+There are different ways to contribute to depending on where the planning consideration is in the [data design process]({{ url_for('main.page', page='design-process')}}), but you can get involved at any time.
 
 To build a design model, we need as many participants involved as possible.
 
@@ -18,7 +18,7 @@ If you can't find a dataset you need on our backlog, go to Github to tell us wha
 
 ---
 
-### [Add your own dataset](https://design.planning.data.gov.uk/how-to-help-develop-a-new-dataset)
+### [Add your own dataset](https://design.planning.data.gov.uk/design-process)
 
 Follow our guidance setting out what you need to provide to get the dataset added to the [planning data platform](https://www.planning.data.gov.uk/).
 
