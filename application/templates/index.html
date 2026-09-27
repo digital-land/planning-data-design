@@ -41,30 +41,12 @@
                 href="{{ url_for('planning_consideration.considerations') }}">
                 <div class="app-content-list__link-text">Considerations</div></a>
                 <div class="app-content-list__description app-content-list__link-description">
-                  Understanding the users for each topic you need to consider when making a planning
-                  or housing decision helps us design the data needed,
-                  and make it available on <a href="https://www.planning.data.gov.uk">planning.data.gov.uk</a>.
+                  Explore the topics we use to identify and discover the users, needs, and potential benefits
+                  of data so we can make it available on <a href="https://www.planning.data.gov.uk">planning.data.gov.uk</a>.
                 </div>
             </h3>
           </div>
         </li>
-        <li class="app-content-list__list-item">
-          <div class="app-content-list__list-item-wrapper">
-            <h3 class="app-content-list__sub-heading">
-              <a
-                class="app-content-list__link"
-                data-track-count="cardLink"
-                href="{{ url_for('project.index') }}">
-                <div class="app-content-list__link-text">Projects</div></a>
-                <div class="app-content-list__description app-content-list__link-description">
-                  We work on projects which may cover multiple considerations, for example
-                  <a href="/project/planning-applications">planning applications</a>
-                </div>
-              </a>
-            </h3>
-          </div>
-        </li>
-
         <li class="app-content-list__list-item">
           <div class="app-content-list__list-item-wrapper">
             <h3 class="app-content-list__sub-heading">
@@ -72,13 +54,29 @@
                 class="app-content-list__link"
                 data-track-count="cardLink"
                 href="{{ url_for('main.community') }}">
-                <div class="app-content-list__link-text">Get involved in designing data</div></a>
+                <div class="app-content-list__link-text">Community</div></a>
                 <div class="app-content-list__description app-content-list__link-description">
-                  How you can help design data and get involved in community events and discussions
+                  Help design planning data by participating in community discussions and events.
                 </div>
             </h3>
           </div>
         </li>
+        <li class="app-content-list__list-item">
+          <div class="app-content-list__list-item-wrapper">
+            <h3 class="app-content-list__sub-heading">
+              <a
+                class="app-content-list__link"
+                data-track-count="cardLink"
+                href="{{ url_for('main.page', page='roadmap') }}">
+                <div class="app-content-list__link-text">Roadmap</div></a>
+                <div class="app-content-list__description app-content-list__link-description">
+                We are currently working with the community on a <a href="/project">project</a> to develop data standards on
+                <a href="/project/planning-applications">planning applications</a> and decisions.
+                </div>
+            </h3>
+          </div>
+        </li>
+
       </ul>
     </div>
   </div>
