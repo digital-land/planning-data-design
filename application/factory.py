@@ -28,8 +28,18 @@ def create_app(config_filename):
     register_filters(app)
     register_extensions(app)
     register_commands(app)
+    register_error_handlers(app)
 
     return app
+
+
+def register_error_handlers(app):
+    from flask import render_template
+
+    def page_not_found(e):
+        return render_template("404.html"), 404
+
+    app.register_error_handler(404, page_not_found)
 
 
 def register_blueprints(app):
