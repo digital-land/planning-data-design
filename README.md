@@ -53,7 +53,9 @@ Podman needs a registry configured to resolve short image names (for example `po
 
 ### Port conflicts
 
-`compose.yml` maps the database to host port 5432. If you already run Postgres locally on that port, change the `db` service's port mapping (for example to `5434:5432`) before starting.
+`compose.yml` maps the database to host port 5432 by default. If you already run Postgres locally on that port, set `DB_HOST_PORT` in your (gitignored) `.env` file instead of editing `compose.yml`, for example:
+
+    DB_HOST_PORT=5434
 
 
 ## To run the app locally without docker
