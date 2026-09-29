@@ -15,11 +15,12 @@ You can [contact us](/community) if you have any questions about the roadmap, wa
 ## Things we plan to do shortly
 
 * Progress the specifications currently being tested by the [Open Digital Planning]() community approved data standards:
-    * [Conservation Area](https://design.planning.data.gov.uk/consideration/conservation-areas)
-    * [Article 4 Direction](https://design.planning.data.gov.uk/consideration/article-4-directions)
-    * [Tree Preservation Order](https://design.planning.data.gov.uk/consideration/tree-preservation-orders)
-    * [Listed Building Outline](https://design.planning.data.gov.uk/consideration/listed-buildings)
-* Test the [planning applications](/project/planning-applications) specifications with Users including LPAs, back-office system suppliers, statisticians, and other users of the data
+    * [Conservation Area](/consideration/conservation-areas)
+    * [Article 4 Direction](/consideration/article-4-directions)
+    * [Tree Preservation Order](/consideration/tree-preservation-orders)
+    * [Listed Building Outline](/consideration/listed-buildings)
+* Test the [planning applications](/project/planning-applications) specifications with Users including LPAs, back-office system suppliers, statisticians,[AI](https://www.gov.uk/government/news/ai-tool-to-slash-planning-decision-times-as-government-accelerates-push-to-build-15-million-homes), and other users of the data
+* Test and prove data related to [design codes](/consideration/design-codes)
 * Design and collect more of the data needed to support faster plan-making
 
 ## Things we’ve done recently
