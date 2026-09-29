@@ -1,42 +1,22 @@
-There are different ways to contribute to depending on where the planning consideration is in the [data design process]({{ url_for('main.page', page='design-process')}}), but you can get involved at any time.
+We want as many people as possible to help to design planning data that works for everyone.
 
-To build a design model, we need as many participants involved as possible.
+### We work in the open
 
-You can get involved by joining online discussions or coming to events.
+All our code and specifications are [hosted on GitHub](https://github.com/digital-land/) as open source, that you can explore, use, and contribute to.
 
----
-
-### [Help us prioritise what to work on next](https://github.com/digital-land/data-standards-backlog/discussions/categories/planning-consideration)
-
-We work in the open with conversations in Github that anyone can view and contribute to.
-
----
-
-### [Tell us about a missing dataset](https://github.com/digital-land/data-standards-backlog/discussions/29)
-
-If you can't find a dataset you need on our backlog, go to Github to tell us what we're missing. The more you can tell us about the consideration the better.
-
----
-
-### [Add your own dataset](https://design.planning.data.gov.uk/design-process)
-
-Follow our guidance setting out what you need to provide to get the dataset added to the [planning data platform](https://www.planning.data.gov.uk/).
+You help us make progress by contributing to a discussion on an
+[open data design issue](https://github.com/digital-land/data-standards-backlog/discussions/categories/planning-consideration)
+or [tell us about the data you need](https://github.com/digital-land/data-standards-backlog/discussions/29).
 
 ---
 
 ### Attend an event
 
-The data design team hosts events for all LPAs and organisations involved to join. We want as many people as possible to help design datasets that work for everyone.
-
-{% if upcoming_events %}
-{% include 'components/upcoming-event.html' %}
-{% else %}
-<span class="app-missing-item">There are no future events to display.</span>
-{% endif %}
----
+We host events as a part of our work on [projects](/project) for all LPAs and organisations involved to join.
 
 ### Join our user research panel
 
-We are always looking for ways to improve our service. If you would like to be contacted about user research sessions, email digitalplanningresearch@communities.gov.uk.
+We are always looking for ways to improve our service. If you would like to be contacted about user research sessions, email 
+[digitalplanningresearch@communities.gov.uk](mailto:digitalplanningresearch@communities.gov.uk).
 
 ---
