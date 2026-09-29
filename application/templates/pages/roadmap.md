@@ -9,7 +9,7 @@ You can [contact us](/community) if you have any questions about the roadmap, wa
 
 * Developing a standard for how [planning applications](/project/planning-applications) are submitted and recorded as data
 * Discovering the users and needs for data related to [Spatial Development Strategies](https://www.gov.uk/government/consultations/areas-for-producing-spatial-development-strategies/areas-for-producing-spatial-development-strategies)
-* Identifying and designing more of the datasets needed by ALIGN for [planning national infrastucture](https://analysisfunction.civilservice.gov.uk/case-studies/case-study-the-national-infrastructure-spatial-tool-mhclg/)
+* Identifying and designing more of the datasets needed by [ALIGN](https://mhclgdigital.blog.gov.uk/2026/09/29/align-a-new-national-infrastructure-spatial-tool-for-evidence-based-planning-and-growth-decisions/) for planning national infrastucture
 * Improving our data [design process](/design-process) to be simpler and easier to follow and participate in 
 
 ## Things we plan to do shortly
