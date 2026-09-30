@@ -1,5 +1,5 @@
 This roadmap highlights what we’re currently working on related to designing planning data.
-It highlights some of thhings we've done re recently, and what we expect to do next.
+It highlights some of things we've done recently, and what we expect to do next.
 
 The roadmap is only a guide. It does not cover everything we do, and some things may change.
 
@@ -9,7 +9,7 @@ You can [contact us](/community) if you have any questions about the roadmap, wa
 
 * Developing a standard for how [planning applications](/project/planning-applications) are submitted and recorded as data
 * Discovering the users and needs for data related to [Spatial Development Strategies](https://www.gov.uk/government/consultations/areas-for-producing-spatial-development-strategies/areas-for-producing-spatial-development-strategies)
-* Identifying and designing more of the datasets needed by [ALIGN](https://mhclgdigital.blog.gov.uk/2026/09/29/align-a-new-national-infrastructure-spatial-tool-for-evidence-based-planning-and-growth-decisions/) for planning national infrastucture
+* Identifying and designing more of the datasets needed by [ALIGN](https://mhclgdigital.blog.gov.uk/2026/09/29/align-a-new-national-infrastructure-spatial-tool-for-evidence-based-planning-and-growth-decisions/) for planning national infrastructure
 * Improving our data [design process](/design-process) to be simpler and easier to follow and participate in 
 
 ## Things we plan to do shortly
