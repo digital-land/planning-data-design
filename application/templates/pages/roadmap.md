@@ -1,5 +1,4 @@
-This roadmap highlights what we’re currently working on related to designing planning data.
-It highlights some of things we've done recently, and what we expect to do next.
+This roadmap highlights the data we're currently designing.
 
 The roadmap is only a guide. It does not cover everything we do, and some things may change.
 
@@ -7,7 +6,7 @@ You can [contact us](/community) if you have any questions about the roadmap, wa
 
 ## What we're working on now
 
-* Developing a standard for how [planning applications](/project/planning-applications) are submitted and recorded as data
+* Developing a standard for how [planning applications](/project/planning-applications) are submitted and published as data
 * Discovering the users and needs for data related to [Spatial Development Strategies](https://www.gov.uk/government/consultations/areas-for-producing-spatial-development-strategies/areas-for-producing-spatial-development-strategies)
 * Identifying and designing more of the datasets needed by [ALIGN](https://mhclgdigital.blog.gov.uk/2026/09/29/align-a-new-national-infrastructure-spatial-tool-for-evidence-based-planning-and-growth-decisions/) for planning national infrastructure
 * Improving our data [design process](/design-process) to be simpler and easier to follow and participate in 
@@ -20,7 +19,7 @@ You can [contact us](/community) if you have any questions about the roadmap, wa
     * [Tree Preservation Order](/consideration/tree-preservation-orders)
     * [Listed Building Outline](/consideration/listed-buildings)
 * Test the [planning applications](/project/planning-applications) specifications with Users including LPAs, back-office system suppliers, statisticians,[AI](https://www.gov.uk/government/news/ai-tool-to-slash-planning-decision-times-as-government-accelerates-push-to-build-15-million-homes), and other users of the data
-* Test and prove data related to [design codes](/consideration/design-codes)
+* Test and prove specifications related to [design codes](/consideration/design-codes)
 * Design and collect more of the data needed to support faster plan-making
 
 ## Things we’ve done recently
