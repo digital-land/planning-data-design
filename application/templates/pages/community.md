@@ -8,7 +8,7 @@ You help us make progress by contributing to a discussion on an
 or [tell us about the data you need](https://github.com/digital-land/data-standards-backlog/discussions/29).
 
 ### Attend an event
-We host events as a part of our work on [projects](/project) for all LPAs and organisations involved to join.
+We periodically host events open to planning authorities and funded organisations involved in a [project](/project).
 
 ### Join our user research panel
 We are always looking for ways to improve our service. If you would like to be contacted about user research sessions, email 
