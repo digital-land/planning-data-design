@@ -16,7 +16,7 @@
     "copy:images_local": "npx copyfiles src/images/**/*.{png,ico,svg,jpg,jpeg,webp} application/static -u 2",
     "copy:images": "run-s copy:images_*",
     "copy:moj-frontend-js": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js application/static/javascripts/vendor/moj-frontend.js && rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js.map application/static/javascripts/vendor/",
-    "copy:moj-frontend-css": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/moj-frontend.min.css* application/static/stylesheets/vendor/",
+    "copy:moj-frontend-css": "mkdir -p application/static/stylesheets/vendor && rsync -ar ./node_modules/@ministryofjustice/frontend/moj/moj-frontend.min.css* application/static/stylesheets/vendor/",
     "copy:moj-frontend": "npm run copy:moj-frontend-js && npm run copy:moj-frontend-css",
     "copyjs": "rsync -ar src/javascripts/ application/static/javascripts",
     "postinstall": "npm run copyjs && npm run copy:images && npm run copy:moj-frontend && npm run nps copy.javascripts && npm run nps build.stylesheets && npm run nps build.javascripts",
