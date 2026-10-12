@@ -29,9 +29,7 @@ Manage planning considerations through standards process
 
 ## Running the app locally with podman
 
-Requires `podman` and `podman-compose`.
-
-    sudo apt install podman-compose
+Requires `podman` and a compose provider (`podman compose` delegates to `docker-compose` or `podman-compose`).
 
 Podman needs a registry configured to resolve short image names (for example `postgres:16-bullseye`). If `~/.config/containers/registries.conf` does not set `unqualified-search-registries`, create it:
 
@@ -40,16 +38,16 @@ Podman needs a registry configured to resolve short image names (for example `po
 
 ### First time setup or when you need to rebuild assets
 
-    podman-compose build web
+    podman compose build web
 
 ### Regular development (starts everything)
 
-    podman-compose up -d db web
+    podman compose up -d db web
 
 ### When you need to restore the database
 
-    podman-compose down -v
-    podman-compose up -d db web
+    podman compose down -v
+    podman compose up -d db web
 
 ### Port conflicts
 
