@@ -105,6 +105,7 @@ This iterative approach gives the most immediate value to users, allowing you to
 Data is a public good that increases in value the more people use it. To sustain the platform and justify the effort required to publish and maintain data, we need to show that value clearly.
 
 Standard web analytics do not show real-world use. Popularity is not the same as impact:
+
 * a user might download a dataset once and serve it downstream to millions of people
 * an automated script or AI agent might make hundreds of API calls without creating any public value
 
