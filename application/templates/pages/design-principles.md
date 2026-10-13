@@ -49,7 +49,6 @@ Every field you ask for places a burden on the provider of the data, often leadi
 * [Do less](https://www.gov.uk/guidance/government-design-principles#do-less)
 * [Do the hard work to make it simple](https://www.gov.uk/guidance/government-design-principles#do-the-hard-work-to-make-it-simple)
 
-
 ## 5. Link to the sources
 
 The information recorded in your data model may come from multiple places, but every fact recorded should have a single, authoritative source. Linking facts back to where information is available helps users assess its veracity, increasing the trust they can place in the data.
@@ -59,9 +58,13 @@ The information recorded in your data model may come from multiple places, but e
 
 ## 6. Preserve history
 
-The word changes and the data needs to record the changes. There are many use-cases in planning which depend on understanding this change, to monitor the impact of policies, or to challenge a decision made in the past. Deleting old facts erodes trust users can place in the data and reduces its use.
+The word changes and the data needs to be able to reperesent the changes. There are many use-cases in planning which depend on understanding this change, to monitor the impact of policies, or to challenge a decision made in the past. 
 
-There are some exceptions to this principle. You should expect to quickly remove data added by mistake, especially where it contains sensitive or personal information. Mistakes in authoritative information should be preserved, but erroneous recordings, especially outliers which cause issues with statistical analysis can be removed.
+Deleting old facts erodes trust users can place in the data and reduces its use.
+This means your model needs to support keeping all entiies and values, making it clear when they change state,
+particularly when they start and end being relevant.
+
+There is one exception to this principle. You should expect to quickly remove data added by mistake, especially where it contains sensitive or personal information. Mistakes in authoritative records should be preserved, but erroneous recordings, especially outliers which cause issues with statistical analysis can be removed.
 
 
 * [Digital continuity](https://www.nationalarchives.gov.uk/information-management/manage-information/policy-process/digital-continuity/what-is-digital-continuity/)
