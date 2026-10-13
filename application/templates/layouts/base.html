@@ -56,6 +56,11 @@
   'serviceUrl': url_for('main.index'),
   'navigation': [
     {
+      'href': '/design-principles',
+      'text': "Design system",
+      'active': request.path == '/design-principles'
+    },
+    {
       'href': url_for('planning_consideration.considerations'),
       'text': "Considerations",
       'active': request.path == url_for('planning_consideration.considerations')
