@@ -58,7 +58,7 @@ The information recorded in your data model may come from multiple places, but e
 
 ## 6. Preserve history
 
-The word changes and the data needs to be able to reperesent the changes. There are many use-cases in planning which depend on understanding this change, to monitor the impact of policies, or to challenge a decision made in the past. 
+The world changes and the data needs to be able to reperesent the changes. There are many use-cases in planning which depend on understanding this change, to monitor the impact of policies, or to challenge a decision made in the past. 
 
 Deleting old facts erodes trust users can place in the data and reduces its use.
 This means your model needs to support keeping all entiies and values, making it clear when they change state,
