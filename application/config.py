@@ -30,6 +30,7 @@ class Config:
         "DATASET_EDITOR_URL", "https://dataset-editor.development.planning.data.gov.uk"
     )
     LOAD_QUESTIONS = to_boolean(os.getenv("LOAD_QUESTIONS", False))
+    HTTPS_REDIRECT = to_boolean(os.getenv("HTTPS_REDIRECT", False))
 
 
 class DevelopmentConfig(Config):

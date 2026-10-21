@@ -136,9 +136,12 @@ def register_extensions(app):
     else:
         logger.info("Question loading disabled")
 
-    from flask_sslify import SSLify
+    # off by default as https is enforced by cloudfront and the load balancer
+    # forwards plain http, including health checks, which must not be redirected
+    if app.config.get("HTTPS_REDIRECT", False):
+        from flask_sslify import SSLify
 
-    sslify = SSLify(app)  # noqa
+        SSLify(app)
 
     # create the CSP for the app - until then leave commented out
     # talisman.init_app(app, content_security_policy=None)
