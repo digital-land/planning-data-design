@@ -113,11 +113,11 @@ def unique_name_validator(form, name):
     url = url_for("planning_consideration.consideration", slug=consideration.slug)
     message = Markup(
         (
-            f"The planning consideration might have been archived. "
-            f"Go to existing consideration <a href='{url}'>{consideration.name}</a> "
+            "The planning consideration might have been archived. "
+            "Go to existing consideration <a href='{}'>{}</a> "
             "and change the stage to bring it back."
         )
-    )
+    ).format(url, consideration.name)
     flash(message)
     raise ValidationError(f"The consideration '{consideration.name}' already exists.")
 
