@@ -1,11 +1,21 @@
+import re
+
 from flask import url_for
 from playwright.sync_api import expect
 
 
 def test_visit_main_pages(live_server, page):
-    page.goto(url_for("main.index", _external=True))
-    page.get_by_role("link", name="Design process").click()
-    expect(page.locator("h1")).to_contain_text("Data design process")
+    for link_text, heading in [
+        ("Considerations", "Considerations"),
+        ("Community", "Community"),
+        ("Roadmap", "Roadmap"),
+    ]:
+        page.goto(url_for("main.index", _external=True))
+        # scope to the homepage cards, the header nav also links to considerations
+        page.locator(".app-content-list").get_by_role(
+            "link", name=link_text, exact=True
+        ).click()
+        expect(page.get_by_role("heading", level=1, name=heading)).to_be_visible()
 
 
 def test_add_and_update_planning_consideration(live_server, page):
@@ -21,7 +31,9 @@ def test_add_and_update_planning_consideration(live_server, page):
     expect(
         page.locator("#details").get_by_text("This is a test consideration")
     ).to_be_visible()
-    expect(page.locator("#details").get_by_text("This is the description")).to_be_visible()
+    expect(
+        page.locator("#details").get_by_text("This is the description")
+    ).to_be_visible()
     expect(page.get_by_role("link", name="Join the discussion")).to_be_visible()
     expect(page.get_by_role("link", name="Join the discussion")).to_have_attribute(
         "href", "https://github.com/digital-land/data-standards-backlog/discussions/22"
@@ -44,7 +56,11 @@ def test_add_and_update_planning_consideration(live_server, page):
         "This is the description that has been updated"
     )
     page.get_by_role("button", name="Save changes").click()
-    expect(page.locator("#details").get_by_text("This is the description that has been updated")).to_be_visible()
+    expect(
+        page.locator("#details").get_by_text(
+            "This is the description that has been updated"
+        )
+    ).to_be_visible()
 
     page.get_by_role("link", name="Add link to applicable schemas").click()
     page.get_by_label("Dataset schema URL").click()
@@ -55,7 +71,10 @@ def test_add_and_update_planning_consideration(live_server, page):
 
     # The dataset should be visible in the related datasets section
     expect(page.get_by_role("link", name="ancient-woodland")).to_be_visible()
-    expect(page.get_by_role("link", name="ancient-woodland")).to_have_attribute("href", "https://github.com/digital-land/specification/blob/main/content/dataset/ancient-woodland.md")
+    expect(page.get_by_role("link", name="ancient-woodland")).to_have_attribute(
+        "href",
+        "https://github.com/digital-land/specification/blob/main/content/dataset/ancient-woodland.md",
+    )
 
     expect(page.get_by_role("link", name="Remove")).to_be_visible()
 
@@ -129,12 +148,16 @@ def test_add_answer_backlog_questions(live_server, page, questions):
     )
     page.get_by_role("button", name="Create").click()
 
-    expect(page.locator("#details").get_by_text("Test consideration")).to_be_visible()
-    expect(page.locator("#details").get_by_text("This is a test of a public")).to_be_visible()
-    expect(page.get_by_role("link", name="background information")).to_be_visible()
+    # exact as the stage question headings on the page also contain the name
+    expect(
+        page.locator("#details").get_by_text("Test consideration", exact=True)
+    ).to_be_visible()
+    expect(
+        page.locator("#details").get_by_text("This is a test of a public")
+    ).to_be_visible()
 
-    page.get_by_role("link", name="background information").click()
-    page.get_by_role("link", name="Answer all").click()
+    # each stage has its own "Answer all" link, start with the backlog questions
+    page.locator("a[href*='/backlog/']", has_text="Answer all").click()
     expect(page.get_by_role("heading", name="Who asked for 'Test")).to_be_visible()
     page.locator("#input").click()
     page.locator("#input").fill("Someone")
@@ -154,4 +177,5 @@ def test_add_answer_backlog_questions(live_server, page, questions):
     expect(page.get_by_text("Someone")).to_be_visible()
     expect(page.get_by_text("National policy change")).to_be_visible()
     expect(page.get_by_text("Modern planning software")).to_be_visible()
-    page.get_by_role("link", name="Go back to Test consideration summary").click()
+    # answering the last question returns to the consideration page
+    expect(page).to_have_url(re.compile(r"/consideration/test-consideration(#.*)?$"))

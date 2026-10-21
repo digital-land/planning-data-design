@@ -353,14 +353,15 @@ def consideration(slug):
 
     # handle incorrect consideration slugs
     if consideration is None:
+        # slug comes from the url so must be escaped, Markup.format does this
         message = Markup(
             (
                 "<p>We don't recognise <span class='govuk-!-font-weight-bold'>"
-                f"{slug}</span>, maybe the spelling is different.</p><p>Use our "
+                "{}</span>, maybe the spelling is different.</p><p>Use our "
                 "<a class='govuk-list' href='#filter-considerations-list'>search</a>"
                 " to see if the planning consideration exists.</p>"
             )
-        )
+        ).format(slug)
         flash(message)
         return redirect(url_for("planning_consideration.considerations"))
 
@@ -385,7 +386,9 @@ def consideration(slug):
             {
                 "stage": stage,
                 "starting_question": starting_question,
-                "questions": get_question_group(starting_question, consideration, stage),
+                "questions": get_question_group(
+                    starting_question, consideration, stage
+                ),
             }
         )
 

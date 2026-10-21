@@ -17,9 +17,13 @@ services:
       - .:/code
     depends_on:
       - db
+    # the image runs gunicorn with production config, use the dev server with
+    # reloading and the debugger locally only
+    command: ["flask", "run", "--debug", "--host", "0.0.0.0", "--port", "5050"]
     environment:
       SECRET_KEY: "replaceinprod"
       DATABASE_URL: "postgresql://postgres:password@db/planning-data-design"
+      FLASK_CONFIG: "application.config.DevelopmentConfig"
       FLASK_DEBUG: 1
       PYTHONDONTWRITEBYTECODE: 1
     networks:

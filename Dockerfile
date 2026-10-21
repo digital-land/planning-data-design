@@ -16,12 +16,9 @@ RUN mkdir -p application/static/javascripts application/static/stylesheets \
 FROM python:3.10-slim
 WORKDIR /code
 
-ENV FLASK_CONFIG=application.config.DevelopmentConfig
+# safe defaults for deployed environments, compose.yml overrides these for local development
+ENV FLASK_CONFIG=application.config.Config
 ENV FLASK_APP=application.wsgi:app
-
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5050
-ENV FLASK_DEBUG=1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc g++ git libproj-dev proj-bin gdal-bin wget gnupg2  \
@@ -50,3 +47,4 @@ COPY --from=assets /app/application/static ./application/static
 EXPOSE 5050
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["gunicorn", "-b", "0.0.0.0:5050", "application.wsgi:app"]

@@ -1,4 +1,5 @@
 #!/bin/sh
 set -e
 flask db upgrade
-flask run --debug
+# run the image's CMD (gunicorn by default), exec so it receives stop signals
+exec "$@"
