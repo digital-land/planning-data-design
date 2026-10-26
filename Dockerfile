@@ -20,21 +20,14 @@ WORKDIR /code
 ENV FLASK_CONFIG=application.config.Config
 ENV FLASK_APP=application.wsgi:app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc g++ git libproj-dev proj-bin gdal-bin wget gnupg2  \
+# git is needed to pip install digital-land-frontend from github
+RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
-
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
-    wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/postgresql.gpg
-
-RUN apt-get update && \
-    apt-get install -y postgresql-client-16 && \
-    rm -rf /var/lib/apt/lists/*
-
+# dev requirements (test and lint tools) are not installed, tests and linting
+# run outside the image
 COPY requirements/ ./requirements/
 RUN pip install -r requirements/requirements.txt
-RUN pip install -r requirements/dev-requirements.txt
 
 # copy only what the app needs at runtime, node tooling (package.json,
 # package-lock.json, src/ etc) stays in the assets stage
