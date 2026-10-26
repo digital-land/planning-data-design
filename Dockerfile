@@ -20,10 +20,6 @@ WORKDIR /code
 ENV FLASK_CONFIG=application.config.Config
 ENV FLASK_APP=application.wsgi:app
 
-# git is needed to pip install digital-land-frontend from github
-RUN apt-get update && apt-get install -y --no-install-recommends git \
-    && rm -rf /var/lib/apt/lists/*
-
 # dev requirements (test and lint tools) are not installed, tests and linting
 # run outside the image
 COPY requirements/ ./requirements/
