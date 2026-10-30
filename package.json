@@ -27,8 +27,8 @@
     "url": "git+https://github.com/digital-land/dluhc-planning-considerations.git"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^5.1.3",
-    "@digital-land-gov-uk/digital-land-frontend": "0.8.0",
+    "@ministryofjustice/frontend": "^12.0.0",
+    "@digital-land-gov-uk/digital-land-frontend": "0.8.1",
     "govuk-frontend": "5.11.1"
   },
   "devDependencies": {
