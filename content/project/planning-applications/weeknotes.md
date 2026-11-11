@@ -64,7 +64,7 @@ description: Weeknotes from the planning applications project
 
 ## Week beginning 20 Apr
 
-- Fleshed out the [document dataset](https://github.com/digital-land/planning-application-data-specification/blob/main/specification/decision-stage.schema.md?plain=1#L103) to include a mechanism for capturing replacement documents.
+- Fleshed out the document dataset to include a mechanism for capturing replacement documents.
 - Developed a coherent CLI for exploring the specification.
 
 ## Week beginning 30 Mar
@@ -123,7 +123,7 @@ description: Weeknotes from the planning applications project
 
 - Restarted community activity for 2026, with focus on decision specification and updating the community later in the month (session to be held on 21st Jan)
 - Started to document [user needs](https://github.com/digital-land/planning-application-data-specification/tree/main/user-needs/need) and [justification records](https://github.com/digital-land/planning-application-data-specification/tree/main/user-needs/justification) for the decision stage specification
-- Published an early draft of the [decision stage specification](https://github.com/digital-land/planning-application-data-specification/blob/main/specification/decision-stage.schema.md?plain=1)
+- Published an early draft of the decision stage specification
 
 ## Week beginning 29 Dec
 
@@ -170,7 +170,7 @@ description: Weeknotes from the planning applications project
 ## Week beginning 3 Nov
 
 - We had discussions with communications colleagues in the department about the engagement we need for 2026
-- With our focus starting to shift more towards the decision stage work we [documented the approach](https://github.com/digital-land/planning-application-data-specification/tree/main/docs/decision-stage-specification) we are going to take
+- With our focus starting to shift more towards the decision stage work we documented the approach we are going to take
 - We have been fleshing out the open project board so that all the tickets have the appropriate labels. More details on what the labels mean can be found in the [“How to use” documentation](https://github.com/orgs/digital-land/projects/36/views/1?pane=issue&itemId=137392676&issue=digital-land%7Cplanning-data-design%7C134)
 - We have been reviewing the relevant legislation for decision notices and extracting a set of user needs.
 
@@ -208,7 +208,7 @@ description: Weeknotes from the planning applications project
 
 - We updated the [module definitions](https://github.com/digital-land/planning-application-data-specification/tree/main/specification/module).
 - We ran some deep dive sessions with Lichfields and City of London with a focus on "decisions" data.
-- We began [work on generating JSON schemas](https://github.com/digital-land/planning-application-data-specification/blob/main/docs/json-schema-generation.md) from the declarative model
+- We began [work on generating JSON schemas](https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/json-schema-generation.md) from the declarative model
 
 ## Week beginning 8 Sept
 
@@ -229,7 +229,7 @@ description: Weeknotes from the planning applications project
 ## Week beginning 11 Aug
 
 - We have finished creating declarative definitions of each of the [35 codelists](https://github.com/digital-land/planning-application-data-specification/tree/main/specification/codelist) and the [23 application types](https://github.com/digital-land/planning-application-data-specification/tree/main/specification/application).
-- We have updated the documentation to include details of [how a codelist definition should be structured](https://github.com/digital-land/planning-application-data-specification/blob/main/docs/codelists.md).
+- We have updated the documentation to include details of [how a codelist definition should be structured](https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/codelists.md).
 
 ## Week beginning 4 Aug
 
@@ -244,7 +244,7 @@ description: Weeknotes from the planning applications project
 ## Week beginning 21 Jul
 
 - We held our first data standards open community with 70 attendees. We shared the work done, aims and context of the project, heard updates from the GMCA, Camden and the Digital Planning Register team and the wider community to show how it all fits together. We shared an ask for testing that the declarative modules define the correct data. [Updates are being added to the project website](/project/planning-applications).
-- The declarative versions of all 82 modules are now complete and 79/82 [modules have no active questions or issues](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/no-issues.md).
+- The declarative versions of all 82 modules are now complete and 79/82 modules have no active questions or issues.
 
 ## Week beginning 14 Jul
 
@@ -254,18 +254,18 @@ description: Weeknotes from the planning applications project
 
 ## Week beginning 7 Jul
 
-- We are continuing to work through the [feedback](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md), now 64/81 modules have no active questions or issues. And we have add 34/81 declarative versions of the modules.
+- We are continuing to work through the [feedback](https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/open-issues-spreadsheet.csv), now 64/81 modules have no active questions or issues. And we have add 34/81 declarative versions of the modules.
 - So that users can better understand the words of specifications, we have [updated the definitions of key terms](https://digital-land.github.io/specification/specification/).
 - Following user research we have [updated the URL of the planning applications website](/project/planning-applications) to make it more clear to users that planning applications is one of many projects they can engage with.
 - We have also [updated the roadmap](/project/planning-applications/roadmap) to show what we expect to achieve in each quarter towards mandating.
 
 ## Week beginning 30 Jun
 
-- We posted an [update about the planning application and decision specification](https://github.com/digital-land/data-standards-backlog/discussions/25#discussioncomment-13530686.) work we are starting. For planning submissions. Following feedback from the community we have created a page in the repository that [lists the modules with issues we are working on](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md), we also introduced a [change log](https://github.com/digital-land/planning-application-data-specification/blob/main/CHANGELOG.md) so the community can monitor recent changes.
+- We posted an [update about the planning application and decision specification](https://github.com/digital-land/data-standards-backlog/discussions/25#discussioncomment-13530686.) work we are starting. For planning submissions. Following feedback from the community we have created a page in the repository that [lists the modules with issues we are working on](https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/open-issues-spreadsheet.csv), we also introduced a [change log](https://github.com/digital-land/planning-application-data-specification/blob/main/CHANGELOG.md) so the community can monitor recent changes.
 
 ## Week beginning 23 Jun
 
-- We’ve added [a list of modules with active issues. It’s a live tracker: as issues are resolved, modules drop off the list.](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md)
+- We’ve added [a list of modules with active issues. It’s a live tracker: as issues are resolved, modules drop off the list.](https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/open-issues-spreadsheet.csv)
 - We codified the structure of a [Permission in Principle application](https://github.com/digital-land/planning-application-data-specification/blob/main/specification/application/pip.schema.md?plain=1)
 - We've made the approach to collecting contact details consistent across all applications types (see [issue \#294](https://github.com/digital-land/planning-application-data-specification/issues/294))
 
@@ -289,8 +289,8 @@ description: Weeknotes from the planning applications project
 ## Week beginning 26 May
 
 - We have been supporting various suppliers who wish to start testing and using the specifications in their products and services. These conversation emphasised the importance of moving to a more declarative model
-- We have documented our proposal for moving to a [declarative model](https://github.com/digital-land/planning-application-data-specification/blob/main/docs/declarative-model.md).
-- We have documented what a declarative model for [modules](https://github.com/digital-land/planning-application-data-specification/blob/main/docs/module.md) and [planning requirements](https://github.com/digital-land/planning-application-data-specification/blob/main/docs/planning-requirements.md) could look like.
+- We have documented our proposal for moving to a [declarative model](https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/declarative-model.md).
+- We have documented what a declarative model for [modules](https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/module.md) and [planning requirements](https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/planning-requirements.md) could look like.
 - Conversations about restarting the advisory group and community sessions are ongoing.
 
 ## Week beginning 19 May
@@ -300,7 +300,7 @@ description: Weeknotes from the planning applications project
 
 ## Week beginning 12 May
 
-- We [documented how we plan to define fields](https://github.com/digital-land/planning-application-data-specification/blob/main/docs/fields.md) explicitly, this should help set expectations for the data and with validation
+- We [documented how we plan to define fields](https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/fields.md) explicitly, this should help set expectations for the data and with validation
 - The deadline for initial feedback passed on the 16th May. We will now work through this and update the specifications where required.
 
 ## Week beginning 5 May
@@ -326,7 +326,7 @@ description: Weeknotes from the planning applications project
 
 ## Week beginning 7 Apr
 
-- We've updated the ["index" specification file](https://github.com/digital-land/planning-application-data-specification/blob/main/specification/index.md) to include all the codelists.
+- We've updated the ["index" specification file](https://github.com/digital-land/planning-application-data-specification/blob/main/specification/README.md) to include all the codelists.
 - Updated the application specification to include an expanded `file` sub-structure (see [issue \#229](https://github.com/digital-land/planning-application-data-specification/issues/229)).
 - Added a `uprns[]` field to the [Site details module](https://github.com/digital-land/planning-application-data-specification/discussions/70#discussioncomment-12170186) (see [issue \#8](https://github.com/digital-land/planning-application-data-specification/issues/8))
 
@@ -334,7 +334,7 @@ description: Weeknotes from the planning applications project
 
 - We've added a few more [issues](https://github.com/digital-land/planning-application-data-specification/issues) based on comments from the advisory and community sessions.
 - We ran a session with a group of local planning authorities and suppliers about how they can help us test the specifications
-- We published an [index specification](https://github.com/digital-land/planning-application-data-specification/blob/main/specification/index.md) file that includes all the modules and codelists covering all application types
+- We published an [index specification](https://github.com/digital-land/planning-application-data-specification/blob/main/specification/README.md) file that includes all the modules and codelists covering all application types
 
 ## Week beginning 24 Mar
 
@@ -380,8 +380,8 @@ description: Weeknotes from the planning applications project
 ## Week beginning 3 Feb
 
 - We add [Hedgerow removal notices](https://github.com/digital-land/planning-application-data-specification/issues/2) to the list of application types. We still need to confirm the modules for the application type (see [issue \#1](https://github.com/digital-land/planning-application-data-specification/issues/1))
-- We published a [list of the application forms](https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-form.csv) we've looked at
-- We published a [list of the modules](https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-module.csv) we are working through as data
+- We published a [list of the application forms](https://github.com/digital-land/planning-application-data-specification/blob/main/data/analysis/2025-planning-application-form.csv) we've looked at
+- We published a [list of the modules](https://github.com/digital-land/planning-application-data-specification/blob/main/data/analysis/2025-planning-application-module.csv) we are working through as data
 - We [proposed combining the "Declaration" and "Declaration - trees" modules](https://github.com/digital-land/planning-application-data-specification/issues/117)
 
 ## Week beginning 27 Jan

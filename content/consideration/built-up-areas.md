@@ -62,7 +62,7 @@ Yes
 ### What Built up areas data is currently available?
 
 - [https://www.data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2](https://www.data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2)
-- [Built Up Areas (2024) Boundaries EW BGG](https://geoportal.statistics.gov.uk/datasets/ons::built-up-areas-2024-boundaries-ew-bgg-2/about) (publisher: ONS; coverage: National; licence: OGL; fields: OBJECTID;gsscode;BUA24CD;BUA24NM;BUA24NMW;geometry_a;areahectar;Shape_Area;Shape_Length)
+- [Built Up Areas (2024) Boundaries EW BGG](https://www.data.gov.uk/dataset/99d06794-8a5b-42c1-9cb6-e240ae4bc906/built-up-areas-december-2024-boundaries-ew-bgg-v21) (publisher: ONS; coverage: National; licence: OGL; fields: OBJECTID;gsscode;BUA24CD;BUA24NM;BUA24NMW;geometry_a;areahectar;Shape_Area;Shape_Length)
 - [OS Open Built Up Areas](https://www.ordnancesurvey.co.uk/products/os-open-built-up-areas) (publisher: OS; coverage: National; licence: OGL)
 
 ### Do we think the data should come from a single source?

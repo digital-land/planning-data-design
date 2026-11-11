@@ -30,7 +30,7 @@ Yes
 
 ### What Sites of special scientific interest data is currently available?
 
-- [Sites of Special Scientific Interest (England)](https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::sites-of-special-scientific-interest-england/about) (publisher: Natural England; coverage: England; licence: OGL3)
+- [Sites of Special Scientific Interest (England)](https://www.data.gov.uk/dataset/5b632bd7-9838-4ef2-9101-ea9384421b0d/sites-of-special-scientific-interest-england3) (publisher: Natural England; coverage: England; licence: OGL3)
 
 ## Research
 

@@ -11,7 +11,7 @@ legislation:
   url: https://www.legislation.gov.uk/ukpga/Geo6/12-13-14/97/section/21
 useful_links:
 - text: National dataset documentation page
-  url: https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::local-nature-reserves-england/about
+  url: https://www.data.gov.uk/dataset/acdf4a9e-a115-41fb-bbe9-603c819aa7f7/local-nature-reserves-england
 - text: URL of national dataset
   url: https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Local_Nature_Reserves_England/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson
 - text: Fact sheet url

@@ -5,7 +5,7 @@ template: consideration
 stage: Archived
 useful_links:
 - text: National dataset documentation page
-  url: https://ckan.publishing.service.gov.uk/dataset/risk-of-flooding-from-rivers-and-sea-postcodes-in-areas-at-risk
+  url: https://www.data.gov.uk/dataset/5a98b0a1-2741-4b2f-a51b-5b42f13219f2/risk-of-flooding-from-rivers-and-sea-postcodes-in-areas-at-risk2
 created: 2024-03-25
 updated: 2024-04-09
 ---

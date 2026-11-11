@@ -10,7 +10,7 @@ datasets:
 - local-plan-timetable
 specification:
   text: Local plan
-  url: https://digital-land.github.io/specification/specification/local-plan/
+  url: https://digital-land.github.io/specification/specification/local-plan-timetable/
 useful_links:
 - text: Development plans consideration
   url: /consideration/development-plans-and-timetables

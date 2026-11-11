@@ -11,9 +11,6 @@ description: 'Developers will pay a Levy on new residential buildings which
   element of ensuring industry pays.'
 template: consideration
 stage: Backlog
-useful_links:
-- text: Building Safety Levy by MHCLG (2024-11-18)
-  url: https://www.local.gov.uk/sites/default/files/documents/BSL%20webinar%20slides.pdf
 tags:
 - building-control
 - levy

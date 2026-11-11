@@ -19,27 +19,16 @@ https://beta.ordnancesurvey.co.uk/products/code-point-open,2026-11-11,ok,2026-11
 https://bills.parliament.uk/bills/3569,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/casi-and-lidar-habitat-map,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/dune-slack-likely-locations,2026-11-11,ok,2026-11-11,0,,
-https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-areas-benefiting-from-defences,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-storage-areas,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-zone-2,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-zone-3,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/lidar-composite-dsm-2017-2m,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/lidar-composite-dtm-2017-1m,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/lidar-composite-dtm-2017-25cm,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/risk-of-flooding-from-rivers-and-sea-postcodes-in-areas-at-risk,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://ckan.publishing.service.gov.uk/dataset/risk-of-flooding-from-rivers-and-sea-properties-in-areas-at-risk,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://ckan.publishing.service.gov.uk/dataset/vertical-aerial-photography,2026-11-11,ok,2026-11-11,0,,
 https://data.gov.uk/dataset/0447f8d9-8f1b-4a68-bbc8-246981d02256/traveline-national-dataset,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/0447f8d9-8f1b-4a68-bbc8-246981d02256/traveline-national-dataset
 https://data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2
 https://data.gov.uk/dataset/3a3b32f3-d727-4623-aa17-daa2f39aaf92/national-coach-services-ncsd,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/3a3b32f3-d727-4623-aa17-daa2f39aaf92/national-coach-services-ncsd
 https://data.gov.uk/dataset/726484b0-d14e-44a3-9621-29e79fc47bfc/national-nature-reserves-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/726484b0-d14e-44a3-9621-29e79fc47bfc/national-nature-reserves-england
 https://data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england
-https://data.gov.uk/dataset/95ea1c96-f3dd-4f92-b41f-ef21603a2802/risk-of-flooding-from-surface-water-extent-3-3-percent-annual-chance,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://data.gov.uk/dataset/a19c95e3-9657-457d-825e-3d2f3993b653/nature-improvement-areas,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/a19c95e3-9657-457d-825e-3d2f3993b653/nature-improvement-areas
 https://data.gov.uk/dataset/a5b0ccc4-a144-4027-91fa-49084ff07da2/environmentally-sensitive-areas-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/a5b0ccc4-a144-4027-91fa-49084ff07da2/environmentally-sensitive-areas-england
 https://data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england
 https://data.london.gov.uk/dataset/central_activities_zone,2026-11-11,moved,2026-11-11,0,,https://data.london.gov.uk/dataset/central-activities-zone-23jxk
-https://design-code-prototype.planning-data.dev/,2026-11-11,failing,,1,2026-11-11,<urlopen error [Errno -2] Name or service not known>
 https://digital-land.github.io/blog-post/our-approach-to-open-space/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/local-plans-timetable/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/planning-application-data-specification/,2026-11-11,ok,2026-11-11,0,,
@@ -50,13 +39,12 @@ https://digital-land.github.io/specification/specification/brownfield-land/,2026
 https://digital-land.github.io/specification/specification/conservation-area/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/design-code/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/developer-contributions/,2026-11-11,ok,2026-11-11,0,,
-https://digital-land.github.io/specification/specification/development-plan/,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://digital-land.github.io/specification/specification/infrastructure-funding-statement/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/infrastructure-project/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/listed-building/,2026-11-11,ok,2026-11-11,0,,
-https://digital-land.github.io/specification/specification/local-plan/,2026-11-11,failing,,1,2026-11-11,HTTP 404
+https://digital-land.github.io/specification/specification/local-plan-timetable/,2026-11-11,ok,2026-11-11,0,,
+https://digital-land.github.io/specification/specification/plan/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/planning-application-decision/,2026-11-11,ok,2026-11-11,0,,
-https://digital-land.github.io/specification/specification/planning-application/,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://digital-land.github.io/specification/specification/planning-condition/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/tree-preservation-order/,2026-11-11,ok,2026-11-11,0,,
 https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit&followup=https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit&ltmpl=docs
@@ -97,6 +85,8 @@ https://docs.google.com/spreadsheets/d/1MfoIIZBU3cSIhk8awT3f8fv7j_AETT7PLslTJaoa
 https://docs.google.com/spreadsheets/d/1oLuL8rQ3yBz0fzycDZQczLxFZ-PpAKzNaG2swrRPF1E/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
 https://docs.google.com/spreadsheets/d/1vv9Tz92gKgK4llHGpxeO4w29qEGf8xBMxQfFhSbU4F0/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
 https://docs.google.com/spreadsheets/d/1x9-xinthW3j8G1vFq9i1Re1AJJ0D4yyiT8LpnaINyhA/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
+https://docs.os.uk/os-downloads/products/areas-and-zones-portfolio/boundary-line/boundary-line-product-information,2026-11-11,ok,2026-11-11,0,,
+https://docs.os.uk/os-downloads/products/land-and-terrain-portfolio/os-open-greenspace,2026-11-11,ok,2026-11-11,0,,
 https://drive.google.com/file/d/1-Zoce5GH8m7plh7DpeqQA4EYIwqqzcy2/view?usp=sharing,2026-11-11,ok,2026-11-11,0,,
 https://drive.google.com/file/d/11oO0Im_WFH2Nui370lThx42Gu9hTaQo4/view?usp=sharing,2026-11-11,ok,2026-11-11,0,,
 https://drive.google.com/file/d/18GZkYBThjcTal21R0UP-2it9JVPerMPb/view?usp=sharing,2026-11-11,ok,2026-11-11,0,,
@@ -132,7 +122,6 @@ https://forms.office.com/e/rahh9JKu0u,2026-11-11,moved,2026-11-11,0,,https://for
 https://forms.office.com/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl,2026-11-11,moved,2026-11-11,0,,https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl
 https://gds.blog.gov.uk/2012/10/11/no-link-left-behind/,2026-11-11,ok,2026-11-11,0,,
 https://geoportal.statistics.gov.uk/datasets/69b2084e13284ea59be314cb28edc41c_0/explore?location=54.660612%2C-1.891581%2C8.00,2026-11-11,ok,2026-11-11,0,,
-https://geoportal.statistics.gov.uk/datasets/ons::built-up-areas-2024-boundaries-ew-bgg-2/about,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://geoportal.statistics.gov.uk/documents/4d9aa61b06a64ec1b7cc4aecbcfbb7a9/about,2026-11-11,ok,2026-11-11,0,,
 https://get-information-schools.service.gov.uk/,2026-11-11,ok,2026-11-11,0,,
 https://get-information-schools.service.gov.uk/Downloads,2026-11-11,ok,2026-11-11,0,,
@@ -147,33 +136,31 @@ https://github.com/digital-land/design-code-explorer/tree/main/data,2026-11-11,o
 https://github.com/digital-land/extension-digital-site-notice-module,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/CHANGELOG.md,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/data/analysis/2025-planning-application-form.csv,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/data/analysis/2025-planning-application-module.csv,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/data/codelist/planning-authority.csv,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/data/national-planning-requirement.csv,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-form.csv,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-module.csv,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-type.csv,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-requirement.csv,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/planning-application-data-specification/blob/main/docs/codelists.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/docs/declarative-model.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/docs/fields.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/docs/json-schema-generation.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/docs/module.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/docs/planning-requirements.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/Standards%202025%20Progress%20Report.pdf,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/codelists.md,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/declarative-model.md,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/documents-and-references.md,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/fields.md,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/how_dates_and_timestamps_are_used_in_this_specification.md,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/json-schema-generation.md,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/materials/Refining%20the%20planning%20application%20data%20specification.pdf,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/materials/What%20we%20are%20learning%20about%20implementing%20the%20Open%20Data%20Standards.pdf,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/declarative-model-progress.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/no-issues.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
+https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/module.md,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/documentation/planning-requirements.md,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/declarative-model-progress.md,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/open-issues-spreadsheet.csv,2026-11-11,ok,2026-11-11,0,,
+https://github.com/digital-land/planning-application-data-specification/blob/main/specification/README.md,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/specification/application/hh.schema.md?plain=1,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/specification/application/pip.schema.md?plain=1,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/specification/application/technical-details-consent.schema.md?plain=1,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/specification/dataset/section-106.schema.md?plain=1,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/blob/main/specification/dataset/site.schema.md?plain=1,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/planning-application-data-specification/blob/main/specification/decision-stage.schema.md?plain=1,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://github.com/digital-land/planning-application-data-specification/blob/main/specification/index.md,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://github.com/digital-land/planning-application-data-specification/blob/main/specification/module/oilgas-permission-type.schema.md?plain=1,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/commit/34c269f5b020e6edb650bbd90f98869496380847,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/discussions,2026-11-11,ok,2026-11-11,0,,
@@ -197,7 +184,6 @@ https://github.com/digital-land/planning-application-data-specification/issues/7
 https://github.com/digital-land/planning-application-data-specification/issues/8,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/issues?q=is%3Aissue%20state%3Aclosed,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/issues?q=is%3Aissue%20state%3Aopen%20label%3Aapplication-type,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/planning-application-data-specification/tree/main/docs/decision-stage-specification,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://github.com/digital-land/planning-application-data-specification/tree/main/generated/info_model/application,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/tree/main/generated/info_model/module,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification/tree/main/generated/json-schema/applications,2026-11-11,ok,2026-11-11,0,,
@@ -223,7 +209,7 @@ https://historicengland.org.uk/listing/the-list/data-downloads,2026-11-11,not_pu
 https://historicengland.org.uk/services-skills/our-planning-services/greater-london-archaeology-advisory-service/greater-london-archaeological-priority-areas/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
 https://historicengland.org.uk/terms/website-terms-conditions/open-data-hub/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
 https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/lawful-basis/a-guide-to-lawful-basis/public-task/,2026-11-11,ok,2026-11-11,0,,
-https://ico.org.uk/your-data-matters/online/cookies/,2026-11-11,failing,,1,2026-11-11,HTTP 404
+https://ico.org.uk/for-the-public/online/cookies/,2026-11-11,ok,2026-11-11,0,,
 https://json-schema.org/,2026-11-11,ok,2026-11-11,0,,
 https://map.cornwall.gov.uk/website/ccmap/?zoomlevel=1&xcoord=162690&ycoord=64380&wsName=ccmap&layerName=Article%204%20direction%20orders,2026-11-11,ok,2026-11-11,0,,
 https://map.cornwall.gov.uk/website/ccmap/?zoomlevel=3&xcoord=200241&ycoord=65297&wsName=ccmap&layerName=Tree%20preservation%20order%20points:Tree%20preservation%20order%20areas,2026-11-11,ok,2026-11-11,0,,
@@ -236,14 +222,9 @@ https://mhclgdigital.blog.gov.uk/2025/08/05/standardising-the-planning-applicati
 https://mhclgdigital.blog.gov.uk/2025/10/20/diving-into-planning-decisions-what-we-learned-from-our-latest-user-research/,2026-11-11,ok,2026-11-11,0,,
 https://mhclgdigital.blog.gov.uk/2026/09/29/align-a-new-national-infrastructure-spatial-tool-for-evidence-based-planning-and-growth-decisions/,2026-11-11,ok,2026-11-11,0,,
 https://miro.com/app/board/uXjVNRvkj-0=/,2026-11-11,ok,2026-11-11,0,,
-https://naturalengland-defra.opendata.arcgis.com/datasets/5d2477d8d04b41d4bbc9a8742f858f4d/explore,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://naturalengland-defra.opendata.arcgis.com/datasets/6f2ad07d91304ad79cdecd52489d5046_,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::ancient-woodland-england/about,2026-11-11,ok,2026-11-11,0,,
-https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::local-nature-reserves-england/about,2026-11-11,ok,2026-11-11,0,,
 https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::nature-improvement-areas-england/about,2026-11-11,ok,2026-11-11,0,,
 https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::provisional-agricultural-land-classification-alc-england/about,2026-11-11,ok,2026-11-11,0,,
-https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::sites-of-special-scientific-interest-england/about,2026-11-11,ok,2026-11-11,0,,
-https://naturalengland-defra.opendata.arcgis.com/datasets/a11befa8e6dc4227a7082d81bb1ddbdb/explore,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://naturalengland-defra.opendata.arcgis.com/datasets/areas-of-outstanding-natural-beauty-england,2026-11-11,ok,2026-11-11,0,,
 https://newcastlecc.maps.arcgis.com/apps/instant/basic/index.html?appid=6956e23b13874008b18a2598b4ade83a&locale=en-gb,2026-11-11,ok,2026-11-11,0,,
 https://newcastlecity.maps.arcgis.com/apps/instant/basic/index.html?appid=e0efda2acdec4d3b85550d1a13f522bb,2026-11-11,ok,2026-11-11,0,,
@@ -282,16 +263,27 @@ https://www.brighton-hove.gov.uk/sites/default/files/2024-11/List%20of%20Assets%
 https://www.camden.gov.uk/assets-of-community-value,2026-11-11,ok,2026-11-11,0,,
 https://www.cornwall.gov.uk/media/fuub1q3t/cornwall-5-year-housing-land-supply-statement-2024.pdf,2026-11-11,ok,2026-11-11,0,,
 https://www.cornwall.gov.uk/planning-and-building-control/planning-policy/adopted-plans/register-of-brownfield-land/,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/01b3ee39-da3f-47b6-83da-dc98e73a461f/lidar-composite-digital-terrain-model-dtm-1m,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/0d6fa1f4-0c82-4c91-8667-a549e8e3ca2d/risk-of-flooding-from-surface-water3,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/104434b0-5263-4c90-9b1e-e43b1d57c750/flood-map-for-planning-flood-zones1,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/1707e638-6a2d-48f5-a534-1db0b240cc37/casi-and-lidar-habitat-map,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/3870e82c-265e-4566-be9b-e6b3f1eb78a3/agricultural-land-classification-alc-grades-pre-1988,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/4ae8ba46-f9a4-47d0-8d93-0f93eb494540/statutory-main-river-map,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/5a98b0a1-2741-4b2f-a51b-5b42f13219f2/risk-of-flooding-from-rivers-and-sea-postcodes-in-areas-at-risk2,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/5b632bd7-9838-4ef2-9101-ea9384421b0d/sites-of-special-scientific-interest-england3,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/69133f02-3c16-406f-9602-41f5d033f47e/lidar-composite-digital-surface-model-dsm-2m,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/6cad6ebf-3b15-4c3f-9e5d-7f2240a60058/risk-of-flooding-from-rivers-and-sea-properties-in-areas-at-risk2,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/7fe90245-d6e8-4d7c-a13a-65a87455f429/drinking-water-safeguard-zones-groundwater,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/8e3ae3b9-a827-47f1-b025-f08527a4e84e/areas-of-outstanding-natural-beauty-england1,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/952421ec-da63-4569-817d-4d6399df40a1/provisional-agricultural-land-classification-alc2,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/99d06794-8a5b-42c1-9cb6-e240ae4bc906/built-up-areas-december-2024-boundaries-ew-bgg-v21,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/acdf4a9e-a115-41fb-bbe9-603c819aa7f7/local-nature-reserves-england,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/c002ceea-d650-4408-b302-939e9b88eb0b/agricultural-land-classification-alc-grades-post-1988-survey-polygons,2026-11-11,ok,2026-11-11,0,,
-https://www.data.gov.uk/dataset/c186e17f-654d-4134-aed7-b3f13469546a/central-government-welsh-ministers-and-local-government-including-property-and-land,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://www.data.gov.uk/dataset/cae4e24c-0342-48aa-8a93-d727ce582b3c/flood-map-for-planning-rivers-and-sea-flood-storage-areas,2026-11-11,ok,2026-11-11,0,,
-https://www.data.gov.uk/dataset/cf494c44-05cd-4060-a029-35937970c9c6/flood-map-for-planning-rivers-and-sea-flood-zone-2,2026-11-11,failing,,1,2026-11-11,HTTP 404
+https://www.data.gov.uk/dataset/cae4e24c-0342-48aa-8a93-d727ce582b3c/flood-map-for-planning-rivers-and-sea-water-storage-areas,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england2,2026-11-11,ok,2026-11-11,0,,
 https://www.geoplace.co.uk/addresses-streets/location-data/usrn,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/collections/housing-delivery-test,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/collections/uk-house-price-index-reports,2026-11-11,ok,2026-11-11,0,,
@@ -425,7 +417,6 @@ https://www.legislation.gov.uk/uksi/2023/341/made,2026-11-11,ok,2026-11-11,0,,
 https://www.legislation.gov.uk/uksi/2024/48/contents/made,2026-11-11,ok,2026-11-11,0,,
 https://www.legislation.gov.uk/uksi/2026/420/contents/made,2026-11-11,ok,2026-11-11,0,,
 https://www.local.gov.uk/pas/topics/local-development-orders/local-development-orders,2026-11-11,ok,2026-11-11,0,,
-https://www.local.gov.uk/sites/default/files/documents/BSL%20webinar%20slides.pdf,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://www.local.gov.uk/sites/default/files/documents/DLUHC%20PAS%20LURB%20Design%20Code%20presentation.pdf,2026-11-11,ok,2026-11-11,0,,
 https://www.london.gov.uk/press-releases/mayoral/mayor-cracks-down-on-new-takeaways-near-schools,2026-11-11,ok,2026-11-11,0,,
 https://www.london.gov.uk/programmes-strategies/planning/implementing-london-plan/london-plan-guidance-and-spgs/central-activities-zone,2026-11-11,ok,2026-11-11,0,,
@@ -440,11 +431,8 @@ https://www.northnorthants.gov.uk/community-assets/assets-community-value/assets
 https://www.nottinghamshire.gov.uk/media/m41dje50/infrastructurefundingstatement20232024.pdf,2026-11-11,ok,2026-11-11,0,,
 https://www.ons.gov.uk/aboutus/transparencyandgovernance/datastrategy/dataprinciples,2026-11-11,ok,2026-11-11,0,,
 https://www.ons.gov.uk/peoplepopulationandcommunity/housing/articles/townsandcitiescharacteristicsofbuiltupareasenglandandwales/census2021,2026-11-11,ok,2026-11-11,0,,
-https://www.ordnancesurvey.co.uk/business-government/products/open-map-greenspace,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://www.ordnancesurvey.co.uk/business-government/products/open-map-rivers,2026-11-11,moved,2026-11-11,0,,https://www.ordnancesurvey.co.uk/products/os-open-rivers
 https://www.ordnancesurvey.co.uk/business-government/products/open-map-roads,2026-11-11,moved,2026-11-11,0,,https://www.ordnancesurvey.co.uk/products/os-open-roads
-https://www.ordnancesurvey.co.uk/documents/product-support/tech-spec/os-open-greenspace-technical-specification.pdf,2026-11-11,failing,,1,2026-11-11,HTTP 404
-https://www.ordnancesurvey.co.uk/documents/product-support/user-guide/boundary-line-product-information-v5.0.pdf?_gl=1*1xj03pq*_gcl_au*NDk3MTg0MTYwLjE3MTQwNTU1NjI.*_ga*MTY5NDU4OTQ3My4xNzE0MDU1NTQ3*_ga_59ZBN7DVBG*MTcxOTgzNDc5OS4xNS4xLjE3MTk4MzQ4MDIuNTcuMC4w,2026-11-11,failing,,1,2026-11-11,HTTP 404
 https://www.ordnancesurvey.co.uk/products/code-point,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/code-point-polygons,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-built-up-areas,2026-11-11,ok,2026-11-11,0,,

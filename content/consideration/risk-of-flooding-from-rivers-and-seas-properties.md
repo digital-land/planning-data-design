@@ -5,7 +5,7 @@ template: consideration
 stage: Archived
 useful_links:
 - text: National dataset documentation page
-  url: https://ckan.publishing.service.gov.uk/dataset/risk-of-flooding-from-rivers-and-sea-properties-in-areas-at-risk
+  url: https://www.data.gov.uk/dataset/6cad6ebf-3b15-4c3f-9e5d-7f2240a60058/risk-of-flooding-from-rivers-and-sea-properties-in-areas-at-risk2
 created: 2024-03-25
 updated: 2024-04-09
 ---

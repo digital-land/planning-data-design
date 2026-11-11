@@ -28,7 +28,7 @@ Modern planning software
 
 ### What is the 'Golf courses' consideration?
 
-A golf course is "a specially prepared area intended for playing golf." - [OS Open Greenspace technical specification](https://www.ordnancesurvey.co.uk/documents/product-support/tech-spec/os-open-greenspace-technical-specification.pdf)
+A golf course is "a specially prepared area intended for playing golf." - [OS Open Greenspace documentation](https://docs.os.uk/os-downloads/products/land-and-terrain-portfolio/os-open-greenspace)
 
 ### Is there legislation that defines 'Golf courses'?
 

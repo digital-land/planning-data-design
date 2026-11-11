@@ -38,7 +38,7 @@ Modern planning software;Other
 
 ### What is the 'Agricultural land classification' consideration?
 
-The [Agricultural Land Classification (ALC)](https://naturalengland-defra.opendata.arcgis.com/datasets/5d2477d8d04b41d4bbc9a8742f858f4d/explore) provides a method for assessing the quality of farmland to enable informed choices to be made about its future use within the planning system.
+The [Agricultural Land Classification (ALC)](https://www.data.gov.uk/dataset/952421ec-da63-4569-817d-4d6399df40a1/provisional-agricultural-land-classification-alc2) provides a method for assessing the quality of farmland to enable informed choices to be made about its future use within the planning system.
 
 ### Is there legislation that defines 'Agricultural land classification'?
 

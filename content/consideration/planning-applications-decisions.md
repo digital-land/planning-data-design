@@ -19,7 +19,7 @@ legislation:
   url: https://www.legislation.gov.uk/uksi/2015/595/article/40
 specification:
   text: Planning application
-  url: https://digital-land.github.io/specification/specification/planning-application/
+  url: https://digital-land.github.io/specification/specification/planning-application-decision/
 useful_links:
 - text: 'Service: Search the register of planning decisions'
   url: https://www.gov.uk/search-register-planning-decisions

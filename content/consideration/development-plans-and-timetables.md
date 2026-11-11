@@ -19,7 +19,7 @@ legislation:
   url: /consideration/development-plans-and-timetables/screen#is-there-legislation
 specification:
   text: Development plan
-  url: https://digital-land.github.io/specification/specification/development-plan/
+  url: https://digital-land.github.io/specification/specification/plan/
 useful_links:
 - text: Plan-making guidance
   url: https://www.gov.uk/guidance/plan-making

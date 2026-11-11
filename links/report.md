@@ -2,6 +2,8 @@
 
 ## Not public (needs a sign in) (29)
 
+A 403 can also mean the site refuses automated checks. Open those links in a private browser window to confirm.
+
 ### docs.google.com
 
 - https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit
@@ -234,126 +236,8 @@
   - replace with https://www.ordnancesurvey.co.uk/products/os-open-roads
   - used in `consideration/open-roads.md`
 
-## Failing, will be retried (45)
+## Failing, will be retried (6)
 
-### ckan.publishing.service.gov.uk
-
-- https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-areas-benefiting-from-defences
-  - HTTP 404
-  - used in `consideration/areas-which-would-benefit-from-flood-defences.md`
-- https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-storage-areas
-  - HTTP 404
-  - used in `consideration/flood-storage-areas.md`
-- https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-zone-2
-  - HTTP 404
-  - used in `consideration/flood-risk-zones-2.md`
-  - used in `consideration/flood-risk-zones.md`
-- https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-zone-3
-  - HTTP 404
-  - used in `consideration/flood-risk-zones-3.md`
-- https://ckan.publishing.service.gov.uk/dataset/lidar-composite-dsm-2017-2m
-  - HTTP 404
-  - used in `consideration/lidar-composite-dsm-2m.md`
-- https://ckan.publishing.service.gov.uk/dataset/lidar-composite-dtm-2017-1m
-  - HTTP 404
-  - used in `consideration/lidar-composite-dtm-1m.md`
-- https://ckan.publishing.service.gov.uk/dataset/lidar-composite-dtm-2017-25cm
-  - HTTP 404
-  - used in `consideration/lidar-composite-dtm-25cm.md`
-- https://ckan.publishing.service.gov.uk/dataset/risk-of-flooding-from-rivers-and-sea-postcodes-in-areas-at-risk
-  - HTTP 404
-  - used in `consideration/risk-of-flooding-from-rivers-and-seas-postcodes.md`
-- https://ckan.publishing.service.gov.uk/dataset/risk-of-flooding-from-rivers-and-sea-properties-in-areas-at-risk
-  - HTTP 404
-  - used in `consideration/risk-of-flooding-from-rivers-and-seas-properties.md`
-### data.gov.uk
-
-- https://data.gov.uk/dataset/95ea1c96-f3dd-4f92-b41f-ef21603a2802/risk-of-flooding-from-surface-water-extent-3-3-percent-annual-chance
-  - HTTP 404
-  - used in `consideration/risk-of-flooding-from-surface-water.md`
-### design-code-prototype.planning-data.dev
-
-- https://design-code-prototype.planning-data.dev/
-  - <urlopen error [Errno -2] Name or service not known>
-  - used in `consideration/design-codes.md`
-### digital-land.github.io
-
-- https://digital-land.github.io/specification/specification/development-plan/
-  - HTTP 404
-  - used in `consideration/development-plans-and-timetables.md`
-- https://digital-land.github.io/specification/specification/local-plan/
-  - HTTP 404
-  - used in `consideration/local-plans.md`
-- https://digital-land.github.io/specification/specification/planning-application/
-  - HTTP 404
-  - used in `consideration/planning-applications-decisions.md`
-### geoportal.statistics.gov.uk
-
-- https://geoportal.statistics.gov.uk/datasets/ons::built-up-areas-2024-boundaries-ew-bgg-2/about
-  - HTTP 404
-  - used in `consideration/built-up-areas.md`
-### github.com
-
-- https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-form.csv
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/data/planning-application-module.csv
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/docs/codelists.md
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/docs/declarative-model.md
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/docs/fields.md
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/docs/json-schema-generation.md
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/docs/module.md
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/docs/planning-requirements.md
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/declarative-model-progress.md
-  - HTTP 404
-  - used in `project/planning-applications/index.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md
-  - HTTP 404
-  - used in `project/planning-applications/index.md`
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/no-issues.md
-  - HTTP 404
-  - used in `project/planning-applications/index.md`
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/specification/decision-stage.schema.md?plain=1
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/blob/main/specification/index.md
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-- https://github.com/digital-land/planning-application-data-specification/tree/main/docs/decision-stage-specification
-  - HTTP 404
-  - used in `project/planning-applications/weeknotes.md`
-### ico.org.uk
-
-- https://ico.org.uk/your-data-matters/online/cookies/
-  - HTTP 404
-  - used in `cookies.md`
-### naturalengland-defra.opendata.arcgis.com
-
-- https://naturalengland-defra.opendata.arcgis.com/datasets/5d2477d8d04b41d4bbc9a8742f858f4d/explore
-  - HTTP 404
-  - used in `consideration/agricultural-land-classification.md`
-- https://naturalengland-defra.opendata.arcgis.com/datasets/6f2ad07d91304ad79cdecd52489d5046_
-  - HTTP 404
-  - used in `consideration/areas-of-outstanding-natural-beauty.md`
-- https://naturalengland-defra.opendata.arcgis.com/datasets/a11befa8e6dc4227a7082d81bb1ddbdb/explore
-  - HTTP 404
-  - used in `consideration/country-parks.md`
 ### provide.planning.data.gov.uk
 
 - https://provide.planning.data.gov.uk/
@@ -369,30 +253,6 @@
 - https://www.brighton-hove.gov.uk/sites/default/files/2024-11/List%20of%20Assets%20of%20Community%20Value%20%201%20Nov%2024_.pdf
   - too many redirects
   - used in `consideration/assets-of-community-value.md`
-### www.data.gov.uk
-
-- https://www.data.gov.uk/dataset/c186e17f-654d-4134-aed7-b3f13469546a/central-government-welsh-ministers-and-local-government-including-property-and-land
-  - HTTP 404
-  - used in `consideration/central-government-buildings.md`
-- https://www.data.gov.uk/dataset/cf494c44-05cd-4060-a029-35937970c9c6/flood-map-for-planning-rivers-and-sea-flood-zone-2
-  - HTTP 404
-  - used in `consideration/flood-risk-zones.md`
-### www.local.gov.uk
-
-- https://www.local.gov.uk/sites/default/files/documents/BSL%20webinar%20slides.pdf
-  - HTTP 404
-  - used in `consideration/building-safety-levy.md`
-### www.ordnancesurvey.co.uk
-
-- https://www.ordnancesurvey.co.uk/business-government/products/open-map-greenspace
-  - HTTP 404
-  - used in `consideration/open-green-space.md`
-- https://www.ordnancesurvey.co.uk/documents/product-support/tech-spec/os-open-greenspace-technical-specification.pdf
-  - HTTP 404
-  - used in `consideration/golf-courses.md`
-- https://www.ordnancesurvey.co.uk/documents/product-support/user-guide/boundary-line-product-information-v5.0.pdf?_gl=1*1xj03pq*_gcl_au*NDk3MTg0MTYwLjE3MTQwNTU1NjI.*_ga*MTY5NDU4OTQ3My4xNzE0MDU1NTQ3*_ga_59ZBN7DVBG*MTcxOTgzNDc5OS4xNS4xLjE3MTk4MzQ4MDIuNTcuMC4w
-  - HTTP 404
-  - used in `consideration/boundary-line.md`
 ### www.planning.data.gov.uk
 
 - https://www.planning.data.gov.uk

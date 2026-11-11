@@ -21,8 +21,6 @@ specification:
 useful_links:
 - text: Design code guidance
   url: https://www.gov.uk/guidance/creating-a-design-code
-- text: Design code library proof of concept
-  url: https://design-code-prototype.planning-data.dev/
 - text: Background on design code policy
   url: https://www.local.gov.uk/sites/default/files/documents/DLUHC%20PAS%20LURB%20Design%20Code%20presentation.pdf
 - text: Design code template spreadsheet
@@ -112,7 +110,7 @@ Yes
 ### Do we understand how the data is created/produced?
 
 At the moment it is not produced. Planning authorities create their Design Code but do not also create data for it.
-Office for Place have seeded some data so that they can show the value of a [design code library](https://design-code-prototype.planning-data.dev/) - a tool that can only be built if you have the required data
+Office for Place have seeded some data so that they can show the value of a design code library - a tool that can only be built if you have the required data
 
 ### Where will or should the data be used?
 

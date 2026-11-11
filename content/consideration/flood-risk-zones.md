@@ -12,7 +12,7 @@ useful_links:
 - text: Flood risk guidance
   url: https://www.gov.uk/guidance/flood-risk-and-coastal-change
 - text: Flood risk zone 2 map (data.gov.uk)
-  url: https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-zone-2
+  url: https://www.data.gov.uk/dataset/104434b0-5263-4c90-9b1e-e43b1d57c750/flood-map-for-planning-flood-zones1
 tags:
 - local plan
 github_discussion_number: 46
@@ -27,7 +27,7 @@ Yes
 
 ### What Flood risk zones data is currently available?
 
-- [Flood Map for Planning (Rivers and Sea) - Flood Zone 2](https://www.data.gov.uk/dataset/cf494c44-05cd-4060-a029-35937970c9c6/flood-map-for-planning-rivers-and-sea-flood-zone-2) (publisher: Environment Agency; coverage: National; licence: OGL; fields: FID;Shape;LAYER;TYPE)
+- [Flood Map for Planning (Rivers and Sea) - Flood Zone 2](https://www.data.gov.uk/dataset/104434b0-5263-4c90-9b1e-e43b1d57c750/flood-map-for-planning-flood-zones1) (publisher: Environment Agency; coverage: National; licence: OGL; fields: FID;Shape;LAYER;TYPE)
 
 ## Research
 

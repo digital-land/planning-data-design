@@ -80,7 +80,7 @@ N/A
 
 ### What other planning considerations does it interact with?
 
-[Boundary-Line-Product-Information](https://www.ordnancesurvey.co.uk/documents/product-support/user-guide/boundary-line-product-information-v5.0.pdf?_gl=1*1xj03pq*_gcl_au*NDk3MTg0MTYwLjE3MTQwNTU1NjI.*_ga*MTY5NDU4OTQ3My4xNzE0MDU1NTQ3*_ga_59ZBN7DVBG*MTcxOTgzNDc5OS4xNS4xLjE3MTk4MzQ4MDIuNTcuMC4w)
+[Boundary-Line-Product-Information](https://docs.os.uk/os-downloads/products/areas-and-zones-portfolio/boundary-line/boundary-line-product-information)
 
 - Area measurements
 - Civil parish (England) and community (Wales)

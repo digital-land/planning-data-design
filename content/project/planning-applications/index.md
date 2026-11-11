@@ -163,9 +163,8 @@ We shared the aims and context for the project, work done to date, heard updates
 
 01 Jun 2025
 
-- [Specifications without issues](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/no-issues.md)
-- [Specifications with issues](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md)
-- [Specifications with delarative model](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/declarative-model-progress.md)
+- [Specifications with issues](https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/open-issues-spreadsheet.csv)
+- [Specifications with delarative model](https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/declarative-model-progress.md)
 
 ### Collated feedback from various channels into a [tracker](https://docs.google.com/spreadsheets/d/10QprqRCo8Ss_Hpx-XkXpVHmVGewiTzWbVITEz9vXvhw/edit?usp=sharing)
 

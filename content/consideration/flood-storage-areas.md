@@ -8,7 +8,7 @@ datasets:
 frequency_of_updates: Quarterly
 useful_links:
 - text: National dataset documentation page
-  url: https://ckan.publishing.service.gov.uk/dataset/flood-map-for-planning-rivers-and-sea-flood-storage-areas
+  url: https://www.data.gov.uk/dataset/cae4e24c-0342-48aa-8a93-d727ce582b3c/flood-map-for-planning-rivers-and-sea-water-storage-areas
 synonyms:
 - flood storage area
 github_discussion_number: 68

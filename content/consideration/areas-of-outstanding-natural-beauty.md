@@ -103,7 +103,7 @@ Yes
 
 ### What Areas of outstanding natural beauty data is currently available?
 
-- [Natural England](https://naturalengland-defra.opendata.arcgis.com/datasets/6f2ad07d91304ad79cdecd52489d5046_) (coverage: National; licence: Use of this data is subject to the Open Government Licence; fields: CODE;NAME;DESIG_DATE;HOTLINK;STAT_AREA;Shape_Area;Shape_Length)
+- [Natural England](https://www.data.gov.uk/dataset/8e3ae3b9-a827-47f1-b025-f08527a4e84e/areas-of-outstanding-natural-beauty-england1) (coverage: National; licence: Use of this data is subject to the Open Government Licence; fields: CODE;NAME;DESIG_DATE;HOTLINK;STAT_AREA;Shape_Area;Shape_Length)
 - 
 
 ### Do we think the data should come from a single source?

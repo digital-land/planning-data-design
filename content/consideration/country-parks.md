@@ -20,7 +20,7 @@ Yes
 
 ### What Country parks data is currently available?
 
-- [Country Parks (England)](https://naturalengland-defra.opendata.arcgis.com/datasets/a11befa8e6dc4227a7082d81bb1ddbdb/explore) (publisher: Natural England; coverage: England)
+- [Country Parks (England)](https://www.data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england2) (publisher: Natural England; coverage: England)
 
 ## Research
 

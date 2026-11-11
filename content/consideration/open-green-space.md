@@ -5,7 +5,7 @@ template: consideration
 stage: Backlog
 useful_links:
 - text: National dataset documentation page
-  url: https://www.ordnancesurvey.co.uk/business-government/products/open-map-greenspace
+  url: https://www.ordnancesurvey.co.uk/products/os-open-greenspace
 tags:
 - local plan
 github_discussion_number: 64
