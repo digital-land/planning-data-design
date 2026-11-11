@@ -1,7 +1,5 @@
 # Plan: read-only static site
 
-Status: draft for review.
-
 ## Goal
 
 Replace the current database-backed, authenticated app with the simplest Flask app that can serve the site's content, and that can be shown to be secure.
@@ -46,7 +44,7 @@ content/
   consideration/
     index.md                 # list page, built from the data below
     <slug>.md                # one per consideration
-    <slug>/stage-<stage>.md  # optional: per-stage answers
+    <slug>/stage-<stage>.md  # not needed
   help/
     os-declaration-options.md
 data/
@@ -228,6 +226,37 @@ CI runs, and fails on any of:
 5. `pip-audit`, `bandit`, `black --check`, `flake8`.
 6. Optionally, an OWASP ZAP baseline scan against the built container.
 
+## Separate content repository
+
+Would a separate content repository be more secure? Somewhat, but not by much, and it adds moving parts. Start with one repository and split later.
+
+### What a split gives
+
+- **Separate permissions.** Editors get write access to content only. Only code owners can change the app.
+- **Smaller app repository.** It holds code and tests only.
+- **Different review rules.** Content changes can have lighter review than code changes.
+
+### Why the gain is limited
+
+- **Single-repository alternative.** `CODEOWNERS` plus branch protection gives most of the same separation. Content owners approve `content/**` and `redirects/**`. Code owners approve everything else. Nobody can merge unreviewed.
+- **The real boundary is deployment.** If merging content triggers a deploy, content editors can effectively change what runs. The access control only matters if deploying is a separate, gated action.
+- **Content is untrusted input either way.** It is rendered into HTML, so a malicious editor could try script injection through Markdown. The defences belong to the app (escaped raw HTML, CSP, no `|safe`), not the repository.
+- **Extra risks.** The app depends on a second repository at build time, so we need version pinning, a content-to-app compatibility check, and a way to stop broken content being deployed.
+
+### How to split safely
+
+1. The app Dockerfile pulls content at a pinned commit SHA or tag, never `main`.
+2. The content repository's CI runs the same validator as the app (front matter schema, links, redirects). The validator lives in the app repository and is installed as a pinned dependency or container. Bad content never reaches a deploy.
+3. A deploy is a pull request in the app repository that bumps the content SHA. Editors can merge content, but only deployers can publish it.
+4. Content is baked into the image at build time. Nothing is fetched at runtime, so there are still no outbound network connections.
+
+### Decision
+
+- Keep one repository for the refactor.
+- Use `CODEOWNERS` from the start.
+- Keep `content/` a clean seam: the loader takes its directory from one setting, so splitting later is a mechanical change.
+- Split when there are editors who should not be able to change code, or when content changes much more often than code.
+
 ## Steps
 
 Each step is one commit and leaves the tests green.
@@ -261,3 +290,4 @@ Each step is one commit and leaves the tests green.
 9. **`digital-land-frontend`.** Keep as a Python package for templates, or vendor the compiled assets?
 10. **Python version.** `runtime.txt` and the Dockerfile say 3.10, which reaches end of life in October 2026. Move to a supported version as part of step 12.
 11. **Editing workflow.** Who edits content now? Is "pull request on GitHub" acceptable for all authors, or do we need a docs-style editor later?
+12. **Separate content repository.** Agree the decision above, and who owns `CODEOWNERS` for `content/**`.
