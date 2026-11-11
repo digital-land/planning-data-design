@@ -76,7 +76,7 @@ def register_context_processors(app):
         return {
             "site_settings": {
                 "name": "Designing planning and housing data",
-                "team_name": "Data Design team",
+                "team_name": "Planning Data",
             },
             "github_discussion_base_url": "https://github.com/digital-land/data-standards-backlog/discussions",
             "platform_url": os.getenv(
