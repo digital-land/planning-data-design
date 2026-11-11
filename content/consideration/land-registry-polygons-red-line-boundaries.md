@@ -6,9 +6,6 @@ stage: On the platform
 datasets:
 - title-boundary
 frequency_of_updates: Monthly
-useful_links:
-- text: Fact sheet url
-  url: https://docs.google.com/document/d/1iGOw61rjvFIqZHR8RzL6yGXcjs0EYHQdHNEANUdF3Jc/edit
 synonyms:
 - Land ownership boundary
 - Land Registry Parcels

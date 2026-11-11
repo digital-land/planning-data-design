@@ -14,9 +14,6 @@ legislation:
 specification:
   text: Article 4 Direction
   url: https://digital-land.github.io/specification/specification/article-4-direction/
-useful_links:
-- text: Design process document
-  url: https://docs.google.com/document/d/1HL7GkBJhYvTfUohy9djPQpP8NWgONRS-yrfpkl8ppNo/edit#heading=h.q1fqqglen3fg
 tags:
 - odp
 github_discussion_number: 30

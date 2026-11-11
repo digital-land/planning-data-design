@@ -16,8 +16,6 @@ specification:
   text: Tree preservation order
   url: https://digital-land.github.io/specification/specification/tree-preservation-order/
 useful_links:
-- text: Design process document
-  url: https://docs.google.com/document/d/1ziDNUExJiUWtMFI3x90T2G-HGtNldUOQrd13u-h6UHY/edit#heading=h.q1fqqglen3fg
 - text: Tree preservation order guidance
   url: https://www.gov.uk/guidance/tree-preservation-orders-and-trees-in-conservation-areas
 tags:

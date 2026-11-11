@@ -3,9 +3,6 @@ title: Flood risk zone 1
 description: An area with a less than 0.1% (1 in 1000) chance of flooding from rivers or the sea
 template: consideration
 stage: Archived
-useful_links:
-- text: Fact sheet url
-  url: https://docs.google.com/document/d/1mc5UMRPGDU6ba7hNMPDqczdvB4Geu0Mm2aN19GRmASg/edit#heading=h.lb9do641w06g
 created: 2024-03-25
 updated: 2024-06-25
 ---

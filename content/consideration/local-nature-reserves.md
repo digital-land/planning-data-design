@@ -14,8 +14,6 @@ useful_links:
   url: https://www.data.gov.uk/dataset/acdf4a9e-a115-41fb-bbe9-603c819aa7f7/local-nature-reserves-england
 - text: URL of national dataset
   url: https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Local_Nature_Reserves_England/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson
-- text: Fact sheet url
-  url: https://docs.google.com/document/d/1ZObCVL1dGKVEgputfdwPs-Ih43UH5Mradk4zvteeA_Y/edit#heading=h.lb9do641w06g
 synonyms:
 - Protected sites
 tags:

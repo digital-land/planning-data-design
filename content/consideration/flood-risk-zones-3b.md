@@ -8,8 +8,6 @@ useful_links:
   url: https://www.gov.uk/guidance/flood-risk-assessment-flood-zones-1-2-3-and-3b
 - text: Flood risk guidance
   url: https://www.gov.uk/guidance/flood-risk-and-coastal-change
-- text: Design process document
-  url: https://docs.google.com/document/d/1a458xs4QgOG-WDKXyNzz3vPVLcAFh9jobIUn4wcgBTc/edit?usp=sharing
 tags:
 - local plan
 github_discussion_number: 46

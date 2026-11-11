@@ -19,8 +19,6 @@ useful_links:
   url: https://miro.com/app/board/uXjVNRvkj-0=/
 - text: Use of conditions in planning permission (Circular 11/95)
   url: https://assets.publishing.service.gov.uk/media/5a78f5ba40f0b62b22cbe28a/324923.pdf
-- text: Early research notes
-  url: https://docs.google.com/document/d/1WjLD8vTEGJXG2jn0UIAnC0xR20pon6XyMdybRtBtlLA/edit?usp=sharing
 - text: Draft user needs 2023
   url: https://docs.google.com/document/d/1rHFtLB_gsJkukzjlpwrTej7eTDP5sPeNt1ftPxxGy1A/edit?usp=sharing
 - text: Data template and example

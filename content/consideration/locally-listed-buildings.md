@@ -6,9 +6,6 @@ stage: On the platform
 datasets:
 - locally-listed-building
 frequency_of_updates: Unknown
-useful_links:
-- text: Locally listed buildings information document
-  url: https://docs.google.com/document/d/1eVDL6kCLqI4v600yQqr0p5Eb_YSW9zSiT5St-Fcr4hc/edit?usp=sharing
 synonyms:
 - local heritage assets
 - local lists

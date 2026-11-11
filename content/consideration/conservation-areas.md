@@ -15,8 +15,6 @@ specification:
   text: Conservation area
   url: https://digital-land.github.io/specification/specification/conservation-area/
 useful_links:
-- text: Design process document
-  url: https://docs.google.com/document/d/1xXmcLRxSzEzLB9Z2H2ztsjh75ZtpSVz0V89R2j-hC1g/edit
 - text: Historic environment guidance
   url: https://www.gov.uk/guidance/conserving-and-enhancing-the-historic-environment
 tags:

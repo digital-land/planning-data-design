@@ -9,9 +9,6 @@ frequency_of_updates: Ad hoc
 legislation:
   text: The Environment Act 1995
   url: https://www.legislation.gov.uk/ukpga/1995/25/contents
-useful_links:
-- text: Fact sheet url
-  url: https://docs.google.com/document/d/1TU0-gSBKGoc6XJMtm_ccB1W3z2zb_1SvVakfn2yiE4w/edit#heading=h.9rwg3m580tpf
 synonyms:
 - Air quality management locations
 - AQMA

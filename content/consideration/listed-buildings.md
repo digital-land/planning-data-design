@@ -15,10 +15,6 @@ specification:
   text: Listed building outline
   url: https://digital-land.github.io/specification/specification/listed-building/
 useful_links:
-- text: Design process document
-  url: https://docs.google.com/document/d/1BoTm7kmESHZLBNJibuvdVaMsF3odKsKGLXlPnf-8gFY/edit?usp=sharing
-- text: Data dependency document
-  url: https://docs.google.com/document/d/1SJBxZ_pKY1BL9aTckboKS6u6nqwZJOk4_buY9SKJ3Xg/edit
 - text: The listing process (Historic England)
   url: https://historicengland.org.uk/listing/apply-for-listing/listing-process/
 tags:

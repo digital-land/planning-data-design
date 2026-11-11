@@ -3,9 +3,6 @@ title: Local flood data
 description: 'Planning consideration: Local flood data'
 template: consideration
 stage: Screen
-useful_links:
-- text: Fact sheet url
-  url: https://docs.google.com/document/d/1GJdkEbpLlfcB9AbBfLcDgkvFMxs7kPrtc_y_mxOby-I/edit
 tags:
 - local plan
 github_discussion_number: 58
