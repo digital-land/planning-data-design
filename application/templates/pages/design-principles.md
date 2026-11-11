@@ -105,15 +105,17 @@ This iterative approach gives the most immediate value to users, allowing you to
 
 ## 10. Show the benefits
 
-Planning data is a public good that increases in value the more people use it. To sustain the platform and justify the effort required to publish and maintain data, we need to show that value clearly.
+Planning data is a public good that increases in value the more people use it.
+To sustain the platform and justify the effort required to publish and maintain data
+We need to clearly show that value.
 
 Standard web analytics do not show real-world use. Popularity is not the same as impact:
 
 * a user might download a dataset once and serve it downstream to millions of people
 * an automated script or AI agent might make hundreds of API calls without creating any public value
 
-Measuring benefit requires getting closer to users to understand what decisions, services, and policies the data makes possible. 
-When designing a dataset, work with users to develop quantitative metrics and build case studies that demonstrate tangible outcomes, not vanity traffic.
+Measuring benefit requires getting closer to users to understand the decisions, services, and policies data simplifies or makes possible. 
+So when designing a dataset, you need to work with users to develop quantitative metrics on how the data is being used, and case studies which document the savings and benefits which arise from using the data, not just vainly measure hits and downloads.
 
 * [Value of Public Sector Data Estimate](https://www.gov.uk/government/publications/value-of-public-sector-data-estimate/value-of-public-sector-data-estimate)
 * [Design with data](https://www.gov.uk/guidance/government-design-principles#design-with-data)
