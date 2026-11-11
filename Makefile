@@ -1,3 +1,7 @@
+server:
+	podman compose up -d web db
+
+
 init::
 	# pip-tools 7.5.3 breaks on pip>=26.1 (jazzband/pip-tools#2379); unpin once fixed upstream
 	python -m pip install --upgrade "pip<26.1"
