@@ -7,6 +7,7 @@ Reports problems, never fails the build.
 """
 
 import argparse
+import http.client
 import time
 import urllib.error
 import urllib.request
@@ -80,7 +81,7 @@ def fetch(url, method):
             return response.status, response.headers
     except urllib.error.HTTPError as e:
         return e.code, e.headers
-    except (urllib.error.URLError, OSError, ValueError) as e:
+    except (urllib.error.URLError, OSError, ValueError, http.client.HTTPException) as e:
         return None, {"error": str(e)}
 
 
@@ -203,7 +204,10 @@ def run(urls, rows, today, check_fn=check, sleep=time.sleep, workers=4):
         for i, url in enumerate(items):
             if i:
                 sleep(INTERVAL)
-            result = check_fn(url)
+            try:
+                result = check_fn(url)
+            except Exception as e:  # one bad link must not stop the run
+                result = Result("unclear", f"{type(e).__name__}: {e}")
             out[url] = update(state.get(url, {"url": url}), result, today)
             if result.wait:
                 sleep(result.wait)
@@ -246,6 +250,12 @@ def build_report(found, state, include=None, new=(), new_domains=()):
         if not group:
             continue
         lines += [f"## {titles[status]} ({len(group)})", ""]
+        if status == "not_public":
+            lines += [
+                "A 403 can also mean the site refuses automated checks. "
+                "Open those links in a private browser window to confirm.",
+                "",
+            ]
         current = None
         for row in group:
             host = domain(row["url"])

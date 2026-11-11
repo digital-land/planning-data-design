@@ -13,7 +13,7 @@ useful_links:
 - text: National dataset documentation page
   url: https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::provisional-agricultural-land-classification-alc-england/about
 - text: URL of national dataset
-  url: https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Provisional Agricultural Land Classification (ALC) (England)/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson
+  url: https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Provisional%20Agricultural%20Land%20Classification%20(ALC)%20(England)/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson
 tags:
 - local plan
 github_discussion_number: 67

@@ -89,3 +89,7 @@ def test_report_lists_each_domain():
     text = report(found, set())
     assert "| a.example | 2 | **no** |" in text
     assert domain("HTTPS://A.Example/x") == "a.example"
+
+
+def test_url_with_space_is_a_problem():
+    assert "space" in problems({"https://a.example/a b": ["x.md"]}, {"a.example"})[0]

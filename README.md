@@ -43,6 +43,17 @@ make check       # lint, bandit, pip-audit, content checks and tests
 
 CSS and images are built by npm (`make assets`) and are not committed.
 
+## Outbound links
+
+Every external link in the content is listed in `links/links.csv`, and every linked domain must be listed in `links/domain.csv`.
+
+- After adding or removing a link, run `make links` to update `links/links.csv` and `links/domains.md`. `make check-content` fails if they are out of date, if a domain is not listed, if a URL contains a space, or if a link uses an absolute `design.planning.data.gov.uk` address (use a relative path).
+- Linked pages must be public. SharePoint and Mural are not in the domain list because their pages need a sign in.
+- `make check-links` checks the next batch of about 100 links (network) and updates `links/status.csv`. CI runs it weekly and keeps one "Outbound link report" issue up to date. Pull requests that change content check only their new links and comment with the result.
+- Broken, moved and not-public links are reported, never fixed automatically. Some sites return 403 to automated checks, so check those by hand.
+
+See `notes/LINKS.md` for the design.
+
 ## Security
 
 See `notes/READONLY.md`. In short:

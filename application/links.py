@@ -79,7 +79,9 @@ def problems(found, allowed):
     for url, sources in found.items():
         host = domain(url)
         where = ", ".join(sources)
-        if host in SELF_DOMAINS:
+        if re.search(r"\s", url):
+            out.append(f"{where}: URL contains a space, encode it as %20 ({url!r})")
+        elif host in SELF_DOMAINS:
             out.append(f"{where}: use a relative path instead of {url}")
         elif host not in allowed:
             out.append(f"{where}: domain {host} is not in links/domain.csv ({url})")

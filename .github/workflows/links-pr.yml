@@ -1,0 +1,36 @@
+name: Check new links
+
+on:
+  pull_request:
+    paths:
+      - "content/**"
+      - "links/**"
+      - "tools/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  new-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --require-hashes -r requirements/requirements.txt
+      - name: Links on the base branch
+        run: git show "origin/${{ github.base_ref }}:links/links.csv" > "$RUNNER_TEMP/base-links.csv" || echo "url,domain,first_seen" > "$RUNNER_TEMP/base-links.csv"
+      - name: Check new links only
+        run: python -m tools.check_links --new-against "$RUNNER_TEMP/base-links.csv" --report "$RUNNER_TEMP/report.md"
+      - name: Comment on the pull request
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -s "$RUNNER_TEMP/report.md" ]; then
+            gh pr comment "${{ github.event.pull_request.number }}" --body-file "$RUNNER_TEMP/report.md" --edit-last --create-if-none
+          fi

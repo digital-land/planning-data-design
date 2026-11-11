@@ -48,7 +48,7 @@ Rules for non-public hosts:
 
 ### 4. Check (networked, in `tools/check_links.py`)
 
-State is kept in `links/status.csv` on `main`: `url,last_checked,status,last_ok,failures`.
+State is kept in `links/status.csv` on `main`: `url,last_checked,status,last_ok,failures,first_failed,detail`.
 
 Which URLs to check on each run:
 
@@ -100,3 +100,7 @@ Each step is one commit.
 4. Make targets (`links-report`, `check-links`) and CI workflow (pull request and weekly).
 5. Pull request comment, the weekly issue and the web archive suggestions.
 6. Document in the README. Fix any broken or non-public links found by the first run.
+
+## Status
+
+Steps 1 to 6 are implemented. Findings from the first full run are in the pull request description and the weekly issue. Links that fail are reported, and are fixed by content editors.

@@ -215,3 +215,24 @@ def test_report_empty_when_nothing_wrong():
         "https://y.example/ok": {**row("https://y.example/ok", "ok", 0), "detail": ""}
     }
     assert build_report(found, state) == ""
+
+
+def test_invalid_url_does_not_stop_the_run():
+    def fake(url):
+        if "bad" in url:
+            raise ValueError("boom")
+        return Result("ok")
+
+    state = run(
+        ["https://a.example/bad", "https://b.example/ok"],
+        [],
+        TODAY,
+        check_fn=fake,
+        sleep=lambda s: None,
+    )
+    assert state["https://a.example/bad"]["status"] == "failing"
+    assert state["https://b.example/ok"]["status"] == "ok"
+
+
+def test_url_with_space_is_unclear_not_a_crash():
+    assert check("http://127.0.0.1:1/a b").kind == "unclear"
