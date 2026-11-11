@@ -66,4 +66,5 @@ class GovukExtension(markdown.Extension):
 def render(text):
     """Render Markdown to HTML, escaping any raw HTML."""
     md = markdown.Markdown(extensions=["tables", GovukExtension()])
-    return Markup(md.convert(text or ""))
+    # the one sanctioned use: raw HTML is escaped above and unsafe URLs are dropped
+    return Markup(md.convert(text or ""))  # nosec B704

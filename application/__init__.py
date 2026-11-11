@@ -2,7 +2,7 @@ from pathlib import Path
 
 from flask import Flask
 
-from application.content import breadcrumbs, load_content
+from application.content import load_content
 from application.redirects import Redirects
 from application.routes import GENERATED_PATHS, register_routes
 from application.security import init_security

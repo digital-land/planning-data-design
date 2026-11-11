@@ -139,3 +139,18 @@ def test_templates_have_no_inline_script_or_style():
         assert "<script" not in text, file
         assert "<style" not in text, file
         assert " style=" not in text, file
+
+
+def test_app_runs_with_the_network_blocked(monkeypatch):
+    import socket
+
+    def blocked(*args, **kwargs):
+        raise AssertionError("network access attempted")
+
+    monkeypatch.setattr(socket, "socket", blocked)
+    monkeypatch.setattr(socket, "create_connection", blocked)
+    from application import create_app
+
+    client = create_app().test_client()
+    assert client.get("/").status_code == 200
+    assert client.get("/consideration").status_code == 200

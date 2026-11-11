@@ -13,27 +13,27 @@ COPY src/ ./src/
 RUN mkdir -p application/static/javascripts application/static/stylesheets \
     && npm run postinstall
 
-FROM python:3.10-slim
+# the final stage is Python only: no node, no compilers, no git, no pip cache
+FROM python:3.12-slim@sha256:05a994d2344eb364cc186910f4fc8786a38215f39f00d0acc25bff33a08f4177
 WORKDIR /code
 
-# safe defaults for deployed environments, compose.yml overrides these for local development
-ENV FLASK_CONFIG=application.config.Config
-ENV FLASK_APP=application.wsgi:app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-# dev requirements (test and lint tools) are not installed, tests and linting
-# run outside the image
-COPY requirements/ ./requirements/
-RUN pip install -r requirements/requirements.txt
+COPY requirements/requirements.txt ./requirements/requirements.txt
+RUN pip install --no-cache-dir --require-hashes -r requirements/requirements.txt
 
-# copy only what the app needs at runtime, node tooling (package.json,
-# package-lock.json, src/ etc) stays in the assets stage
-COPY docker-entrypoint.sh ./
-COPY migrations/ ./migrations/
-COPY data/glossary-of-tags.csv data/upcoming-events.yml ./data/
+# content, redirects and code are baked in and immutable at runtime
 COPY application/ ./application/
+COPY content/ ./content/
+COPY redirects/ ./redirects/
 COPY --from=assets /app/application/static ./application/static
 
-EXPOSE 5050
+# fail the build on bad content or redirects
+RUN python -m application.check
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["gunicorn", "-b", "0.0.0.0:5050", "application.wsgi:app"]
+RUN useradd --system --no-create-home --uid 10001 app
+USER 10001
+
+EXPOSE 5050
+CMD ["gunicorn", "-b", "0.0.0.0:5050", "--worker-tmp-dir", "/dev/shm", "application.wsgi:app"]

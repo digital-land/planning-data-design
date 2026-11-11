@@ -1,23 +1,4 @@
-# keep the version in step with @digital-land-gov-uk/digital-land-frontend in package.json
-digital-land-frontend==0.8.0
-govuk-frontend-jinja==3.7.0
 Flask
-Flask-WTF
-Flask-SQLAlchemy
-Flask-Migrate
-psycopg2-binary
-flask-sslify
-is-safe-url
-flask-talisman
-flask-debugtoolbar
-sentry-sdk[flask]
-gunicorn
-python-dotenv
-alembic-postgresql-enum
-Authlib
-python-slugify
-PyGithub
-pydantic
 Markdown
-beautifulsoup4
 python-frontmatter
+gunicorn

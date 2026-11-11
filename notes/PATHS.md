@@ -1,6 +1,18 @@
 # Paths
 
-Main paths in the Flask app. Routes marked * need login.
+## Current routes
+
+The site is read-only. Every route is `GET` (and `HEAD`, `OPTIONS`).
+
+| Path | Behaviour |
+|---|---|
+| `/` and `/<path>` | A page from `content/`, a redirect from `redirects/*.csv`, or 404 |
+| `/consideration/planning-considerations.csv` | CSV generated from the consideration files at start-up |
+| `/static/<path>` | Static files |
+
+## Old paths (regression list)
+
+Paths from the database-backed site, kept as a regression list. `tests/test_security.py` requests each one and expects a 200, a redirect, a 404 or a 410, never an error. Routes marked * needed login and are now 404 or redirect to the consideration page.
 
 ## Public pages (`main`)
 
