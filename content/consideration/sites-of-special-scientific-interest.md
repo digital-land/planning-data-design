@@ -8,7 +8,7 @@ datasets:
 frequency_of_updates: Ad hoc
 useful_links:
 - text: SSSI guidance
-  url: https://www.gov.uk/guidance/protected-areas-sites-of-special-scientific-interest
+  url: https://www.gov.uk/guidance/sites-of-special-scientific-interest-managing-your-land-and-getting-consent-for-activities
 synonyms:
 - Protected sites
 - SSSIs

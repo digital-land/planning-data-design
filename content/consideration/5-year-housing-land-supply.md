@@ -32,7 +32,7 @@ No
 
 ### Who, in law, is responsible for the planning consideration or makes decisions about '5 year housing land supply (5yhls)'?
 
-As per the [NPPF section 78](https://assets.publishing.service.gov.uk/media/675abd214cbda57cacd3476e/NPPF-December-2024.pdf), "Local planning
+As per the [NPPF section 78](https://www.gov.uk/guidance/national-planning-policy-framework), "Local planning
 authorities should identify and update annually a supply of specific deliverable sites sufficient to provide a minimum of five years’ worth of housing against their housing requirement set out in adopted strategic policies, or against their local housing need where the strategic policies are more than five years old." So, it is the local authority's responsibility.
 
 ### Which organisations do we think should publish the data?

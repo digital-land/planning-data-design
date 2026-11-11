@@ -93,7 +93,7 @@ Yes
 
 ### What Central activities zone data is currently available?
 
-- [Greater London Authority](https://data.london.gov.uk/dataset/central_activities_zone) (coverage: National; licence: UK Open Government Licence; fields: unknown)
+- [Greater London Authority](https://data.london.gov.uk/dataset/central-activities-zone-23jxk) (coverage: National; licence: UK Open Government Licence; fields: unknown)
 
 ### Do we think the data should come from a single source?
 

@@ -5,7 +5,7 @@ template: consideration
 stage: Archived
 useful_links:
 - text: National dataset documentation page
-  url: https://www.bgs.ac.uk/products/digitalmaps/DiGMapGB_625.html
+  url: https://www.bgs.ac.uk/datasets/bgs-geology-625k/
 synonyms:
 - BGS Geology 625k
 created: 2024-03-25

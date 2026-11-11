@@ -5,7 +5,7 @@ template: consideration
 stage: Screen
 useful_links:
 - text: Flood risk assessment zones 2 + 3 guidance
-  url: https://www.gov.uk/guidance/flood-risk-assessment-in-flood-zones-2-and-3
+  url: https://www.gov.uk/guidance/flood-risk-assessment-flood-zones-1-2-3-and-3b
 - text: Flood risk guidance
   url: https://www.gov.uk/guidance/flood-risk-and-coastal-change
 - text: Design process document

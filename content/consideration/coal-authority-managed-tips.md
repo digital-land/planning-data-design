@@ -65,7 +65,7 @@ Yes
 
 ### What Coal authority managed tips data is currently available?
 
-- [Coal Authority Managed Tips](https://www.gov.uk/guidance/using-coal-mining-information#Available-Coal-Authority-data) (publisher: The Coal Authority; coverage: National; licence: OGL v3; fields: Unknown)
+- [Coal Authority Managed Tips](https://www.gov.uk/guidance/access-coal-mining-information-and-data#Available-Coal-Authority-data) (publisher: The Coal Authority; coverage: National; licence: OGL v3; fields: Unknown)
 
 ### Do we think the data should come from a single source?
 

@@ -12,7 +12,7 @@ useful_links:
 - text: 'Town and village greens: how to register'
   url: https://www.gov.uk/guidance/town-and-village-greens-how-to-register
 - text: '[National dataset] - database of registered town or village greens in England'
-  url: https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/218584/village-green-1993.pdf
+  url: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/218584/village-green-1993.pdf
 synonyms:
 - Commons and Village greens
 - Registered village greens

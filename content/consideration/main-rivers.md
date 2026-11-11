@@ -8,7 +8,7 @@ datasets:
 frequency_of_updates: Every 6 months
 useful_links:
 - text: National dataset documentation page
-  url: https://www.ordnancesurvey.co.uk/business-government/products/open-map-rivers
+  url: https://www.ordnancesurvey.co.uk/products/os-open-rivers
 synonyms:
 - Watercourses
 - rivers

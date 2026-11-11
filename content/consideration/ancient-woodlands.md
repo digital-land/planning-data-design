@@ -9,7 +9,7 @@ datasets:
 frequency_of_updates: Monthly
 useful_links:
 - text: National dataset documentation page
-  url: https://data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england
+  url: https://www.data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england
 - text: URL of national dataset
   url: https://opendata.arcgis.com/datasets/a14064ca50e242c4a92d020764a6d9df_0.geojson
 tags:

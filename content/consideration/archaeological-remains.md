@@ -60,7 +60,7 @@ Yes
 
 ### What Archaeological remains data is currently available?
 
-- [Archaeology Data Service](https://archaeologydataservice.ac.uk/archsearch/browser.xhtml) (coverage: National; licence: https://archaeologydataservice.ac.uk/terms-and-conditions/)
+- [Archaeology Data Service](https://archaeologydataservice.ac.uk/data-catalogue/) (coverage: National; licence: https://archaeologydataservice.ac.uk/terms-and-conditions/)
 - [Historic England](https://historicengland.org.uk/images-books/photos/results/?search=archaeological+remains&searchType=HE+Archive+New) (coverage: National)
 
 ### Do we think the data should come from a single source?

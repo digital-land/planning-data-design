@@ -8,7 +8,7 @@ datasets:
 frequency_of_updates: Every 2 years
 useful_links:
 - text: National dataset documentation page
-  url: https://data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2
+  url: https://www.data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2
 github_discussion_number: 63
 created: 2024-03-25
 updated: 2024-09-05

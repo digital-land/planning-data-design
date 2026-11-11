@@ -8,7 +8,7 @@ datasets:
 frequency_of_updates: Ad hoc
 useful_links:
 - text: National dataset documentation page
-  url: https://data.gov.uk/dataset/a19c95e3-9657-457d-825e-3d2f3993b653/nature-improvement-areas
+  url: https://www.data.gov.uk/dataset/a19c95e3-9657-457d-825e-3d2f3993b653/nature-improvement-areas
 github_discussion_number: 85
 created: 2024-03-25
 updated: 2024-09-03

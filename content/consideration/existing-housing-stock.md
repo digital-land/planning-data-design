@@ -58,7 +58,7 @@ Yes
 
 ### What Existing housing stock data is currently available?
 
-- [Dwelling stock estimates by local authority district](https://assets.publishing.service.gov.uk/media/664da823f34f9b5a56adcbf2/LT_125.ods) (publisher: MHCLG; coverage: National; licence: unknown; fields: Old ONS code;New ONS code;Area;2001;2002;2003;2004;2005;2006;2007;2008;2009;2010;2011;2012;2013;2014;2015;2016;2017;2018;2019;2020;2021;2022;2023)
+- [Dwelling stock estimates by local authority district](https://assets.publishing.service.gov.uk/media/6a0dcbf65c3c79da61662e39/LiveTable125.ods) (publisher: MHCLG; coverage: National; licence: unknown; fields: Old ONS code;New ONS code;Area;2001;2002;2003;2004;2005;2006;2007;2008;2009;2010;2011;2012;2013;2014;2015;2016;2017;2018;2019;2020;2021;2022;2023)
 
 ### Do we think the data should come from a single source?
 

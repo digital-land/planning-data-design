@@ -5,7 +5,7 @@ template: consideration
 stage: Backlog
 useful_links:
 - text: How to prepare a strategic flood risk assessment
-  url: https://www.gov.uk/guidance/local-planning-authorities-strategic-flood-risk-assessment
+  url: https://www.gov.uk/guidance/how-to-prepare-a-strategic-flood-risk-assessment
 tags:
 - local plan
 github_discussion_number: 260
@@ -16,4 +16,4 @@ updated: 2025-01-28
 
 ### Other than the statutory consultees who are the primary users of Strategic flood risk assessments? How do we expect them to use Strategic flood risk assessments?
 
-The guidance on preparing your strategic flood risk assessment lists some [potential users of strategic flood risk assessments](https://www.gov.uk/guidance/local-planning-authorities-strategic-flood-risk-assessment#how-others-will-use-your-sfra).
+The guidance on preparing your strategic flood risk assessment lists some [potential users of strategic flood risk assessments](https://www.gov.uk/guidance/how-to-prepare-a-strategic-flood-risk-assessment#how-others-will-use-your-sfra).

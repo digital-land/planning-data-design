@@ -8,7 +8,7 @@ legislation:
   url: https://www.legislation.gov.uk/ukpga/1986/5/contents
 useful_links:
 - text: National dataset documentation page
-  url: https://data.gov.uk/dataset/a5b0ccc4-a144-4027-91fa-49084ff07da2/environmentally-sensitive-areas-england
+  url: https://www.data.gov.uk/dataset/a5b0ccc4-a144-4027-91fa-49084ff07da2/environmentally-sensitive-areas-england
 created: 2024-03-25
 updated: 2024-07-18
 ---

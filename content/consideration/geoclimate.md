@@ -5,7 +5,7 @@ template: consideration
 stage: Archived
 useful_links:
 - text: National dataset documentation page
-  url: https://www.bgs.ac.uk/datasets/geoclimateukcp18-open/
+  url: https://www.bgs.ac.uk/datasets/geoclimate-shrink-swell/
 created: 2024-03-25
 updated: 2024-04-09
 ---

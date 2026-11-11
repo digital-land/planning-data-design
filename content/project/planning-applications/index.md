@@ -10,7 +10,7 @@ Help us to develop a set of open, reusable data specifications to help standardi
 
 The next community session will be held on 25 November 2026, 10.30am to 12.00pm.
 
-[Sign up](https://forms.office.com/e/DviXrJp60e) if you would like to attend.
+[Sign up](https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqOXfkSKll1hBtqu0k4gIMbtUNFVQOUxPRVFKNDBVTEM0VjYzQkpPNzdMTi4u&route=shorturl) if you would like to attend.
 
 ## Events timeline
 

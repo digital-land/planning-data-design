@@ -10,7 +10,7 @@ legislation:
   url: https://www.legislation.gov.uk/uksi/2014/3248/made
 useful_links:
 - text: National dataset documentation page
-  url: https://www.gov.uk/guidance/using-coal-mining-information
+  url: https://www.gov.uk/guidance/access-coal-mining-information-and-data
 created: 2024-03-25
 updated: 2024-07-10
 ---
@@ -76,7 +76,7 @@ Yes
 
 ### What Mining and ground stability data is currently available?
 
-- [Free of charge coal mining information](https://www.gov.uk/guidance/using-coal-mining-information) (publisher: The Coal Authority)
+- [Free of charge coal mining information](https://www.gov.uk/guidance/access-coal-mining-information-and-data) (publisher: The Coal Authority)
 
 ### Do we think the data should come from a single source?
 

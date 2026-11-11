@@ -5,7 +5,7 @@ template: consideration
 stage: Backlog
 useful_links:
 - text: National dataset documentation page
-  url: https://data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england
+  url: https://www.data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england
 tags:
 - local plan
 github_discussion_number: 140

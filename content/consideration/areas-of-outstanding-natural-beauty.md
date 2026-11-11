@@ -91,7 +91,7 @@ Yes
 
 Lighting assessment
 Nutrient neutrality assessment
-The [NPPF (Chapter 15)](https://assets.publishing.service.gov.uk/media/65a11af7e8f5ec000f1f8c46/NPPF_December_2023.pdf) also states that “great weight should be given to conserving and enhancing landscape and scenic beauty in National Parks, the Broads and Areas of Outstanding Natural Beauty which have the highest status of protection in relation to these issues.
+The [NPPF (Chapter 15)](https://www.gov.uk/guidance/national-planning-policy-framework) also states that “great weight should be given to conserving and enhancing landscape and scenic beauty in National Parks, the Broads and Areas of Outstanding Natural Beauty which have the highest status of protection in relation to these issues.
 
 ### Is the Areas of outstanding natural beauty something to consult during plan making?
 

@@ -151,7 +151,7 @@ description: Weeknotes from the planning applications project
 ## Week beginning 24 Nov
 
 - We held the November community session, focusing on moving the submission specification from pilot to candidate and progress on the working draft decision specification. We also heard from MHCLG colleagues on the mandating process, how this work will be beneficial for their work and the latest on local plan specifications ([slides](https://drive.google.com/file/d/1JbtbKtYcpuHoxp35so_ubp1h8Btc6xkm/view?usp=sharing), [notes](/static/docs/20251127_ODSC_Notes.pdf)).
-- We've finally setup a Slack channel for the community. You can fill in this [form](https://forms.office.com/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqI2-dQZ23EpAlntil0nqidZUOVkyT1I1MDlTV01HUk1CUkxCMERRRE85Ri4u) to join.
+- We've finally setup a Slack channel for the community. You can fill in this [form](https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqI2-dQZ23EpAlntil0nqidZUOVkyT1I1MDlTV01HUk1CUkxCMERRRE85Ri4u) to join.
 - We have been working through more of the issue raised on the submission specification (see [closed issues](https://github.com/digital-land/planning-application-data-specification/issues?q=is%3Aissue%20state%3Aclosed))
 
 ## Week beginning 17 Nov
@@ -233,13 +233,13 @@ description: Weeknotes from the planning applications project
 
 ## Week beginning 4 Aug
 
-- We [published a new MHCLG blog about kicking off work on decisions](https://mhclgdigital.blog.gov.uk/2025/08/05/standardising-the-planning-application-process-kicking-off-work-on-decisions/) including how we are expanding the scope of our data specification work to cover the whole planning permission process and are beginning to work on standardising planning application decisions. Also that we are kicking off a [research project to understand what decision data is needed and how people want to use it - anyone can contribute via a survey](https://forms.office.com/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl).
+- We [published a new MHCLG blog about kicking off work on decisions](https://mhclgdigital.blog.gov.uk/2025/08/05/standardising-the-planning-application-process-kicking-off-work-on-decisions/) including how we are expanding the scope of our data specification work to cover the whole planning permission process and are beginning to work on standardising planning application decisions. Also that we are kicking off a [research project to understand what decision data is needed and how people want to use it - anyone can contribute via a survey](https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl).
 
 ## Week beginning 28 Jul
 
 - The [slides and notes from our first data standards community](/project/planning-applications) have been added to the website.
-- We have defined and are now starting a research project to help understand how planning application decision data is used after a decision is made - this will directly inform how we design the specification. To help us understand this we invite anyone who uses the data to fill out this [survey](https://forms.office.com/e/rahh9JKu0u) to share their input.
-- We also [updated our glossary with key terms.](https://standards.planning-data.dev/terms/)
+- We have defined and are now starting a research project to help understand how planning application decision data is used after a decision is made - this will directly inform how we design the specification. To help us understand this we invite anyone who uses the data to fill out this [survey](https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl) to share their input.
+- We also updated our glossary with key terms.
 
 ## Week beginning 21 Jul
 
