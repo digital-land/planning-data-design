@@ -6,11 +6,13 @@ Find broken outbound links, and see which domains the site depends on, without a
 
 Today there are about 500 distinct external URLs across 75 domains. The largest are legislation.gov.uk, github.com, gov.uk and Google Docs and Drive.
 
+Every linked page must be public. A link that needs a login is a problem to fix, not a link to skip.
+
 ## Principles
 
 1. **Check only what changed or is stale.** Never re-check every link on every run.
 2. **Be polite.** At most one request per domain per second, a few domains at a time, a clear `User-Agent`, `HEAD` first with `GET` as the fallback.
-3. **Report, do not block.** A dead link is a pull request comment or an issue, not a failed build. Only a new domain or a malformed URL needs a human decision.
+3. **Report, do not block.** A dead link is a pull request comment or an issue, not a failed build. Only an unlisted domain, a malformed URL or an absolute link to our own site fails `make check-content`.
 4. **Not part of the app.** The checker is a dev tool in `tools/`, run by CI. The app stays free of outbound connections, and the existing import test still covers `application/`.
 
 ## Pieces
@@ -31,21 +33,22 @@ Compare the extracted URLs with `links/links.csv`:
 
 Because `links.csv` is committed, a pull request diff shows exactly which links and domains it adds.
 
-### 3. Domain report
+### 3. Domain list and report
 
-`make links-report` writes `links/domains.md`: each domain, the number of links, an example page, and a status:
+`links/domain.csv` lists every domain the content may link to. It is owned by the content owners in `CODEOWNERS`.
 
-| Status | Meaning |
-|---|---|
-| `expected` | listed in `links/domains-allowed.csv` |
-| `new` | not listed yet, needs review |
-| `authenticated` | needs a login, so checks are skipped (Google Docs and Drive, SharePoint, Mural) |
+**Every linked domain must be in `links/domain.csv`.** `make check-content` fails on a link to a domain that is not listed, so adding a third-party dependency is always a reviewed change. Seed the file from today's 75 domains and review it for anything surprising (shorteners, personal sites).
 
-`links/domains-allowed.csv` is owned by the content owners in `CODEOWNERS`. A new domain is a conscious, reviewed addition. This also shows who we depend on for content: third-party sites, shorteners and so on.
+`make links-report` writes `links/domains.md`: each domain, the number of links, an example page, and whether it is listed.
+
+Rules for non-public hosts:
+
+- `docs.google.com` and `drive.google.com` are allowed only when the linked file is public. The check flags any that need a sign-in.
+- SharePoint (`sharepoint.com`) and Mural (`app.mural.co`) are not allowed unless the link is public. They are not listed by default, so a link to them fails the domain check.
 
 ### 4. Check (networked, in `tools/check_links.py`)
 
-State is kept in `links/status.csv`: `url,last_checked,status,last_ok,failures`.
+State is kept in `links/status.csv` on `main`: `url,last_checked,status,last_ok,failures`.
 
 Which URLs to check on each run:
 
@@ -54,17 +57,20 @@ Which URLs to check on each run:
 
 Rules:
 
-- Skip `authenticated` domains and `mailto:`. Report them as "not checked".
+- Skip `mailto:`.
+- **Check that each page is public.** Request without cookies or credentials. A 401, a 403 or a redirect to a sign-in page (for example `accounts.google.com`, `login.microsoftonline.com`) is reported as `not public`, which is a problem to fix, not an unclear result. Google Docs and Drive links are checked like any other.
 - Internal paths are already covered by `make check-content`.
 - Follow up to 3 redirects. Record a permanent redirect (301 or 308) to a different URL as `moved`, with the new target, so it can be fixed.
-- Treat 403, 429 and 5xx as `unclear`, not broken. Retry on the next run. Flag as broken only after 3 consecutive failures over at least 2 weeks, or a 404 or 410 twice.
+- For a broken link where a snapshot is appropriate (for example a withdrawn gov.uk page), suggest the National Archives web archive (`webarchive.nationalarchives.gov.uk`) as a replacement in the report. Never rewrite a link automatically.
+- Treat 429 and 5xx as `unclear`, not broken (403 and 401 are `not public`, see above). Retry on the next run. Flag as broken only after 3 consecutive failures over at least 2 weeks, or a 404 or 410 twice.
 - Timeouts of 10 seconds. Back off on 429, honouring `Retry-After`.
 
 ### 5. Reporting
 
 - **Pull request:** a single comment listing new URLs, new domains and any new broken or moved links, using `gh`.
 - **Weekly run:** open or update one GitHub issue, "Outbound link report", with broken links grouped by domain and by source page, and moved links with their suggested replacement. Close it when it is empty.
-- The weekly run commits the updated `links/status.csv` to a `link-status` branch. It does not touch `main`, so content editors are not interrupted.
+- The weekly run commits the updated `links/status.csv` to `main` as a bot. If `main` is protected, it opens a pull request instead.
+- Self-links: absolute links to `design.planning.data.gov.uk` fail `make check-content`. Write them as relative paths, which are cheaper and already covered by the internal link check. Rewrite the 16 existing ones as part of step 1.
 
 ## CI
 
@@ -72,14 +78,15 @@ Rules:
 |---|---|---|
 | Every push or pull request | extract, diff, domain report (`make links-report`) | none |
 | Pull request that changes `content/` | check new URLs only, comment | a few requests |
-| Weekly (cron) | check the stale batch, update the issue | about 100 requests |
+| Weekly (cron) | check the stale batch (about 100), update the issue and `links/status.csv` | about 100 requests |
 
-The workflow has `contents: read` and `issues: write` only.
+The pull request workflow has `contents: read` and `pull-requests: write`. The weekly workflow also has `issues: write` and `contents: write` to commit `links/status.csv`.
 
 ## Tests
 
 - Extraction finds links in the body and in front matter.
-- Domain classification and the allow-list.
+- The domain list: an unlisted domain, and absolute self-links, fail.
+- Public check: sign-in redirects, 401 and 403 are `not public`.
 - Status rules (404 versus 403, retry counts, redirects) against a fake HTTP server on `localhost`.
 - Selection logic: new first, then stale, capped.
 
@@ -87,18 +94,9 @@ The workflow has `contents: read` and `issues: write` only.
 
 Each step is one commit.
 
-1. `application/links.py` and tests. Generate `links/links.csv`.
-2. Domain report and the allow-list, seeded from today's 75 domains. Review the list for anything surprising.
+1. `application/links.py` and tests. Generate `links/links.csv`. Rewrite self-links as relative paths.
+2. `links/domain.csv`, seeded from today's 75 domains, the check in `make check-content` and the domain report. Review the list, and remove or fix SharePoint and Mural links.
 3. `tools/check_links.py` with state, selection and status rules, plus tests.
 4. Make targets (`links-report`, `check-links`) and CI workflow (pull request and weekly).
-5. Pull request comment and the weekly issue.
-6. Document in the README. Fix any broken links found by the first run.
-
-## Open questions
-
-1. **Authenticated domains.** Roughly 90 links go to Google Docs and Drive. They cannot be checked without a login. Accept that, or periodically check them by hand?
-2. **Where to keep state.** A `link-status` branch, a committed `links/status.csv` on `main`, or the CI cache? The branch avoids noise on `main`, the cache is simplest but can expire.
-3. **Cadence and cap.** Weekly with about 100 links is the proposal. Is monthly enough?
-4. **Self-links.** There are 16 links to `design.planning.data.gov.uk` in content. Rewrite them as relative paths, which are cheaper and covered by `check-content`.
-5. **Archive.** Should broken links be offered an Internet Archive snapshot as a replacement?
-6. **Third-party dependency policy.** What should happen when a new domain appears: just review, or an owner sign-off?
+5. Pull request comment, the weekly issue and the web archive suggestions.
+6. Document in the README. Fix any broken or non-public links found by the first run.
