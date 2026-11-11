@@ -5,3 +5,4 @@ flake8
 bandit
 pip-audit
 pip-tools
+pre-commit
