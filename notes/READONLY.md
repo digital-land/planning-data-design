@@ -44,12 +44,6 @@ content/
   consideration/
     index.md                 # list page, built from the data below
     <slug>.md                # one per consideration
-    <slug>/stage-<stage>.md  # not needed
-  help/
-    os-declaration-options.md
-data/
-  glossary-of-tags.csv
-  upcoming-events.yml
 redirects/
   legacy-pages.csv           # old path, new path, status
   legacy-sections.csv        # prefix rules
@@ -98,7 +92,9 @@ Write a one-off script (`tmp/` or a throwaway branch, not shipped) that reads `d
 | `note.csv` | **decision needed** (see below) |
 | `change_log.csv` | **decision needed**; probably `git log` instead |
 | `performance.csv`, `planning-concerns-backlog.csv` | drop (routes already redirect to `/`) |
-| `latest_backup.dump` | delete from the repository |
+| `latest_backup.dump` | delete from the main branch, keep backup CSV files in the snapshot branch |
+| `glossary-of-tags.csv` | delete from the main branch |
+| `upcoming-events.yml` | delete from the main branch |
 
 Do not publish by default: considerations with `public = f`, with `deleted_date` set, or with a `blocked_reason`. The migration script must apply the `public` and `deleted_date` filters, and list what it skipped for review.
 
@@ -122,6 +118,7 @@ The content index is a dictionary built at start-up, mapping URL path to a parse
 
 Today redirects are spread across `main/views.py`: some are routes, some are a dictionary in `check_for_redirects`, one is a prefix rule (`/planning-consideration/...`).
 
+Try and keep the main flask file clean, have redirects driven from CSV file config.
 Replace with data files in `redirects/`:
 
 ```csv
@@ -140,6 +137,7 @@ from,to,status
 /stage-count,/,301
 /performance,/,301
 /progress-report,/,301
+/help/os-declaration-options,,410
 ```
 
 ```csv
@@ -166,7 +164,10 @@ No route is registered for these, so Flask's own 404 applies:
 - `/auth/*`
 - `/admin/*`
 - `/consideration/add`
+
+Redirect any pages beneath a consideration to the `/consideration/<slug>` page
 - `/consideration/<slug>/` followed by any of: `edit`, `delete`, `edit-specification`, `add-schema`, `edit-estimated-size`, `add-synonym`, `prioritised`, `public`, `stage/change`, `os-declaration`, `edit-frequency`, `add-useful-link`, `edit-legislation`, `note`, `block`, and the `.../delete` routes
+- `/consideration/<slug>/stage-<stage>/` 
 - `/consideration/<slug>/<stage>/<question>/...` (the questions blueprint)
 
 Keep one test that asserts a sample of these return 404, and that `POST` to any path returns 405.
@@ -201,7 +202,8 @@ The aim is to be able to state, and test, each of these.
 
 **Dependencies**
 
-- Runtime: Flask, Markdown, python-frontmatter, `govuk-frontend-jinja`, `digital-land-frontend` (templates only), gunicorn. Check whether `digital-land-frontend` can be reduced to its compiled CSS and JS, which would remove a git dependency.
+- Runtime: Flask, Markdown, gunicorn, python-frontmatter
+- Remove and replace: `govuk-frontend-jinja`, `digital-land-frontend` with compiled CSS and JS and HTML templates
 - Remove: SQLAlchemy, Flask-Migrate, psycopg2, alembic-postgresql-enum, Authlib, PyGithub, Flask-WTF, flask-sslify, flask-debugtoolbar, sentry-sdk, is-safe-url, beautifulsoup4 (if unused), pydantic (if replaced).
 - Pin with hashes (`pip-compile --generate-hashes`) and run `pip-audit` in CI.
 - Dependabot or Renovate for updates.
