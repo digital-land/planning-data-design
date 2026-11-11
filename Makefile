@@ -19,13 +19,13 @@ upgrade:
 	python -m piptools compile --upgrade --generate-hashes requirements/dev-requirements.in
 
 black:
-	black application tests
+	black application tools tests
 
 black-check:
-	black --check application tests
+	black --check application tools tests
 
 flake8:
-	flake8 application tests
+	flake8 application tools tests
 
 lint: black flake8
 
@@ -37,6 +37,10 @@ audit:
 
 check-content:
 	python -m application.check
+
+# check the next batch of links (network), update links/status.csv and write links/report.md
+check-links:
+	python -m tools.check_links --limit 100 --report links/report.md
 
 # update links/links.csv and links/domains.md from the content (no network)
 links links-report:

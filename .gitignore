@@ -301,3 +301,4 @@ application/static/*
 !application/static/docs
 
 tmp/
+links/report.md
