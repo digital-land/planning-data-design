@@ -299,3 +299,5 @@ dist
 # source-controlled content under application/static
 application/static/*
 !application/static/docs
+
+tmp/
