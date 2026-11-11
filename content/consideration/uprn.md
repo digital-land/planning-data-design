@@ -90,8 +90,8 @@ UPRNs are used in lots of datasets so would be useful to link datasets together
 
 ### What other planning considerations does it interact with?
 
-* [Energy performance certificates](https://design.planning.data.gov.uk/planning-consideration/energy-performance-certificates) - each certificate has a uprn for the property
-* [Article 4 directions](https://design.planning.data.gov.uk/planning-consideration/article-4-directions) - these can reference specific properties using UPRNs
+* [Energy performance certificates](/consideration/energy-performance-certificates) - each certificate has a uprn for the property
+* [Article 4 directions](/consideration/article-4-directions) - these can reference specific properties using UPRNs
 
 ### Other than the statutory consultees who are the primary users of Uprn? How do we expect them to use Uprn?
 

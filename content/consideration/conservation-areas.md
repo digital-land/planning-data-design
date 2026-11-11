@@ -17,8 +17,6 @@ specification:
 useful_links:
 - text: Design process document
   url: https://docs.google.com/document/d/1xXmcLRxSzEzLB9Z2H2ztsjh75ZtpSVz0V89R2j-hC1g/edit
-- text: Conservation areas process map
-  url: https://app.mural.co/t/mhclg2837/m/mhclg2837/1712065213311/0ddf4128ff318850d5965b157fb7ebd91e3c140a?sender=u1cae178c0a712eade24c2472
 - text: Historic environment guidance
   url: https://www.gov.uk/guidance/conserving-and-enhancing-the-historic-environment
 tags:

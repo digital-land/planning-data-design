@@ -16,15 +16,13 @@ datasets:
 frequency_of_updates: Ad hoc
 legislation:
   text: See legislation details
-  url: https://design.planning.data.gov.uk/planning-consideration/development-plans-and-timetables/screen/#is-there-legislation
+  url: /consideration/development-plans-and-timetables/screen#is-there-legislation
 specification:
   text: Development plan
   url: https://digital-land.github.io/specification/specification/development-plan/
 useful_links:
 - text: Plan-making guidance
   url: https://www.gov.uk/guidance/plan-making
-- text: Concept map (mural)
-  url: https://app.mural.co/t/mhclg2837/m/mhclg2837/1718210633604/0ef44d48a82d8a72f5b1a4e81d9a46fcfe4ec880?wid=0-1718212491587
 - text: Create Local Plan Timetable (Prototype)
   url: https://digital-land.github.io/local-plans-timetable/
 synonyms:

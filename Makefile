@@ -1,4 +1,4 @@
-.PHONY: server init compile upgrade black black-check flake8 lint bandit audit check-content test check build-css build-js build-assets copyjs assets assets-clobber
+.PHONY: links links-report check-links server init compile upgrade black black-check flake8 lint bandit audit check-content test check build-css build-js build-assets copyjs assets assets-clobber
 
 server:
 	flask --app application.wsgi:app run --debug --port 5050
@@ -37,6 +37,10 @@ audit:
 
 check-content:
 	python -m application.check
+
+# update links/links.csv and links/domains.md from the content (no network)
+links links-report:
+	python -m application.links
 
 test:
 	python -m pytest

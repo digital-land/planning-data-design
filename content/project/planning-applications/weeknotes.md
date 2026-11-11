@@ -237,27 +237,27 @@ description: Weeknotes from the planning applications project
 
 ## Week beginning 28 Jul
 
-- The [slides and notes from our first data standards community](https://design.planning.data.gov.uk/project/planning-applications) have been added to the website.
+- The [slides and notes from our first data standards community](/project/planning-applications) have been added to the website.
 - We have defined and are now starting a research project to help understand how planning application decision data is used after a decision is made - this will directly inform how we design the specification. To help us understand this we invite anyone who uses the data to fill out this [survey](https://forms.office.com/e/rahh9JKu0u) to share their input.
 - We also [updated our glossary with key terms.](https://standards.planning-data.dev/terms/)
 
 ## Week beginning 21 Jul
 
-- We held our first data standards open community with 70 attendees. We shared the work done, aims and context of the project, heard updates from the GMCA, Camden and the Digital Planning Register team and the wider community to show how it all fits together. We shared an ask for testing that the declarative modules define the correct data. [Updates are being added to the project website](https://design.planning.data.gov.uk/project/planning-applications).
+- We held our first data standards open community with 70 attendees. We shared the work done, aims and context of the project, heard updates from the GMCA, Camden and the Digital Planning Register team and the wider community to show how it all fits together. We shared an ask for testing that the declarative modules define the correct data. [Updates are being added to the project website](/project/planning-applications).
 - The declarative versions of all 82 modules are now complete and 79/82 [modules have no active questions or issues](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/no-issues.md).
 
 ## Week beginning 14 Jul
 
 - Now 76/82 modules have no active questions or issues and we have 68/82 declarative versions of the modules.
 - We supported the event for funded early adopters to help re-iterate the need for testing the specifications.
-- We have [removed outdated content, consolidated links and added a timeline of key events to the project page](https://design.planning.data.gov.uk/project/planning-applications), we also [separated out the week notes](https://design.planning.data.gov.uk/project/planning-applications/weeknotes), making them easier to find and the homepage easier to read.
+- We have [removed outdated content, consolidated links and added a timeline of key events to the project page](/project/planning-applications), we also [separated out the week notes](/project/planning-applications/weeknotes), making them easier to find and the homepage easier to read.
 
 ## Week beginning 7 Jul
 
 - We are continuing to work through the [feedback](https://github.com/digital-land/planning-application-data-specification/blob/main/issue-tracking/index.md), now 64/81 modules have no active questions or issues. And we have add 34/81 declarative versions of the modules.
 - So that users can better understand the words of specifications, we have [updated the definitions of key terms](https://digital-land.github.io/specification/specification/).
-- Following user research we have [updated the URL of the planning applications website](https://design.planning.data.gov.uk/project/planning-applications) to make it more clear to users that planning applications is one of many projects they can engage with.
-- We have also [updated the roadmap](https://design.planning.data.gov.uk/project/planning-applications/roadmap) to show what we expect to achieve in each quarter towards mandating.
+- Following user research we have [updated the URL of the planning applications website](/project/planning-applications) to make it more clear to users that planning applications is one of many projects they can engage with.
+- We have also [updated the roadmap](/project/planning-applications/roadmap) to show what we expect to achieve in each quarter towards mandating.
 
 ## Week beginning 30 Jun
 

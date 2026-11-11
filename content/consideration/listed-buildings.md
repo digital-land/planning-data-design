@@ -21,8 +21,6 @@ useful_links:
   url: https://docs.google.com/document/d/1SJBxZ_pKY1BL9aTckboKS6u6nqwZJOk4_buY9SKJ3Xg/edit
 - text: The listing process (Historic England)
   url: https://historicengland.org.uk/listing/apply-for-listing/listing-process/
-- text: Listed buildings process map
-  url: https://app.mural.co/t/mhclg2837/m/mhclg2837/1712065005247/3ff6509868c8d96c9665debd82d8f6c1ef627897?sender=u1cae178c0a712eade24c2472
 tags:
 - local land charge
 - local plan

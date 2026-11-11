@@ -111,7 +111,7 @@ During the "searches" process in conveyancing.
 ### What other planning considerations does it interact with?
 
 * Local plans - Radon gas is occasionally referenced in local plans, so we think that this consideration feeds into the process of creating a local plan.
-* [Planning conditions](https://design.planning.data.gov.uk/planning-consideration/planning-conditions)
+* [Planning conditions](/consideration/planning-conditions)
 
 ### Who are the statutory consultees for Radon?
 

@@ -103,9 +103,9 @@ abbreviated to MHW in product documentation
 - Scottish Parliament constituency and electoral region
 - Unitary authority
 - Unique administrative unit, link and polygon identifiers
-- [Ward (district, unitary, metropolitan and London borough)](https://design.planning.data.gov.uk/planning-consideration/council-wards)
+- [Ward (district, unitary, metropolitan and London borough)](/consideration/council-wards)
 - Welsh Parliament constituency and electoral region
-- [Westminster (parliamentary) constituency](https://design.planning.data.gov.uk/planning-consideration/parliamentary-constituencies)
+- Westminster (parliamentary) constituency
 
 ### Who are the statutory consultees for Boundary line?
 

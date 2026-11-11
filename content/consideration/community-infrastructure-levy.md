@@ -90,7 +90,7 @@ The data can be used to calculate how much CIL is payable
 
 ### What other planning considerations does it interact with?
 
-Planning authorities can set CIL rates based on the [use class](https://design.planning.data.gov.uk/planning-consideration/use-class) (which is a planning consideration)
+Planning authorities can set CIL rates based on the [use class](/consideration/use-class) (which is a planning consideration)
 
 ### What are the planning needs for this data?
 

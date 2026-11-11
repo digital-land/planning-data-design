@@ -21,8 +21,6 @@ specification:
 useful_links:
 - text: Design code guidance
   url: https://www.gov.uk/guidance/creating-a-design-code
-- text: Draft data model (living document)
-  url: https://app.mural.co/t/mhclg2837/m/mhclg2837/1709140526813/9a28b5a76405c33dbb1568a2870a5e6057bf0b91?sender=u254215e050d2f98c69580938
 - text: Design code library proof of concept
   url: https://design-code-prototype.planning-data.dev/
 - text: Background on design code policy

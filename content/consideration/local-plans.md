@@ -13,7 +13,7 @@ specification:
   url: https://digital-land.github.io/specification/specification/local-plan/
 useful_links:
 - text: Development plans consideration
-  url: https://design.planning.data.gov.uk/planning-consideration/development-plans-and-timetables
+  url: /consideration/development-plans-and-timetables
 - text: Local plan data collection - summary and challenges
   url: https://docs.google.com/document/d/1QERjoyZ-7oZkhNdxRmUXDVhCfxZj105SGmEaWUX9uYI/edit?usp=sharing
 synonyms:

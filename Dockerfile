@@ -27,6 +27,7 @@ RUN pip install --no-cache-dir --require-hashes -r requirements/requirements.txt
 COPY application/ ./application/
 COPY content/ ./content/
 COPY redirects/ ./redirects/
+COPY links/ ./links/
 COPY --from=assets /app/application/static ./application/static
 
 # fail the build on bad content or redirects

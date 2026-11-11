@@ -107,7 +107,7 @@ This can inform decisions made by developers, land owners and promoters in ident
 
 development plan policies, development plans and timetables, housing numbers, site allocations, SHMAs
 
-[Local plans](https://design.planning.data.gov.uk/planning-consideration/development-plans-and-timetables) - the 'homes required' part of the Housing delivery test is the lower of 'the latest adopted housing requirement from the Local Plan' or 'the minimum annual local housing need figure'
+[Local plans](/consideration/development-plans-and-timetables) - the 'homes required' part of the Housing delivery test is the lower of 'the latest adopted housing requirement from the Local Plan' or 'the minimum annual local housing need figure'
 
 ### Other than the statutory consultees who are the primary users of Housing delivery test? How do we expect them to use Housing delivery test?
 

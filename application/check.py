@@ -6,6 +6,16 @@ from urllib.parse import unquote, urlparse
 
 from application import ROOT, create_app
 from application.content import load_content
+from application.links import (
+    LINKS_DIR,
+    allowed_domains,
+    extract,
+)
+from application.links import problems as domain_problems
+from application.links import (
+    read_csv,
+    stale,
+)
 from application.redirects import Redirects
 from application.routes import GENERATED_PATHS
 
@@ -33,10 +43,16 @@ def main():
     create_app()  # raises on bad front matter, bad redirects
     pages = load_content(ROOT / "content")
     problems = broken_links(pages, Redirects.load(ROOT / "redirects"))
-    for problem in problems:
+    found = extract(pages)
+    links = ROOT / LINKS_DIR
+    allowed = allowed_domains(read_csv(links / "domain.csv"))
+    problems_ = problems + domain_problems(found, allowed) + stale(found, links)
+    for problem in problems_:
         print(problem)
-    print(f"{len(pages)} pages checked, {len(problems)} problems")
-    return 1 if problems else 0
+    print(
+        f"{len(pages)} pages and {len(found)} links checked, {len(problems_)} problems"
+    )
+    return 1 if problems_ else 0
 
 
 if __name__ == "__main__":
