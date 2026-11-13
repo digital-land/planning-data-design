@@ -38,6 +38,21 @@ def test_extracts_body_and_front_matter_links(tmp_path):
     ]
 
 
+def test_extracts_links_a_browser_would_follow(tmp_path):
+    pages = pages_from(
+        tmp_path,
+        body="[a](HTTPS://a.example/) ![b](https://b.example/x.png) "
+        "[c](ht&Tab;tps://c.example/) [d](https&#58;//d.example/) "
+        'not a link: href="https://e.example/"',
+    )
+    assert {domain(url) for url in extract(pages)} == {
+        "a.example",
+        "b.example",
+        "c.example",
+        "d.example",
+    }
+
+
 def test_unlisted_domain_and_self_links_are_problems():
     found = {
         "https://ok.example/": ["a.md"],

@@ -88,6 +88,39 @@ def test_unsafe_links_are_dropped():
     assert 'href="/ok"' in html
 
 
+@pytest.mark.parametrize(
+    "url",
+    [
+        "javascript&#58;alert(1)",
+        "javascript&#x3a;alert(1)",
+        "javascript&colon;alert(1)",
+        "java&Tab;script:alert(1)",
+        "&#106;avascript:alert(1)",
+        "&#1;javascript:alert(1)",
+        "/\\evil.example",
+        r"\\\\evil.example",  # Markdown unescapes this to \\evil.example
+    ],
+)
+def test_encoded_unsafe_urls_are_dropped(url):
+    html = str(render(f"[x]({url}) ![i]({url})"))
+    assert "href" not in html
+    assert "src" not in html
+
+
+@pytest.mark.parametrize(
+    "url",
+    ["https://example.com/?a=1&amp;b=2", "mailto:a@example.com", "/ok#x", "page"],
+)
+def test_safe_urls_are_kept(url):
+    assert "href=" in str(render(f"[x]({url})"))
+
+
+def test_double_encoded_scheme_stays_inert():
+    # kept, but the browser decodes it once to "javascript&#58;...", a relative path
+    out = str(render("[x](javascript&amp;#58;alert(1))"))
+    assert 'href="javascript&amp;#58;alert(1)"' in out
+
+
 def test_markdown_gets_govuk_classes():
     html = str(render("# H\n\ntext [a](https://example.com)\n\n- one\n"))
     assert 'class="govuk-heading-xl"' in html

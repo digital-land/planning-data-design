@@ -42,6 +42,15 @@ def _under(path, prefix):
     return path == prefix or path.startswith(prefix.rstrip("/") + "/")
 
 
+def _join(target, rest):
+    """target + the rest of the request path, or None if rest could change
+    where the redirect goes. Without this a to_prefix of "/" turns
+    /old//evil.example into //evil.example, a redirect to another site."""
+    if "//" in rest or "\\" in rest or {".", ".."} & set(rest.split("/")):
+        return None
+    return (target.rstrip("/") + rest) or "/"
+
+
 class Redirects:
     def __init__(self):
         self.pages = {}
@@ -114,7 +123,9 @@ class Redirects:
             return (target or None), status
         for source, target, status in self.prefixes:
             if _under(path, source):
-                location = target + path[len(source) :]
+                location = _join(target, path[len(source.rstrip("/")) :])
+                if location is None:
+                    return None
                 return (location + ("?" + query if query else ""), status)
         for section, status in self.sections:
             parts = path[len(section) :].strip("/").split("/")

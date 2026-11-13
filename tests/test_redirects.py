@@ -29,6 +29,32 @@ def test_prefix_keeps_query_string(client):
     assert response.headers["Location"] == "/consideration/article-4-directions?a=b"
 
 
+@pytest.mark.parametrize(
+    "rest",
+    [
+        "//evil.example",
+        "/\\evil.example",
+        "/%2F%2Fevil.example",
+        "/%5Cevil.example",
+        "/../x",
+        "/%2e%2e/x",
+        "/./x",
+    ],
+)
+def test_prefix_remainder_cannot_change_destination(client, rest):
+    assert client.get(f"/planning-consideration{rest}").status_code == 404
+
+
+@pytest.mark.parametrize("target", ["/", "/new/"])
+def test_prefix_to_root_stays_on_site(tmp_path, target):
+    r = load(tmp_path, a=f"from_prefix,to_prefix,status\n/old,{target},301\n")
+    base = target.rstrip("/")
+    assert r.resolve("/old", "", {}) == (base or "/", 301)
+    assert r.resolve("/old/ok", "a=b", {}) == (f"{base}/ok?a=b", 301)
+    assert r.resolve("/old//evil.example", "", {}) is None
+    assert r.resolve("/old/\\evil.example", "", {}) is None
+
+
 def test_exact_match_keeps_no_query_string(client):
     response = client.get("/advisory-group?a=b")
     assert response.headers["Location"] == "/project/planning-applications"

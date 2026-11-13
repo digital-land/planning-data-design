@@ -4,7 +4,16 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import pytest
 from tools import check_links as cl
-from tools.check_links import Result, build_report, check, run, select, update
+from tools.check_links import (
+    Result,
+    build_report,
+    check,
+    code,
+    fetch,
+    run,
+    select,
+    update,
+)
 
 TODAY = date(2026, 6, 1)
 
@@ -181,6 +190,53 @@ def test_run_honours_retry_after():
     assert sleeps == [3]
 
 
+@pytest.mark.parametrize(
+    "header,wait",
+    [("-5", 0), ("0", 0), ("3", 3), ("99999", cl.MAX_WAIT), ("soon", cl.INTERVAL * 5)],
+)
+def test_retry_after_is_clamped(header, wait):
+    result = check("https://a.example/", lambda u, m: (429, {"Retry-After": header}))
+    assert result.wait == wait
+
+
+def test_bad_retry_after_does_not_stop_the_run():
+    # real time.sleep raises on a negative wait; the run must still finish
+    def fetch(url, method):
+        return 429, {"Retry-After": "-5"}
+
+    state = run(
+        ["https://a.example/1", "https://a.example/2", "https://b.example/"],
+        [],
+        TODAY,
+        check_fn=lambda u: check(u, fetch),
+    )
+    assert len(state) == 3
+
+
+def test_run_stops_starting_requests_after_deadline():
+    now = [0]
+    checked = []
+
+    def check_fn(url):
+        checked.append(url)
+        now[0] += 60
+        return Result("ok")
+
+    rows = [{"url": "https://a.example/3", "last_checked": "2026-01-01"}]
+    state = run(
+        [f"https://a.example/{i}" for i in range(1, 5)],
+        rows,
+        TODAY,
+        check_fn=check_fn,
+        sleep=lambda s: None,
+        max_seconds=120,
+        clock=lambda: now[0],
+    )
+    assert checked == ["https://a.example/1", "https://a.example/2"]
+    assert state["https://a.example/3"] == rows[0]  # untouched, picked next run
+    assert "https://a.example/4" not in state
+
+
 def test_report_groups_and_suggests():
     found = {
         "https://www.gov.uk/gone": ["content/a.md"],
@@ -203,7 +259,7 @@ def test_report_groups_and_suggests():
     )
     assert "## Broken (1)" in text
     assert "webarchive.nationalarchives.gov.uk/ukgwa/*/https://www.gov.uk/gone" in text
-    assert "replace with https://x.example/new" in text
+    assert "replace with ` https://x.example/new `" in text
     assert "used in `a.md`" in text
     assert "## New domains" in text
     assert "https://y.example/ok" in text
@@ -236,3 +292,34 @@ def test_invalid_url_does_not_stop_the_run():
 
 def test_url_with_space_is_unclear_not_a_crash():
     assert check("http://127.0.0.1:1/a b").kind == "unclear"
+
+
+@pytest.mark.parametrize(
+    "location", ["file:///etc/hosts", "ftp://evil.example/x", "data:,x", "gopher://x"]
+)
+def test_redirect_to_non_web_scheme_is_not_followed(location):
+    calls = []
+
+    def fake(url, method):
+        calls.append(url)
+        return 302, {"Location": location}
+
+    result = check("https://a.example/", fake)
+    assert result.kind == "unclear"
+    assert "non-web address" in result.detail
+    assert calls == ["https://a.example/"]  # never requested
+
+
+@pytest.mark.parametrize("url", ["file:///etc/hosts", "ftp://127.0.0.1/", "data:,x"])
+def test_opener_only_speaks_http(url):
+    status, headers = fetch(url, "GET")
+    assert status is None
+    assert "unknown url type" in headers["error"]
+
+
+def test_remote_text_cannot_add_markdown():
+    hostile = "x` [click](https://evil.example) @someone\n# Heading"
+    span = code(hostile)
+    assert span.startswith("`` ") and span.endswith(" ``")
+    assert "\n" not in span
+    assert code("") == ""

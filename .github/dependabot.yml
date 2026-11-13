@@ -1,18 +1,41 @@
 version: 2
+
+# Every ecosystem waits 7 days after a release before proposing it, so a
+# compromised or broken release is usually pulled before it reaches a PR.
 updates:
-  - package-ecosystem: pip
-    directory: /
-    schedule:
-      interval: weekly
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: weekly
+  # actions are pinned to commit SHAs; Dependabot bumps the SHA and the
+  # version comment together, in one grouped PR
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # hashed lock files compiled from requirements/*.in with uv (make compile)
+  - package-ecosystem: pip
+    directory: /requirements
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      npm:
+        patterns: ["*"]
+
   - package-ecosystem: docker
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7

@@ -13,13 +13,15 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    # the checker stops starting requests after 15 minutes; this is the backstop
+    timeout-minutes: 25
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
-          python-version: "3.12"
+          python-version: "3.13"
       - run: python -m pip install --require-hashes -r requirements/requirements.txt
       - name: Check the next batch of links
         run: make check-links
@@ -46,12 +48,16 @@ jobs:
       - name: Update the report issue
         run: |
           title="Outbound link report"
-          number=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number')
+          label="link-report"
+          # only an issue this workflow created: anyone can open one with the same title
+          number=$(gh issue list --state open --author app/github-actions --label "$label" \
+            --search "\"$title\" in:title" --json number --jq '.[0].number')
           if [ -s links/report.md ]; then
             if [ -n "$number" ]; then
               gh issue edit "$number" --body-file links/report.md
             else
-              gh issue create --title "$title" --body-file links/report.md
+              gh label create "$label" --description "Weekly outbound link report" --force
+              gh issue create --title "$title" --label "$label" --body-file links/report.md
             fi
           elif [ -n "$number" ]; then
             gh issue close "$number" --comment "No problems found."

@@ -167,7 +167,7 @@ No route is registered for these, so Flask's own 404 applies:
 
 Redirect any pages beneath a consideration to the `/consideration/<slug>` page
 - `/consideration/<slug>/` followed by any of: `edit`, `delete`, `edit-specification`, `add-schema`, `edit-estimated-size`, `add-synonym`, `prioritised`, `public`, `stage/change`, `os-declaration`, `edit-frequency`, `add-useful-link`, `edit-legislation`, `note`, `block`, and the `.../delete` routes
-- `/consideration/<slug>/stage-<stage>/` 
+- `/consideration/<slug>/stage-<stage>/`
 - `/consideration/<slug>/<stage>/<question>/...` (the questions blueprint)
 
 Keep one test that asserts a sample of these return 404, and that `POST` to any path returns 405.
@@ -193,7 +193,7 @@ The aim is to be able to state, and test, each of these.
 
 **Response headers** (one `after_request` function)
 
-- `Content-Security-Policy: default-src 'self'` (no inline scripts, no third-party origins; move any inline script into `static/`)
+- `Content-Security-Policy: default-src 'self'; frame-ancestors 'none'` (no inline scripts, no third-party origins, no framing by other sites; move any inline script into `static/`)
 - `X-Content-Type-Options: nosniff`
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `Permissions-Policy` denying all features

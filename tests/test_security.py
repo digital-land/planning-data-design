@@ -1,9 +1,13 @@
 import ast
+import csv
+import io
 import re
+from types import SimpleNamespace
 
 import pytest
 
 from application import ROOT, security
+from application.routes import considerations_csv
 
 APP_DIR = ROOT / "application"
 SAMPLE = "article-4-directions"
@@ -71,6 +75,7 @@ def test_headers_on_every_response(client):
         for name, value in security.HEADERS.items():
             assert response.headers[name] == value, (path, name)
     assert client.post("/").headers["X-Content-Type-Options"] == "nosniff"
+    assert "frame-ancestors 'none'" in response.headers["Content-Security-Policy"]
 
 
 def test_no_cookies_set(client):
@@ -154,3 +159,25 @@ def test_app_runs_with_the_network_blocked(monkeypatch):
     client = create_app().test_client()
     assert client.get("/").status_code == 200
     assert client.get("/consideration").status_code == 200
+
+
+@pytest.mark.parametrize("value", ["=1+1", "+1", "-1", "@SUM(A1)", "\t=1"])
+def test_csv_export_neutralises_formulas(value):
+    page = SimpleNamespace(
+        title=value, slug="s", description=value, meta={"tags": [value]}
+    )
+    row = list(csv.reader(io.StringIO(considerations_csv([page]))))[1]
+    assert row[0] == row[2] == row[4] == "'" + value
+
+
+@pytest.mark.parametrize("value", ["x\r=1", "x\r\n=1", "\r=1"])
+def test_csv_export_carriage_return_cannot_start_a_row(value):
+    page = SimpleNamespace(title=value, slug="s", description="", meta={})
+    text = considerations_csv([page])
+    assert "\r" not in text
+    assert len(list(csv.reader(io.StringIO(text)))) == 2
+
+
+def test_csv_export_leaves_plain_values_alone():
+    page = SimpleNamespace(title="A = B", slug="s", description="", meta={})
+    assert considerations_csv([page]).splitlines()[1].startswith("A = B,s,")

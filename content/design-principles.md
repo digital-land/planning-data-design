@@ -96,7 +96,7 @@ This means not removing existing fields, or changing the meaning of values users
 Where a breaking change is unavoidable, it should be clearly communicated in advance, for example by marking a field as being deprecated before later removing it.
 
 
-* <a href="https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle">Open-Closed principle</a>.
+* [Open-Closed principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle).
 
 ## 9. Some data is better than no data
 

@@ -36,12 +36,23 @@ Moved or removed pages go in `redirects/*.csv`:
 ```sh
 make init
 make server      # http://localhost:5050
-make check       # lint, bandit, pip-audit, content checks and tests
+make check       # lint, bandit, pip-audit, semgrep, content checks and tests
+make semgrep     # static analysis on its own (runs Semgrep's Docker image)
 ```
+
+Dependencies are listed in `requirements/*.in` and locked with hashes in `requirements/*.txt`. To change them, edit the `.in` file and run `make compile`, or `make upgrade` to move everything to the latest versions. Both need [uv](https://docs.astral.sh/uv/) (`brew install uv` or `pipx install uv`). Dependabot proposes updates weekly, a week after each release.
 
 `make check-content` validates front matter, redirects (no loops, chains, open redirects or dead targets) and internal links. It also runs when the container is built.
 
 CSS and images are built by npm (`make assets`) and are not committed.
+
+### Adding JavaScript
+
+The site has no JavaScript: every page works as plain HTML and CSS. If a feature really needs it:
+
+1. Put the source in `src/javascripts/` and add a `rollup.config.js` that writes to `application/static/javascripts/`.
+2. Add `npm run nps build.javascripts` to `postinstall` in `package.json` and to `make build-assets`, so local and Docker builds include it.
+3. Load it from `application/templates/base.html` with `<script type="module" src="/static/javascripts/...">`. The Content-Security-Policy (`default-src 'self'`) blocks inline `<script>` blocks and `on...=` attributes, so keep all code in files. For GOV.UK Frontend components, import `initAll` from `govuk-frontend`.
 
 ## Outbound links
 

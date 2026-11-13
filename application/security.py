@@ -5,7 +5,9 @@ from flask import abort, request
 ALLOWED_METHODS = {"GET", "HEAD", "OPTIONS"}
 
 HEADERS = {
-    "Content-Security-Policy": "default-src 'self'",
+    # frame-ancestors does not fall back to default-src; without it any site can
+    # frame these pages (clickjacking)
+    "Content-Security-Policy": "default-src 'self'; frame-ancestors 'none'",
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": (

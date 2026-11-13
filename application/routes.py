@@ -25,25 +25,35 @@ CSV_FIELDS = [
 ]
 
 
+FORMULA_START = ("=", "+", "-", "@", "\t")
+
+
+def cell(value):
+    """Stop spreadsheets reading a cell as a formula (CSV injection).
+    The writer only quotes fields containing "\\n", so a bare "\\r" would
+    start a new, unguarded row in Excel; turn it into "\\n" first."""
+    value = str(value).replace("\r\n", "\n").replace("\r", "\n")
+    return "'" + value if value.startswith(FORMULA_START) else value
+
+
 def considerations_csv(considerations):
     out = io.StringIO()
     writer = csv.writer(out, lineterminator="\n")
     writer.writerow(CSV_FIELDS)
     for page in considerations:
         meta = page.meta
-        writer.writerow(
-            [
-                page.title,
-                page.slug,
-                page.description,
-                meta.get("stage", ""),
-                ";".join(meta.get("tags", [])),
-                ";".join(meta.get("datasets", [])),
-                meta.get("frequency_of_updates", ""),
-                meta.get("github_discussion_number", ""),
-                meta.get("updated", ""),
-            ]
-        )
+        row = [
+            page.title,
+            page.slug,
+            page.description,
+            meta.get("stage", ""),
+            ";".join(meta.get("tags", [])),
+            ";".join(meta.get("datasets", [])),
+            meta.get("frequency_of_updates", ""),
+            meta.get("github_discussion_number", ""),
+            meta.get("updated", ""),
+        ]
+        writer.writerow([cell(value) for value in row])
     return out.getvalue()
 
 

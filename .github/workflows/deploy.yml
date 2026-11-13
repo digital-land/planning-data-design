@@ -6,16 +6,24 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        type: environment
+        type: choice
         description: The environment to deploy to.
+        required: true
+        default: development
+        options:
+          - development
+          - staging
+          - production
 
 jobs:
   detect-environments:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read # list environments; nothing else, whatever the repo default
     outputs:
       environments: ${{ steps.environments.outputs.result }}
     steps:
-      - uses: actions/github-script@v9
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         id: environments
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -23,12 +31,13 @@ jobs:
           script: |
             const allowed = ['development', 'staging', 'production'];
 
-            if (context.payload?.inputs?.environment) {
-              return allowed.includes(context.payload.inputs.environment)
-                ? [context.payload.inputs.environment]
-                : [];
+            // a manual run deploys to exactly one environment, never all of them
+            if (context.eventName === 'workflow_dispatch') {
+              const env = context.payload?.inputs?.environment || 'development';
+              return allowed.includes(env) ? [env] : [];
             }
 
+            // a push to main deploys to every allowed environment
             const { data: { environments } } = await github.rest.repos.getAllEnvironments({
               owner: context.repo.owner,
               repo: context.repo.repo
@@ -49,10 +58,10 @@ jobs:
     env:
       DOCKER_REPO: ${{ secrets.DEPLOY_DOCKER_REPOSITORY }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
-      - id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      # the image tag, as an environment variable so scripts never inline ${{ }}
+      - run: echo "TAG=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
 
       - run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -61,19 +70,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y rsync
 
-      - uses: aws-actions/configure-aws-credentials@v6
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           role-to-assume: ${{ secrets.DEPLOY_AWS_ROLE_ARN }}
           aws-region: eu-west-2
 
-      - uses: aws-actions/amazon-ecr-login@v2
+      - uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2.1.7
 
-      - run: docker pull $DOCKER_REPO:main || echo "no current latest image"
-      
-      - run: docker build --build-arg DEPLOY_TIME="$(date +%Y-%m-%dT%H:%M:%S)" -t $DOCKER_REPO:${{ steps.vars.outputs.sha_short }} .
+      - run: docker build --build-arg DEPLOY_TIME="$(date +%Y-%m-%dT%H:%M:%S)" -t "$DOCKER_REPO:$TAG" .
 
-      - run: docker tag $DOCKER_REPO:${{ steps.vars.outputs.sha_short }} $DOCKER_REPO:main
+      - run: docker tag "$DOCKER_REPO:$TAG" "$DOCKER_REPO:main"
 
-      - run: docker push $DOCKER_REPO:${{ steps.vars.outputs.sha_short }}
+      - run: docker push "$DOCKER_REPO:$TAG"
 
-      - run: docker push $DOCKER_REPO:main
+      - run: docker push "$DOCKER_REPO:main"

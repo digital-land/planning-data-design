@@ -1,19 +1,22 @@
 """Outbound links: extract, record and report. Offline, no network."""
 
 import csv
-import html
 import re
 from collections import defaultdict
 from datetime import date
 from urllib.parse import urldefrag, urlparse
 
+from application.markdown import browser_url
+
 SELF_DOMAINS = {"design.planning.data.gov.uk"}
-HREF = re.compile(r'href="(https?://[^"]+)"')
+# every link or image URL in rendered HTML; text-content "<" is escaped, so
+# only real tags match. The scheme is filtered after decoding, case-insensitively.
+URL_ATTR = re.compile(r'<(?:a|img)\b[^>]*?\b(?:href|src)="([^"]*)"')
 LINK_KEYS = ("legislation", "specification")
 
 
 def normalise(url):
-    return urldefrag(html.unescape(url).strip())[0]
+    return urldefrag(browser_url(url))[0]
 
 
 def domain(url):
@@ -24,7 +27,7 @@ def extract(pages):
     """Return {url: sorted source files} for every external link in the content."""
     found = defaultdict(set)
     for page in pages.values():
-        urls = [normalise(u) for u in HREF.findall(str(page.html))]
+        urls = URL_ATTR.findall(str(page.html))
         for key in LINK_KEYS:
             if key in page.meta:
                 urls.append(page.meta[key]["url"])

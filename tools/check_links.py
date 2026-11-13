@@ -8,6 +8,7 @@ Reports problems, never fails the build.
 
 import argparse
 import http.client
+import re
 import time
 import urllib.error
 import urllib.request
@@ -68,7 +69,32 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
-OPENER = urllib.request.build_opener(NoRedirect)
+def _web_only_opener():
+    """http and https only: build_opener would also add file, ftp and data
+    handlers, so a redirect to file:///... would be opened on the runner."""
+    opener = urllib.request.OpenerDirector()
+    for handler in (
+        urllib.request.HTTPHandler,
+        urllib.request.HTTPSHandler,
+        NoRedirect,
+        urllib.request.HTTPDefaultErrorHandler,
+        urllib.request.HTTPErrorProcessor,
+        urllib.request.UnknownHandler,  # any other scheme raises URLError
+    ):
+        opener.add_handler(handler())
+    return opener
+
+
+OPENER = _web_only_opener()
+WEB_SCHEMES = ("http", "https")
+
+
+def code(text):
+    """Text from other sites as an inline code span, so it cannot add links,
+    @mentions or formatting to the issue or pull request comment."""
+    text = " ".join(str(text).split())
+    fence = "`" * (max((len(r) for r in re.findall(r"`+", text)), default=0) + 1)
+    return f"{fence} {text} {fence}" if text else ""
 
 
 def fetch(url, method):
@@ -115,6 +141,8 @@ def check(url, fetch_fn=fetch):
                 return Result("unclear", "redirect without a location")
             permanent = permanent or status in (301, 308)
             current = urljoin(current, location)
+            if urlparse(current).scheme.lower() not in WEB_SCHEMES:
+                return Result("unclear", f"redirects to a non-web address: {current}")
             if is_sign_in(current):
                 return Result("not_public", f"redirects to sign in: {current}")
             continue
@@ -128,9 +156,10 @@ def check(url, fetch_fn=fetch):
             return Result("gone", f"HTTP {status}")
         if status == 429:
             try:
-                wait = min(int(headers.get("Retry-After", "")), MAX_WAIT)
-            except ValueError:
+                wait = int(headers.get("Retry-After", ""))
+            except ValueError:  # missing, or an HTTP date
                 wait = INTERVAL * 5
+            wait = max(0, min(wait, MAX_WAIT))  # time.sleep rejects negatives
             return Result("unclear", "HTTP 429", wait)
         return Result(
             "unclear", f"HTTP {status}" if status else headers.get("error", "")
@@ -192,25 +221,40 @@ def select(urls, rows, today, limit):
     return (never + retry + stale)[:limit]
 
 
-def run(urls, rows, today, check_fn=check, sleep=time.sleep, workers=4):
-    """Check urls, one at a time per domain. Returns the updated state rows."""
+def run(
+    urls,
+    rows,
+    today,
+    check_fn=check,
+    sleep=time.sleep,
+    workers=4,
+    max_seconds=None,
+    clock=time.monotonic,
+):
+    """Check urls, one at a time per domain. Returns the updated state rows.
+
+    After max_seconds no new requests start; links not reached keep their old
+    state and are picked first next time."""
     by_domain = defaultdict(list)
     for url in urls:
         by_domain[domain(url)].append(url)
     state = {r["url"]: r for r in rows}
+    deadline = None if max_seconds is None else clock() + max_seconds
 
     def one_domain(items):
         out = {}
         for i, url in enumerate(items):
-            if i:
-                sleep(INTERVAL)
-            try:
+            if deadline is not None and clock() >= deadline:
+                break
+            try:  # one bad link, or a bad Retry-After, must not stop the run
+                if i:
+                    sleep(INTERVAL)
                 result = check_fn(url)
-            except Exception as e:  # one bad link must not stop the run
+            except Exception as e:
                 result = Result("unclear", f"{type(e).__name__}: {e}")
             out[url] = update(state.get(url, {"url": url}), result, today)
             if result.wait:
-                sleep(result.wait)
+                sleep(max(0, min(result.wait, MAX_WAIT)))
         return out
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -263,10 +307,11 @@ def build_report(found, state, include=None, new=(), new_domains=()):
                 current = host
                 lines += [f"### {host}", ""]
             lines.append(f"- {row['url']}")
-            if row["detail"]:
-                lines.append(f"  - {row['detail']}")
+            # detail comes from other sites (redirect targets, error text)
+            if row["detail"] and status != "moved":
+                lines.append(f"  - {code(row['detail'])}")
             if status == "moved":
-                lines.append(f"  - replace with {row['detail']}")
+                lines.append(f"  - replace with {code(row['detail'])}")
             if status == "broken" and host.endswith(".gov.uk"):
                 lines.append(f"  - web archive: {ARCHIVE}{row['url']}")
             for source in found[row["url"]]:
@@ -281,6 +326,12 @@ def main(argv=None):
     parser.add_argument("--status", default=str(ROOT / "links" / "status.csv"))
     parser.add_argument("--report")
     parser.add_argument("--new-against", help="links.csv from the base branch")
+    parser.add_argument(
+        "--max-minutes",
+        type=float,
+        default=15,
+        help="start no new requests after this long; the rest wait for next run",
+    )
     args = parser.parse_args(argv)
 
     today = date.today()
@@ -297,7 +348,7 @@ def main(argv=None):
         urls = include = new
     else:
         urls = select(list(found), rows, today, args.limit)
-    state = run(urls, rows, today)
+    state = run(urls, rows, today, max_seconds=args.max_minutes * 60)
     if not args.new_against:
         kept = [state[u] for u in sorted(state) if u in found]
         write_csv(args.status, STATUS_FIELDS, kept)
@@ -305,7 +356,10 @@ def main(argv=None):
     if args.report:
         with open(args.report, "w", encoding="utf-8") as f:
             f.write(report)
-    print(f"checked {len(urls)} links")
+    checked = sum(
+        1 for u in urls if state.get(u, {}).get("last_checked") == today.isoformat()
+    )
+    print(f"checked {checked} of {len(urls)} links")
     print(report or "no problems")
     return 0
 
