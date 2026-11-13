@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }} - {{ site_name }}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">{{ heading }}</h1>
+    {% if code == 404 %}
+      <p class="govuk-body">If you typed the web address, check it is correct.</p>
+      <p class="govuk-body">If you pasted the web address, check you copied the entire address.</p>
+      <p class="govuk-body">If the web address is correct or you selected a link or button, <a href="mailto:digitalland@communities.gov.uk?subject=Page missing" class="govuk-link">contact the Data Design team</a> if you need to speak to someone about this page.</p>
+    {% elif code == 410 %}
+      <p class="govuk-body">This page has been removed.</p>
+    {% else %}
+      <p class="govuk-body">This website only supports reading pages.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ site_name }}{% endblock %}
+{% block before_content %}
+  <div class="app-masthead">
+    <div class="govuk-width-container">
+      {% set phase_classes = "app-masthead__phase-banner--inverse" %}
+      {% include "partials/phase-banner.html" %}
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters">
+          <h1 class="govuk-heading-xl app-masthead__title govuk-!-margin-bottom-2">{{ page.title }}</h1>
+          <p class="govuk-body-l govuk-!-margin-bottom-0 app-masthead__sub-title">{{ page.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {{ page.html }}
+  </div>
+</div>
+{% endblock %}

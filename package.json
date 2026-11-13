@@ -3,23 +3,20 @@
   "version": "0.0.1",
   "description": "A tool to manage DLUCH planning considerations",
   "engines": {
-    "node": "18.x"
+    "node": "26.x"
   },
   "scripts": {
-    "flask": "flask run",
+    "flask": "flask --app application.wsgi:app run --debug --port 5050",
     "watch": "npm-run-all --parallel watch:*",
-    "watch:assets": "npm run nps watch.assets",
+    "watch:stylesheets": "npm run nps watch.stylesheets",
     "watch:images": "npx chokidar './assets/images/**/*.{png,ico,svg,jpg,jpeg,webp}' -c 'npm run copy:images'",
     "nps": "nps -c ./node_modules/@digital-land-gov-uk/digital-land-frontend/package-scripts.js",
     "copy:images_shared": "npm run nps copy.images",
     "copy:images_govuk": "npx copyfiles -u 3 \"node_modules/govuk-frontend/dist/govuk/assets/**\" application/static",
     "copy:images_local": "npx copyfiles src/images/**/*.{png,ico,svg,jpg,jpeg,webp} application/static -u 2",
     "copy:images": "run-s copy:images_*",
-    "copy:moj-frontend-js": "rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js application/static/javascripts/vendor/moj-frontend.js && rsync -ar ./node_modules/@ministryofjustice/frontend/moj/all.bundle.js.map application/static/javascripts/vendor/",
     "copy:moj-frontend-css": "mkdir -p application/static/stylesheets/vendor && rsync -ar ./node_modules/@ministryofjustice/frontend/moj/moj-frontend.min.css* application/static/stylesheets/vendor/",
-    "copy:moj-frontend": "npm run copy:moj-frontend-js && npm run copy:moj-frontend-css",
-    "copyjs": "rsync -ar src/javascripts/ application/static/javascripts",
-    "postinstall": "npm run copyjs && npm run copy:images && npm run copy:moj-frontend && npm run nps copy.javascripts && npm run nps build.stylesheets && npm run nps build.javascripts",
+    "postinstall": "npm run copy:images && npm run copy:moj-frontend-css && npm run nps build.stylesheets",
     "start": "run-p watch flask"
   },
   "repository": {
@@ -27,12 +24,11 @@
     "url": "git+https://github.com/digital-land/dluhc-planning-considerations.git"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^5.1.3",
     "@digital-land-gov-uk/digital-land-frontend": "0.8.0",
+    "@ministryofjustice/frontend": "^5.1.3",
     "govuk-frontend": "5.11.1"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
-    "standardx": "^7.0.0"
+    "npm-run-all": "^4.1.5"
   }
 }

@@ -1,223 +1,78 @@
-![build](https://github.com/digital-land/planning-data-design/actions/workflows/run-tests.yml/badge.svg)
+# Designing planning and housing data
 
-# Planning data design
-Manage planning considerations through standards process
+A read-only website built from Markdown and CSV files in this repository.
 
+The app serves pages from `content/`, static files from `application/static/`, and redirects from `redirects/`. It accepts only `GET`, `HEAD` and `OPTIONS`. It has no database, login, sessions, cookies, forms or outbound network connections.
 
-## Requirements
+## Adding or changing content
 
-    python 3.10
-    node 18 (for frontend assets build)
-    postgresql
+Edit or add a Markdown file in `content/` and open a pull request.
 
+The URL comes from the file path. `content/project/index.md` is `/project`.
 
-## Running the app locally with docker
+```markdown
+---
+title: Site allocations
+description: Areas identified as sites for housing, employment and other uses
+---
+Body in Markdown.
+```
 
-### First time setup or when you need to rebuild assets
+- `title` and `description` are required. Unknown keys fail validation.
+- `template` is optional: `page` (default), `home`, `consideration` or `consideration-list`.
+- Raw HTML in Markdown is escaped, not rendered.
+- Considerations are files in `content/consideration/`. Their extra front matter keys are listed in `application/content.py`.
 
-    docker compose run --rm assets-build
+Moved or removed pages go in `redirects/*.csv`:
 
-### Regular development (starts everything)
+| File header | Use |
+|---|---|
+| `from,to,status` | one path to another (`410` with an empty `to` for removed pages) |
+| `from_prefix,to_prefix,status` | a section to a section, keeping the query string |
+| `section,status` | pages below `<section>/<slug>/` go to `<section>/<slug>` |
 
-    docker compose up
+## Running
 
-### When you need to restore the database
+```sh
+make init
+make server      # http://localhost:5050
+make check       # lint, bandit, pip-audit, semgrep, content checks and tests
+make semgrep     # static analysis on its own (runs Semgrep's Docker image)
+```
 
-    docker compose down -v
-    docker compose up
+Dependencies are listed in `requirements/*.in` and locked with hashes in `requirements/*.txt`. To change them, edit the `.in` file and run `make compile`, or `make upgrade` to move everything to the latest versions. Both need [uv](https://docs.astral.sh/uv/) (`brew install uv` or `pipx install uv`). Dependabot proposes updates weekly, a week after each release.
 
+`make check-content` validates front matter, redirects (no loops, chains, open redirects or dead targets) and internal links. It also runs when the container is built.
 
-## Running the app locally with podman
+CSS and images are built by npm (`make assets`) and are not committed.
 
-Requires `podman` and a compose provider (`podman compose` delegates to `docker-compose` or `podman-compose`).
+### Adding JavaScript
 
-Podman needs a registry configured to resolve short image names (for example `postgres:16-bullseye`). If `~/.config/containers/registries.conf` does not set `unqualified-search-registries`, create it:
+The site has no JavaScript: every page works as plain HTML and CSS. If a feature really needs it:
 
-    mkdir -p ~/.config/containers
-    echo 'unqualified-search-registries = ["docker.io"]' > ~/.config/containers/registries.conf
+1. Put the source in `src/javascripts/` and add a `rollup.config.js` that writes to `application/static/javascripts/`.
+2. Add `npm run nps build.javascripts` to `postinstall` in `package.json` and to `make build-assets`, so local and Docker builds include it.
+3. Load it from `application/templates/base.html` with `<script type="module" src="/static/javascripts/...">`. The Content-Security-Policy (`default-src 'self'`) blocks inline `<script>` blocks and `on...=` attributes, so keep all code in files. For GOV.UK Frontend components, import `initAll` from `govuk-frontend`.
 
-### First time setup or when you need to rebuild assets
+## Outbound links
 
-    podman compose build web
+Every external link in the content is listed in `links/links.csv`, and every linked domain must be listed in `links/domain.csv`.
 
-### Regular development (starts everything)
+- After adding or removing a link, run `make links` to update `links/links.csv` and `links/domains.md`. `make check-content` fails if they are out of date, if a domain is not listed, if a URL contains a space, or if a link uses an absolute `design.planning.data.gov.uk` address (use a relative path).
+- Linked pages must be public. SharePoint and Mural are not in the domain list because their pages need a sign in.
+- `make check-links` checks the next batch of about 100 links (network) and updates `links/status.csv`. CI runs it weekly and keeps one "Outbound link report" issue up to date. Pull requests that change content check only their new links and comment with the result.
+- Broken, moved and not-public links are reported, never fixed automatically. Some sites return 403 to automated checks, so check those by hand.
 
-    podman compose up -d db web
+See `notes/LINKS.md` for the design.
 
-### When you need to restore the database
+## Security
 
-    podman compose down -v
-    podman compose up -d db web
+See `notes/READONLY.md`. In short:
 
-### Port conflicts
-
-`compose.yml` maps the database to host port 5432 by default. If you already run Postgres locally on that port, set `DB_HOST_PORT` in your (gitignored) `.env` file instead of editing `compose.yml`, for example:
-
-    DB_HOST_PORT=5434
-
-
-## To run the app locally without docker
-
-    createdb dluhc-planning-considerations
-    make init
-
-
-### Create a new migration
-    flask db migrate -m "description of the migration"
-
-
-### Apply db migrations
-    flask db upgrade
-
-
-### Run app locally
-
-    flask run
-
-
-### To test authentication in local development
-
-The below is needed for local development and must not be committed to github. Therefore
-add to a file called ```.env``` which is gitignored.
-
-    AUTHENTICATION_ON=true
-    GITHUB_CLIENT_ID=[client id]
-    GITHUB_CLIENT_SECRET=[secret]
+- Content is trusted only as far as pull request review. `CODEOWNERS` separates content and code review.
+- Responses carry a strict Content Security Policy (`default-src 'self'`) and other headers, set in `application/security.py`.
+- Tests check the route table, methods, headers, imports and the absence of `|safe` and `Markup(` outside `application/markdown.py`.
 
 ## Deployment
 
-The application is deployed to Heroku and is called `planning-data-design`. [Go to app](https://design.planning.data.gov.uk/)
-
-
-### Environment variables required
-```
-DATABASE_URL:         [set from deployment env]]
-FLASK_APP:            application.wsgi:app
-FLASK_CONFIG:         application.config.Config
-GITHUB_CLIENT_ID:     [available from github app settings]
-GITHUB_CLIENT_SECRET: [available from github app settings]
-SECRET_KEY:           [set from deployment env]
-SAFE_URLS:            [domains that auth process can redirect users to after login]
-AUTHENTICATION_ON:    [turn login required on/off]
-```
-
-### DNS
-
-DNS for this application is managed between Digital Land route 53 and Heroku. Configuration is managed on the Heroku side on the `/apps/planning-data-design/settings` page of the dashboard.
-
-## Monitoring
-
-The application is monitored via Sentry - accessible through the Heroku dashboard page for this application on the resources tab.
-
-## Authentication
-
-The application uses GitHub OAuth for authentication. Only members of the `digital-land` GitHub organization can log in to the application. The authentication flow:
-
-1. Users are redirected to GitHub to authorize the application
-2. After authorization, the application checks if the user is a member of the `digital-land` organization
-3. If they are a member, they are logged in
-4. If they are not a member:
-   * Their OAuth token is revoked
-   * They are redirected back to the index page with an error message
-
-For local development authentication, set the following in DevelopmentConfig:
-
-```env
-AUTHENTICATION_ON = True
-
-# Add these to .env file (do not commit to GitHub)
-GITHUB_CLIENT_ID=[client id]
-GITHUB_CLIENT_SECRET=[secret]
-```
-
-## Automated Tasks
-
-The following tasks should be run regularly to maintain the application data:
-
-1. `flask consider load-data`
-   * Updates the local database with the latest production data
-
-2. `flask consider load-questions`
-   * Updates question sets in the database
-   * Questions are defined in `application/question_sets.py`
-
-3. `flask consider check-questions`
-   * Validates question configurations before loading
-   * Checks for valid slug references between questions
-
-4. `flask consider check-dataset-links`
-   * Validates and updates dataset URLs and metadata
-
-## GitHub Actions
-
-The repository uses GitHub Actions for continuous integration and automated backups:
-
-### CI Workflow
-* Runs on every push and pull request to the main branch
-* Installs Python dependencies
-* Runs flake8 for linting
-* Runs pytest for testing
-
-### Download and Commit Considerations CSV
-* Runs daily at midnight UTC
-* Downloads the latest planning considerations CSV from the design site
-* Saves to `data/planning-considerations.csv`
-* Automatically commits and pushes changes if the file has been updated
-
-### Database Backup
-* Runs daily at 1am UTC
-* Downloads the latest database backup from Heroku using `pg:backups:download`
-* Saves to `data/latest_backup.dump`
-* Automatically commits and pushes changes if the backup has been updated
-* Requires Heroku authentication via `HEROKU_OAUTH_TOKEN` secret
-
-## Updating tag glossary definitions
-
-Tag definitions are stored in a [CSV file](/data/glossary-of-tags.csv) stored in the data folder.
-
-To update these finishing or add new ones, please update the CSV.
-
-## Updating the list of useful links (for considerations) that require authentication
-
-Some links shown in the useful links section require authentication and therefore should not be shown to the public.
-
-We decide which links show and not show based on their domain. This list is stored at the top of the [consideration.html](/planning-data-design/application/templates/consideration.html) file.
-
-Please note: you should include the host, for example, `https://www.example.com/` would be `www.example.com`.
-
-## Adding Upcoming Events
-
-To add a new event to the list, edit the `data/upcoming-events.yml` file. Each event should be added as an item under the `events:` key, following the existing format.
-
-### Example event structure
-
-```yaml
-- id: 2025-10-15-data-standards-community
-  name: 'October - Data Standards Community: Planning Permissions'
-  owner: Planning data team
-  start_time: '2025-10-15 10:30:00'
-  end_time: '2025-10-15 12:00:00'
-  joining_link: https://example.com/join
-  link: https://example.com/info
-  location: Online / Remote
-  type: general
-  audience: Designers, creatives, and enthusiasts
-  description: |
-    Brief description of the event, agenda, and any relevant details.
-```
-
-### Guidelines
-
-- **id**: Use a unique identifier, ideally in the format `YYYY-MM-DD-event-name`.
-- **name**: The event title.
-- **owner**: The team or person responsible.
-- **start_time** and **end_time**: Use `YYYY-MM-DD HH:MM:SS` format.
-- **joining_link**: Link for joining the event (e.g., registration or meeting link).
-- **link**: Additional info or registration link.
-- **location**: Specify if online, remote, or a physical location.
-- **type**: Event type (e.g., general, workshop).
-- **audience**: Who the event is for.
-- **description**: Use the pipe `|` for multi-line descriptions.
-
-Add your event to the end of the list, following the YAML syntax. Validate your changes to avoid formatting errors - you can use a tool like [Yaml Lint](https://www.yamllint.com/) to do this.
-
+See `DEPLOYMENT.md`.

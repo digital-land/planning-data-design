@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template govuk-template--rebranded">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{ page.title }} - {{ site_name }}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="{{ page.description if page else site_name }}">
+  <meta name="theme-color" content="#1d70b8">
+  <link rel="icon" sizes="48x48" href="/static/images/favicon.ico">
+  <link rel="icon" sizes="32x32" href="/static/images/favicon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="/static/images/dl-apple-touch-icon.png">
+  <link rel="stylesheet" href="/static/stylesheets/application.css">
+  <link rel="stylesheet" href="/static/stylesheets/vendor/moj-frontend.min.css">
+</head>
+<body class="govuk-template__body">
+  <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+  {% include "partials/header.html" %}
+  <section aria-label="Service information" class="govuk-service-navigation">
+    <div class="govuk-width-container">
+      <div class="govuk-service-navigation__container">
+        <span class="govuk-service-navigation__service-name">
+          <a href="/" class="govuk-service-navigation__link">{{ site_name }}</a>
+        </span>
+        <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+          <ul class="govuk-service-navigation__list" id="navigation">
+            {% for href, text in navigation %}
+              <li class="govuk-service-navigation__item{% if request.path.rstrip('/') == href %} govuk-service-navigation__item--active{% endif %}">
+                <a class="govuk-service-navigation__link" href="{{ href }}"{% if request.path.rstrip('/') == href %} aria-current="true"{% endif %}>{{ text }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+  <div class="govuk-width-container">
+    {% block before_content %}
+      {% include "partials/phase-banner.html" %}
+      {% block breadcrumbs %}
+        <nav class="govuk-breadcrumbs" aria-label="Breadcrumb">
+          <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item"><a class="govuk-breadcrumbs__link" href="/">Home</a></li>
+            {% for title, href in breadcrumbs %}
+              <li class="govuk-breadcrumbs__list-item"><a class="govuk-breadcrumbs__link" href="{{ href }}">{{ title }}</a></li>
+            {% endfor %}
+            <li class="govuk-breadcrumbs__list-item" aria-current="page">{{ page.title }}</li>
+          </ol>
+        </nav>
+      {% endblock %}
+    {% endblock %}
+    <main class="govuk-main-wrapper" id="main-content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% include "partials/footer.html" %}
+</body>
+</html>

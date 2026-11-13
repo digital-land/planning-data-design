@@ -1,0 +1,16 @@
+from,to,status
+/advisory-group,/project/planning-applications,301
+/advisory-group/members,/project/planning-applications/members,301
+/advisory-group/timeline,/project/planning-applications/roadmap,301
+/what-we-are-working-on,/roadmap,301
+/how-to-contribute-to-the-data-design-process,/community,301
+/get-involved,/community,301
+/get-involved-in-designing-data,/community,301
+/how-to-help-develop-a-new-dataset,/design-process,301
+/how-to-get-existing-datasets-on-to-planning-data-gov-uk,/design-process,301
+/data-design-process,/design-process,301
+/stage-count,/,301
+/performance,/,301
+/progress-report,/,301
+/tags/glossary,/consideration,301
+/help/os-declaration-options,,410

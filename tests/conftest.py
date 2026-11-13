@@ -1,70 +1,13 @@
 import pytest
 
-from application.extensions import db
-from application.factory import create_app
-from application.models import Consideration, Question, QuestionType, Stage
+from application import create_app
 
 
 @pytest.fixture(scope="session")
 def app():
-    application = create_app("application.config.TestConfig")
-
-    with application.app_context():
-        db.create_all()
-
-    yield application
-
-    with application.app_context():
-        db.drop_all()
+    return create_app()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture()
 def client(app):
     return app.test_client()
-
-
-@pytest.fixture(scope="session")
-def questions(app):
-
-    from application.extensions import db
-    from application.question_sets import questions
-
-    with app.app_context():
-        for stage in questions.keys():
-            qs = questions[stage]
-            for q_order, q in enumerate(qs):
-                slug = next(iter(q.keys()))
-                question = Question.query.filter(Question.slug == slug).one_or_none()
-                if question is None:
-                    question = Question(slug=slug, stage=stage)
-
-                q = q[slug]
-                question.text = q["question"]
-                question.hint = q.get("hint", None)
-                question.python_form = q.get("form", None)
-                question.order = q_order
-                question.question_type = QuestionType(q["type"])
-                question.next = q.get("next", None)
-                question.previous = q.get("prev", None)
-                question.choices = q.get("choices", None)
-
-                db.session.add(question)
-                db.session.commit()
-
-    return app
-
-
-@pytest.fixture(scope="session")
-def consideration(app, questions):
-    from application.extensions import db
-
-    with app.app_context():
-        consider = Consideration(
-            name="Test consideration 1",
-            slug="test-consideration-1",
-            stage=Stage.BACKLOG,
-        )
-        db.session.add(consider)
-        db.session.commit()
-
-    return consider

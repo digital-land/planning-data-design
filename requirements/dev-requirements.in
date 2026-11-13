@@ -1,10 +1,8 @@
 -c requirements.txt
 pytest
-# fakes the http calls the GitHub sign in makes, in tests/integration/blueprints/auth/test_views.py
-responses
-flake8
-pre-commit
 black
-isort
-pytest-playwright
-pytest-flask
+flake8
+bandit
+pip-audit
+pip-tools
+pre-commit

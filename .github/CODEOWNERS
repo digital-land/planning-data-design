@@ -1,0 +1,5 @@
+# Content editors approve content and redirects, code owners approve the rest.
+# Replace the placeholders with real GitHub teams before enabling "Require review from Code Owners".
+*                  @digital-land/planning-data-design-code
+/content/          @digital-land/planning-data-design-content
+/redirects/        @digital-land/planning-data-design-content
