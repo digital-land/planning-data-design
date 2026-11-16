@@ -1,5 +1,6 @@
 url,last_checked,status,last_ok,failures,first_failed,detail
-https://archaeologydataservice.ac.uk/archsearch/browser.xhtml,2026-11-11,moved,2026-11-11,0,,https://archaeologydataservice.ac.uk/data-catalogue/
+https://archaeologydataservice.ac.uk/data-catalogue/,2026-11-16,ok,2026-11-16,0,,
+https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/218584/village-green-1993.pdf,2026-11-16,ok,2026-11-16,0,,
 https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/431943/BR_PDF_AD_C_2013.pdf,2026-11-11,ok,2026-11-11,0,,
 https://assets.publishing.service.gov.uk/media/5a78f5ba40f0b62b22cbe28a/324923.pdf,2026-11-11,ok,2026-11-11,0,,
 https://assets.publishing.service.gov.uk/media/5a7959cfed915d0422067b06/1987150.pdf,2026-11-11,ok,2026-11-11,0,,
@@ -8,10 +9,8 @@ https://assets.publishing.service.gov.uk/media/5a7ca64eed915d6969f46605/121115_E
 https://assets.publishing.service.gov.uk/media/5b06c840e5274a2d7670ac43/Form035_england_en__2_.pdf,2026-11-11,ok,2026-11-11,0,,
 https://assets.publishing.service.gov.uk/media/5b35fa57ed915d0b53021ae1/FCPG201.pdf,2026-11-11,ok,2026-11-11,0,,
 https://assets.publishing.service.gov.uk/media/5c5da17b40f0b676d487d027/TPO_flowchart_1.pdf,2026-11-11,ok,2026-11-11,0,,
-https://assets.publishing.service.gov.uk/media/65a11af7e8f5ec000f1f8c46/NPPF_December_2023.pdf,2026-11-11,moved,2026-11-11,0,,https://www.gov.uk/guidance/national-planning-policy-framework
 https://assets.publishing.service.gov.uk/media/65b37a1a5f8ce2000d3ae55b/The_Town_and_Country_Planning__Consultation___England__Direction_2024.pdf,2026-11-11,ok,2026-11-11,0,,
-https://assets.publishing.service.gov.uk/media/664da823f34f9b5a56adcbf2/LT_125.ods,2026-11-11,moved,2026-11-11,0,,https://assets.publishing.service.gov.uk/media/6a0dcbf65c3c79da61662e39/LiveTable125.ods
-https://assets.publishing.service.gov.uk/media/675abd214cbda57cacd3476e/NPPF-December-2024.pdf,2026-11-11,moved,2026-11-11,0,,https://www.gov.uk/guidance/national-planning-policy-framework
+https://assets.publishing.service.gov.uk/media/6a0dcbf65c3c79da61662e39/LiveTable125.ods,2026-11-16,ok,2026-11-16,0,,
 https://beta-naptan.dft.gov.uk/,2026-11-11,ok,2026-11-11,0,,
 https://beta-naptan.dft.gov.uk/download/nptg,2026-11-11,ok,2026-11-11,0,,
 https://beta.ordnancesurvey.co.uk/products/boundary-line,2026-11-11,ok,2026-11-11,0,,
@@ -20,15 +19,7 @@ https://bills.parliament.uk/bills/3569,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/casi-and-lidar-habitat-map,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/dune-slack-likely-locations,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/vertical-aerial-photography,2026-11-11,ok,2026-11-11,0,,
-https://data.gov.uk/dataset/0447f8d9-8f1b-4a68-bbc8-246981d02256/traveline-national-dataset,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/0447f8d9-8f1b-4a68-bbc8-246981d02256/traveline-national-dataset
-https://data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2
-https://data.gov.uk/dataset/3a3b32f3-d727-4623-aa17-daa2f39aaf92/national-coach-services-ncsd,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/3a3b32f3-d727-4623-aa17-daa2f39aaf92/national-coach-services-ncsd
-https://data.gov.uk/dataset/726484b0-d14e-44a3-9621-29e79fc47bfc/national-nature-reserves-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/726484b0-d14e-44a3-9621-29e79fc47bfc/national-nature-reserves-england
-https://data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england
-https://data.gov.uk/dataset/a19c95e3-9657-457d-825e-3d2f3993b653/nature-improvement-areas,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/a19c95e3-9657-457d-825e-3d2f3993b653/nature-improvement-areas
-https://data.gov.uk/dataset/a5b0ccc4-a144-4027-91fa-49084ff07da2/environmentally-sensitive-areas-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/a5b0ccc4-a144-4027-91fa-49084ff07da2/environmentally-sensitive-areas-england
-https://data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england,2026-11-11,moved,2026-11-11,0,,https://www.data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england
-https://data.london.gov.uk/dataset/central_activities_zone,2026-11-11,moved,2026-11-11,0,,https://data.london.gov.uk/dataset/central-activities-zone-23jxk
+https://data.london.gov.uk/dataset/central-activities-zone-23jxk,2026-11-16,ok,2026-11-16,0,,
 https://digital-land.github.io/blog-post/our-approach-to-open-space/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/local-plans-timetable/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/planning-application-data-specification/,2026-11-11,ok,2026-11-11,0,,
@@ -47,32 +38,12 @@ https://digital-land.github.io/specification/specification/plan/,2026-11-11,ok,2
 https://digital-land.github.io/specification/specification/planning-application-decision/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/planning-condition/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/specification/specification/tree-preservation-order/,2026-11-11,ok,2026-11-11,0,,
-https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit&followup=https://docs.google.com/document/d/13TarVxC94K5M49_LfJyr2EHW9rZT0_cPsJ_u8fVWNrw/edit&ltmpl=docs
-https://docs.google.com/document/d/199-f6cigd4WcQm2jFDlb7qt3HrriLPkvY95qNzbQ-34/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/199-f6cigd4WcQm2jFDlb7qt3HrriLPkvY95qNzbQ-34/edit&followup=https://docs.google.com/document/d/199-f6cigd4WcQm2jFDlb7qt3HrriLPkvY95qNzbQ-34/edit&ltmpl=docs
-https://docs.google.com/document/d/1BoTm7kmESHZLBNJibuvdVaMsF3odKsKGLXlPnf-8gFY/edit?usp=sharing,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1BoTm7kmESHZLBNJibuvdVaMsF3odKsKGLXlPnf-8gFY/edit?usp%3Dsharing&followup=https://docs.google.com/document/d/1BoTm7kmESHZLBNJibuvdVaMsF3odKsKGLXlPnf-8gFY/edit?usp%3Dsharing&ltmpl=docs
-https://docs.google.com/document/d/1BrSkKUzocPAV1OlMkZC0kwIgKWg2W5vq22i4vjN38T0/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1BrSkKUzocPAV1OlMkZC0kwIgKWg2W5vq22i4vjN38T0/edit&followup=https://docs.google.com/document/d/1BrSkKUzocPAV1OlMkZC0kwIgKWg2W5vq22i4vjN38T0/edit&ltmpl=docs
 https://docs.google.com/document/d/1GCNhjJuwFbn3_9Soco0HNBBMQO4ba0qo/edit?usp=drive_link,2026-11-11,ok,2026-11-11,0,,
-https://docs.google.com/document/d/1GJdkEbpLlfcB9AbBfLcDgkvFMxs7kPrtc_y_mxOby-I/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1GJdkEbpLlfcB9AbBfLcDgkvFMxs7kPrtc_y_mxOby-I/edit&followup=https://docs.google.com/document/d/1GJdkEbpLlfcB9AbBfLcDgkvFMxs7kPrtc_y_mxOby-I/edit&ltmpl=docs
-https://docs.google.com/document/d/1HL7GkBJhYvTfUohy9djPQpP8NWgONRS-yrfpkl8ppNo/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1HL7GkBJhYvTfUohy9djPQpP8NWgONRS-yrfpkl8ppNo/edit&followup=https://docs.google.com/document/d/1HL7GkBJhYvTfUohy9djPQpP8NWgONRS-yrfpkl8ppNo/edit&ltmpl=docs
 https://docs.google.com/document/d/1MGkEfDDjKrT17b-QSzwZffiOgKKQyWUrn9GufbpYZsc/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
-https://docs.google.com/document/d/1NafrVW_dC2nvDTDBQvey-271aLLFpGlCpN-N30OZDn4/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1NafrVW_dC2nvDTDBQvey-271aLLFpGlCpN-N30OZDn4/edit&followup=https://docs.google.com/document/d/1NafrVW_dC2nvDTDBQvey-271aLLFpGlCpN-N30OZDn4/edit&ltmpl=docs
 https://docs.google.com/document/d/1QERjoyZ-7oZkhNdxRmUXDVhCfxZj105SGmEaWUX9uYI/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
-https://docs.google.com/document/d/1SJBxZ_pKY1BL9aTckboKS6u6nqwZJOk4_buY9SKJ3Xg/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1SJBxZ_pKY1BL9aTckboKS6u6nqwZJOk4_buY9SKJ3Xg/edit&followup=https://docs.google.com/document/d/1SJBxZ_pKY1BL9aTckboKS6u6nqwZJOk4_buY9SKJ3Xg/edit&ltmpl=docs
-https://docs.google.com/document/d/1TU0-gSBKGoc6XJMtm_ccB1W3z2zb_1SvVakfn2yiE4w/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1TU0-gSBKGoc6XJMtm_ccB1W3z2zb_1SvVakfn2yiE4w/edit&followup=https://docs.google.com/document/d/1TU0-gSBKGoc6XJMtm_ccB1W3z2zb_1SvVakfn2yiE4w/edit&ltmpl=docs
-https://docs.google.com/document/d/1ULS_aunj8r-Iv5kZ5IelEM_wBGxfS98bKXn4X7hvXkg/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1ULS_aunj8r-Iv5kZ5IelEM_wBGxfS98bKXn4X7hvXkg/edit&followup=https://docs.google.com/document/d/1ULS_aunj8r-Iv5kZ5IelEM_wBGxfS98bKXn4X7hvXkg/edit&ltmpl=docs
-https://docs.google.com/document/d/1VbAfgd7dFrODkCpFEKFLAgAUfeodNTqEiDt1rL3cOO4/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1VbAfgd7dFrODkCpFEKFLAgAUfeodNTqEiDt1rL3cOO4/edit&followup=https://docs.google.com/document/d/1VbAfgd7dFrODkCpFEKFLAgAUfeodNTqEiDt1rL3cOO4/edit&ltmpl=docs
-https://docs.google.com/document/d/1WjLD8vTEGJXG2jn0UIAnC0xR20pon6XyMdybRtBtlLA/edit?usp=sharing,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1WjLD8vTEGJXG2jn0UIAnC0xR20pon6XyMdybRtBtlLA/edit?usp%3Dsharing&followup=https://docs.google.com/document/d/1WjLD8vTEGJXG2jn0UIAnC0xR20pon6XyMdybRtBtlLA/edit?usp%3Dsharing&ltmpl=docs
 https://docs.google.com/document/d/1WqMY1tfH9YhaZ1yUlJPKtTqs_OKw0Nv8yqdHWO4xSg4/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
-https://docs.google.com/document/d/1YgFbQ_-ye98hrGYQg9j5HXtPeVrr8Zcx_08NHAlWe6c/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1YgFbQ_-ye98hrGYQg9j5HXtPeVrr8Zcx_08NHAlWe6c/edit&followup=https://docs.google.com/document/d/1YgFbQ_-ye98hrGYQg9j5HXtPeVrr8Zcx_08NHAlWe6c/edit&ltmpl=docs
-https://docs.google.com/document/d/1ZObCVL1dGKVEgputfdwPs-Ih43UH5Mradk4zvteeA_Y/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1ZObCVL1dGKVEgputfdwPs-Ih43UH5Mradk4zvteeA_Y/edit&followup=https://docs.google.com/document/d/1ZObCVL1dGKVEgputfdwPs-Ih43UH5Mradk4zvteeA_Y/edit&ltmpl=docs
-https://docs.google.com/document/d/1a458xs4QgOG-WDKXyNzz3vPVLcAFh9jobIUn4wcgBTc/edit?usp=sharing,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1a458xs4QgOG-WDKXyNzz3vPVLcAFh9jobIUn4wcgBTc/edit?usp%3Dsharing&followup=https://docs.google.com/document/d/1a458xs4QgOG-WDKXyNzz3vPVLcAFh9jobIUn4wcgBTc/edit?usp%3Dsharing&ltmpl=docs
-https://docs.google.com/document/d/1eVDL6kCLqI4v600yQqr0p5Eb_YSW9zSiT5St-Fcr4hc/edit?usp=sharing,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1eVDL6kCLqI4v600yQqr0p5Eb_YSW9zSiT5St-Fcr4hc/edit?usp%3Dsharing&followup=https://docs.google.com/document/d/1eVDL6kCLqI4v600yQqr0p5Eb_YSW9zSiT5St-Fcr4hc/edit?usp%3Dsharing&ltmpl=docs
-https://docs.google.com/document/d/1iGOw61rjvFIqZHR8RzL6yGXcjs0EYHQdHNEANUdF3Jc/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1iGOw61rjvFIqZHR8RzL6yGXcjs0EYHQdHNEANUdF3Jc/edit&followup=https://docs.google.com/document/d/1iGOw61rjvFIqZHR8RzL6yGXcjs0EYHQdHNEANUdF3Jc/edit&ltmpl=docs
-https://docs.google.com/document/d/1mc5UMRPGDU6ba7hNMPDqczdvB4Geu0Mm2aN19GRmASg/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1mc5UMRPGDU6ba7hNMPDqczdvB4Geu0Mm2aN19GRmASg/edit&followup=https://docs.google.com/document/d/1mc5UMRPGDU6ba7hNMPDqczdvB4Geu0Mm2aN19GRmASg/edit&ltmpl=docs
 https://docs.google.com/document/d/1rAfdlwdzxH0ckVjUrT8aMg2AIYyhW8mmAUM4Xq6EInk/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
 https://docs.google.com/document/d/1rHFtLB_gsJkukzjlpwrTej7eTDP5sPeNt1ftPxxGy1A/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
-https://docs.google.com/document/d/1xXmcLRxSzEzLB9Z2H2ztsjh75ZtpSVz0V89R2j-hC1g/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1xXmcLRxSzEzLB9Z2H2ztsjh75ZtpSVz0V89R2j-hC1g/edit&followup=https://docs.google.com/document/d/1xXmcLRxSzEzLB9Z2H2ztsjh75ZtpSVz0V89R2j-hC1g/edit&ltmpl=docs
-https://docs.google.com/document/d/1ziDNUExJiUWtMFI3x90T2G-HGtNldUOQrd13u-h6UHY/edit,2026-11-11,not_public,,1,2026-11-11,redirects to sign in: https://accounts.google.com/ServiceLogin?service=wise&passive=1209600&osid=1&continue=https://docs.google.com/document/d/1ziDNUExJiUWtMFI3x90T2G-HGtNldUOQrd13u-h6UHY/edit&followup=https://docs.google.com/document/d/1ziDNUExJiUWtMFI3x90T2G-HGtNldUOQrd13u-h6UHY/edit&ltmpl=docs
 https://docs.google.com/document/d/e/2PACX-1vRCXOwsr8gCoUNf3AHVebkQNRkwzVijL7JNeJa-QwdULLGXVMZUs9rk8mxZIV8oQ-o9Z2vG9OilBV-M/pub,2026-11-11,ok,2026-11-11,0,,
 https://docs.google.com/presentation/d/1OPKGIuz0AreuznbkU5aNNmYmrmkY1lQeMopzfoLCNMQ/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
 https://docs.google.com/presentation/d/1UjkxVm1PsRTO0kNNum9tILjhqIt5UZHEdWcbCmbrY98/edit?usp=sharing,2026-11-11,ok,2026-11-11,0,,
@@ -116,10 +87,9 @@ https://en.wikipedia.org/wiki/Wikipedia:Citation_needed,2026-11-11,ok,2026-11-11
 https://environment.data.gov.uk/arcgis/rest/services/EA/FloodMapForPlanningRiversAndSeaFloodZone2/MapServer/0,2026-11-11,ok,2026-11-11,0,,
 https://environment.data.gov.uk/dataset/9fede91f-5acd-4fd2-9bd8-98153fa3c2ff,2026-11-11,ok,2026-11-11,0,,
 https://environment.data.gov.uk/flood-monitoring/doc/rainfall,2026-11-11,ok,2026-11-11,0,,
-https://forms.office.com/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqI2-dQZ23EpAlntil0nqidZUOVkyT1I1MDlTV01HUk1CUkxCMERRRE85Ri4u,2026-11-11,moved,2026-11-11,0,,https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqI2-dQZ23EpAlntil0nqidZUOVkyT1I1MDlTV01HUk1CUkxCMERRRE85Ri4u
-https://forms.office.com/e/DviXrJp60e,2026-11-11,moved,2026-11-11,0,,https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqOXfkSKll1hBtqu0k4gIMbtUNFVQOUxPRVFKNDBVTEM0VjYzQkpPNzdMTi4u&route=shorturl
-https://forms.office.com/e/rahh9JKu0u,2026-11-11,moved,2026-11-11,0,,https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl
-https://forms.office.com/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl,2026-11-11,moved,2026-11-11,0,,https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl
+https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=EGg0v32c3kOociSi7zmVqI2-dQZ23EpAlntil0nqidZUOVkyT1I1MDlTV01HUk1CUkxCMERRRE85Ri4u,2026-11-16,ok,2026-11-16,0,,
+https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqFO3bTJ8VFpFodBlrVJHzGdUMjUzUTVKUTJXVkxURkJJWVJPSE1RN1IyTi4u&route=shorturl,2026-11-16,ok,2026-11-16,0,,
+https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqOXfkSKll1hBtqu0k4gIMbtUNFVQOUxPRVFKNDBVTEM0VjYzQkpPNzdMTi4u&route=shorturl,2026-11-16,ok,2026-11-16,0,,
 https://gds.blog.gov.uk/2012/10/11/no-link-left-behind/,2026-11-11,ok,2026-11-11,0,,
 https://geoportal.statistics.gov.uk/datasets/69b2084e13284ea59be314cb28edc41c_0/explore?location=54.660612%2C-1.891581%2C8.00,2026-11-11,ok,2026-11-11,0,,
 https://geoportal.statistics.gov.uk/documents/4d9aa61b06a64ec1b7cc4aecbcfbb7a9/about,2026-11-11,ok,2026-11-11,0,,
@@ -249,40 +219,45 @@ https://researchbriefings.files.parliament.uk/documents/SN05942/SN05942.pdf,2026
 https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Local_Nature_Reserves_England/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson,2026-11-11,ok,2026-11-11,0,,
 https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Provisional%20Agricultural%20Land%20Classification%20(ALC)%20(England)/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson,2026-11-11,ok,2026-11-11,0,,
 https://ssa.camden.gov.uk/connect/analyst/mobile/,2026-11-11,ok,2026-11-11,0,,
-https://standards.planning-data.dev/terms/,2026-11-11,failing,,1,2026-11-11,"<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'standards.planning-data.dev'. (_ssl.c:1082)>"
 https://tewkesbury.gov.uk/wp-content/uploads/2022/Planning%20policy/Local%20plan/SCI/Statement%20of%20Community%20Involvement%202022.pdf,2026-11-11,ok,2026-11-11,0,,
 https://uk-air.defra.gov.uk/aqma/maps/,2026-11-11,ok,2026-11-11,0,,
 https://uk-air.defra.gov.uk/assets/documents/Air_Quality_Objectives_Update.pdf,2026-11-11,ok,2026-11-11,0,,
 https://wiltscouncil.maps.arcgis.com/apps/webappviewer/index.html?id=74a353612a934bd48fee1f2bc564cdd8,2026-11-11,ok,2026-11-11,0,,
-https://www.bgs.ac.uk/datasets/geoclimateukcp18-open/,2026-11-11,moved,2026-11-11,0,,https://www.bgs.ac.uk/datasets/geoclimate-shrink-swell/
+https://www.bgs.ac.uk/datasets/bgs-geology-625k/,2026-11-16,ok,2026-11-16,0,,
+https://www.bgs.ac.uk/datasets/geoclimate-shrink-swell/,2026-11-16,ok,2026-11-16,0,,
 https://www.bgs.ac.uk/datasets/radon-data-indicative-atlas-of-radon/,2026-11-11,ok,2026-11-11,0,,
 https://www.bgs.ac.uk/download/radon-potential-indicative-atlas-data-for-great-britain/,2026-11-11,ok,2026-11-11,0,,
-https://www.bgs.ac.uk/products/digitalmaps/DiGMapGB_625.html,2026-11-11,moved,2026-11-11,0,,https://www.bgs.ac.uk/datasets/bgs-geology-625k/
 https://www.birmingham.gov.uk/downloads/download/224/authority_monitoring_reports,2026-11-11,ok,2026-11-11,0,,
 https://www.brighton-hove.gov.uk/sites/default/files/2024-11/List%20of%20Assets%20of%20Community%20Value%20%201%20Nov%2024_.pdf,2026-11-11,failing,,1,2026-11-11,too many redirects
 https://www.camden.gov.uk/assets-of-community-value,2026-11-11,ok,2026-11-11,0,,
 https://www.cornwall.gov.uk/media/fuub1q3t/cornwall-5-year-housing-land-supply-statement-2024.pdf,2026-11-11,ok,2026-11-11,0,,
 https://www.cornwall.gov.uk/planning-and-building-control/planning-policy/adopted-plans/register-of-brownfield-land/,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/01b3ee39-da3f-47b6-83da-dc98e73a461f/lidar-composite-digital-terrain-model-dtm-1m,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/0447f8d9-8f1b-4a68-bbc8-246981d02256/traveline-national-dataset,2026-11-16,ok,2026-11-16,0,,
 https://www.data.gov.uk/dataset/0d6fa1f4-0c82-4c91-8667-a549e8e3ca2d/risk-of-flooding-from-surface-water3,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/104434b0-5263-4c90-9b1e-e43b1d57c750/flood-map-for-planning-flood-zones1,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/15e3be7f-66ed-416c-b0f2-241e87668642/built-up-areas-december-2011-boundaries-v2,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/1707e638-6a2d-48f5-a534-1db0b240cc37/casi-and-lidar-habitat-map,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/3870e82c-265e-4566-be9b-e6b3f1eb78a3/agricultural-land-classification-alc-grades-pre-1988,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/3a3b32f3-d727-4623-aa17-daa2f39aaf92/national-coach-services-ncsd,2026-11-16,ok,2026-11-16,0,,
 https://www.data.gov.uk/dataset/4ae8ba46-f9a4-47d0-8d93-0f93eb494540/statutory-main-river-map,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/5a98b0a1-2741-4b2f-a51b-5b42f13219f2/risk-of-flooding-from-rivers-and-sea-postcodes-in-areas-at-risk2,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/5b632bd7-9838-4ef2-9101-ea9384421b0d/sites-of-special-scientific-interest-england3,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/69133f02-3c16-406f-9602-41f5d033f47e/lidar-composite-digital-surface-model-dsm-2m,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/6cad6ebf-3b15-4c3f-9e5d-7f2240a60058/risk-of-flooding-from-rivers-and-sea-properties-in-areas-at-risk2,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/726484b0-d14e-44a3-9621-29e79fc47bfc/national-nature-reserves-england,2026-11-16,ok,2026-11-16,0,,
 https://www.data.gov.uk/dataset/7fe90245-d6e8-4d7c-a13a-65a87455f429/drinking-water-safeguard-zones-groundwater,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/8e3ae3b9-a827-47f1-b025-f08527a4e84e/areas-of-outstanding-natural-beauty-england1,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/9461f463-c363-4309-ae77-fdcd7e9df7d3/ancient-woodland-england,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/952421ec-da63-4569-817d-4d6399df40a1/provisional-agricultural-land-classification-alc2,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/99d06794-8a5b-42c1-9cb6-e240ae4bc906/built-up-areas-december-2024-boundaries-ew-bgg-v21,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/a19c95e3-9657-457d-825e-3d2f3993b653/nature-improvement-areas,2026-11-16,ok,2026-11-16,0,,
+https://www.data.gov.uk/dataset/a5b0ccc4-a144-4027-91fa-49084ff07da2/environmentally-sensitive-areas-england,2026-11-16,ok,2026-11-16,0,,
 https://www.data.gov.uk/dataset/acdf4a9e-a115-41fb-bbe9-603c819aa7f7/local-nature-reserves-england,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/c002ceea-d650-4408-b302-939e9b88eb0b/agricultural-land-classification-alc-grades-post-1988-survey-polygons,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/cae4e24c-0342-48aa-8a93-d727ce582b3c/flood-map-for-planning-rivers-and-sea-flood-storage-areas,2026-11-11,ok,2026-11-11,0,,
 https://www.data.gov.uk/dataset/cae4e24c-0342-48aa-8a93-d727ce582b3c/flood-map-for-planning-rivers-and-sea-water-storage-areas,2026-11-11,ok,2026-11-11,0,,
+https://www.data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england,2026-11-16,ok,2026-11-16,0,,
 https://www.data.gov.uk/dataset/e729abb9-aa6c-42c5-baec-b6673e2b3a62/country-parks-england2,2026-11-11,ok,2026-11-11,0,,
 https://www.geoplace.co.uk/addresses-streets/location-data/usrn,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/collections/housing-delivery-test,2026-11-11,ok,2026-11-11,0,,
@@ -305,7 +280,7 @@ https://www.gov.uk/government/publications/publish-your-plan-data/publish-your-p
 https://www.gov.uk/government/publications/value-of-public-sector-data-estimate/value-of-public-sector-data-estimate,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/statistical-data-sets/live-tables-on-dwelling-stock-including-vacants,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/statistics/personal-and-stakeholder-pensions-statistics/tidy-data-guide,2026-11-11,ok,2026-11-11,0,,
-https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/218584/village-green-1993.pdf,2026-11-11,moved,2026-11-11,0,,https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/218584/village-green-1993.pdf
+https://www.gov.uk/guidance/access-coal-mining-information-and-data,2026-11-16,ok,2026-11-16,0,,
 https://www.gov.uk/guidance/ancient-woodland-ancient-trees-and-veteran-trees-advice-for-making-planning-decisions,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/areas-of-outstanding-natural-beauty-aonbs-designation-and-management,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/brownfield-land-registers,2026-11-11,ok,2026-11-11,0,,
@@ -313,23 +288,23 @@ https://www.gov.uk/guidance/conserving-and-enhancing-the-historic-environment,20
 https://www.gov.uk/guidance/creating-a-design-code,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/duty-to-protect-conserve-and-restore-european-sites,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/flood-risk-and-coastal-change,2026-11-11,ok,2026-11-11,0,,
-https://www.gov.uk/guidance/flood-risk-assessment-in-flood-zones-2-and-3,2026-11-11,moved,2026-11-11,0,,https://www.gov.uk/guidance/flood-risk-assessment-flood-zones-1-2-3-and-3b
+https://www.gov.uk/guidance/flood-risk-assessment-flood-zones-1-2-3-and-3b,2026-11-16,ok,2026-11-16,0,,
 https://www.gov.uk/guidance/government-design-principles,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/green-belt,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/guidance-on-procedural-requirements-for-major-infrastructure-projects,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/hm-land-registry-transaction-data,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/housing-and-economic-land-availability-assessment,2026-11-11,ok,2026-11-11,0,,
-https://www.gov.uk/guidance/local-planning-authorities-strategic-flood-risk-assessment,2026-11-11,moved,2026-11-11,0,,https://www.gov.uk/guidance/how-to-prepare-a-strategic-flood-risk-assessment
+https://www.gov.uk/guidance/how-to-prepare-a-strategic-flood-risk-assessment,2026-11-16,ok,2026-11-16,0,,
 https://www.gov.uk/guidance/minerals,2026-11-11,ok,2026-11-11,0,,
+https://www.gov.uk/guidance/national-planning-policy-framework,2026-11-16,ok,2026-11-16,0,,
 https://www.gov.uk/guidance/national-planning-policy-framework/4-decision-making,2026-11-11,moved,2026-11-11,0,,https://www.gov.uk/guidance/national-planning-policy-framework
 https://www.gov.uk/guidance/natural-environment,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/plan-making,2026-11-11,ok,2026-11-11,0,,
-https://www.gov.uk/guidance/protected-areas-sites-of-special-scientific-interest,2026-11-11,moved,2026-11-11,0,,https://www.gov.uk/guidance/sites-of-special-scientific-interest-managing-your-land-and-getting-consent-for-activities
+https://www.gov.uk/guidance/sites-of-special-scientific-interest-managing-your-land-and-getting-consent-for-activities,2026-11-16,ok,2026-11-16,0,,
 https://www.gov.uk/guidance/town-and-village-greens-how-to-register,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/tree-preservation-orders-and-trees-in-conservation-areas,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/updates-to-national-flood-and-coastal-erosion-risk-information,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/guidance/use-of-planning-conditions,2026-11-11,ok,2026-11-11,0,,
-https://www.gov.uk/guidance/using-coal-mining-information,2026-11-11,moved,2026-11-11,0,,https://www.gov.uk/guidance/access-coal-mining-information-and-data
 https://www.gov.uk/guidance/when-is-permission-required,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/search-register-planning-decisions,2026-11-11,ok,2026-11-11,0,,
 https://www.great-yarmouth.gov.uk/article/8109/Article-4-direction-Great-Yarmouth,2026-11-11,ok,2026-11-11,0,,
@@ -431,12 +406,11 @@ https://www.northnorthants.gov.uk/community-assets/assets-community-value/assets
 https://www.nottinghamshire.gov.uk/media/m41dje50/infrastructurefundingstatement20232024.pdf,2026-11-11,ok,2026-11-11,0,,
 https://www.ons.gov.uk/aboutus/transparencyandgovernance/datastrategy/dataprinciples,2026-11-11,ok,2026-11-11,0,,
 https://www.ons.gov.uk/peoplepopulationandcommunity/housing/articles/townsandcitiescharacteristicsofbuiltupareasenglandandwales/census2021,2026-11-11,ok,2026-11-11,0,,
-https://www.ordnancesurvey.co.uk/business-government/products/open-map-rivers,2026-11-11,moved,2026-11-11,0,,https://www.ordnancesurvey.co.uk/products/os-open-rivers
-https://www.ordnancesurvey.co.uk/business-government/products/open-map-roads,2026-11-11,moved,2026-11-11,0,,https://www.ordnancesurvey.co.uk/products/os-open-roads
 https://www.ordnancesurvey.co.uk/products/code-point,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/code-point-polygons,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-built-up-areas,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-greenspace,2026-11-11,ok,2026-11-11,0,,
+https://www.ordnancesurvey.co.uk/products/os-open-rivers,2026-11-16,ok,2026-11-16,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-roads,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-uprn,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-usrn,2026-11-11,ok,2026-11-11,0,,
