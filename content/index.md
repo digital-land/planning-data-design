@@ -5,7 +5,9 @@ template: home
 ---
 ## [Considerations](/consideration)
 
-Explore the long list of topics we use to identify and discover the users, needs, and potential benefits of data so we can make it available on [planning.data.gov.uk](https://www.planning.data.gov.uk).
+See future priorities for data and data standards on our [roadmap](/roadmap) and
+explore the list of topics we use to identify and discover the users, needs, 
+and potential benefits of data so we can make it available on [planning.data.gov.uk](https://www.planning.data.gov.uk).
 
 ## [Open data standards community](/community)
 
@@ -13,10 +15,6 @@ You can contribute to the design of planning data and standards by participating
 community discussions and events.
 The current focus of our events is on the development of data standards for 
 [planning applications and decisions](/community).
-
-## [Roadmap](/roadmap)
-
-See future priorities for data and data standards on our [roadmap](/roadmap).
 
 ## [Design principles](/design-principles)
 
