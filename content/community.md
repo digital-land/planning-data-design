@@ -1,19 +1,23 @@
 ---
-title: Community
-description: Developing open, reusable data specifications for planning applications
+title: Open data standards community
+description: Developing open, reusable data specifications and standards
 ---
 
-Help us to develop a set of open, reusable data specifications to help standardise the information submitted in a planning application and how applications and decisions should be made available as data.
+## A data standard for planning applications and decisions 
 
-- [Latest draft specification](https://digital-land.github.io/planning-application-data-specification/)
-- [Specification code](https://github.com/digital-land/planning-application-data-specification)
+The current focus of the community is on the development of specifications
+for the information submitted in a planning application,
+and how those applications and decisions should be made available by planning authorities as data.
+
+- [Latest specification](https://digital-land.github.io/planning-application-data-specification/)
+- [Specification source code](https://github.com/digital-land/planning-application-data-specification)
 - [Specification issues](https://github.com/digital-land/planning-application-data-specification/issues)
 - [Project board](https://github.com/orgs/digital-land/projects/36/views/1)
 - [Weeknotes](/project/planning-applications/weeknotes)
 
 ---
 
-## Next event(s)
+## Next community event
 
 The next community session will be held on 25 November 2026, 10.30am to 12.00pm.
 
@@ -262,13 +266,6 @@ Outlining the role of the advisory group in steering our development of planning
 
 5 Nov 2024
 
-### A [blog post]() is published to set out this piece of work
+### A [blog post](https://mhclgdigital.blog.gov.uk/2024/10/18/using-data-design-to-transform-the-planning-application-process-get-involved/) is published to set out this piece of work
 
 18 Oct 2024
-
-### Started the initiative
-
-
-### Join our user research panel
-We are always looking for ways to improve our service. If you would like to be contacted about user research sessions, email
-[digitalplanningresearch@communities.gov.uk](mailto:digitalplanningresearch@communities.gov.uk).
