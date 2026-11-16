@@ -12,7 +12,7 @@ Explore the topics we use to identify and discover the users, needs, and potenti
 You can contribute to the design of planning data and data standards by participating in our community 
 discussions and events.
 The current focus of our community events are on the development of data standards for 
-[planning applications](/project/planning-applications) and decisions.
+[planning applications](/community) and decisions.
 
 ## [Roadmap](/roadmap)
 

@@ -37,8 +37,6 @@ Paths from the database-backed site, kept as a regression list. `tests/test_secu
 
 | Path | Purpose |
 |---|---|
-| `/project` | Projects |
-| `/project/planning-applications` | Planning applications project |
 | `/project/planning-applications/members` | Members |
 | `/project/planning-applications/roadmap` | Roadmap |
 | `/project/planning-applications/weeknotes` | Weeknotes |
