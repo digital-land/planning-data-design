@@ -2,7 +2,14 @@
 title: Planning applications
 description: Developing open, reusable data specifications for planning applications
 ---
+
 Help us to develop a set of open, reusable data specifications to help standardise the information submitted in a planning application and how applications and decisions should be made available as data.
+
+- [Latest draft specification](https://digital-land.github.io/planning-application-data-specification/)
+- [Specification code](https://github.com/digital-land/planning-application-data-specification)
+- [Specification issues](https://github.com/digital-land/planning-application-data-specification/issues)
+- [Project board](https://github.com/orgs/digital-land/projects/36/views/1)
+- [Weeknotes](/project/planning-applications/weeknotes)
 
 ---
 
@@ -261,13 +268,3 @@ Outlining the role of the advisory group in steering our development of planning
 
 ### Started the initiative
 
----
-
-### Useful links
-
-- [Latest draft specification](https://digital-land.github.io/planning-application-data-specification/)
-- [Specification code](https://github.com/digital-land/planning-application-data-specification)
-- [Specification issues](https://github.com/digital-land/planning-application-data-specification/issues)
-- [Open project board](https://github.com/orgs/digital-land/projects/36/views/1)
-- [Weeknotes](/project/planning-applications/weeknotes)
-- [Future look](/project/planning-applications/roadmap)

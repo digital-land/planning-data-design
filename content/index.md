@@ -1,6 +1,6 @@
 ---
-title: Designing planning and housing data that works for everyone
-description: Help identify and design the data on planning.data.gov.uk
+title: Design planning and housing data that works for everyone
+description: Help identify the data needed for planning.data.gov.uk
 template: home
 ---
 ## [Considerations](/consideration)
@@ -9,8 +9,11 @@ Explore the topics we use to identify and discover the users, needs, and potenti
 
 ## [Community](/community)
 
-Help design planning data by participating in community discussions and events.
+You can contribute to the design of planning data and data standards by participating in our community 
+discussions and events.
+The current focus of our community events are on the development of data standards for 
+[planning applications](/project/planning-applications) and decisions.
 
 ## [Roadmap](/roadmap)
 
-We are currently working with the community on a [project](/project) to develop data standards on [planning applications](/project/planning-applications) and decisions.
+See the data and data standards currently being developed.

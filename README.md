@@ -1,4 +1,4 @@
-# Designing planning and housing data
+# Design planning and housing data
 
 A read-only website built from Markdown and CSV files in this repository.
 
