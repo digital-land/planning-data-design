@@ -268,3 +268,7 @@ Outlining the role of the advisory group in steering our development of planning
 
 ### Started the initiative
 
+
+### Join our user research panel
+We are always looking for ways to improve our service. If you would like to be contacted about user research sessions, email
+[digitalplanningresearch@communities.gov.uk](mailto:digitalplanningresearch@communities.gov.uk).
