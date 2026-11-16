@@ -1,5 +1,5 @@
 ---
-title: Open data standards community
+title: Data standards community
 description: Developing open, reusable data specifications and standards
 ---
 
@@ -39,9 +39,7 @@ Materials from the session
 - [Notes from the session](https://docs.google.com/document/d/1GCNhjJuwFbn3_9Soco0HNBBMQO4ba0qo/edit?usp=drive_link)
 - [Lean Coffee questions and output](https://drive.google.com/file/d/1ytRoKWn6TF4e6SotFk5tqCPbuHmrv8bC/view?usp=drive_link)
 
-### August data standards community session
-
-19 Aug 2026
+### 19 Aug 2026
 
 We held the August community session, covering consultation readiness, compliance through the national public view, findings from real application data and DMSF testing, and the digital planning register discovery.
 
