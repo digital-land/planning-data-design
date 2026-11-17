@@ -9,12 +9,13 @@ from application.security import init_security
 
 ROOT = Path(__file__).resolve().parent.parent
 
-SITE_NAME = "Designing planning and housing data"
+SITE_NAME = "Design planning and housing data"
 PLATFORM_URL = "https://www.planning.data.gov.uk"
 DISCUSSIONS_URL = "https://github.com/digital-land/data-standards-backlog/discussions"
 NAVIGATION = [
-    ("/design-principles", "Design principles"),
     ("/consideration", "Considerations"),
+    ("/community", "Community"),
+    ("/design-principles", "Process"),
 ]
 
 

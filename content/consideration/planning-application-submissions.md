@@ -5,7 +5,7 @@ template: consideration
 stage: Co-design
 useful_links:
 - text: Advisory group updates
-  url: /project/planning-applications
+  url: /community
 - text: Module tracker (where is each specification)
   url: https://docs.google.com/spreadsheets/d/1MfoIIZBU3cSIhk8awT3f8fv7j_AETT7PLslTJaoa_0Y/edit?usp=sharing
 - text: Planning application data specification (GitHub)

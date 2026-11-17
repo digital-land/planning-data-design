@@ -1,7 +1,7 @@
 from,to,status
-/advisory-group,/project/planning-applications,301
-/advisory-group/members,/project/planning-applications/members,301
-/advisory-group/timeline,/project/planning-applications/roadmap,301
+/advisory-group,/community,301
+/advisory-group/members,/community,301
+/advisory-group/timeline,/roadmap,301
 /what-we-are-working-on,/roadmap,301
 /how-to-contribute-to-the-data-design-process,/community,301
 /get-involved,/community,301
@@ -14,3 +14,9 @@ from,to,status
 /progress-report,/,301
 /tags/glossary,/consideration,301
 /help/os-declaration-options,,410
+/project/planning-applications,/community,301
+/project,/consideration,301
+/project/planning-applications/members,/community,301
+/project/planning-applications/roadmap,/roadmap,301
+/project/planning-applications/weeknotes,/community,301
+/community/timeline,/community,301

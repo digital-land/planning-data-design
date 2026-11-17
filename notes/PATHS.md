@@ -33,16 +33,6 @@ Paths from the database-backed site, kept as a regression list. `tests/test_secu
 | `/tags/glossary` | Glossary of tags |
 | `/<page>` | Markdown page from `application/templates/pages/<page>.md` (404 if missing) |
 
-## Project (`project`)
-
-| Path | Purpose |
-|---|---|
-| `/project` | Projects |
-| `/project/planning-applications` | Planning applications project |
-| `/project/planning-applications/members` | Members |
-| `/project/planning-applications/roadmap` | Roadmap |
-| `/project/planning-applications/weeknotes` | Weeknotes |
-
 ## Help (`help`, prefix `/help`)
 
 | Path | Purpose |

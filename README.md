@@ -1,4 +1,4 @@
-# Designing planning and housing data
+# Design planning and housing data
 
 A read-only website built from Markdown and CSV files in this repository.
 
@@ -8,7 +8,7 @@ The app serves pages from `content/`, static files from `application/static/`, a
 
 Edit or add a Markdown file in `content/` and open a pull request.
 
-The URL comes from the file path. `content/project/index.md` is `/project`.
+The URL comes from the file path. `content/consideration/article-4-directions.md` is `/consideration/article-4-directions`.
 
 ```markdown
 ---

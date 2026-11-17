@@ -57,7 +57,7 @@ def test_prefix_to_root_stays_on_site(tmp_path, target):
 
 def test_exact_match_keeps_no_query_string(client):
     response = client.get("/advisory-group?a=b")
-    assert response.headers["Location"] == "/project/planning-applications"
+    assert response.headers["Location"] == "/community"
 
 
 def test_subpages_redirect_to_consideration(client):
