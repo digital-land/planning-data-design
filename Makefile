@@ -1,7 +1,11 @@
 .PHONY: links links-report check-links server init compile upgrade black black-check flake8 lint bandit audit semgrep check-content test check build-css build-assets assets assets-clobber
 
+# content and redirects are loaded at startup, so restart when any of them change
+# (files added after startup need a manual restart)
+WATCH = $(shell find content redirects -type f | paste -sd:)
+
 server:
-	flask --app application.wsgi:app run --debug --port 5050
+	flask --app application.wsgi:app run --debug --port 5050 --extra-files "$(WATCH)"
 
 init::
 	python -m pip install --upgrade pip
