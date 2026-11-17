@@ -13,8 +13,8 @@ SITE_NAME = "Design planning and housing data"
 PLATFORM_URL = "https://www.planning.data.gov.uk"
 DISCUSSIONS_URL = "https://github.com/digital-land/data-standards-backlog/discussions"
 NAVIGATION = [
-    ("/community", "Community"),
     ("/consideration", "Considerations"),
+    ("/community", "Community"),
     ("/design-principles", "Process"),
 ]
 
