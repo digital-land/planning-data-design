@@ -18,4 +18,5 @@ from,to,status
 /project,/consideration,301
 /project/planning-applications/members,/community,301
 /project/planning-applications/roadmap,/roadmap,301
-/project/planning-applications/weeknotes,/community/timeline,301
+/project/planning-applications/weeknotes,/community,301
+/community/timeline,/community,301
