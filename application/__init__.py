@@ -15,7 +15,7 @@ DISCUSSIONS_URL = "https://github.com/digital-land/data-standards-backlog/discus
 NAVIGATION = [
     ("/community", "Community"),
     ("/consideration", "Considerations"),
-    ("/design-principles", "Design principles"),
+    ("/design-principles", "Process"),
 ]
 
 

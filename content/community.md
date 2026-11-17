@@ -3,7 +3,7 @@ title: Data standards community
 description: Developing open, reusable data specifications and standards
 ---
 
-## A data standard for planning applications and decisions 
+## An open data standard for planning applications and decisions 
 
 The current focus of the community is on the development of specifications
 for the information submitted in a planning application,

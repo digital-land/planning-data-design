@@ -9,7 +9,7 @@ See future priorities for data and data standards on our [roadmap](/roadmap) and
 explore the list of topics we use to identify and discover the users, needs, 
 and potential benefits of data so we can make it available on [planning.data.gov.uk](https://www.planning.data.gov.uk).
 
-## [Open data standards community](/community)
+## [Data standards community](/community)
 
 You can contribute to the design of planning data and standards by participating in our 
 community discussions and events.
