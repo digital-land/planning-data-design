@@ -8,7 +8,7 @@ The app serves pages from `content/`, static files from `application/static/`, a
 
 Edit or add a Markdown file in `content/` and open a pull request.
 
-The URL comes from the file path. `content/project/index.md` is `/project`.
+The URL comes from the file path. `content/community/timeline.md` is `/community/timeline`.
 
 ```markdown
 ---

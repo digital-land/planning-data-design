@@ -250,14 +250,14 @@ description: Weeknotes from the planning applications project
 
 - Now 76/82 modules have no active questions or issues and we have 68/82 declarative versions of the modules.
 - We supported the event for funded early adopters to help re-iterate the need for testing the specifications.
-- We have [removed outdated content, consolidated links and added a timeline of key events to the project page](/community), we also [separated out the week notes](/project/planning-applications/weeknotes), making them easier to find and the homepage easier to read.
+- We have [removed outdated content, consolidated links and added a timeline of key events to the project page](/community), we also [separated out the week notes](/community/timeline), making them easier to find and the homepage easier to read.
 
 ## Week beginning 7 Jul
 
 - We are continuing to work through the [feedback](https://github.com/digital-land/planning-application-data-specification/blob/main/generated/issue-tracking/open-issues-spreadsheet.csv), now 64/81 modules have no active questions or issues. And we have add 34/81 declarative versions of the modules.
 - So that users can better understand the words of specifications, we have [updated the definitions of key terms](https://digital-land.github.io/specification/specification/).
 - Following user research we have [updated the URL of the planning applications website](/community) to make it more clear to users that planning applications is one of many projects they can engage with.
-- We have also [updated the roadmap](/project/planning-applications/roadmap) to show what we expect to achieve in each quarter towards mandating.
+- We have also [updated the roadmap](/roadmap) to show what we expect to achieve in each quarter towards mandating.
 
 ## Week beginning 30 Jun
 
@@ -284,7 +284,7 @@ description: Weeknotes from the planning applications project
 ## Week beginning 2 Jun
 
 - We have run through all the feedback we received: 63 items we were able to resolve or parke for a future iteration, [93 items we've added to github as issues](https://github.com/digital-land/planning-application-data-specification/issues) for us to work through.
-- We have published a [list of the activites](/project/planning-applications/roadmap) we need to complete to get these specifications through to be mandated
+- We have published a [list of the activites](/roadmap) we need to complete to get these specifications through to be mandated
 
 ## Week beginning 26 May
 
@@ -449,5 +449,5 @@ description: Weeknotes from the planning applications project
 - [Specification code](https://github.com/digital-land/planning-application-data-specification)
 - [Specification issues](https://github.com/digital-land/planning-application-data-specification/issues)
 - [Open project board](https://github.com/orgs/digital-land/projects/36/views/1)
-- [Weeknotes](/project/planning-applications/weeknotes)
-- [Future look](/project/planning-applications/roadmap)
+- [Weeknotes](/community/timeline)
+- [Future look](/roadmap)

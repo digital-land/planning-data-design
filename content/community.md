@@ -13,7 +13,7 @@ and how those applications and decisions should be made available by planning au
 - [Specification source code](https://github.com/digital-land/planning-application-data-specification)
 - [Specification issues](https://github.com/digital-land/planning-application-data-specification/issues)
 - [Project board](https://github.com/orgs/digital-land/projects/36/views/1)
-- [Weeknotes](/project/planning-applications/weeknotes)
+- [Weeknotes](/community/timeline)
 
 ---
 
@@ -25,7 +25,7 @@ The next community session will be held on 25 November 2026, 10.30am to 12.00pm.
 
 ## Events timeline
 
-To view the history of this project in more detail, visit our [weeknotes page](/project/planning-applications/weeknotes).
+To view the history of this project in more detail, visit our [weeknotes page](/community/timeline).
 
 ### October data standards community session
 
@@ -258,7 +258,7 @@ Outlining the role of the community group in steering our development of plannin
 Outlining the role of the advisory group in steering our development of planning application submission specifications.
 
 - [Advisory group charter (download file)](/static/docs/planning-applications-advisory-group-charter.odt)
-- [Advisory group members](/project/planning-applications/members)
+- [Advisory group members](#advisory-group-members)
 
 ### The [planning application types](https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740) we’ll be looking at first are shared
 
@@ -267,3 +267,42 @@ Outlining the role of the advisory group in steering our development of planning
 ### A [blog post](https://mhclgdigital.blog.gov.uk/2024/10/18/using-data-design-to-transform-the-planning-application-process-get-involved/) is published to set out this piece of work
 
 18 Oct 2024
+
+## Advisory group members
+
+The Advisory Group members contributing to the development of planning application data specifications.
+
+- Milan Bogunovic (Chair) (MHCLG)
+- Stephen Borrows (MHCLG)
+- Colm Britton (MHCLG)
+- Mike Rose (MHCLG)
+- Liz Whiting (MHCLG)
+- Drew Hardy (LandTech)
+- Jennie Baker (Lichfields)
+- Karl Hogg (Agile Applications)
+- Phil Hutton (IDOX)
+- James Garrett (Planning Portal)
+- Gary Burt (DEF)
+- Jason McConnell (NEC)
+- Jess McInchak (OSL)
+- Martyn Evans (Unboxed)
+- Gala Camacho (diagonalWorks)
+- Robin Barber (Arcus)
+- Elliot Rowen (ARUP)
+- Peter Kemp (GLA)
+- Andrea Saligari (Barnet Council)
+- Nigel Walley (Resident Logbook Association)
+- Richard Field (MHCLG)
+- Jo Gerulatis (PINS)
+- Chantelle Hallett (TerraQuest)
+- Andrea Murphy (Stockport Council)
+- Lucy Woodbine (Mapping GM)
+- Paul Downey (MHCLG)
+- Eloise Maguire (MHCLG)
+- Joel Cohen (MHCLG)
+- Emily Hadley (MHCLG)
+- Jamie White (MHCLG)
+- Rafael Garcia (MHCLG)
+- Matt Wood-Hill (MHCLG)
+- Andrew Presland (MHCLG)
+- Ida Latifa (MHCLG)

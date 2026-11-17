@@ -75,7 +75,7 @@ template: consideration      # optional, default "page"
 Body in Markdown.
 ```
 
-- The URL is derived from the file path: `content/project/planning-applications/members.md` is `/project/planning-applications/members`. `index.md` is the directory path.
+- The URL is derived from the file path: `content/community/timeline.md` is `/community/timeline`. `index.md` is the directory path.
 - Front matter is validated against a small schema (pydantic is already a dependency; consider plain dataclasses to drop it).
 - Unknown front matter keys fail validation.
 - Consideration files carry their structured fields in front matter: `stage`, `datasets`, `frequency_of_updates`, `legislation`, `useful_links`, `synonyms`, `tags`, `github_discussion_number`, `created`, `updated`.
