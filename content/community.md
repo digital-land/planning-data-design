@@ -23,7 +23,7 @@ The next community session will be held on 25 November 2026, 10.30am to 12.00pm.
 
 [Sign up](https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqOXfkSKll1hBtqu0k4gIMbtUNFVQOUxPRVFKNDBVTEM0VjYzQkpPNzdMTi4u&route=shorturl) if you would like to attend.
 
-## Events timeline
+## Timeline
 
 ### October data standards community session
 
@@ -682,32 +682,6 @@ Outlining the role of the community group in steering our development of plannin
 Outlining the role of the advisory group in steering our development of planning application submission specifications.
 
 - [Advisory group charter (download file)](/static/docs/planning-applications-advisory-group-charter.odt)
-- [Advisory group members](#advisory-group-members)
-
-### Week beginning 25 Nov 2024
-
-- Held the first advisory group meeting on the 27 November
-- Pulled together a spreadsheet with the 80+ components and 1300 fields from the analysis of the planning application forms
-
-### Week beginning 18 Nov 2024
-
-- [Analysed the existing application forms](https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11189385)
-- Created [a charter](https://docs.google.com/document/d/1WqMY1tfH9YhaZ1yUlJPKtTqs_OKw0Nv8yqdHWO4xSg4/edit?usp=sharing) for the advisory group
-- Prepared for the first advisory group session
-
-### Week beginning 11 Nov 2024
-
-- Shared the set of [planning application types](https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740) we’ll be looking at first
-
-### The [planning application types](https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740) we’ll be looking at first are shared
-
-5 Nov 2024
-
-### A [blog post](https://mhclgdigital.blog.gov.uk/2024/10/18/using-data-design-to-transform-the-planning-application-process-get-involved/) is published to set out this piece of work
-
-18 Oct 2024
-
-## Advisory group members
 
 The Advisory Group members contributing to the development of planning application data specifications.
 
@@ -745,3 +719,27 @@ The Advisory Group members contributing to the development of planning applicati
 - Matt Wood-Hill (MHCLG)
 - Andrew Presland (MHCLG)
 - Ida Latifa (MHCLG)
+
+### Week beginning 25 Nov 2024
+
+- Held the first advisory group meeting on the 27 November
+- Pulled together a spreadsheet with the 80+ components and 1300 fields from the analysis of the planning application forms
+
+### Week beginning 18 Nov 2024
+
+- [Analysed the existing application forms](https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11189385)
+- Created [a charter](https://docs.google.com/document/d/1WqMY1tfH9YhaZ1yUlJPKtTqs_OKw0Nv8yqdHWO4xSg4/edit?usp=sharing) for the advisory group
+- Prepared for the first advisory group session
+
+### Week beginning 11 Nov 2024
+
+- Shared the set of [planning application types](https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740) we’ll be looking at first
+
+### The [planning application types](https://github.com/digital-land/data-standards-backlog/discussions/98#discussioncomment-11157740) we’ll be looking at first are shared
+
+5 Nov 2024
+
+### A [blog post](https://mhclgdigital.blog.gov.uk/2024/10/18/using-data-design-to-transform-the-planning-application-process-get-involved/) is published to set out this piece of work
+
+18 Oct 2024
+
