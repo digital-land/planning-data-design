@@ -51,7 +51,7 @@ A 403 can also mean the site refuses automated checks. Open those links in a pri
   - replace with ` https://www.gov.uk/guidance/national-planning-policy-framework `
   - used in `consideration/local-area-requirements.md`
 
-## Failing, will be retried (5)
+## Failing, will be retried (2)
 
 ### provide.planning.data.gov.uk
 
@@ -63,15 +63,3 @@ A 403 can also mean the site refuses automated checks. Open those links in a pri
 - https://www.brighton-hove.gov.uk/sites/default/files/2024-11/List%20of%20Assets%20of%20Community%20Value%20%201%20Nov%2024_.pdf
   - ` too many redirects `
   - used in `consideration/assets-of-community-value.md`
-### www.planning.data.gov.uk
-
-- https://www.planning.data.gov.uk
-  - ` HTTP 503 `
-  - used in `consideration/index.md`
-  - used in `index.md`
-- https://www.planning.data.gov.uk/dataset/permitted-development-right
-  - ` HTTP 503 `
-  - used in `consideration/permitted-development-rights.md`
-- https://www.planning.data.gov.uk/dataset/plan-timetable
-  - ` HTTP 503 `
-  - used in `roadmap.md`

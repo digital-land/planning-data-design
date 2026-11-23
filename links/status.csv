@@ -19,6 +19,7 @@ https://bills.parliament.uk/bills/3569,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/casi-and-lidar-habitat-map,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/dune-slack-likely-locations,2026-11-11,ok,2026-11-11,0,,
 https://ckan.publishing.service.gov.uk/dataset/vertical-aerial-photography,2026-11-11,ok,2026-11-11,0,,
+https://consult.communities.gov.uk/planning/planning-application-data-standard-consultation-on/,2026-11-23,ok,2026-11-23,0,,
 https://data.london.gov.uk/dataset/central-activities-zone-23jxk,2026-11-16,ok,2026-11-16,0,,
 https://digital-land.github.io/blog-post/our-approach-to-open-space/,2026-11-11,ok,2026-11-11,0,,
 https://digital-land.github.io/local-plans-timetable/,2026-11-11,ok,2026-11-11,0,,
@@ -95,13 +96,10 @@ https://geoportal.statistics.gov.uk/datasets/69b2084e13284ea59be314cb28edc41c_0/
 https://geoportal.statistics.gov.uk/documents/4d9aa61b06a64ec1b7cc4aecbcfbb7a9/about,2026-11-11,ok,2026-11-11,0,,
 https://get-information-schools.service.gov.uk/,2026-11-11,ok,2026-11-11,0,,
 https://get-information-schools.service.gov.uk/Downloads,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/data-standards-backlog/discussions/100,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/data-standards-backlog/discussions/25,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/data-standards-backlog/discussions/27,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/data-standards-backlog/discussions/29,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/data-standards-backlog/discussions/98,2026-11-11,ok,2026-11-11,0,,
-https://github.com/digital-land/data-standards-backlog/discussions/categories/planning-consideration,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/design-code-explorer/tree/main/data,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/extension-digital-site-notice-module,2026-11-11,ok,2026-11-11,0,,
 https://github.com/digital-land/planning-application-data-specification,2026-11-11,ok,2026-11-11,0,,
@@ -169,15 +167,15 @@ https://github.com/digital-land/planning-application-data-specification?tab=read
 https://github.com/digital-land/planning-data-design/issues/69,2026-11-11,ok,2026-11-11,0,,
 https://github.com/orgs/digital-land/projects/36/views/1,2026-11-11,ok,2026-11-11,0,,
 https://github.com/orgs/digital-land/projects/36/views/1?pane=issue&itemId=137392676&issue=digital-land%7Cplanning-data-design%7C134,2026-11-11,ok,2026-11-11,0,,
-https://historicengland.org.uk/content/data-downloads-gis/battlefields/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/content/data-downloads-gis/parks-and-gardens/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/images-books/photos/results/?search=archaeological+remains&searchType=HE+Archive+New,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/images-books/publications/dsg-battlefields/heag072-battlefields-rsg/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/listing/apply-for-listing/listing-process/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/listing/protect-historic-places/building-preservation-notices-and-certificates-of-immunity/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/listing/the-list/data-downloads,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/services-skills/our-planning-services/greater-london-archaeology-advisory-service/greater-london-archaeological-priority-areas/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
-https://historicengland.org.uk/terms/website-terms-conditions/open-data-hub/,2026-11-11,not_public,,1,2026-11-11,HTTP 403
+https://historicengland.org.uk/content/data-downloads-gis/battlefields/,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/content/data-downloads-gis/parks-and-gardens/,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/images-books/photos/results/?search=archaeological+remains&searchType=HE+Archive+New,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/images-books/publications/dsg-battlefields/heag072-battlefields-rsg/,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/listing/apply-for-listing/listing-process/,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/listing/protect-historic-places/building-preservation-notices-and-certificates-of-immunity/,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/listing/the-list/data-downloads,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/services-skills/our-planning-services/greater-london-archaeology-advisory-service/greater-london-archaeological-priority-areas/,2026-11-23,not_public,,2,2026-11-11,HTTP 403
+https://historicengland.org.uk/terms/website-terms-conditions/open-data-hub/,2026-11-23,not_public,,2,2026-11-11,HTTP 403
 https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/lawful-basis/a-guide-to-lawful-basis/public-task/,2026-11-11,ok,2026-11-11,0,,
 https://ico.org.uk/for-the-public/online/cookies/,2026-11-11,ok,2026-11-11,0,,
 https://json-schema.org/,2026-11-11,ok,2026-11-11,0,,
@@ -191,6 +189,7 @@ https://mhclgdigital.blog.gov.uk/2025/07/08/standardising-the-planning-applicati
 https://mhclgdigital.blog.gov.uk/2025/08/05/standardising-the-planning-application-process-kicking-off-work-on-decisions/,2026-11-11,ok,2026-11-11,0,,
 https://mhclgdigital.blog.gov.uk/2025/10/20/diving-into-planning-decisions-what-we-learned-from-our-latest-user-research/,2026-11-11,ok,2026-11-11,0,,
 https://mhclgdigital.blog.gov.uk/2026/09/29/align-a-new-national-infrastructure-spatial-tool-for-evidence-based-planning-and-growth-decisions/,2026-11-11,ok,2026-11-11,0,,
+https://mhclgdigital.blog.gov.uk/2026/11/18/data-driven-development-management-consulting-on-englands-first-mandatory-application-data-standard/,2026-11-23,ok,2026-11-23,0,,
 https://miro.com/app/board/uXjVNRvkj-0=/,2026-11-11,ok,2026-11-11,0,,
 https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::ancient-woodland-england/about,2026-11-11,ok,2026-11-11,0,,
 https://naturalengland-defra.opendata.arcgis.com/datasets/Defra::nature-improvement-areas-england/about,2026-11-11,ok,2026-11-11,0,,
@@ -211,7 +210,7 @@ https://osdatahub.os.uk/downloads/open/OpenTOID,2026-11-11,ok,2026-11-11,0,,
 https://osdatahub.os.uk/downloads/open/OpenUPRN,2026-11-11,ok,2026-11-11,0,,
 https://osdatahub.os.uk/downloads/open/OpenUSRN,2026-11-11,ok,2026-11-11,0,,
 https://osdatahub.os.uk/downloads/open/Radon_Indicative_Atlas,2026-11-11,ok,2026-11-11,0,,
-https://provide.planning.data.gov.uk/,2026-11-11,failing,,1,2026-11-11,HTTP 503
+https://provide.planning.data.gov.uk/,2026-11-23,failing,,2,2026-11-11,HTTP 503
 https://public.tableau.com/views/SWHertsDigitalPlacePortrait/DASH_RiversandSurfaceWater?%3AshowVizHome=no,2026-11-11,ok,2026-11-11,0,,
 https://publications.parliament.uk/pa/cm199798/cmselect/cmenvtra/560-iii/560iii02.htm,2026-11-11,ok,2026-11-11,0,,
 https://publications.parliament.uk/pa/cm199798/cmselect/cmenvtra/560/56010.htm,2026-11-11,ok,2026-11-11,0,,
@@ -228,7 +227,7 @@ https://www.bgs.ac.uk/datasets/geoclimate-shrink-swell/,2026-11-16,ok,2026-11-16
 https://www.bgs.ac.uk/datasets/radon-data-indicative-atlas-of-radon/,2026-11-11,ok,2026-11-11,0,,
 https://www.bgs.ac.uk/download/radon-potential-indicative-atlas-data-for-great-britain/,2026-11-11,ok,2026-11-11,0,,
 https://www.birmingham.gov.uk/downloads/download/224/authority_monitoring_reports,2026-11-11,ok,2026-11-11,0,,
-https://www.brighton-hove.gov.uk/sites/default/files/2024-11/List%20of%20Assets%20of%20Community%20Value%20%201%20Nov%2024_.pdf,2026-11-11,failing,,1,2026-11-11,too many redirects
+https://www.brighton-hove.gov.uk/sites/default/files/2024-11/List%20of%20Assets%20of%20Community%20Value%20%201%20Nov%2024_.pdf,2026-11-23,failing,,2,2026-11-11,too many redirects
 https://www.camden.gov.uk/assets-of-community-value,2026-11-11,ok,2026-11-11,0,,
 https://www.cornwall.gov.uk/media/fuub1q3t/cornwall-5-year-housing-land-supply-statement-2024.pdf,2026-11-11,ok,2026-11-11,0,,
 https://www.cornwall.gov.uk/planning-and-building-control/planning-policy/adopted-plans/register-of-brownfield-land/,2026-11-11,ok,2026-11-11,0,,
@@ -263,6 +262,8 @@ https://www.geoplace.co.uk/addresses-streets/location-data/usrn,2026-11-11,ok,20
 https://www.gov.uk/government/collections/housing-delivery-test,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/collections/uk-house-price-index-reports,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/consultations/areas-for-producing-spatial-development-strategies/areas-for-producing-spatial-development-strategies,2026-11-11,ok,2026-11-11,0,,
+https://www.gov.uk/government/consultations/data-standard-for-planning-applications,2026-11-23,ok,2026-11-23,0,,
+https://www.gov.uk/government/consultations/data-standard-for-planning-applications/data-standard-for-planning-applications,2026-11-23,ok,2026-11-23,0,,
 https://www.gov.uk/government/news/ai-tool-to-slash-planning-decision-times-as-government-accelerates-push-to-build-15-million-homes,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/organisations/forestry-commission/about,2026-11-11,ok,2026-11-11,0,,
 https://www.gov.uk/government/publications/agricultural-land-assess-proposals-for-development/guide-to-assessing-development-proposals-on-agricultural-land,2026-11-11,ok,2026-11-11,0,,
@@ -414,9 +415,9 @@ https://www.ordnancesurvey.co.uk/products/os-open-rivers,2026-11-16,ok,2026-11-1
 https://www.ordnancesurvey.co.uk/products/os-open-roads,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-uprn,2026-11-11,ok,2026-11-11,0,,
 https://www.ordnancesurvey.co.uk/products/os-open-usrn,2026-11-11,ok,2026-11-11,0,,
-https://www.planning.data.gov.uk,2026-11-11,failing,,1,2026-11-11,HTTP 503
-https://www.planning.data.gov.uk/dataset/permitted-development-right,2026-11-11,failing,,1,2026-11-11,HTTP 503
-https://www.planning.data.gov.uk/dataset/plan-timetable,2026-11-11,failing,,1,2026-11-11,HTTP 503
+https://www.planning.data.gov.uk,2026-11-23,ok,2026-11-23,0,,
+https://www.planning.data.gov.uk/dataset/permitted-development-right,2026-11-23,ok,2026-11-23,0,,
+https://www.planning.data.gov.uk/dataset/plan-timetable,2026-11-23,ok,2026-11-23,0,,
 https://www.rhs.org.uk/advice/grow-your-own/allotments/allotment-basics,2026-11-11,ok,2026-11-11,0,,
 https://www.rowmaps.com/datasets/,2026-11-11,ok,2026-11-11,0,,
 https://www.savills.co.uk/blog/article/351131/residential-property/in-plain-english--what-is-a-local-development-order-.aspx,2026-11-11,ok,2026-11-11,0,,
