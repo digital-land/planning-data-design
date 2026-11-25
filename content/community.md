@@ -25,6 +25,12 @@ The next community session will be held on 25 November 2026, 10.30am to 12.00pm.
 
 ## Timeline
 
+### 25 Nov 2026
+
+We held the November community session, a consultation special covering a programme update, how the community got here and the planning application data standard consultation.
+
+- [November Consultation special session slides](/static/docs/20261125-ODSC-Session-Slides.pdf)
+
 ### 18 Nov 2026
 
 [Planning application data standard consultation on policy principles](https://consult.communities.gov.uk/planning/planning-application-data-standard-consultation-on/) was [published](https://www.gov.uk/government/consultations/data-standard-for-planning-applications) [on GOV.UK as HTML](https://www.gov.uk/government/consultations/data-standard-for-planning-applications/data-standard-for-planning-applications) with an accompanying blog post from the team: [Data-driven development management: consulting on England's first mandatory application data standard](https://mhclgdigital.blog.gov.uk/2026/11/18/data-driven-development-management-consulting-on-englands-first-mandatory-application-data-standard/).
