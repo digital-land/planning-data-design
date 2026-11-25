@@ -19,11 +19,17 @@ and how those applications and decisions should be made available by planning au
 
 ## Next community event
 
-The next community session will be held on 25 November 2026, 10.30am to 12.00pm.
+There won’t be a session in December. We’ll email an invite once the January date is fixed.
 
 [Sign up](https://forms.cloud.microsoft/pages/responsepage.aspx?id=EGg0v32c3kOociSi7zmVqOXfkSKll1hBtqu0k4gIMbtUNFVQOUxPRVFKNDBVTEM0VjYzQkpPNzdMTi4u&route=shorturl) if you would like to attend.
 
 ## Timeline
+
+### 25 Nov 2026
+
+We held the November community session, a consultation special covering a programme update, how the community got here and the planning application data standard consultation.
+
+- [November Consultation special session slides](/static/docs/20261125-ODSC-Session-Slides.pdf)
 
 ### 18 Nov 2026
 
