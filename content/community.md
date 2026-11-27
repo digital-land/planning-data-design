@@ -30,6 +30,7 @@ There won’t be a session in December. We’ll email an invite once the January
 We held the November community session, a consultation special covering a programme update, how the community got here and the planning application data standard consultation.
 
 - [November Consultation special session slides](/static/docs/20261125-ODSC-Session-Slides.pdf)
+- [Notes from the session](/static/docs/20261125-ODSC-Consultation-Special-Summary.pdf)
 
 ### 18 Nov 2026
 
